@@ -9,8 +9,12 @@ const FloatingRobot = () => {
     return (
         <div className="floating-robot-container" onClick={() => navigate('/chatbot')}>
             <div className="robot-wrapper">
-                {/* Scale down the robot to fit nicely */}
-                <Robot mood="happy" scale={0.4} />
+                {/* Use the new Chatbot Logo Image */}
+                <img
+                    src="/src/assets/chatbot-logo.png"
+                    alt="Chatbot View"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
             </div>
             <div className="robot-tooltip">
                 Chat with me!

@@ -5,7 +5,8 @@ export const translations = {
             home: 'Home',
             yoga: 'Yoga',
             login: 'Login',
-            about: 'About'
+            about: 'About',
+            analytics: 'Analytics'
         },
 
         // Hero Section
@@ -322,6 +323,58 @@ export const translations = {
                 hello: 'Hello {name}! How are you feeling today?',
                 default: 'That\'s an interesting question! As an AI assistant, I\'m constantly learning. For medical advice, please always consult your healthcare provider.'
             }
+        },
+
+        // Login Page
+        login: {
+            welcomeBack: 'Welcome Back',
+            joinMatriCare: 'Join MatriCare',
+            mobileOtp: 'Mobile OTP',
+            password: 'Password',
+            mobileLabel: 'Mobile Number',
+            mobilePlaceholder: 'Enter your 10-digit mobile',
+            enterOtp: 'Enter OTP',
+            otpPlaceholder: 'Enter 6-digit OTP',
+            otpHint: 'Check console for demo OTP',
+            passwordLabel: 'Password',
+            passwordPlaceholder: 'Enter your password',
+            processing: 'Processing...',
+            loginSecurely: 'Login securely',
+            sendOtp: 'Send OTP',
+            loginBtn: 'Login',
+            fullName: 'Full Name',
+            namePlaceholder: 'Your Name',
+            mobileRaw: 'Mobile',
+            mobileRawPlaceholder: 'Mobile Number',
+            age: 'Age',
+            agePlaceholder: 'Years',
+            lmpDate: 'LMP Date (Last Period)',
+            lmpHint: 'Used to calculate pregnancy week',
+            createPassword: 'Create Password',
+            createPassPlaceholder: 'Create a strong password',
+            creatingAccount: 'Creating Account...',
+            startJourney: 'Start Your Journey',
+            firstTime: 'First time here?',
+            alreadyHave: 'Already have an account?',
+            createAccount: 'Create Account',
+            helloMom: 'Hello Mom!',
+            welcomeTitle: 'Welcome to MatriCare',
+            loginDesc: 'Your personal companion for a healthy and happy pregnancy journey.',
+            signupDesc: 'Join our community of mothers. Track your health, get expert advice, and stay stress-free.',
+            badgeTracker: '🤰 Pregnancy Tracker',
+            badgeAI: '🤖 AI Assistant',
+            badgeYoga: '🧘‍♀️ Yoga Guide',
+            errors: {
+                invalidMobile: 'Please enter a valid 10-digit mobile number',
+                invalidOtp: 'Please enter a valid 6-digit OTP',
+                invalidPassword: 'Please enter your password',
+                invalidName: 'Please enter your full name',
+                invalidAge: 'Please enter a valid age (18-55)',
+                invalidLMP: 'Please select your LMP date',
+                shortPassword: 'Password must be at least 6 characters',
+                regFailed: 'Registration failed. Please try again.',
+                otpSent: 'OTP sent successfully!'
+            }
         }
     },
 
@@ -331,7 +384,8 @@ export const translations = {
             home: 'होम',
             yoga: 'योग',
             login: 'लॉगिन',
-            about: 'हमारे बारे में'
+            about: 'हमारे बारे में',
+            analytics: 'एनालिटिक्स'
         },
 
         // Hero Section
@@ -647,6 +701,58 @@ export const translations = {
                 diet: 'संतुलित आहार महत्वपूर्ण है! फोलिक एसिड, आयरन और कैल्शियम पर ध्यान दें। हरी पत्तेदार सब्जियां, मेवे और डेयरी उत्कृष्ट विकल्प हैं।',
                 hello: 'नमस्ते {name}! आप आज कैसा महसूस कर रही हैं?',
                 default: 'यह एक दिलचस्प सवाल है! एक AI सहायक के रूप में, मैं लगातार सीख रही हूं। चिकित्सा सलाह के लिए, कृपया हमेशा अपने स्वास्थ्य सेवा प्रदाता से परामर्श लें।'
+            }
+        },
+
+        // Login Page
+        login: {
+            welcomeBack: 'वापस स्वागत है',
+            joinMatriCare: 'MatriCare में शामिल हों',
+            mobileOtp: 'मोबाइल ओटीपी',
+            password: 'पासवर्ड',
+            mobileLabel: 'मोबाइल नंबर',
+            mobilePlaceholder: 'अपना 10-अंकीय मोबाइल दर्ज करें',
+            enterOtp: 'ओटीपी दर्ज करें',
+            otpPlaceholder: '6-अंकीय ओटीपी दर्ज करें',
+            otpHint: 'डेमो ओटीपी के लिए कंसोल देखें',
+            passwordLabel: 'पासवर्ड',
+            passwordPlaceholder: 'अपना पासवर्ड दर्ज करें',
+            processing: 'प्रोसेसिंग...',
+            loginSecurely: 'सुरक्षित लॉगिन',
+            sendOtp: 'ओटीपी भेजें',
+            loginBtn: 'लॉगिन',
+            fullName: 'पूरा नाम',
+            namePlaceholder: 'आपका नाम',
+            mobileRaw: 'मोबाइल',
+            mobileRawPlaceholder: 'मोबाइल नंबर',
+            age: 'उम्र',
+            agePlaceholder: 'वर्ष',
+            lmpDate: 'एलएमपी तिथि (पिछली अवधि)',
+            lmpHint: 'गर्भावस्था सप्ताह की गणना करने के लिए उपयोग किया जाता है',
+            createPassword: 'पासवर्ड बनाएं',
+            createPassPlaceholder: 'एक मजबूत पासवर्ड बनाएं',
+            creatingAccount: 'खाता बना रहा है...',
+            startJourney: 'अपनी यात्रा शुरू करें',
+            firstTime: 'पहली बार यहाँ?',
+            alreadyHave: 'क्या आपके पास पहले से एक खाता है?',
+            createAccount: 'खाता बनाएं',
+            helloMom: 'नमस्ते माँ!',
+            welcomeTitle: 'MatriCare में आपका स्वागत है',
+            loginDesc: 'एक स्वस्थ और खुशहाल गर्भावस्था यात्रा के लिए आपका व्यक्तिगत साथी।',
+            signupDesc: 'माताओं के हमारे समुदाय में शामिल हों। अपने स्वास्थ्य को ट्रैक करें, विशेषज्ञ सलाह लें और तनाव मुक्त रहें।',
+            badgeTracker: '🤰 गर्भावस्था ट्रैकर',
+            badgeAI: '🤖 AI सहायक',
+            badgeYoga: '🧘‍♀️ योग गाइड',
+            errors: {
+                invalidMobile: 'कृपया एक वैध 10-अंकीय मोबाइल नंबर दर्ज करें',
+                invalidOtp: 'कृपया एक वैध 6-अंकीय ओटीपी दर्ज करें',
+                invalidPassword: 'कृपया अपना पासवर्ड दर्ज करें',
+                invalidName: 'कृपया अपना पूरा नाम दर्ज करें',
+                invalidAge: 'कृपया एक वैध उम्र (18-55) दर्ज करें',
+                invalidLMP: 'कृपया अपनी एलएमपी तिथि चुनें',
+                shortPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए',
+                regFailed: 'पंजीकरण विफल। कृपया पुनः प्रयास करें।',
+                otpSent: 'ओटीपी सफलतापूर्वक भेजा गया!'
             }
         }
     }

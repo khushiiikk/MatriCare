@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../translations/translations';
 import { validateMobile, validateName, validateAge, validateOTP } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
@@ -9,6 +11,8 @@ import './Login.css';
 const Login = () => {
     const navigate = useNavigate();
     const { login, loginWithPassword, signup, sendOTP, isAuthenticated } = useAuth();
+    const { language } = useLanguage();
+    const t = translations[language].login;
 
     // UI State
     const [isLoginMode, setIsLoginMode] = useState(true);
@@ -47,7 +51,7 @@ const Login = () => {
         setError('');
 
         if (!validateMobile(loginMobile)) {
-            setError('Please enter a valid 10-digit mobile number');
+            setError(t.errors.invalidMobile);
             setRobotMood('thinking');
             return;
         }
@@ -58,7 +62,7 @@ const Login = () => {
             setLoading(false);
             if (result.success) {
                 setShowOtpInput(true);
-                setSuccessMsg('OTP sent successfully!');
+                setSuccessMsg(t.errors.otpSent);
                 setRobotMood('success');
             } else {
                 setError(result.error);
@@ -76,14 +80,14 @@ const Login = () => {
             let result;
             if (loginMethod === 'otp') {
                 if (!validateOTP(otp)) {
-                    setError('Please enter a valid 6-digit OTP');
+                    setError(t.errors.invalidOtp);
                     setLoading(false);
                     return;
                 }
                 result = login(loginMobile, otp);
             } else {
                 if (!password) {
-                    setError('Please enter your password');
+                    setError(t.errors.invalidPassword);
                     setLoading(false);
                     return;
                 }
@@ -114,11 +118,11 @@ const Login = () => {
         setError('');
 
         // Validation
-        if (!validateName(signupData.name)) return setError('Please enter your full name');
-        if (!validateMobile(signupData.mobile)) return setError('Please enter a valid mobile number');
-        if (!validateAge(signupData.age)) return setError('Please enter a valid age (18-55)');
-        if (!signupData.lmpDate) return setError('Please select your LMP date');
-        if (signupData.password.length < 6) return setError('Password must be at least 6 characters');
+        if (!validateName(signupData.name)) return setError(t.errors.invalidName);
+        if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
+        if (!validateAge(signupData.age)) return setError(t.errors.invalidAge);
+        if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
+        if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
         setLoading(true);
         setTimeout(() => {
@@ -128,7 +132,7 @@ const Login = () => {
             if (result.success) {
                 navigate('/');
             } else {
-                setError('Registration failed. Please try again.');
+                setError(t.errors.regFailed);
             }
         }, 1500);
     };
@@ -154,7 +158,7 @@ const Login = () => {
                 <div className="login-form-section">
                     <div className="form-content">
                         <h1 className="login-title">
-                            {isLoginMode ? 'Welcome Back' : 'Join MatriCare'}
+                            {isLoginMode ? t.welcomeBack : t.joinMatriCare}
                         </h1>
 
                         {error && <div className="error-message">{error}</div>}
@@ -168,22 +172,22 @@ const Login = () => {
                                         className={`method-btn ${loginMethod === 'otp' ? 'active' : ''}`}
                                         onClick={() => { setLoginMethod('otp'); setError(''); }}
                                     >
-                                        Mobile OTP
+                                        {t.mobileOtp}
                                     </button>
                                     <button
                                         className={`method-btn ${loginMethod === 'password' ? 'active' : ''}`}
                                         onClick={() => { setLoginMethod('password'); setError(''); }}
                                     >
-                                        Password
+                                        {t.password}
                                     </button>
                                 </div>
 
                                 <form onSubmit={loginMethod === 'otp' && !showOtpInput ? handleSendOTP : handleLoginSubmit} className="login-form">
                                     <div className="form-group">
-                                        <label>Mobile Number</label>
+                                        <label>{t.mobileLabel}</label>
                                         <input
                                             type="tel"
-                                            placeholder="Enter your 10-digit mobile"
+                                            placeholder={t.mobilePlaceholder}
                                             value={loginMobile}
                                             onChange={(e) => setLoginMobile(e.target.value)}
                                             maxLength="10"
@@ -194,26 +198,26 @@ const Login = () => {
 
                                     {loginMethod === 'otp' && showOtpInput && (
                                         <div className="form-group animate-slide-down">
-                                            <label>Enter OTP</label>
+                                            <label>{t.enterOtp}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Enter 6-digit OTP"
+                                                placeholder={t.otpPlaceholder}
                                                 value={otp}
                                                 onChange={(e) => setOtp(e.target.value)}
                                                 maxLength="6"
                                                 className="form-input"
                                                 autoFocus
                                             />
-                                            <small className="otp-hint">Check console for demo OTP</small>
+                                            <small className="otp-hint">{t.otpHint}</small>
                                         </div>
                                     )}
 
                                     {loginMethod === 'password' && (
                                         <div className="form-group animate-slide-down">
-                                            <label>Password</label>
+                                            <label>{t.passwordLabel}</label>
                                             <input
                                                 type="password"
-                                                placeholder="Enter your password"
+                                                placeholder={t.passwordPlaceholder}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 className="form-input"
@@ -222,21 +226,22 @@ const Login = () => {
                                     )}
 
                                     <button type="submit" className="sign-in-btn" disabled={loading}>
-                                        {loading ? 'Processing...' : (
-                                            loginMethod === 'otp' ? (showOtpInput ? 'Login securely' : 'Send OTP') : 'Login'
+                                        {loading ? t.processing : (
+                                            loginMethod === 'otp' ? (showOtpInput ? t.loginSecurely : t.sendOtp) : t.loginBtn
                                         )}
                                     </button>
+                                    <div id="recaptcha-container"></div>
                                 </form>
                             </div>
                         ) : (
                             // Signup Form
                             <form onSubmit={handleSignupSubmit} className="login-form">
                                 <div className="form-group">
-                                    <label>Full Name</label>
+                                    <label>{t.fullName}</label>
                                     <input
                                         type="text"
                                         name="name"
-                                        placeholder="Your Name"
+                                        placeholder={t.namePlaceholder}
                                         value={signupData.name}
                                         onChange={handleSignupChange}
                                         className="form-input"
@@ -245,11 +250,11 @@ const Login = () => {
 
                                 <div className="form-row">
                                     <div className="form-group half">
-                                        <label>Mobile</label>
+                                        <label>{t.mobileRaw}</label>
                                         <input
                                             type="tel"
                                             name="mobile"
-                                            placeholder="Mobile Number"
+                                            placeholder={t.mobileRawPlaceholder}
                                             value={signupData.mobile}
                                             onChange={handleSignupChange}
                                             maxLength="10"
@@ -257,11 +262,11 @@ const Login = () => {
                                         />
                                     </div>
                                     <div className="form-group half">
-                                        <label>Age</label>
+                                        <label>{t.age}</label>
                                         <input
                                             type="number"
                                             name="age"
-                                            placeholder="Years"
+                                            placeholder={t.agePlaceholder}
                                             value={signupData.age}
                                             onChange={handleSignupChange}
                                             className="form-input"
@@ -272,7 +277,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label>LMP Date (Last Period)</label>
+                                    <label>{t.lmpDate}</label>
                                     <input
                                         type="date"
                                         name="lmpDate"
@@ -281,15 +286,15 @@ const Login = () => {
                                         className="form-input"
                                         max={formatDateForInput(new Date())}
                                     />
-                                    <small className="field-hint">Used to calculate pregnancy week</small>
+                                    <small className="field-hint">{t.lmpHint}</small>
                                 </div>
 
                                 <div className="form-group">
-                                    <label>Create Password</label>
+                                    <label>{t.createPassword}</label>
                                     <input
                                         type="password"
                                         name="password"
-                                        placeholder="Create a strong password"
+                                        placeholder={t.createPassPlaceholder}
                                         value={signupData.password}
                                         onChange={handleSignupChange}
                                         className="form-input"
@@ -297,7 +302,7 @@ const Login = () => {
                                 </div>
 
                                 <button type="submit" className="sign-in-btn" disabled={loading}>
-                                    {loading ? 'Creating Account...' : 'Start Your Journey'}
+                                    {loading ? t.creatingAccount : t.startJourney}
                                 </button>
                             </form>
                         )}
@@ -307,9 +312,9 @@ const Login = () => {
                         </div>
 
                         <div className="toggle-text">
-                            {isLoginMode ? "First time here?" : "Already have an account?"}
+                            {isLoginMode ? t.firstTime : t.alreadyHave}
                             <button onClick={toggleMode} className="toggle-btn">
-                                {isLoginMode ? "Create Account" : "Login"}
+                                {isLoginMode ? t.createAccount : t.loginBtn}
                             </button>
                         </div>
                     </div>
@@ -322,18 +327,18 @@ const Login = () => {
                         <Robot mood={robotMood} />
 
                         <h2 className="welcome-title">
-                            {isLoginMode ? 'Hello Mom!' : 'Welcome to MatriCare'}
+                            {isLoginMode ? t.helloMom : t.welcomeTitle}
                         </h2>
                         <p className="welcome-text">
                             {isLoginMode
-                                ? 'Your personal companion for a healthy and happy pregnancy journey.'
-                                : 'Join our community of mothers. Track your health, get expert advice, and stay stress-free.'}
+                                ? t.loginDesc
+                                : t.signupDesc}
                         </p>
 
                         <div className="feature-badges">
-                            <span className="badge">🤰 Pregnancy Tracker</span>
-                            <span className="badge">🤖 AI Assistant</span>
-                            <span className="badge">🧘‍♀️ Yoga Guide</span>
+                            <span className="badge">{t.badgeTracker}</span>
+                            <span className="badge">{t.badgeAI}</span>
+                            <span className="badge">{t.badgeYoga}</span>
                         </div>
                     </div>
 

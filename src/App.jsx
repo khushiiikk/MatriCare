@@ -11,7 +11,9 @@ import Settings from './pages/Settings';
 import Chatbot from './pages/Chatbot';
 import Trimester1 from './pages/Trimester1';
 import Trimester2 from './pages/Trimester2';
+
 import Trimester3 from './pages/Trimester3';
+import Analytics from './pages/Analytics';
 import './index.css';
 
 // Protected Route Component
@@ -58,6 +60,8 @@ function App() {
                                     <Login />
                                 </PublicRoute>
                             } />
+
+                            <Route path="/analytics" element={<Analytics />} />
 
                             {/* Protected Routes */}
                             <Route path="/settings" element={

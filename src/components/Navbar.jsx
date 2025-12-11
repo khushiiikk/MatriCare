@@ -108,8 +108,8 @@ const Navbar = () => {
 
                         {/* CHATBOT LINK ADDED HERE */}
                         <li>
-                            <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
-                                Chatbot
+                            <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
+                                {t.analytics}
                             </Link>
                         </li>
 
@@ -172,8 +172,8 @@ const Navbar = () => {
                             </a>
                         </li>
                         <li>
-                            <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                Chatbot
+                            <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.analytics}
                             </Link>
                         </li>
                         <li>

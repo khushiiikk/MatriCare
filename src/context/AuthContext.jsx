@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { auth } from '../firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const AuthContext = createContext();
 
@@ -14,34 +16,127 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [confirmationResult, setConfirmationResult] = useState(null);
 
-    // Load user from localStorage on mount
+    // Monitor Firebase Auth State
     useEffect(() => {
-        const storedUser = localStorage.getItem('matricare_user');
-        const authStatus = localStorage.getItem('matricare_auth_status');
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                // User is signed in via Firebase
+                // Check if we have additional profile data in localStorage
+                const storedUser = localStorage.getItem('matricare_user');
+                let profileData = {};
+                if (storedUser) {
+                    try {
+                        profileData = JSON.parse(storedUser);
+                    } catch (e) {
+                        console.error("Error parsing profile data", e);
+                    }
+                }
 
-        if (storedUser && authStatus === 'true') {
-            try {
-                const userData = JSON.parse(storedUser);
-                setUser(userData);
+                setUser({ ...currentUser, ...profileData, mobile: currentUser.phoneNumber });
                 setIsAuthenticated(true);
-            } catch (error) {
-                console.error('Error parsing stored user data:', error);
-                localStorage.removeItem('matricare_user');
-                localStorage.removeItem('matricare_auth_status');
+            } else {
+                setUser(null);
+                setIsAuthenticated(false);
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
 
-    // Sign up new user
-    const signup = (userData) => {
+    // Setup ReCaptcha (Required for Phone Auth)
+    const setupRecaptcha = (elementId) => {
+        if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new RecaptchaVerifier(auth, elementId, {
+                'size': 'invisible',
+                'callback': (response) => {
+                    // reCAPTCHA solved, allow signInWithPhoneNumber.
+                    console.log("Recaptcha verified");
+                }
+            });
+        }
+    };
+
+    // Send OTP (Real Firebase)
+    const sendOTP = async (mobileNumber) => {
         try {
+            // Ensure format is +91XXXXXXXXXX
+            const formattedNumber = mobileNumber.startsWith('+') ? mobileNumber : `+91${mobileNumber}`;
+
+            if (!window.recaptchaVerifier) {
+                // Determine the button or container ID from the calling component, default to 'sign-in-button'
+                setupRecaptcha('recaptcha-container');
+            }
+
+            const appVerifier = window.recaptchaVerifier;
+            const confirmation = await signInWithPhoneNumber(auth, formattedNumber, appVerifier);
+            setConfirmationResult(confirmation);
+            return { success: true, message: 'OTP sent successfully!' };
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            // Reset recaptcha if error occurs so user can try again
+            if (window.recaptchaVerifier) {
+                window.recaptchaVerifier.clear();
+                window.recaptchaVerifier = null;
+            }
+            return { success: false, error: error.message };
+        }
+    };
+
+    // Verify OTP (Login/Signup final step)
+    const login = async (mobile, otp) => { // Mobile param ignored as confirmationResult has the context
+        if (!confirmationResult) {
+            return { success: false, error: 'No OTP session found. Please request OTP again.' };
+        }
+
+        try {
+            const result = await confirmationResult.confirm(otp);
+            const user = result.user;
+
+            // Check if user exists in our local "db" (localStorage) to restore profile
+            // In a real app, you'd fetch profile from Firestore based on UID
+            const storedUser = localStorage.getItem('matricare_user');
+
+            // If new user (or just verified phone), ensure we save basic info
+            if (!storedUser) {
+                const newUser = {
+                    uid: user.uid,
+                    mobile: user.phoneNumber,
+                    createdAt: new Date().toISOString(),
+                    settings: { theme: 'light', notifications: true }
+                };
+                localStorage.setItem('matricare_user', JSON.stringify(newUser));
+                setUser(newUser);
+            } else {
+                const existingUser = JSON.parse(storedUser);
+                setUser({ ...existingUser, ...user });
+            }
+
+            return { success: true, user: user };
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+            return { success: false, error: 'Invalid OTP. Please try again.' };
+        }
+    };
+
+    // Sign up new user (Update profile after verification)
+    const signup = (userData) => {
+        // Since Firebase handles the "creation" via Phone Auth, 
+        // this function now primarily saves the EXTRA profile details to our local storage "DB"
+        try {
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                return { success: false, error: 'Must verify mobile number first.' };
+            }
+
             const newUser = {
                 ...userData,
-                id: Date.now().toString(),
+                uid: currentUser.uid,
+                mobile: currentUser.phoneNumber || userData.mobile,
                 createdAt: new Date().toISOString(),
-                profilePicture: null, // Initial profile picture is null
+                profilePicture: null,
                 settings: {
                     theme: 'light',
                     notifications: true
@@ -50,84 +145,47 @@ export const AuthProvider = ({ children }) => {
 
             // Save to local storage
             localStorage.setItem('matricare_user', JSON.stringify(newUser));
-            localStorage.setItem('matricare_auth_status', 'true');
-
             setUser(newUser);
-            setIsAuthenticated(true);
 
             return { success: true, user: newUser };
         } catch (error) {
-            return { success: false, error: 'Failed to create account' };
+            return { success: false, error: 'Failed to create account profile' };
         }
     };
 
-    // Login existing user with OTP
-    const login = (mobile, otp) => {
-        const storedUser = localStorage.getItem('matricare_user');
-
-        if (!storedUser) {
-            return { success: false, error: 'Account not found. Please sign up.' };
-        }
-
-        try {
-            const userData = JSON.parse(storedUser);
-
-            if (userData.mobile !== mobile) {
-                return { success: false, error: 'Mobile number does not match records.' };
-            }
-
-            // In production, verify OTP with backend
-            // For demo, accept '123456' or any 6-digit OTP provided in validation
-            if (!/^\d{6}$/.test(otp)) {
-                return { success: false, error: 'Invalid OTP format.' };
-            }
-
-            localStorage.setItem('matricare_auth_status', 'true');
-            setUser(userData);
-            setIsAuthenticated(true);
-
-            return { success: true, user: userData };
-        } catch (error) {
-            return { success: false, error: 'Login failed. Please try again.' };
-        }
-    };
-
-    // Login with Password
+    // Login with Password (Legacy/Alternative - keeping mock for now or could be Firebase Email/Pass)
     const loginWithPassword = (mobile, password) => {
+        // NOTE: Firebase Phone Auth doesn't support password directly in the same way.
+        // We will keep the Mock implementation for Password for now, 
+        // or we could disable it if we only want Real OTP.
+        // For simplicity, let's keep the mock for this specific method 
+        // OR warn the user that Password login is not connected to Firebase in this demo.
+
         const storedUser = localStorage.getItem('matricare_user');
 
         if (!storedUser) {
-            return { success: false, error: 'Account not found. Please sign up.' };
+            return { success: false, error: 'Account not found.' };
         }
 
-        try {
-            const userData = JSON.parse(storedUser);
-
-            if (userData.mobile !== mobile) {
-                return { success: false, error: 'Mobile number does not match records.' };
-            }
-
-            // Verify password
-            // In a real app, you would hash this. For demo, plain text comparison.
-            if (!userData.password || userData.password !== password) {
-                return { success: false, error: 'Invalid password.' };
-            }
-
-            localStorage.setItem('matricare_auth_status', 'true');
-            setUser(userData);
+        const userData = JSON.parse(storedUser);
+        if (userData.password && userData.password === password) {
+            setUser(userData); // Simulated login
             setIsAuthenticated(true);
-
             return { success: true, user: userData };
-        } catch (error) {
-            return { success: false, error: 'Login failed. Please try again.' };
         }
+
+        return { success: false, error: 'Invalid credentials' };
     };
 
-    // Logout user
-    const logout = () => {
-        localStorage.removeItem('matricare_auth_status');
-        setUser(null);
-        setIsAuthenticated(false);
+    const logout = async () => {
+        try {
+            await signOut(auth);
+            localStorage.removeItem('matricare_auth_status'); // clear legacy flag
+            setUser(null);
+            setIsAuthenticated(false);
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
     };
 
     // Update user profile
@@ -135,7 +193,7 @@ export const AuthProvider = ({ children }) => {
         if (!user) return { success: false };
 
         const updatedUser = { ...user, ...updates };
-        localStorage.setItem('matricare_user', JSON.stringify(updatedUser));
+        localStorage.setItem('matricare_user', JSON.stringify(updatedUser)); // Update local DB
         setUser(updatedUser);
         return { success: true };
     };
@@ -148,17 +206,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('matricare_user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         return { success: true };
-    };
-
-    // Send OTP (simulated)
-    const sendOTP = (mobile) => {
-        // In production, call backend API
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        console.group('📱 OTP Service');
-        console.log(`Sending OTP to ${mobile}: ${otp}`);
-        console.groupEnd();
-
-        return { success: true, message: 'OTP sent! Check console.' };
     };
 
     const value = {
