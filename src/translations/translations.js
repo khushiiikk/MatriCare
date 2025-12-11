@@ -364,44 +364,43 @@ export const translations = {
             badgeTracker: '🤰 Pregnancy Tracker',
             badgeAI: '🤖 AI Assistant',
             badgeYoga: '🧘‍♀️ Yoga Guide',
+            errors: {
+                invalidMobile: 'Please enter a valid 10-digit mobile number',
+                invalidOtp: 'Please enter a valid 6-digit OTP',
+                invalidPassword: 'Please enter your password',
+                invalidName: 'Please enter your full name',
+                invalidAge: 'Please enter a valid age (18-55)',
+                invalidLMP: 'Please select your LMP date',
+                shortPassword: 'Password must be at least 6 characters',
+                regFailed: 'Registration failed. Please try again.',
+                otpSent: 'OTP sent successfully!'
+            }
         },
-        errors: {
-            invalidMobile: 'Please enter a valid 10-digit mobile number',
-            invalidOtp: 'Please enter a valid 6-digit OTP',
-            invalidPassword: 'Please enter your password',
-            invalidName: 'Please enter your full name',
-            invalidAge: 'Please enter a valid age (18-55)',
-            invalidLMP: 'Please select your LMP date',
-            shortPassword: 'Password must be at least 6 characters',
-            regFailed: 'Registration failed. Please try again.',
-            otpSent: 'OTP sent successfully!'
+
+        // Analytics Page
+        analytics: {
+            title: 'Health Analysis & Reports',
+            subtitle: 'Upload your medical reports for AI-powered insights',
+            uploadTitle: 'Upload Medical Report',
+            uploadDesc: 'Drag & drop your report here, or click to browse',
+            supportedFormats: 'Supported formats: PDF, JPG, PNG',
+            analyzing: 'Analyzing your report...',
+            pleaseWait: 'Please wait while our AI reviews your health data.',
+            resultsTitle: 'Analysis Results',
+            resultsSubtitle: 'Based on the uploaded document',
+            healthScore: 'Health Score',
+            hemoglobin: 'Hemoglobin',
+            bloodPressure: 'Blood Pressure',
+            glucose: 'Glucose Levels',
+            riskAssessment: 'Risk Assessment',
+            recommendations: 'Recommendations',
+            normal: 'Normal',
+            attention: 'Needs Attention',
+            low: 'Low',
+            high: 'High',
+            consultDoctor: 'Please consult your doctor for detailed advice.'
         }
     },
-
-    // Analytics Page
-    analytics: {
-        title: 'Health Analysis & Reports',
-        subtitle: 'Upload your medical reports for AI-powered insights',
-        uploadTitle: 'Upload Medical Report',
-        uploadDesc: 'Drag & drop your report here, or click to browse',
-        supportedFormats: 'Supported formats: PDF, JPG, PNG',
-        analyzing: 'Analyzing your report...',
-        pleaseWait: 'Please wait while our AI reviews your health data.',
-        resultsTitle: 'Analysis Results',
-        resultsSubtitle: 'Based on the uploaded document',
-        healthScore: 'Health Score',
-        hemoglobin: 'Hemoglobin',
-        bloodPressure: 'Blood Pressure',
-        glucose: 'Glucose Levels',
-        riskAssessment: 'Risk Assessment',
-        recommendations: 'Recommendations',
-        normal: 'Normal',
-        attention: 'Needs Attention',
-        low: 'Low',
-        high: 'High',
-        consultDoctor: 'Please consult your doctor for detailed advice.'
-    }
-},
 
     hi: {
         // Navbar
