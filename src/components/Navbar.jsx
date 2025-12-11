@@ -108,6 +108,12 @@ const Navbar = () => {
 
                         {/* CHATBOT LINK ADDED HERE */}
                         <li>
+                            <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
+                                Chatbot
+                            </Link>
+                        </li>
+
+                        <li>
                             <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
                                 {t.analytics}
                             </Link>

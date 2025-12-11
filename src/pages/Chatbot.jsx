@@ -84,7 +84,7 @@ const Chatbot = () => {
             <div className="chatbot-container">
                 <div className="chat-header">
                     <div className="chat-robot-wrapper">
-                        <Robot mood={isTyping ? "thinking" : "happy"} scale={0.6} />
+                        <Robot mood={isTyping ? "thinking" : "happy"} scale={0.35} />
                     </div>
                     <div className="chat-header-info">
                         <h2>{t.chatbot.header}</h2>
