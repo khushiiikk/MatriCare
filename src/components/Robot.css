@@ -2,173 +2,36 @@
 
 .robot-container {
     width: 140px;
-    height: 180px;
+    height: 140px;
+    /* Adjusted for square image */
     position: relative;
     /* margin-bottom removed to let parent control layout */
     animation: robotFloat 3s ease-in-out infinite;
     transform-origin: center center;
-}
-
-/* Robot Moods */
-.robot-container.happy .robot-head {
-    animation: headBob 2s ease-in-out infinite;
-}
-
-.robot-container.thinking .robot-head {
-    animation: shake 2s ease-in-out infinite;
-}
-
-.robot-container.success .robot-head {
-    animation: nod 0.5s ease-in-out infinite;
-}
-
-.robot-head {
-    width: 80px;
-    height: 70px;
-    background: white;
-    border-radius: 20px;
-    position: relative;
-    margin: 0 auto;
-    z-index: 2;
-    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.05);
-}
-
-.robot-eyes {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding-top: 25px;
-}
-
-.eye {
-    width: 12px;
-    height: 12px;
-    background: #7D6264;
-    /* Mauve Dark */
-    border-radius: 50%;
-    animation: blink 4s infinite;
-}
-
-.robot-antenna {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 15px;
-    background: #9B7B7E;
-    /* Mauve */
-}
-
-.antenna-ball {
-    width: 10px;
-    height: 10px;
-    background: #E8F0D7;
-    /* Mint */
-    border-radius: 50%;
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: glow 2s infinite alternate;
-}
-
-.robot-body {
-    width: 100px;
-    height: 80px;
-    background: #E5C4C0;
-    /* Peach */
-    border-radius: 25px;
-    margin: -10px auto 0;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
 }
 
-.robot-logo {
+.robot-img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+    transition: all 0.3s ease;
 }
 
-.logo-circle {
-    width: 55px;
-    height: 55px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    animation: logoPulse 3s ease-in-out infinite;
+/* Robot Moods - Applied to the image */
+.robot-container.happy .robot-img {
+    animation: happyBounce 2s ease-in-out infinite;
 }
 
-.logo-text {
-    font-size: 32px;
-    font-weight: 900;
-    color: #9B7B7E;
-    font-family: 'Playfair Display', serif;
-    line-height: 1;
+.robot-container.thinking .robot-img {
+    animation: pulseThink 1.5s ease-in-out infinite;
 }
 
-@keyframes logoPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(155, 123, 126, 0.3);
-    }
-}
-
-.robot-arms {
-    position: absolute;
-    top: 90px;
-    width: 100%;
-}
-
-.arm {
-    width: 25px;
-    height: 50px;
-    background: #9B7B7E;
-    /* Mauve */
-    border-radius: 12px;
-    position: absolute;
-    top: 0;
-}
-
-.arm.left {
-    left: 0;
-    transform-origin: top right;
-    transform: rotate(15deg);
-}
-
-.arm.right {
-    right: 0;
-    transform-origin: top left;
-    transform: rotate(-15deg);
-}
-
-.robot-container.happy .arm.left {
-    animation: wave 2s ease-in-out infinite;
-}
-
-.robot-shadow {
-    width: 80px;
-    height: 10px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    margin: 20px auto 0;
-    filter: blur(5px);
-    animation: shadowPulse 3s ease-in-out infinite;
+.robot-container.success .robot-img {
+    animation: successJump 0.5s ease-in-out;
 }
 
 /* Animations */
@@ -180,85 +43,46 @@
     }
 
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
     }
 }
 
-@keyframes headBob {
+@keyframes happyBounce {
 
     0%,
     100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(5deg);
-    }
-
-    75% {
-        transform: rotate(-5deg);
-    }
-}
-
-@keyframes blink {
-
-    0%,
-    96%,
-    100% {
-        transform: scaleY(1);
-    }
-
-    98% {
-        transform: scaleY(0.1);
-    }
-}
-
-@keyframes wave {
-
-    0%,
-    100% {
-        transform: rotate(15deg);
+        transform: scale(1);
     }
 
     50% {
-        transform: rotate(40deg);
+        transform: scale(1.05) rotate(3deg);
     }
 }
 
-@keyframes glow {
-    from {
-        box-shadow: 0 0 5px #E8F0D7;
-    }
-
-    to {
-        box-shadow: 0 0 15px #E8F0D7;
-    }
-}
-
-@keyframes shake {
+@keyframes pulseThink {
 
     0%,
     100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(5deg);
-    }
-
-    75% {
-        transform: rotate(-5deg);
-    }
-}
-
-@keyframes nod {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
+        opacity: 1;
+        transform: scale(1);
     }
 
     50% {
-        transform: rotate(10deg);
+        opacity: 0.8;
+        transform: scale(0.95);
+    }
+}
+
+@keyframes successJump {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.1);
+    }
+
+    100% {
+        transform: translateY(0);
     }
 }
