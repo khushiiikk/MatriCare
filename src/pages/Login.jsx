@@ -39,6 +39,9 @@ const Login = () => {
     // Robot Animation State
     const [robotMood, setRobotMood] = useState('happy'); // happy, thinking, success
 
+    // Signup Step State
+    const [signupStep, setSignupStep] = useState('details'); // 'details' or 'otp'
+
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/');
@@ -117,24 +120,56 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
-        // Validation
-        if (!validateName(signupData.name)) return setError(t.errors.invalidName);
-        if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
-        if (!validateAge(signupData.age)) return setError(t.errors.invalidAge);
-        if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
-        if (signupData.password.length < 6) return setError(t.errors.shortPassword);
+        // Step 1: Request OTP
+        if (signupStep === 'details') {
+            // Validation
+            if (!validateName(signupData.name)) return setError(t.errors.invalidName);
+            if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
+            if (!validateAge(signupData.age)) return setError(t.errors.invalidAge);
+            if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
+            if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
-        setLoading(true);
-        setTimeout(() => {
-            const result = signup(signupData);
+            setLoading(true);
+            const result = await sendOTP(signupData.mobile); // Using await here to ensure cleaner flow
             setLoading(false);
 
             if (result.success) {
-                navigate('/');
+                setSignupStep('otp');
+                setSuccessMsg(t.errors.otpSent);
+                setRobotMood('success');
             } else {
-                setError(t.errors.regFailed);
+                setError(result.error);
+                setRobotMood('thinking');
             }
-        }, 1500);
+        }
+        // Step 2: Verify OTP & Create Account
+        else if (signupStep === 'otp') {
+            if (!validateOTP(otp)) {
+                setError(t.errors.invalidOtp);
+                return;
+            }
+
+            setLoading(true);
+            // First verify OTP (Login)
+            const loginResult = await login(signupData.mobile, otp);
+
+            if (loginResult.success) {
+                // Then save profile data (Signup)
+                const signupResult = signup(signupData);
+                setLoading(false);
+
+                if (signupResult.success) {
+                    navigate('/');
+                } else {
+                    setError(t.errors.regFailed);
+                    setRobotMood('thinking');
+                }
+            } else {
+                setLoading(false);
+                setError(loginResult.error);
+                setRobotMood('thinking');
+            }
+        }
     };
 
     // Toggle Mode
@@ -143,6 +178,8 @@ const Login = () => {
         setError('');
         setSuccessMsg('');
         setShowOtpInput(false);
+        setSignupStep('details');
+        setOtp('');
         setRobotMood(isLoginMode ? 'happy' : 'success'); // Change mood on toggle
     };
 
@@ -230,7 +267,6 @@ const Login = () => {
                                             loginMethod === 'otp' ? (showOtpInput ? t.loginSecurely : t.sendOtp) : t.loginBtn
                                         )}
                                     </button>
-                                    <div id="recaptcha-container"></div>
                                 </form>
                             </div>
                         ) : (
@@ -298,11 +334,28 @@ const Login = () => {
                                         value={signupData.password}
                                         onChange={handleSignupChange}
                                         className="form-input"
+                                        disabled={signupStep === 'otp'}
                                     />
                                 </div>
 
+                                {signupStep === 'otp' && (
+                                    <div className="form-group animate-slide-down">
+                                        <label>{t.enterOtp}</label>
+                                        <input
+                                            type="text"
+                                            placeholder={t.otpPlaceholder}
+                                            value={otp}
+                                            onChange={(e) => setOtp(e.target.value)}
+                                            maxLength="6"
+                                            className="form-input"
+                                            autoFocus
+                                        />
+                                        <small className="otp-hint">{t.otpHint}</small>
+                                    </div>
+                                )}
+
                                 <button type="submit" className="sign-in-btn" disabled={loading}>
-                                    {loading ? t.creatingAccount : t.startJourney}
+                                    {loading ? t.processing : (signupStep === 'details' ? t.sendOtp : t.startJourney)}
                                 </button>
                             </form>
                         )}
@@ -317,6 +370,7 @@ const Login = () => {
                                 {isLoginMode ? t.createAccount : t.loginBtn}
                             </button>
                         </div>
+                        <div id="recaptcha-container"></div>
                     </div>
                 </div>
 
@@ -347,7 +401,7 @@ const Login = () => {
                     <div className="gradient-orb orb-2"></div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

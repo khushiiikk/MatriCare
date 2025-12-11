@@ -364,19 +364,44 @@ export const translations = {
             badgeTracker: '🤰 Pregnancy Tracker',
             badgeAI: '🤖 AI Assistant',
             badgeYoga: '🧘‍♀️ Yoga Guide',
-            errors: {
-                invalidMobile: 'Please enter a valid 10-digit mobile number',
-                invalidOtp: 'Please enter a valid 6-digit OTP',
-                invalidPassword: 'Please enter your password',
-                invalidName: 'Please enter your full name',
-                invalidAge: 'Please enter a valid age (18-55)',
-                invalidLMP: 'Please select your LMP date',
-                shortPassword: 'Password must be at least 6 characters',
-                regFailed: 'Registration failed. Please try again.',
-                otpSent: 'OTP sent successfully!'
-            }
+        },
+        errors: {
+            invalidMobile: 'Please enter a valid 10-digit mobile number',
+            invalidOtp: 'Please enter a valid 6-digit OTP',
+            invalidPassword: 'Please enter your password',
+            invalidName: 'Please enter your full name',
+            invalidAge: 'Please enter a valid age (18-55)',
+            invalidLMP: 'Please select your LMP date',
+            shortPassword: 'Password must be at least 6 characters',
+            regFailed: 'Registration failed. Please try again.',
+            otpSent: 'OTP sent successfully!'
         }
     },
+
+    // Analytics Page
+    analytics: {
+        title: 'Health Analysis & Reports',
+        subtitle: 'Upload your medical reports for AI-powered insights',
+        uploadTitle: 'Upload Medical Report',
+        uploadDesc: 'Drag & drop your report here, or click to browse',
+        supportedFormats: 'Supported formats: PDF, JPG, PNG',
+        analyzing: 'Analyzing your report...',
+        pleaseWait: 'Please wait while our AI reviews your health data.',
+        resultsTitle: 'Analysis Results',
+        resultsSubtitle: 'Based on the uploaded document',
+        healthScore: 'Health Score',
+        hemoglobin: 'Hemoglobin',
+        bloodPressure: 'Blood Pressure',
+        glucose: 'Glucose Levels',
+        riskAssessment: 'Risk Assessment',
+        recommendations: 'Recommendations',
+        normal: 'Normal',
+        attention: 'Needs Attention',
+        low: 'Low',
+        high: 'High',
+        consultDoctor: 'Please consult your doctor for detailed advice.'
+    }
+},
 
     hi: {
         // Navbar
@@ -754,6 +779,30 @@ export const translations = {
                 regFailed: 'पंजीकरण विफल। कृपया पुनः प्रयास करें।',
                 otpSent: 'ओटीपी सफलतापूर्वक भेजा गया!'
             }
+        },
+
+        // Analytics Page
+        analytics: {
+            title: 'स्वास्थ्य विश्लेषण और रिपोर्ट',
+            subtitle: 'AI-संचालित जानकारी के लिए अपनी मेडिकल रिपोर्ट अपलोड करें',
+            uploadTitle: 'मेडिकल रिपोर्ट अपलोड करें',
+            uploadDesc: 'अपनी रिपोर्ट यहाँ खींचें और छोड़ें, या ब्राउज़ करने के लिए क्लिक करें',
+            supportedFormats: 'समर्थित प्रारूप: PDF, JPG, PNG',
+            analyzing: 'आपकी रिपोर्ट का विश्लेषण किया जा रहा है...',
+            pleaseWait: 'कृपया प्रतीक्षा करें जब तक हमारा AI आपके स्वास्थ्य डेटा की समीक्षा करता है।',
+            resultsTitle: 'विश्लेषण परिणाम',
+            resultsSubtitle: 'अपलोड किए गए दस्तावेज़ के आधार पर',
+            healthScore: 'स्वास्थ्य स्कोर',
+            hemoglobin: 'हीमोग्लोबिन',
+            bloodPressure: 'रक्तचाप',
+            glucose: 'ग्लूकोज स्तर',
+            riskAssessment: 'जोखिम मूल्यांकन',
+            recommendations: 'सुझाव',
+            normal: 'सामान्य',
+            attention: 'ध्यान देने की आवश्यकता',
+            low: 'कम',
+            high: 'उच्च',
+            consultDoctor: 'विस्तृत सलाह के लिए कृपया अपने डॉक्टर से परामर्श लें।'
         }
     }
 };
