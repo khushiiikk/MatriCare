@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { translations } from '../translations/translations';
 import LanguageSwitcher from './LanguageSwitcher';
+import ThemeToggle from './ThemeToggle';
 import ProfileMenu from './ProfileMenu';
 import './Navbar.css';
 
@@ -141,6 +142,9 @@ const Navbar = () => {
                         )}
 
                         <li>
+                            <ThemeToggle />
+                        </li>
+                        <li>
                             <LanguageSwitcher />
                         </li>
                         {/* Profile Menu for Desktop */}
@@ -210,7 +214,8 @@ const Navbar = () => {
                             </li>
                         )}
 
-                        <li className="mobile-lang-switcher">
+                        <li className="mobile-lang-switcher" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <ThemeToggle />
                             <LanguageSwitcher />
                         </li>
                     </ul>
