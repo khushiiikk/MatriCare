@@ -849,47 +849,47 @@ export const translations = {
         hero: {
             title: 'तुमचे आरोग्य,',
             titleHighlight: 'आमची जबाबदारी',
-            description: 'Comprehensive maternal health support from pregnancy to delivery. Health information, yoga, and care for mothers in rural areas - everything in your language, for you.',
+            description: 'गर्भधारणेपासून प्रसूतीपर्यंत सर्वसमावेशक मातृ आरोग्य सहाय्य. ग्रामीण भागातील मातांसाठी आरोग्य माहिती, योग आणि काळजी - सर्व काही तुमच्या भाषेत, तुमच्यासाठी.',
             quotes: [
-                '"A mother\'s joy begins when new life is stirring inside... when a tiny heartbeat is heard for the very first time."',
-                '"You are braver than you believe, stronger than you seem, and loved more than you know."',
-                '"The moment a child is born, the mother is also born. You are reborn with your child."',
-                '"Your body is not a temple, it\'s a home. Treat it with love and care."'
+                '"आईचा आनंद तेव्हा सुरू होतो जेव्हा आतमध्ये नवीन जीवन हलू लागते... जेव्हा पहिल्यांदा एक लहान हृदयाचा ठोका ऐकू येतो."',
+                '"तुम्ही तुमच्या विश्वासापेक्षा धाडसी आहात, तुम्ही दिसता त्यापेक्षा मजबूत आहात आणि तुम्हाला माहीत आहे त्यापेक्षा जास्त प्रेम केले जाते."',
+                '"जेव्हा एक मूल जन्माला येते, तेव्हा आई देखील जन्माला येते. तुम्ही तुमच्या मुलासोबत पुन्हा जन्माला येता."',
+                '"तुमचे शरीर मंदिर नाही, ते एक घर आहे. त्याची प्रेम आणि काळजीने काळजी घ्या."'
             ]
         },
         yoga: {
-            sectionTitle: 'Yoga & Exercise',
-            sectionSubtitle: 'Safe and effective yoga poses for every stage of pregnancy',
-            clickToExpand: 'Click to view exercises',
+            sectionTitle: 'योग आणि व्यायाम',
+            sectionSubtitle: 'गर्भधारणेच्या प्रत्येक टप्प्यासाठी सुरक्षित आणि प्रभावी योग आसने',
+            clickToExpand: 'व्यायाम पाहण्यासाठी क्लिक करा',
             trimester1: {
-                title: 'First Trimester',
-                weeks: '1-12 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'पहिली तिमाही',
+                weeks: '१-१२ आठवडे',
+                heading: 'शिफारस केलेले योग व्यायाम',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Do light exercises, avoid fatigue',
-                watchVideo: 'Watch Tutorial'
+                note: 'टीप:',
+                noteText: 'हलके व्यायाम करा, थकवा टाळा',
+                watchVideo: 'ट्यूटोरियल पहा'
             },
             trimester2: {
-                title: 'Second Trimester',
-                weeks: '13-26 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'दुसरी तिमाही',
+                weeks: '१३-२६ आठवडे',
+                heading: 'शिफारस केलेले योग व्यायाम',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Regular practice, focus on balance',
-                watchVideo: 'Watch Tutorial'
+                note: 'टीप:',
+                noteText: 'नियमित सराव करा, संतुलनावर लक्ष केंद्रित करा',
+                watchVideo: 'ट्यूटोरियल पहा'
             },
             trimester3: {
-                title: 'Third Trimester',
-                weeks: '27-40 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'तिसरी तिमाही',
+                weeks: '२७-४० आठवडे',
+                heading: 'शिफारस केलेले योग व्यायाम',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Rest well, prepare for delivery',
-                watchVideo: 'Watch Tutorial'
+                note: 'टीप:',
+                noteText: 'चांगली विश्रांती घ्या, प्रसूतीसाठी तयारी करा',
+                watchVideo: 'ट्यूटोरियल पहा'
             },
-            disclaimer: 'Important:',
-            disclaimerText: 'Consult your doctor or ASHA worker before starting any yoga practice.'
+            disclaimer: 'महत्त्वाचे:',
+            disclaimerText: 'कोणताही योग सराव सुरू करण्यापूर्वी आपल्या डॉक्टर किंवा आशा कार्यकर्त्याचा सल्ला घ्या.'
         },
         chatbot: {
             header: 'Matri AI Assistant',
@@ -990,9 +990,9 @@ export const translations = {
             openMaps: "Open in Maps"
         },
         cta: {
-            title: 'Ready to Begin Your Journey?',
-            description: 'Join thousands of mothers who trust MatriCare for their maternal health needs.',
-            button: 'Start Your Journey Today'
+            title: 'आपला प्रवास सुरू करण्यास तयार आहात?',
+            description: 'आपल्या मातृत्व आरोग्य गरजांसाठी मेट्रिकेयरवर विश्वास ठेवणार्या हजारो मातांमध्ये सामील व्हा.',
+            button: 'आजच आपला प्रवास सुरू करा'
         },
         trimesterPages: {
             backButton: 'Back',
@@ -1034,47 +1034,47 @@ export const translations = {
         hero: {
             title: 'உங்கள் ஆரோக்கியம்,',
             titleHighlight: 'எங்கள் பொறுப்பு',
-            description: 'Comprehensive maternal health support from pregnancy to delivery. Health information, yoga, and care for mothers in rural areas - everything in your language, for you.',
+            description: 'கர்ப்பம் முதல் பிரசவம் வரை விரிவான தாய்வழி சுகாதார ஆதரவு. கிராமப்புற பகுதிகளில் உள்ள தாய்மார்களுக்கான சுகாதார தகவல், யோகா மற்றும் பராமரிப்பு - அனைத்தும் உங்கள் மொழியில், உங்களுக்காக.',
             quotes: [
-                '"A mother\'s joy begins when new life is stirring inside... when a tiny heartbeat is heard for the very first time."',
-                '"You are braver than you believe, stronger than you seem, and loved more than you know."',
-                '"The moment a child is born, the mother is also born. You are reborn with your child."',
-                '"Your body is not a temple, it\'s a home. Treat it with love and care."'
+                '"ஒரு தாயின் மகிழ்ச்சி உள்ளே புதிய உயிர் அசையத் தொடங்கும்போது தொடங்குகிறது... முதல் முறையாக ஒரு சிறிய இதயத் துடிப்பு கேட்கும்போது."',
+                '"நீங்கள் நம்புவதை விட தைரியமானவர், நீங்கள் தோன்றுவதை விட வலிமையானவர், உங்களுக்குத் தெரிந்ததை விட அதிகமாக நேசிக்கப்படுகிறீர்கள்."',
+                '"ஒரு குழந்தை பிறக்கும்போது, தாயும் பிறக்கிறார். நீங்கள் உங்கள் குழந்தையுடன் மீண்டும் பிறக்கிறீர்கள்."',
+                '"உங்கள் உடல் ஒரு கோவில் அல்ல, அது ஒரு வீடு. அதை அன்பு மற்றும் கவனிப்புடன் நடத்துங்கள்."'
             ]
         },
         yoga: {
-            sectionTitle: 'Yoga & Exercise',
-            sectionSubtitle: 'Safe and effective yoga poses for every stage of pregnancy',
-            clickToExpand: 'Click to view exercises',
+            sectionTitle: 'யோகா & உடற்பயிற்சி',
+            sectionSubtitle: 'கர்ப்பத்தின் ஒவ்வொரு கட்டத்திற்கும் பாதுகாப்பான மற்றும் பயனுள்ள யோகா நிலைகள்',
+            clickToExpand: 'பயிற்சிகளைக் காண கிளிக் செய்யவும்',
             trimester1: {
-                title: 'First Trimester',
-                weeks: '1-12 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'முதல் மூன்று மாதங்கள்',
+                weeks: '1-12 வாரங்கள்',
+                heading: 'பரிந்துரைக்கப்பட்ட யோகா பயிற்சிகள்',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Do light exercises, avoid fatigue',
-                watchVideo: 'Watch Tutorial'
+                note: 'குறிப்பு:',
+                noteText: 'லேசான பயிற்சிகள் செய்யுங்கள், களைப்பைத் தவிர்க்கவும்',
+                watchVideo: 'பயிற்சி வீடியோவைப் பார்க்கவும்'
             },
             trimester2: {
-                title: 'Second Trimester',
-                weeks: '13-26 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'இரண்டாவது மூன்று மாதங்கள்',
+                weeks: '13-26 வாரங்கள்',
+                heading: 'பரிந்துரைக்கப்பட்ட யோகா பயிற்சிகள்',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Regular practice, focus on balance',
-                watchVideo: 'Watch Tutorial'
+                note: 'குறிப்பு:',
+                noteText: 'தொடர்ந்து பயிற்சி செய்யுங்கள், சமநிலையில் கவனம் செலுத்துங்கள்',
+                watchVideo: 'பயிற்சி வீடியோவைப் பார்க்கவும்'
             },
             trimester3: {
-                title: 'Third Trimester',
-                weeks: '27-40 Weeks',
-                heading: 'Recommended Yoga Exercises',
+                title: 'மூன்றாவது மூன்று மாதங்கள்',
+                weeks: '27-40 வாரங்கள்',
+                heading: 'பரிந்துரைக்கப்பட்ட யோகா பயிற்சிகள்',
                 exercises: [],
-                note: 'Note:',
-                noteText: 'Rest well, prepare for delivery',
-                watchVideo: 'Watch Tutorial'
+                note: 'குறிப்பு:',
+                noteText: 'நன்றாக ஓய்வெடுங்கள், பிரசவத்திற்குத் தயாராகுங்கள்',
+                watchVideo: 'பயிற்சி வீடியோவைப் பார்க்கவும்'
             },
-            disclaimer: 'Important:',
-            disclaimerText: 'Consult your doctor or ASHA worker before starting any yoga practice.'
+            disclaimer: 'முக்கியம்:',
+            disclaimerText: 'எந்த யோகா பயிற்சியையும் தொடங்குவதற்கு முன் உங்கள் மருத்துவர் அல்லது ஆஷா பணியாளரை அணுகவும்.'
         },
         chatbot: {
             header: 'Matri AI Assistant',
@@ -1175,9 +1175,9 @@ export const translations = {
             openMaps: "Open in Maps"
         },
         cta: {
-            title: 'Ready to Begin Your Journey?',
-            description: 'Join thousands of mothers who trust MatriCare for their maternal health needs.',
-            button: 'Start Your Journey Today'
+            title: 'உங்கள் பயணத்தைத் தொடங்க தயாரா?',
+            description: 'தாய்மார் சுகாதார தேவைகளுக்காக மாத்ரிகேர் மீது நம்பிக்கை வைக்கும் ஆயிரக்கணக்கான தாய்மார்களுடன் சேருங்கள்.',
+            button: 'இன்றே உங்கள் பயணத்தைத் தொடங்குங்கள்'
         },
         trimesterPages: {
             backButton: 'Back',
