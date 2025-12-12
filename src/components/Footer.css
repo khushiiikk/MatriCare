@@ -1,7 +1,7 @@
 .footer {
     background-color: var(--color-mauve-dark);
     color: var(--color-white);
-    padding: var(--spacing-lg) 0;
+    padding: var(--spacing-md) 0;
     /* Reduced vertical padding */
     margin-top: auto;
 }
@@ -10,8 +10,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     /* Smaller columns */
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     max-width: 1000px;
     /* Constrain width */
     margin-left: auto;
@@ -73,7 +73,7 @@
 
 .footer-credits {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
     text-align: center;
 }
 

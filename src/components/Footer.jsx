@@ -122,11 +122,7 @@ const Footer = () => {
                     <span className="credits-title">
                         Made by Kapil Tomar and Team
                     </span>
-                    <div className="credits-list">
-                        {team.map((member, index) => (
-                            <span key={index}>{member}</span>
-                        ))}
-                    </div>
+
                 </div>
             </div>
         </footer>
