@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Robot from './Robot';
+import chatbotLogo from '../assets/chatbot-logo.jpg';
 import './FloatingRobot.css';
 
 const FloatingRobot = () => {
@@ -8,18 +8,18 @@ const FloatingRobot = () => {
 
     return (
         <div className="floating-robot-container" onClick={() => navigate('/chatbot')}>
-            <div className="robot-wrapper">
-                {/* Use the new Chatbot Logo Image */}
+            <div className="robot-wrapper" style={{ width: '100%', height: '100%' }}>
                 <img
-                    src="/src/assets/chatbot-logo.png"
-                    alt="Chatbot View"
+                    src={chatbotLogo}
+                    alt="Chatbot"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
             </div>
+
             <div className="robot-tooltip">
                 Chat with me!
             </div>
-        </div>
+        </div >
     );
 };
 

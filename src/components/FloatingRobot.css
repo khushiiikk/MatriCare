@@ -24,8 +24,9 @@
 }
 
 .robot-wrapper {
-    /* Offset to center the robot visual within the circle */
-    margin-top: 10px;
+    /* Full size for the image */
+    width: 100%;
+    height: 100%;
 }
 
 .robot-tooltip {
