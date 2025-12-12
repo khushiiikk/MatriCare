@@ -8,16 +8,15 @@ const FloatingRobot = () => {
 
     return (
         <div className="floating-robot-container" onClick={() => navigate('/chatbot')}>
-            <div className="robot-wrapper" style={{ width: '100%', height: '100%' }}>
+            <div className="robot-circle">
                 <img
                     src={cuteMotherImg}
                     alt="Chatbot"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
                 />
             </div>
-
-            <div className="robot-tooltip">
-                Chat with me!
+            <div className="robot-label">
+                Matri AI Assistant
             </div>
         </div >
     );
