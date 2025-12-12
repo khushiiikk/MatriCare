@@ -15,6 +15,7 @@ import Trimester2 from './pages/Trimester2';
 import Trimester3 from './pages/Trimester3';
 import SOSButton from './components/SOSButton';
 import FloatingRobot from './components/FloatingRobot';
+import Footer from './components/Footer';
 import FindCare from './pages/FindCare';
 import Analytics from './pages/Analytics';
 import './index.css';
@@ -87,6 +88,7 @@ function App() {
                         </Routes>
                         <FloatingRobot />
                         <SOSButton />
+                        <Footer />
                     </div>
                 </Router>
             </LanguageProvider>
