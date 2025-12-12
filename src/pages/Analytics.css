@@ -202,3 +202,52 @@
     padding: 15px;
     border-radius: 10px;
 }
+
+/* Dark Mode Styles */
+.dark-mode .analytics-page {
+    background: linear-gradient(135deg, #1a1625 0%, #2a2435 100%);
+}
+
+.dark-mode .upload-section {
+    background: var(--color-surface);
+    border-color: var(--color-mauve);
+}
+
+.dark-mode .upload-section:hover {
+    background: rgba(196, 164, 167, 0.1);
+    border-color: var(--color-mauve-light);
+}
+
+.dark-mode .upload-title {
+    color: var(--color-text);
+}
+
+.dark-mode .upload-desc {
+    color: var(--color-text-light);
+}
+
+.dark-mode .analyzing-container {
+    background: var(--color-surface);
+}
+
+.dark-mode .result-card {
+    background: var(--color-surface);
+    border-top-color: var(--color-mauve);
+}
+
+.dark-mode .metric-value {
+    color: var(--color-text);
+}
+
+.dark-mode .recommendations-box {
+    background: var(--color-surface);
+}
+
+.dark-mode .rec-list li {
+    border-bottom-color: rgba(184, 182, 192, 0.2);
+}
+
+.dark-mode .disclaimer-box {
+    background: rgba(196, 164, 167, 0.2);
+    color: var(--color-text-light);
+}
