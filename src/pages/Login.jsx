@@ -6,7 +6,6 @@ import { translations } from '../translations/translations';
 import { validateMobile, validateName, validateAge, validateOTP } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
-import matricareLogo from '../assets/matricare-logo.png';
 import './Login.css';
 
 const Login = () => {
@@ -391,7 +390,7 @@ const Login = () => {
                 <div className={`welcome-section ${isLoginMode ? 'login-bg' : 'signup-bg'}`}>
                     <div className="welcome-content">
                         {/* Character Animation */}
-                        <Robot mood={robotMood} imageSrc={matricareLogo} />
+                        <Robot mood={robotMood} />
 
                         <h2 className="welcome-title">
                             {isLoginMode ? t.helloMom : t.welcomeTitle}

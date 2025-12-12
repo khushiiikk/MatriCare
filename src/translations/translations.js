@@ -6,7 +6,8 @@ export const translations = {
             yoga: 'Yoga',
             login: 'Login',
             about: 'About',
-            analytics: 'Analytics'
+            analytics: 'Analytics',
+            chatbot: 'Chatbot'
         },
 
         // Hero Section
@@ -424,7 +425,8 @@ export const translations = {
             yoga: 'योग',
             login: 'लॉगिन',
             about: 'हमारे बारे में',
-            analytics: 'एनालिटिक्स'
+            analytics: 'एनालिटिक्स',
+            chatbot: 'चैटबॉट'
         },
 
         // Hero Section

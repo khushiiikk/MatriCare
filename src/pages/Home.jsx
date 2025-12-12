@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
-import FloatingRobot from '../components/FloatingRobot';
 import './Home.css';
 
 const Home = () => {
@@ -179,7 +178,6 @@ const Home = () => {
                 </div>
             </section>
             {/* Floating Elements */}
-            <FloatingRobot />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 .floating-robot-container {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    left: 30px;
     width: 80px;
     height: 80px;
     background: white;
@@ -31,7 +31,8 @@
 
 .robot-tooltip {
     position: absolute;
-    right: 90px;
+    left: 90px;
+    right: auto;
     top: 50%;
     transform: translateY(-50%) translateX(10px);
     background: white;

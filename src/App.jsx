@@ -14,6 +14,7 @@ import Trimester2 from './pages/Trimester2';
 
 import Trimester3 from './pages/Trimester3';
 import SOSButton from './components/SOSButton';
+import FloatingRobot from './components/FloatingRobot';
 import FindCare from './pages/FindCare';
 import Analytics from './pages/Analytics';
 import './index.css';
@@ -84,6 +85,7 @@ function App() {
                             <Route path="/trimester3" element={<Trimester3 />} />
                             <Route path="/find-care" element={<FindCare />} />
                         </Routes>
+                        <FloatingRobot />
                         <SOSButton />
                     </div>
                 </Router>
