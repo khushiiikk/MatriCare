@@ -1,6 +1,7 @@
 import React from 'react';
 import './Footer.css';
 import { useLanguage } from '../context/LanguageContext';
+import cuteMotherImg from '../assets/cute-mother.jpg';
 
 const Footer = () => {
     const { language } = useLanguage();
@@ -108,7 +109,19 @@ const Footer = () => {
 
                 {/* Credits */}
                 <div className="footer-credits">
-                    <span className="credits-title">{content.created}</span>
+
+                    <div className="footer-images">
+                        <div className="footer-img-circle">
+                            <img src={cuteMotherImg} alt="Mother" />
+                        </div>
+                        <div className="footer-img-circle">
+                            <img src="/mother-baby.jpg" alt="Baby" style={{ objectPosition: 'top' }} />
+                        </div>
+                    </div>
+
+                    <span className="credits-title">
+                        Made by Kapil Tomar and Team
+                    </span>
                     <div className="credits-list">
                         {team.map((member, index) => (
                             <span key={index}>{member}</span>
