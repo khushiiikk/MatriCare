@@ -3,24 +3,26 @@ import { useLanguage } from '../context/LanguageContext';
 import './LanguageSwitcher.css';
 
 const LanguageSwitcher = () => {
-    const { language, toggleLanguage } = useLanguage();
+    const { language, changeLanguage } = useLanguage();
+
+    const handleChange = (e) => {
+        changeLanguage(e.target.value);
+    };
 
     return (
-        <button
-            className="language-switcher"
-            onClick={toggleLanguage}
-            aria-label="Toggle Language"
-        >
-            <div className="language-toggle">
-                <span className={`lang-option ${language === 'hi' ? 'active' : ''}`}>
-                    हिं
-                </span>
-                <span className="lang-divider">|</span>
-                <span className={`lang-option ${language === 'en' ? 'active' : ''}`}>
-                    EN
-                </span>
-            </div>
-        </button>
+        <div className="language-select-container">
+            <select
+                className="language-select"
+                value={language}
+                onChange={handleChange}
+                aria-label="Select Language"
+            >
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="mr">मराठी</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+        </div>
     );
 };
 

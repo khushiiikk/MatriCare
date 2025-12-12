@@ -20,19 +20,35 @@ export const LanguageProvider = ({ children }) => {
         // Save language preference to localStorage
         localStorage.setItem('language', language);
         // Update HTML lang attribute
-        document.documentElement.lang = language === 'hi' ? 'hi-IN' : 'en-US';
+        const langMap = {
+            'hi': 'hi-IN',
+            'mr': 'mr-IN',
+            'ta': 'ta-IN',
+            'en': 'en-US'
+        };
+        document.documentElement.lang = langMap[language] || 'en-US';
     }, [language]);
 
     const toggleLanguage = () => {
-        setLanguage(prev => prev === 'hi' ? 'en' : 'hi');
+        // Cycle through languages: en -> hi -> mr -> ta -> en
+        const langs = ['en', 'hi', 'mr', 'ta'];
+        const currentIndex = langs.indexOf(language);
+        const nextIndex = (currentIndex + 1) % langs.length;
+        setLanguage(langs[nextIndex]);
+    };
+
+    const changeLanguage = (lang) => {
+        setLanguage(lang);
     };
 
     const value = {
         language,
-        setLanguage,
+        changeLanguage,
         toggleLanguage,
         isHindi: language === 'hi',
-        isEnglish: language === 'en'
+        isEnglish: language === 'en',
+        isMarathi: language === 'mr',
+        isTamil: language === 'ta'
     };
 
     return (

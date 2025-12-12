@@ -29,17 +29,35 @@ const Footer = () => {
             home: 'होम',
             about: 'हमारे बारे में',
             yoga: 'योग गाइड'
+        },
+        mr: {
+            links: 'जलद लिंक्स',
+            contact: 'संपर्क',
+            reviews: 'पुनरावलोकने',
+            feedback: 'प्रतिक्रिया',
+            connect: 'आमच्याशी जुडा',
+            created: '❤️ ने तयार केले:',
+            home: 'मुख्यपृष्ठ',
+            about: 'आमच्याबद्दल',
+            yoga: 'योग मार्गदर्शक'
+        },
+        ta: {
+            links: 'விரைவு இணைப்புகள்',
+            contact: 'தொடர்பு கொள்ள',
+            reviews: 'விமர்சனங்கள்',
+            feedback: 'கருத்து',
+            connect: 'எங்களுடன் இணையுங்கள்',
+            created: '❤️ உடன் உருவாக்கப்பட்டது:',
+            home: 'முகப்பு',
+            about: 'எங்களை பற்றி',
+            yoga: 'யோகா வழிகாட்டி'
         }
     };
 
     const content = t[language] || t.en;
 
     const team = [
-        "Kapil Tomar",
-        "Khushi Kumari",
-        "Pratishtha Gupta",
-        "Divyansh Arora",
-        "Ayush Kadian"
+
     ];
 
     return (

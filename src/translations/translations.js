@@ -835,6 +835,376 @@ export const translations = {
             pharmacy: "फार्मेसी",
             openMaps: "मैप्स में खोलें"
         }
+    },
+
+    mr: {
+        navbar: {
+            home: 'मुख्यपृष्ठ',
+            yoga: 'योग',
+            login: 'लॉगिन',
+            about: 'आमच्याबद्दल',
+            analytics: 'विश्लेषण',
+            chatbot: 'चॅटबॉट'
+        },
+        hero: {
+            title: 'तुमचे आरोग्य,',
+            titleHighlight: 'आमची जबाबदारी',
+            description: 'Comprehensive maternal health support from pregnancy to delivery. Health information, yoga, and care for mothers in rural areas - everything in your language, for you.',
+            quotes: [
+                '"A mother\'s joy begins when new life is stirring inside... when a tiny heartbeat is heard for the very first time."',
+                '"You are braver than you believe, stronger than you seem, and loved more than you know."',
+                '"The moment a child is born, the mother is also born. You are reborn with your child."',
+                '"Your body is not a temple, it\'s a home. Treat it with love and care."'
+            ]
+        },
+        yoga: {
+            sectionTitle: 'Yoga & Exercise',
+            sectionSubtitle: 'Safe and effective yoga poses for every stage of pregnancy',
+            clickToExpand: 'Click to view exercises',
+            trimester1: {
+                title: 'First Trimester',
+                weeks: '1-12 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Do light exercises, avoid fatigue',
+                watchVideo: 'Watch Tutorial'
+            },
+            trimester2: {
+                title: 'Second Trimester',
+                weeks: '13-26 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Regular practice, focus on balance',
+                watchVideo: 'Watch Tutorial'
+            },
+            trimester3: {
+                title: 'Third Trimester',
+                weeks: '27-40 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Rest well, prepare for delivery',
+                watchVideo: 'Watch Tutorial'
+            },
+            disclaimer: 'Important:',
+            disclaimerText: 'Consult your doctor or ASHA worker before starting any yoga practice.'
+        },
+        chatbot: {
+            header: 'Matri AI Assistant',
+            online: 'ऑनलाईन',
+            placeholder: 'Type your message...',
+            greeting: 'नमस्कार! मी मात्री, तुमची वैयक्तिक AI सोबती. मी तुम्हाला कशी मदत करू शकते?',
+            responses: {
+                yoga: 'Yoga is great for pregnancy! Check out our Trimester specific yoga plans on the Home page. Would you like me to guide you there?',
+                pain: 'I\'m sorry to hear you\'re in pain. If it\'s severe or persistent, please consult your doctor immediately. For minor back pain, the Cat-Cow pose might help.',
+                diet: 'A balanced diet is key! Focus on folic acid, iron, and calcium. Green leafy vegetables, nuts, and dairy are excellent choices.',
+                hello: 'Hello {name}! How are you feeling today?',
+                default: 'That\'s an interesting question! As an AI assistant, I\'m constantly learning. For medical advice, please always consult your healthcare provider.'
+            }
+        },
+        login: {
+            welcomeBack: 'Welcome Back',
+            joinMatriCare: 'Join MatriCare',
+            mobileOtp: 'Mobile OTP',
+            password: 'Password',
+            mobileLabel: 'Mobile Number',
+            mobilePlaceholder: 'Enter your 10-digit mobile',
+            enterOtp: 'Enter OTP',
+            otpPlaceholder: 'Enter 6-digit OTP',
+            otpHint: 'Check console for demo OTP',
+            passwordLabel: 'Password',
+            passwordPlaceholder: 'Enter your password',
+            processing: 'Processing...',
+            loginSecurely: 'Login securely',
+            sendOtp: 'Send OTP',
+            loginBtn: 'Login',
+            fullName: 'Full Name',
+            namePlaceholder: 'Your Name',
+            mobileRaw: 'Mobile',
+            mobileRawPlaceholder: 'Mobile Number',
+            age: 'Age',
+            agePlaceholder: 'Years',
+            lmpDate: 'LMP Date (Last Period)',
+            lmpHint: 'Used to calculate pregnancy week',
+            createPassword: 'Create Password',
+            createPassPlaceholder: 'Create a strong password',
+            creatingAccount: 'Creating Account...',
+            startJourney: 'Start Your Journey',
+            firstTime: 'First time here?',
+            alreadyHave: 'Already have an account?',
+            createAccount: 'Create Account',
+            helloMom: 'Hello Mom!',
+            welcomeTitle: 'Welcome to MatriCare',
+            loginDesc: 'Your personal companion for a healthy and happy pregnancy journey.',
+            signupDesc: 'Join our community of mothers. Track your health, get expert advice, and stay stress-free.',
+            badgeTracker: '🤰 Pregnancy Tracker',
+            badgeAI: '🤖 AI Assistant',
+            badgeYoga: '🧘‍♀️ Yoga Guide',
+            errors: {
+                invalidMobile: 'Please enter a valid 10-digit mobile number',
+                invalidOtp: 'Please enter a valid 6-digit OTP',
+                invalidPassword: 'Please enter your password',
+                invalidName: 'Please enter your full name',
+                invalidAge: 'Please enter a valid age (18-55)',
+                invalidLMP: 'Please select your LMP date',
+                shortPassword: 'Password must be at least 6 characters',
+                regFailed: 'Registration failed. Please try again.',
+                otpSent: 'OTP sent successfully!'
+            }
+        },
+        analytics: {
+            title: 'Health Analysis & Reports',
+            subtitle: 'Upload your medical reports for AI-powered insights',
+            uploadTitle: 'Upload Medical Report',
+            uploadDesc: 'Drag & drop your report here, or click to browse',
+            supportedFormats: 'Supported formats: PDF, JPG, PNG',
+            analyzing: 'Analyzing your report...',
+            pleaseWait: 'Please wait while our AI reviews your health data.',
+            resultsTitle: 'Analysis Results',
+            resultsSubtitle: 'Based on the uploaded document',
+            healthScore: 'Health Score',
+            hemoglobin: 'Hemoglobin',
+            bloodPressure: 'Blood Pressure',
+            glucose: 'Glucose Levels',
+            riskAssessment: 'Risk Assessment',
+            recommendations: 'Recommendations',
+            normal: 'Normal',
+            attention: 'Needs Attention',
+            low: 'Low',
+            high: 'High',
+            consultDoctor: 'Please consult your doctor for detailed advice.'
+        },
+        findCare: {
+            title: "Find Healthcare",
+            subtitle: "Locate nearby ASHA centers and Hospitals",
+            locating: "Locating you...",
+            permissionDenied: "Location permission denied. Showing default location.",
+            error: "Unable to retrieve location.",
+            categories: "Emergency Categories",
+            asha: "ASHA Center",
+            hospital: "Govt Hospital",
+            ambulance: "Ambulance",
+            pharmacy: "Pharmacy",
+            openMaps: "Open in Maps"
+        },
+        cta: {
+            title: 'Ready to Begin Your Journey?',
+            description: 'Join thousands of mothers who trust MatriCare for their maternal health needs.',
+            button: 'Start Your Journey Today'
+        },
+        trimesterPages: {
+            backButton: 'Back',
+            viewAnimation: 'View Animation',
+            howToDoIt: 'How to do it:',
+            trimester1: {
+                title: 'First Trimester',
+                subtitle: 'Weeks 1-12: The Beginning of Life',
+                note: 'Note:',
+                noteText: 'During the first trimester, energy levels may be low. Listen to your body and rest when needed. Avoid overheating.',
+                exercises: []
+            },
+            trimester2: {
+                title: 'Second Trimester',
+                subtitle: 'Weeks 13-26: The Golden Period',
+                note: 'Note:',
+                noteText: 'As your bump grows, your center of gravity shifts. Focus on balance and avoid lying flat on your back for long periods.',
+                exercises: []
+            },
+            trimester3: {
+                title: 'Third Trimester',
+                subtitle: 'Weeks 27-40: The Final Stretch',
+                note: 'Note:',
+                noteText: 'Rest well and prepare for delivery. Avoid strenuous exercises and focus on breathing and relaxation.',
+                exercises: []
+            }
+        }
+    },
+
+    ta: {
+        navbar: {
+            home: 'முகப்பு',
+            yoga: 'யோகா',
+            login: 'உள்நுழைய',
+            about: 'எங்களை பற்றி',
+            analytics: 'பகுப்பாய்வு',
+            chatbot: 'சாட்போட்'
+        },
+        hero: {
+            title: 'உங்கள் ஆரோக்கியம்,',
+            titleHighlight: 'எங்கள் பொறுப்பு',
+            description: 'Comprehensive maternal health support from pregnancy to delivery. Health information, yoga, and care for mothers in rural areas - everything in your language, for you.',
+            quotes: [
+                '"A mother\'s joy begins when new life is stirring inside... when a tiny heartbeat is heard for the very first time."',
+                '"You are braver than you believe, stronger than you seem, and loved more than you know."',
+                '"The moment a child is born, the mother is also born. You are reborn with your child."',
+                '"Your body is not a temple, it\'s a home. Treat it with love and care."'
+            ]
+        },
+        yoga: {
+            sectionTitle: 'Yoga & Exercise',
+            sectionSubtitle: 'Safe and effective yoga poses for every stage of pregnancy',
+            clickToExpand: 'Click to view exercises',
+            trimester1: {
+                title: 'First Trimester',
+                weeks: '1-12 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Do light exercises, avoid fatigue',
+                watchVideo: 'Watch Tutorial'
+            },
+            trimester2: {
+                title: 'Second Trimester',
+                weeks: '13-26 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Regular practice, focus on balance',
+                watchVideo: 'Watch Tutorial'
+            },
+            trimester3: {
+                title: 'Third Trimester',
+                weeks: '27-40 Weeks',
+                heading: 'Recommended Yoga Exercises',
+                exercises: [],
+                note: 'Note:',
+                noteText: 'Rest well, prepare for delivery',
+                watchVideo: 'Watch Tutorial'
+            },
+            disclaimer: 'Important:',
+            disclaimerText: 'Consult your doctor or ASHA worker before starting any yoga practice.'
+        },
+        chatbot: {
+            header: 'Matri AI Assistant',
+            online: 'ஆன்லைன்',
+            placeholder: 'Type your message...',
+            greeting: 'வணக்கம்! நான் மாத்ரி, உங்கள் தனிப்பட்ட AI துணைவி. நான் உங்களுக்கு எவ்வாறு உதவ முடியும்?',
+            responses: {
+                yoga: 'Yoga is great for pregnancy! Check out our Trimester specific yoga plans on the Home page. Would you like me to guide you there?',
+                pain: 'I\'m sorry to hear you\'re in pain. If it\'s severe or persistent, please consult your doctor immediately. For minor back pain, the Cat-Cow pose might help.',
+                diet: 'A balanced diet is key! Focus on folic acid, iron, and calcium. Green leafy vegetables, nuts, and dairy are excellent choices.',
+                hello: 'Hello {name}! How are you feeling today?',
+                default: 'That\'s an interesting question! As an AI assistant, I\'m constantly learning. For medical advice, please always consult your healthcare provider.'
+            }
+        },
+        login: {
+            welcomeBack: 'Welcome Back',
+            joinMatriCare: 'Join MatriCare',
+            mobileOtp: 'Mobile OTP',
+            password: 'Password',
+            mobileLabel: 'Mobile Number',
+            mobilePlaceholder: 'Enter your 10-digit mobile',
+            enterOtp: 'Enter OTP',
+            otpPlaceholder: 'Enter 6-digit OTP',
+            otpHint: 'Check console for demo OTP',
+            passwordLabel: 'Password',
+            passwordPlaceholder: 'Enter your password',
+            processing: 'Processing...',
+            loginSecurely: 'Login securely',
+            sendOtp: 'Send OTP',
+            loginBtn: 'Login',
+            fullName: 'Full Name',
+            namePlaceholder: 'Your Name',
+            mobileRaw: 'Mobile',
+            mobileRawPlaceholder: 'Mobile Number',
+            age: 'Age',
+            agePlaceholder: 'Years',
+            lmpDate: 'LMP Date (Last Period)',
+            lmpHint: 'Used to calculate pregnancy week',
+            createPassword: 'Create Password',
+            createPassPlaceholder: 'Create a strong password',
+            creatingAccount: 'Creating Account...',
+            startJourney: 'Start Your Journey',
+            firstTime: 'First time here?',
+            alreadyHave: 'Already have an account?',
+            createAccount: 'Create Account',
+            helloMom: 'Hello Mom!',
+            welcomeTitle: 'Welcome to MatriCare',
+            loginDesc: 'Your personal companion for a healthy and happy pregnancy journey.',
+            signupDesc: 'Join our community of mothers. Track your health, get expert advice, and stay stress-free.',
+            badgeTracker: '🤰 Pregnancy Tracker',
+            badgeAI: '🤖 AI Assistant',
+            badgeYoga: '🧘‍♀️ Yoga Guide',
+            errors: {
+                invalidMobile: 'Please enter a valid 10-digit mobile number',
+                invalidOtp: 'Please enter a valid 6-digit OTP',
+                invalidPassword: 'Please enter your password',
+                invalidName: 'Please enter your full name',
+                invalidAge: 'Please enter a valid age (18-55)',
+                invalidLMP: 'Please select your LMP date',
+                shortPassword: 'Password must be at least 6 characters',
+                regFailed: 'Registration failed. Please try again.',
+                otpSent: 'OTP sent successfully!'
+            }
+        },
+        analytics: {
+            title: 'Health Analysis & Reports',
+            subtitle: 'Upload your medical reports for AI-powered insights',
+            uploadTitle: 'Upload Medical Report',
+            uploadDesc: 'Drag & drop your report here, or click to browse',
+            supportedFormats: 'Supported formats: PDF, JPG, PNG',
+            analyzing: 'Analyzing your report...',
+            pleaseWait: 'Please wait while our AI reviews your health data.',
+            resultsTitle: 'Analysis Results',
+            resultsSubtitle: 'Based on the uploaded document',
+            healthScore: 'Health Score',
+            hemoglobin: 'Hemoglobin',
+            bloodPressure: 'Blood Pressure',
+            glucose: 'Glucose Levels',
+            riskAssessment: 'Risk Assessment',
+            recommendations: 'Recommendations',
+            normal: 'Normal',
+            attention: 'Needs Attention',
+            low: 'Low',
+            high: 'High',
+            consultDoctor: 'Please consult your doctor for detailed advice.'
+        },
+        findCare: {
+            title: "Find Healthcare",
+            subtitle: "Locate nearby ASHA centers and Hospitals",
+            locating: "Locating you...",
+            permissionDenied: "Location permission denied. Showing default location.",
+            error: "Unable to retrieve location.",
+            categories: "Emergency Categories",
+            asha: "ASHA Center",
+            hospital: "Govt Hospital",
+            ambulance: "Ambulance",
+            pharmacy: "Pharmacy",
+            openMaps: "Open in Maps"
+        },
+        cta: {
+            title: 'Ready to Begin Your Journey?',
+            description: 'Join thousands of mothers who trust MatriCare for their maternal health needs.',
+            button: 'Start Your Journey Today'
+        },
+        trimesterPages: {
+            backButton: 'Back',
+            viewAnimation: 'View Animation',
+            howToDoIt: 'How to do it:',
+            trimester1: {
+                title: 'First Trimester',
+                subtitle: 'Weeks 1-12: The Beginning of Life',
+                note: 'Note:',
+                noteText: 'During the first trimester, energy levels may be low. Listen to your body and rest when needed. Avoid overheating.',
+                exercises: []
+            },
+            trimester2: {
+                title: 'Second Trimester',
+                subtitle: 'Weeks 13-26: The Golden Period',
+                note: 'Note:',
+                noteText: 'As your bump grows, your center of gravity shifts. Focus on balance and avoid lying flat on your back for long periods.',
+                exercises: []
+            },
+            trimester3: {
+                title: 'Third Trimester',
+                subtitle: 'Weeks 27-40: The Final Stretch',
+                note: 'Note:',
+                noteText: 'Rest well and prepare for delivery. Avoid strenuous exercises and focus on breathing and relaxation.',
+                exercises: []
+            }
+        }
     }
 };
 

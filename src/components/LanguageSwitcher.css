@@ -1,53 +1,57 @@
-.language-switcher {
+.language-select-container {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+}
+
+.language-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background: linear-gradient(135deg, var(--color-mauve) 0%, var(--color-peach) 100%);
+    color: white;
     border: none;
+    padding: 6px 30px 6px 16px;
     border-radius: var(--radius-full);
-    padding: var(--spacing-xs) var(--spacing-md);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    box-shadow: var(--shadow-sm);
-}
-
-.language-switcher:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.language-toggle {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-}
-
-.lang-option {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
     transition: all var(--transition-base);
-    padding: 2px 4px;
-    border-radius: var(--radius-sm);
+    outline: none;
+    text-align: left;
+    min-width: 100px;
+    font-family: var(--font-primary);
 }
 
-.lang-option.active {
-    color: var(--color-white);
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+.language-select:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
-.lang-divider {
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 300;
+.language-select option {
+    background: white;
+    color: var(--color-mauve-dark);
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+/* Custom arrow */
+.language-select-container::after {
+    content: '▼';
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 @media (max-width: 768px) {
-    .language-switcher {
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-
-    .lang-option {
+    .language-select {
+        padding: 5px 25px 5px 12px;
         font-size: 0.8rem;
+        min-width: 90px;
     }
 }
