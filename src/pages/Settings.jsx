@@ -1,12 +1,120 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { calculatePregnancyWeek, calculateDueDate, formatDateForInput } from '../utils/dateUtils';
 import './Settings.css';
 
 const Settings = () => {
     const { user, updateProfile, updateProfilePicture, logout } = useAuth();
+    const { language } = useLanguage();
     const navigate = useNavigate();
+
+    // Translations
+    const t = {
+        en: {
+            title: 'Account Settings',
+            profileInfo: 'Profile Information',
+            security: 'Security',
+            logout: 'Logout',
+            fullName: 'Full Name',
+            age: 'Age',
+            mobile: 'Mobile',
+            lmpDate: 'LMP Date',
+            currentWeek: 'Current Week',
+            weeks: 'Weeks',
+            dueDate: 'Estimated Due Date',
+            saveChanges: 'Save Changes',
+            securitySettings: 'Security Settings',
+            securityDesc: 'Manage your password and account security.',
+            newPassword: 'New Password',
+            confirmPassword: 'Confirm Password',
+            updatePassword: 'Update Password',
+            enterNewPassword: 'Enter new password',
+            confirmNewPassword: 'Confirm new password',
+            profileUpdated: 'Profile updated successfully!',
+            passwordUpdated: 'Password updated successfully!',
+            imageSizeError: 'Image size should be less than 5MB',
+            pictureUpdated: 'Profile picture updated successfully!'
+        },
+        hi: {
+            title: 'खाता सेटिंग्स',
+            profileInfo: 'प्रोफ़ाइल जानकारी',
+            security: 'सुरक्षा',
+            logout: 'लॉगआउट',
+            fullName: 'पूरा नाम',
+            age: 'उम्र',
+            mobile: 'मोबाइल',
+            lmpDate: 'एलएमपी तारीख',
+            currentWeek: 'वर्तमान सप्ताह',
+            weeks: 'सप्ताह',
+            dueDate: 'अनुमानित नियत तारीख',
+            saveChanges: 'परिवर्तन सहेजें',
+            securitySettings: 'सुरक्षा सेटिंग्स',
+            securityDesc: 'अपना पासवर्ड और खाता सुरक्षा प्रबंधित करें।',
+            newPassword: 'नया पासवर्ड',
+            confirmPassword: 'पासवर्ड की पुष्टि करें',
+            updatePassword: 'पासवर्ड अपडेट करें',
+            enterNewPassword: 'नया पासवर्ड दर्ज करें',
+            confirmNewPassword: 'नए पासवर्ड की पुष्टि करें',
+            profileUpdated: 'प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई!',
+            passwordUpdated: 'पासवर्ड सफलतापूर्वक अपडेट हो गया!',
+            imageSizeError: 'छवि का आकार 5MB से कम होना चाहिए',
+            pictureUpdated: 'प्रोफ़ाइल चित्र सफलतापूर्वक अपडेट हो गया!'
+        },
+        mr: {
+            title: 'खाते सेटिंग्ज',
+            profileInfo: 'प्रोफाइल माहिती',
+            security: 'सुरक्षा',
+            logout: 'लॉगआउट',
+            fullName: 'पूर्ण नाव',
+            age: 'वय',
+            mobile: 'मोबाइल',
+            lmpDate: 'एलएमपी तारीख',
+            currentWeek: 'सध्याचा आठवडा',
+            weeks: 'आठवडे',
+            dueDate: 'अंदाजे नियत तारीख',
+            saveChanges: 'बदल जतन करा',
+            securitySettings: 'सुरक्षा सेटिंग्ज',
+            securityDesc: 'तुमचा पासवर्ड आणि खाते सुरक्षा व्यवस्थापित करा.',
+            newPassword: 'नवीन पासवर्ड',
+            confirmPassword: 'पासवर्डची पुष्टी करा',
+            updatePassword: 'पासवर्ड अपडेट करा',
+            enterNewPassword: 'नवीन पासवर्ड प्रविष्ट करा',
+            confirmNewPassword: 'नवीन पासवर्डची पुष्टी करा',
+            profileUpdated: 'प्रोफाइल यशस्वीरित्या अपडेट झाले!',
+            passwordUpdated: 'पासवर्ड यशस्वीरित्या अपडेट झाला!',
+            imageSizeError: 'प्रतिमेचा आकार 5MB पेक्षा कमी असावा',
+            pictureUpdated: 'प्रोफाइल चित्र यशस्वीरित्या अपडेट झाले!'
+        },
+        ta: {
+            title: 'கணக்கு அமைப்புகள்',
+            profileInfo: 'சுயவிவர தகவல்',
+            security: 'பாதுகாப்பு',
+            logout: 'வெளியேறு',
+            fullName: 'முழு பெயர்',
+            age: 'வயது',
+            mobile: 'மொபைல்',
+            lmpDate: 'எல்எம்பி தேதி',
+            currentWeek: 'தற்போதைய வாரம்',
+            weeks: 'வாரங்கள்',
+            dueDate: 'மதிப்பிடப்பட்ட நிலையான தேதி',
+            saveChanges: 'மாற்றங்களை சேமி',
+            securitySettings: 'பாதுகாப்பு அமைப்புகள்',
+            securityDesc: 'உங்கள் கடவுச்சொல் மற்றும் கணக்கு பாதுகாப்பை நிர்வகிக்கவும்.',
+            newPassword: 'புதிய கடவுச்சொல்',
+            confirmPassword: 'கடவுச்சொல்லை உறுதிப்படுத்தவும்',
+            updatePassword: 'கடவுச்சொல்லை புதுப்பிக்கவும்',
+            enterNewPassword: 'புதிய கடவுச்சொல்லை உள்ளிடவும்',
+            confirmNewPassword: 'புதிய கடவுச்சொல்லை உறுதிப்படுத்தவும்',
+            profileUpdated: 'சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
+            passwordUpdated: 'கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
+            imageSizeError: 'படத்தின் அளவு 5MB க்கும் குறைவாக இருக்க வேண்டும்',
+            pictureUpdated: 'சுயவிவர படம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!'
+        }
+    };
+
+    const content = t[language] || t.en;
 
     const [activeTab, setActiveTab] = useState('profile');
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -36,14 +144,14 @@ const Settings = () => {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 5000000) { // 5MB limit
-                setMessage({ type: 'error', text: 'Image size should be less than 5MB' });
+                setMessage({ type: 'error', text: content.imageSizeError });
                 return;
             }
 
             const reader = new FileReader();
             reader.onloadend = () => {
                 updateProfilePicture(reader.result);
-                setMessage({ type: 'success', text: 'Profile picture updated successfully!' });
+                setMessage({ type: 'success', text: content.pictureUpdated });
             };
             reader.readAsDataURL(file);
         }
@@ -54,7 +162,7 @@ const Settings = () => {
         e.preventDefault();
         const result = updateProfile(formData);
         if (result.success) {
-            setMessage({ type: 'success', text: 'Profile updated successfully!' });
+            setMessage({ type: 'success', text: content.profileUpdated });
         }
     };
 
@@ -67,7 +175,7 @@ const Settings = () => {
     return (
         <div className="settings-page">
             <div className="container">
-                <h1 className="settings-title">Account Settings</h1>
+                <h1 className="settings-title">{content.title}</h1>
 
                 <div className="settings-container">
                     {/* Sidebar */}
@@ -101,13 +209,13 @@ const Settings = () => {
                                 className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('profile')}
                             >
-                                👤 Profile Information
+                                👤 {content.profileInfo}
                             </button>
                             <button
                                 className={`nav-item ${activeTab === 'security' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('security')}
                             >
-                                🔒 Security
+                                🔒 {content.security}
                             </button>
                             <button
                                 className="nav-item logout"
@@ -116,7 +224,7 @@ const Settings = () => {
                                     navigate('/login');
                                 }}
                             >
-                                🚪 Logout
+                                🚪 {content.logout}
                             </button>
                         </nav>
                     </div>
@@ -132,10 +240,10 @@ const Settings = () => {
 
                         {activeTab === 'profile' && (
                             <div className="tab-content">
-                                <h2>Profile Information</h2>
+                                <h2>{content.profileInfo}</h2>
                                 <form onSubmit={handleProfileUpdate}>
                                     <div className="form-group">
-                                        <label>Full Name</label>
+                                        <label>{content.fullName}</label>
                                         <input
                                             type="text"
                                             value={formData.name}
@@ -146,7 +254,7 @@ const Settings = () => {
 
                                     <div className="form-row">
                                         <div className="form-group half">
-                                            <label>Age</label>
+                                            <label>{content.age}</label>
                                             <input
                                                 type="number"
                                                 value={formData.age}
@@ -155,7 +263,7 @@ const Settings = () => {
                                             />
                                         </div>
                                         <div className="form-group half">
-                                            <label>Mobile</label>
+                                            <label>{content.mobile}</label>
                                             <input
                                                 type="text"
                                                 value={user.mobile}
@@ -166,7 +274,7 @@ const Settings = () => {
                                     </div>
 
                                     <div className="form-group">
-                                        <label>LMP Date</label>
+                                        <label>{content.lmpDate}</label>
                                         <input
                                             type="date"
                                             value={formData.lmpDate}
@@ -178,39 +286,39 @@ const Settings = () => {
 
                                     <div className="pregnancy-info-card">
                                         <div className="info-item">
-                                            <span className="label">Current Week</span>
-                                            <span className="value">{pregnancyWeek} Weeks</span>
+                                            <span className="label">{content.currentWeek}</span>
+                                            <span className="value">{pregnancyWeek} {content.weeks}</span>
                                         </div>
                                         <div className="info-item">
-                                            <span className="label">Estimated Due Date</span>
+                                            <span className="label">{content.dueDate}</span>
                                             <span className="value">{dueDate}</span>
                                         </div>
                                     </div>
 
-                                    <button type="submit" className="save-btn">Save Changes</button>
+                                    <button type="submit" className="save-btn">{content.saveChanges}</button>
                                 </form>
                             </div>
                         )}
 
                         {activeTab === 'security' && (
                             <div className="tab-content">
-                                <h2>Security Settings</h2>
-                                <p className="section-desc">Manage your password and account security.</p>
+                                <h2>{content.securitySettings}</h2>
+                                <p className="section-desc">{content.securityDesc}</p>
 
                                 <form onSubmit={(e) => {
                                     e.preventDefault();
-                                    setMessage({ type: 'success', text: 'Password updated successfully!' });
+                                    setMessage({ type: 'success', text: content.passwordUpdated });
                                 }}>
                                     <div className="form-group">
-                                        <label>New Password</label>
-                                        <input type="password" placeholder="Enter new password" className="form-input" />
+                                        <label>{content.newPassword}</label>
+                                        <input type="password" placeholder={content.enterNewPassword} className="form-input" />
                                     </div>
                                     <div className="form-group">
-                                        <label>Confirm Password</label>
-                                        <input type="password" placeholder="Confirm new password" className="form-input" />
+                                        <label>{content.confirmPassword}</label>
+                                        <input type="password" placeholder={content.confirmNewPassword} className="form-input" />
                                     </div>
 
-                                    <button type="submit" className="save-btn secondary">Update Password</button>
+                                    <button type="submit" className="save-btn secondary">{content.updatePassword}</button>
                                 </form>
                             </div>
                         )}
