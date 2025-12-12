@@ -13,6 +13,8 @@ import Trimester1 from './pages/Trimester1';
 import Trimester2 from './pages/Trimester2';
 
 import Trimester3 from './pages/Trimester3';
+import SOSButton from './components/SOSButton';
+import FindCare from './pages/FindCare';
 import Analytics from './pages/Analytics';
 import './index.css';
 
@@ -80,7 +82,9 @@ function App() {
                             <Route path="/trimester1" element={<Trimester1 />} />
                             <Route path="/trimester2" element={<Trimester2 />} />
                             <Route path="/trimester3" element={<Trimester3 />} />
+                            <Route path="/find-care" element={<FindCare />} />
                         </Routes>
+                        <SOSButton />
                     </div>
                 </Router>
             </LanguageProvider>

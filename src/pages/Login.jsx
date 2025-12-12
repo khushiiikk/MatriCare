@@ -6,6 +6,7 @@ import { translations } from '../translations/translations';
 import { validateMobile, validateName, validateAge, validateOTP } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
+import matricareLogo from '../assets/matricare-logo.png';
 import './Login.css';
 
 const Login = () => {
@@ -60,17 +61,23 @@ const Login = () => {
         }
 
         setLoading(true);
-        const result = sendOTP(loginMobile);
-        setTimeout(() => {
+        try {
+            const result = await sendOTP(loginMobile);
             setLoading(false);
+
             if (result.success) {
                 setShowOtpInput(true);
                 setSuccessMsg(t.errors.otpSent);
                 setRobotMood('success');
             } else {
                 setError(result.error);
+                setRobotMood('thinking');
             }
-        }, 1000);
+        } catch (err) {
+            setLoading(false);
+            setError('Failed to send OTP');
+            setRobotMood('thinking');
+        }
     };
 
     const handleLoginSubmit = async (e) => {
@@ -78,8 +85,8 @@ const Login = () => {
         setError('');
 
         setLoading(true);
-        // Simulate network delay
-        setTimeout(() => {
+
+        try {
             let result;
             if (loginMethod === 'otp') {
                 if (!validateOTP(otp)) {
@@ -87,14 +94,15 @@ const Login = () => {
                     setLoading(false);
                     return;
                 }
-                result = login(loginMobile, otp);
+                result = await login(loginMobile, otp);
             } else {
                 if (!password) {
                     setError(t.errors.invalidPassword);
                     setLoading(false);
                     return;
                 }
-                result = loginWithPassword(loginMobile, password);
+                // loginWithPassword is currently sync, but awaiting it is safe/future-proof
+                result = await loginWithPassword(loginMobile, password);
             }
 
             setLoading(false);
@@ -105,7 +113,12 @@ const Login = () => {
                 setError(result.error);
                 setRobotMood('thinking');
             }
-        }, 1000);
+        } catch (err) {
+            setLoading(false);
+            console.error(err);
+            setError('Login failed. Please try again.');
+            setRobotMood('thinking');
+        }
     };
 
     // Handle Signup Flow
@@ -377,8 +390,8 @@ const Login = () => {
                 {/* Right Side - Welcome & Robot Panel */}
                 <div className={`welcome-section ${isLoginMode ? 'login-bg' : 'signup-bg'}`}>
                     <div className="welcome-content">
-                        {/* Robot Character Animation */}
-                        <Robot mood={robotMood} />
+                        {/* Character Animation */}
+                        <Robot mood={robotMood} imageSrc={matricareLogo} />
 
                         <h2 className="welcome-title">
                             {isLoginMode ? t.helloMom : t.welcomeTitle}

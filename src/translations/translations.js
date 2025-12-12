@@ -399,6 +399,21 @@ export const translations = {
             low: 'Low',
             high: 'High',
             consultDoctor: 'Please consult your doctor for detailed advice.'
+        },
+
+        // Find Care Page
+        findCare: {
+            title: "Find Healthcare",
+            subtitle: "Locate nearby ASHA centers and Hospitals",
+            locating: "Locating you...",
+            permissionDenied: "Location permission denied. Showing default location.",
+            error: "Unable to retrieve location.",
+            categories: "Emergency Categories",
+            asha: "ASHA Center",
+            hospital: "Govt Hospital",
+            ambulance: "Ambulance",
+            pharmacy: "Pharmacy",
+            openMaps: "Open in Maps"
         }
     },
 
@@ -802,6 +817,21 @@ export const translations = {
             low: 'कम',
             high: 'उच्च',
             consultDoctor: 'विस्तृत सलाह के लिए कृपया अपने डॉक्टर से परामर्श लें।'
+        },
+
+        // Find Care Page
+        findCare: {
+            title: "स्वास्थ्य देखभाल खोजें",
+            subtitle: "नजदीकी आशा केंद्र और अस्पताल खोजें",
+            locating: "आपको खोज रहा है...",
+            permissionDenied: "स्थान अनुमति अस्वीकृत। डिफ़ॉल्ट स्थान दिखाया जा रहा है।",
+            error: "स्थान प्राप्त करने में असमर्थ।",
+            categories: "आपातकालीन श्रेणियां",
+            asha: "आशा केंद्र",
+            hospital: "सरकारी अस्पताल",
+            ambulance: "एम्बुलेंस",
+            pharmacy: "फार्मेसी",
+            openMaps: "मैप्स में खोलें"
         }
     }
 };
