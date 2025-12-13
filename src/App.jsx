@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
-import { ThemeProvider } from './context/ThemeContext';
+
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -50,51 +50,49 @@ const PublicRoute = ({ children }) => {
 function App() {
     return (
         <AuthProvider>
-            <ThemeProvider>
-                <LanguageProvider>
-                    <Router>
-                        <div className="App">
-                            <Navbar />
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/yoga" element={<Home />} />
-                                <Route path="/about" element={<About />} />
+            <LanguageProvider>
+                <Router>
+                    <div className="App">
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/yoga" element={<Home />} />
+                            <Route path="/about" element={<About />} />
 
-                                {/* Public Routes */}
-                                <Route path="/login" element={
-                                    <PublicRoute>
-                                        <Login />
-                                    </PublicRoute>
-                                } />
+                            {/* Public Routes */}
+                            <Route path="/login" element={
+                                <PublicRoute>
+                                    <Login />
+                                </PublicRoute>
+                            } />
 
-                                <Route path="/analytics" element={<Analytics />} />
+                            <Route path="/analytics" element={<Analytics />} />
 
-                                {/* Protected Routes */}
-                                <Route path="/settings" element={
-                                    <ProtectedRoute>
-                                        <Settings />
-                                    </ProtectedRoute>
-                                } />
+                            {/* Protected Routes */}
+                            <Route path="/settings" element={
+                                <ProtectedRoute>
+                                    <Settings />
+                                </ProtectedRoute>
+                            } />
 
-                                <Route path="/chatbot" element={
-                                    <ProtectedRoute>
-                                        <Chatbot />
-                                    </ProtectedRoute>
-                                } />
+                            <Route path="/chatbot" element={
+                                <ProtectedRoute>
+                                    <Chatbot />
+                                </ProtectedRoute>
+                            } />
 
-                                {/* Content Routes */}
-                                <Route path="/trimester1" element={<Trimester1 />} />
-                                <Route path="/trimester2" element={<Trimester2 />} />
-                                <Route path="/trimester3" element={<Trimester3 />} />
-                                <Route path="/find-care" element={<FindCare />} />
-                            </Routes>
-                            <FloatingRobot />
-                            <SOSButton />
-                            <Footer />
-                        </div>
-                    </Router>
-                </LanguageProvider>
-            </ThemeProvider>
+                            {/* Content Routes */}
+                            <Route path="/trimester1" element={<Trimester1 />} />
+                            <Route path="/trimester2" element={<Trimester2 />} />
+                            <Route path="/trimester3" element={<Trimester3 />} />
+                            <Route path="/find-care" element={<FindCare />} />
+                        </Routes>
+                        <FloatingRobot />
+                        <SOSButton />
+                        <Footer />
+                    </div>
+                </Router>
+            </LanguageProvider>
         </AuthProvider>
     );
 }

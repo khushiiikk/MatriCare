@@ -71,39 +71,7 @@
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ========================================
-   Dark Mode Theme
-   ======================================== */
 
-.dark-mode {
-  /* Dark Mode Colors */
-  --color-background: #1a1625;
-  --color-surface: #2a2435;
-  --color-text: #e8e6f0;
-  --color-text-light: #b8b6c0;
-
-  --color-mauve: #c4a4a7;
-  --color-mauve-light: #d4b4b7;
-  --color-mauve-dark: #9B7B7E;
-
-  --color-peach: #f0d4d0;
-  --color-peach-light: #f5e4e1;
-  --color-peach-dark: #E5C4C0;
-
-  --color-cream: #f5f1dc;
-  --color-cream-light: #faf8e8;
-  --color-cream-dark: #EDE8C8;
-
-  --color-mint: #e8f0d7;
-  --color-mint-light: #f2f7e8;
-  --color-mint-dark: #D5E3C0;
-
-  /* Dark Mode Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-}
 
 /* Smooth transition for theme changes */
 body,

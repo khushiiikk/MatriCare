@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
                     uid: user.uid,
                     mobile: user.phoneNumber,
                     createdAt: new Date().toISOString(),
-                    settings: { theme: 'light', notifications: true }
+                    settings: { notifications: true }
                 };
                 localStorage.setItem('matricare_user', JSON.stringify(newUser));
                 setUser(newUser);
@@ -138,8 +138,8 @@ export const AuthProvider = ({ children }) => {
                 createdAt: new Date().toISOString(),
                 profilePicture: null,
                 settings: {
-                    theme: 'light',
                     notifications: true
+
                 }
             };
 
