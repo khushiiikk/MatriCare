@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
-import './Home.css';
+import { useAuth } from '../context/AuthContext';
+import PregnancyTracker from '../components/PregnancyTracker';
 
 const Home = () => {
     const { language } = useLanguage();
+    const { isAuthenticated, user } = useAuth();
     const t = translations[language];
     const navigate = useNavigate();
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
@@ -36,9 +36,19 @@ const Home = () => {
                                 {t.hero.title}
                                 <span className="gradient-text">{t.hero.titleHighlight}</span>
                             </h1>
-                            <p className="hero-description">
-                                {t.hero.description}
-                            </p>
+
+                            {/* Authenticated: Show Tracker | Guest: Show Description */}
+                            {isAuthenticated && user?.lmpDate ? (
+                                <PregnancyTracker
+                                    lmpDate={user.lmpDate}
+                                    userName={user.name ? user.name.split(' ')[0] : ''}
+                                />
+                            ) : (
+                                <p className="hero-description">
+                                    {t.hero.description}
+                                </p>
+                            )}
+
                             <div className="hero-quotes">
                                 <p className="rotating-quote" key={currentQuoteIndex}>
                                     {t.hero.quotes[currentQuoteIndex]}
