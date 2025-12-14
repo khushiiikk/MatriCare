@@ -121,34 +121,40 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Sign up new user (Update profile after verification)
+    // Sign up new user (Update profile after verification, or create new local profile)
     const signup = (userData) => {
         // Since Firebase handles the "creation" via Phone Auth, 
         // this function now primarily saves the EXTRA profile details to our local storage "DB"
         try {
             const currentUser = auth.currentUser;
-            if (!currentUser) {
-                return { success: false, error: 'Must verify mobile number first.' };
-            }
+            // If user is verified via OTP, use their Firebase UID. 
+            // If not (skipping OTP for registration as requested), generate a mock UID or use mobile.
+
+            const uid = currentUser ? currentUser.uid : `user_${userData.mobile}`;
+            const mobile = currentUser ? (currentUser.phoneNumber || userData.mobile) : userData.mobile;
 
             const newUser = {
                 ...userData,
-                uid: currentUser.uid,
-                mobile: currentUser.phoneNumber || userData.mobile,
+                uid: uid,
+                mobile: mobile,
                 createdAt: new Date().toISOString(),
                 profilePicture: null,
                 settings: {
                     notifications: true
-
                 }
             };
 
             // Save to local storage
             localStorage.setItem('matricare_user', JSON.stringify(newUser));
+
+            // If we are skipping OTP, we should also set the user state to logged in immediately
+            // so they can access the app
             setUser(newUser);
+            setIsAuthenticated(true);
 
             return { success: true, user: newUser };
         } catch (error) {
+            console.error(error);
             return { success: false, error: 'Failed to create account profile' };
         }
     };
