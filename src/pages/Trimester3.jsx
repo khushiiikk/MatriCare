@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
+import { trimesterExercises } from '../utils/exerciseData';
 import './Home.css';
 
 const Trimester3 = () => {
@@ -18,7 +19,9 @@ const Trimester3 = () => {
         title: ex.title,
         desc: ex.desc,
         steps: ex.steps,
-        color: colors[index]
+        color: colors[index],
+        image: trimesterExercises.trimester3[index]?.image,
+        video: trimesterExercises.trimester3[index]?.video
     }));
 
     return (
@@ -36,9 +39,25 @@ const Trimester3 = () => {
                 <div className="exercises-list">
                     {exercises.map((ex) => (
                         <div key={ex.id} className="exercise-detail" style={{ borderLeftColor: ex.color }}>
-                            <div className="exercise-animation-placeholder" style={{ backgroundColor: `${ex.color}33` }}>
-                                <div className="play-icon">▶</div>
-                                <span className="animation-text">{t.trimesterPages.viewAnimation}</span>
+                            {/* Exercise Image */}
+                            <div className="exercise-image-container">
+                                <img
+                                    src={ex.image}
+                                    alt={ex.title}
+                                    className="exercise-image"
+                                    style={{ borderColor: ex.color }}
+                                />
+                                {ex.video && (
+                                    <a
+                                        href={ex.video}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="watch-video-btn"
+                                        style={{ backgroundColor: ex.color }}
+                                    >
+                                        ▶ {t.yoga?.watchVideo || "Watch Video"}
+                                    </a>
+                                )}
                             </div>
 
                             <h3 className="exercise-name" style={{ color: ex.color === '#EDE8C8' ? '#9B7B7E' : ex.color }}>

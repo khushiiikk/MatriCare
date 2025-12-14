@@ -560,44 +560,62 @@
 }
 
 /* Exercise Animation Styles */
-.exercise-animation-placeholder {
+/* Exercise Image & Video Styles */
+.exercise-image-container {
     width: 100%;
-    height: 150px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f8f8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.exercise-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.exercise-image:hover {
+    transform: scale(1.02);
+}
+
+.watch-video-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    gap: 8px;
+    background: white !important;
+    /* Force white background for contrast against colored button bg if inline style overrides, but actually inline style sets bg color. Wait. */
+    /* The inline style sets background color. I should probably use that or override it.
+       In JSX: style={{ backgroundColor: ex.color }}
+       This sets the background color of the button to the exercise color.
+       Text color should be readable.
+       Let's stick to the inline style but set basic layout here.
+    */
+    color: #4A4A4A;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    z-index: 10;
+    opacity: 0.95;
+    border: 2px solid white;
 }
 
-.exercise-animation-placeholder:hover {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.play-icon {
-    font-size: 2rem;
-    color: var(--color-mauve);
-    background: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 4px;
-    /* Optical center */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 5px;
-}
-
-.animation-text {
-    font-size: 0.8rem;
-    color: #666;
-    font-weight: 500;
+.watch-video-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    opacity: 1;
 }
 
 /* Trimester Page Specifics */
