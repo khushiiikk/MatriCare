@@ -23,16 +23,6 @@ export const translations = {
             ]
         },
 
-        // Pregnancy Tracker
-        tracker: {
-            greeting: 'Hello, Mom-to-be',
-            monthsLeft: 'Months Left',
-            weeksPassed: 'Weeks Passed',
-            progress: 'Pregnancy Progress',
-            deliveryDate: 'Estimated Delivery',
-            babySize: 'Baby is the size of a'
-        },
-
         // Yoga Section
         yoga: {
             sectionTitle: 'Yoga & Exercise',
@@ -452,16 +442,6 @@ export const translations = {
             ]
         },
 
-        // Pregnancy Tracker
-        tracker: {
-            greeting: 'नमस्ते, होने वाली माँ',
-            monthsLeft: 'महीने बचे हैं',
-            weeksPassed: 'सप्ताह बीत गए',
-            progress: 'गर्भावस्था की प्रगति',
-            deliveryDate: 'अनुमानित डिलीवरी',
-            babySize: 'बच्चा इतना बड़ा है'
-        },
-
         // Yoga Section
         yoga: {
             sectionTitle: 'योग और व्यायाम',
@@ -877,14 +857,6 @@ export const translations = {
                 '"तुमचे शरीर मंदिर नाही, ते एक घर आहे. त्याची प्रेम आणि काळजीने काळजी घ्या."'
             ]
         },
-        tracker: {
-            greeting: 'नमस्कार, होणारी आई',
-            monthsLeft: 'महिने बाकी',
-            weeksPassed: 'आठवडे गेले',
-            progress: 'गर्भावस्था प्रगती',
-            deliveryDate: 'अंदाजित प्रसूती',
-            babySize: 'बाळाचा आकार'
-        },
         yoga: {
             sectionTitle: 'योग आणि व्यायाम',
             sectionSubtitle: 'गर्भधारणेच्या प्रत्येक टप्प्यासाठी सुरक्षित आणि प्रभावी योग आसने',
@@ -1162,14 +1134,6 @@ export const translations = {
                 '"ஒரு குழந்தை பிறக்கும்போது, தாயும் பிறக்கிறார். நீங்கள் உங்கள் குழந்தையுடன் மீண்டும் பிறக்கிறீர்கள்."',
                 '"உங்கள் உடல் ஒரு கோவில் அல்ல, அது ஒரு வீடு. அதை அன்பு மற்றும் கவனிப்புடன் நடத்துங்கள்."'
             ]
-        },
-        tracker: {
-            greeting: 'வணக்கம், வருங்கால அம்மா',
-            monthsLeft: 'மாதங்கள் மீதமுள்ளன',
-            weeksPassed: 'வாரங்கள் கடந்துவிட்டன',
-            progress: 'கர்ப்பத்தின் முன்னேற்றம்',
-            deliveryDate: 'பிரசவ தேதி',
-            babySize: 'குழந்தையின் அளவு'
         },
         yoga: {
             sectionTitle: 'யோகா & உடற்பயிற்சி',
