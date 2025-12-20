@@ -65,6 +65,36 @@
     font-family: 'Playfair Display', serif;
 }
 
+/* College Logos */
+.college-logo-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.college-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+}
+
+.college-logo:hover {
+    transform: scale(1.1);
+}
+
+.iit-logo {
+    /* IIT logo is a circle, usually looks better with slight padding */
+    padding: 2px;
+}
+
+.thapar-logo {
+    /* Thapar logo might need some padding too */
+    padding: 2px;
+}
+
+
 /* Menu Styles */
 .navbar-menu {
     display: flex;
@@ -348,9 +378,17 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    .college-logo-container {
+        display: none;
+    }
+}
+
+
+@media (max-width: 768px) {
     .navbar-menu {
         display: none;
     }
+
 
     .mobile-menu-btn {
         display: block;

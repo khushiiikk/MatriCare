@@ -47,50 +47,93 @@ const PublicRoute = ({ children }) => {
     return children;
 };
 
+const AppContent = () => {
+    const { isAuthenticated } = useAuth();
+
+    return (
+        <div className="App">
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/yoga" element={
+                    <ProtectedRoute>
+                        <Yoga />
+                    </ProtectedRoute>
+                } />
+                <Route path="/about" element={
+                    <ProtectedRoute>
+                        <About />
+                    </ProtectedRoute>
+                } />
+
+
+                {/* Public Routes */}
+                <Route path="/login" element={
+                    <PublicRoute>
+                        <Login />
+                    </PublicRoute>
+                } />
+
+                <Route path="/analytics" element={
+                    <ProtectedRoute>
+                        <Analytics />
+                    </ProtectedRoute>
+                } />
+
+
+                {/* Protected Routes */}
+                <Route path="/settings" element={
+                    <ProtectedRoute>
+                        <Settings />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/chatbot" element={
+                    <ProtectedRoute>
+                        <Chatbot />
+                    </ProtectedRoute>
+                } />
+
+                {/* Content Routes */}
+                <Route path="/trimester1" element={
+                    <ProtectedRoute>
+                        <Trimester1 />
+                    </ProtectedRoute>
+                } />
+                <Route path="/trimester2" element={
+                    <ProtectedRoute>
+                        <Trimester2 />
+                    </ProtectedRoute>
+                } />
+                <Route path="/trimester3" element={
+                    <ProtectedRoute>
+                        <Trimester3 />
+                    </ProtectedRoute>
+                } />
+                <Route path="/find-care" element={
+                    <ProtectedRoute>
+                        <FindCare />
+                    </ProtectedRoute>
+                } />
+
+            </Routes>
+            {isAuthenticated && (
+                <>
+                    <FloatingRobot />
+                    <SOSButton />
+                </>
+            )}
+            <Footer />
+        </div>
+    );
+};
+
 function App() {
     return (
         <AuthProvider>
             <LanguageProvider>
                 <Router>
-                    <div className="App">
-                        <Navbar />
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/yoga" element={<Yoga />} />
-                            <Route path="/about" element={<About />} />
-
-                            {/* Public Routes */}
-                            <Route path="/login" element={
-                                <PublicRoute>
-                                    <Login />
-                                </PublicRoute>
-                            } />
-
-                            <Route path="/analytics" element={<Analytics />} />
-
-                            {/* Protected Routes */}
-                            <Route path="/settings" element={
-                                <ProtectedRoute>
-                                    <Settings />
-                                </ProtectedRoute>
-                            } />
-
-                            <Route path="/chatbot" element={
-                                <ProtectedRoute>
-                                    <Chatbot />
-                                </ProtectedRoute>
-                            } />
-
-                            {/* Content Routes */}
-                            <Route path="/trimester1" element={<Trimester1 />} />
-                            <Route path="/trimester2" element={<Trimester2 />} />
-                            <Route path="/trimester3" element={<Trimester3 />} />
-                            <Route path="/find-care" element={<FindCare />} />
-                        </Routes>
-                        <FloatingRobot />
-                        <SOSButton />
-                        <Footer />
-                    </div>
+                    <AppContent />
                 </Router>
             </LanguageProvider>
         </AuthProvider>

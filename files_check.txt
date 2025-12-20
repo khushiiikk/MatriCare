@@ -1,0 +1,24 @@
+ Volume in drive C is Windows
+ Volume Serial Number is 7061-83D3
+
+ Directory of C:\Users\hp\.gemini\antigravity\brain\3d2d906a-a80d-4bd5-81af-0eab619e00b8
+
+20-12-2025  13:36    <DIR>          .
+20-12-2025  12:47    <DIR>          ..
+20-12-2025  12:50             2,086 implementation_plan.md
+20-12-2025  12:48               190 implementation_plan.md.metadata.json
+20-12-2025  12:50             2,363 implementation_plan.md.resolved
+20-12-2025  12:48             1,742 implementation_plan.md.resolved.0
+20-12-2025  12:50             2,363 implementation_plan.md.resolved.1
+20-12-2025  12:50               625 task.md
+20-12-2025  12:48               178 task.md.metadata.json
+20-12-2025  12:50               966 task.md.resolved
+20-12-2025  12:48               951 task.md.resolved.0
+20-12-2025  12:50               966 task.md.resolved.1
+20-12-2025  13:36            92,309 uploaded_image_0_1766217978706.jpg
+20-12-2025  13:36            19,848 uploaded_image_1_1766217978706.jpg
+              12 File(s)        124,587 bytes
+
+     Total Files Listed:
+              12 File(s)        124,587 bytes
+               2 Dir(s)  25,725,628,416 bytes free

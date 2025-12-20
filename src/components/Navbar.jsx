@@ -47,6 +47,11 @@ const Navbar = () => {
         <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
             <div className="container">
                 <div className="navbar-content">
+                    {/* IIT Delhi Logo */}
+                    <div className="college-logo-container left">
+                        <img src="/iit-delhi-logo.jpg" alt="IIT Delhi" className="college-logo iit-logo" />
+                    </div>
+
                     {/* Logo */}
                     <Link to="/" className="navbar-logo">
                         <img src="/matricare-logo.png" alt="MatriCare Logo" className="logo-image" />
@@ -56,6 +61,7 @@ const Navbar = () => {
                         </span>
                     </Link>
 
+
                     {/* Desktop Navigation */}
                     <ul className="navbar-menu">
                         {/* Static Links + Chatbot */}
@@ -64,37 +70,42 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
-                                {t.yoga}
-                            </Link>
-                        </li>
+                        {isAuthenticated && (
+                            <>
+                                <li>
+                                    <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
+                                        {t.yoga}
+                                    </Link>
+                                </li>
 
-                        {/* Chatbot Link */}
-                        <li>
-                            <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
-                                {t.chatbot}
-                            </Link>
-                        </li>
+                                {/* Chatbot Link */}
+                                <li>
+                                    <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
+                                        {t.chatbot}
+                                    </Link>
+                                </li>
 
-                        {/* Find Care Link */}
-                        <li>
-                            <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
-                                Find Care
-                            </Link>
-                        </li>
+                                {/* Find Care Link */}
+                                <li>
+                                    <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
+                                        Find Care
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
-                                {t.analytics}
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
+                                        {t.analytics}
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
-                                {t.about}
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
+                                        {t.about}
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+
 
                         {!isAuthenticated && (
                             <li>
@@ -116,7 +127,13 @@ const Navbar = () => {
                         )}
                     </ul>
 
+                    {/* Thapar University Logo */}
+                    <div className="college-logo-container right">
+                        <img src="/thapar-university-logo.jpg" alt="Thapar University" className="college-logo thapar-logo" />
+                    </div>
+
                     {/* Mobile Menu Button */}
+
                     <button
                         className="mobile-menu-btn"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -141,35 +158,40 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.yoga}
-                            </Link>
-                        </li>
+                        {isAuthenticated && (
+                            <>
+                                <li>
+                                    <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.yoga}
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.chatbot}
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.chatbot}
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                Find Care
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        Find Care
+                                    </Link>
+                                </li>
 
 
-                        <li>
-                            <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.analytics}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.about}
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.analytics}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.about}
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+
 
                         {!isAuthenticated && (
                             <li>
