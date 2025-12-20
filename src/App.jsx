@@ -117,12 +117,8 @@ const AppContent = () => {
                 } />
 
             </Routes>
-            {isAuthenticated && (
-                <>
-                    <FloatingRobot />
-                    <SOSButton />
-                </>
-            )}
+            <FloatingRobot />
+            <SOSButton />
             <Footer />
         </div>
     );

@@ -71,6 +71,53 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Features Section */}
+            <section className="features section">
+                <div className="container">
+                    <div className="section-header text-center animate-fade-in">
+                        <h2 className="section-title">{t.features.title}</h2>
+                        <p className="section-subtitle">{t.features.description}</p>
+                    </div>
+                    <div className="features-grid">
+                        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.1s' }} onClick={() => navigate('/yoga')}>
+                            <div className="feature-icon-wrapper" style={{ background: 'var(--color-mauve-light)' }}>
+                                <span className="feature-icon">🧘‍♀️</span>
+                            </div>
+                            <h3 className="feature-card-title">{t.features.yoga.title}</h3>
+                            <p className="feature-card-description">{t.features.yoga.desc}</p>
+                            <span className="feature-link">{t.features.explore} →</span>
+                        </div>
+
+                        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.2s' }} onClick={() => navigate('/chatbot')}>
+                            <div className="feature-icon-wrapper" style={{ background: 'var(--color-peach-dark)' }}>
+                                <span className="feature-icon">🤖</span>
+                            </div>
+                            <h3 className="feature-card-title">{t.features.chatbot.title}</h3>
+                            <p className="feature-card-description">{t.features.chatbot.desc}</p>
+                            <span className="feature-link">{t.features.explore} →</span>
+                        </div>
+
+                        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.3s' }} onClick={() => navigate('/analytics')}>
+                            <div className="feature-icon-wrapper" style={{ background: 'var(--color-mint-dark)' }}>
+                                <span className="feature-icon">📊</span>
+                            </div>
+                            <h3 className="feature-card-title">{t.features.analytics.title}</h3>
+                            <p className="feature-card-description">{t.features.analytics.desc}</p>
+                            <span className="feature-link">{t.features.explore} →</span>
+                        </div>
+
+                        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.4s' }} onClick={() => navigate('/find-care')}>
+                            <div className="feature-icon-wrapper" style={{ background: 'var(--color-cream-dark)' }}>
+                                <span className="feature-icon">🏥</span>
+                            </div>
+                            <h3 className="feature-card-title">{t.features.findCare.title}</h3>
+                            <p className="feature-card-description">{t.features.findCare.desc}</p>
+                            <span className="feature-link">{t.features.explore} →</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
 
             {/* CTA Section */}

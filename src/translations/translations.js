@@ -184,6 +184,29 @@ export const translations = {
             disclaimerText: 'Consult your doctor or ASHA worker before starting any yoga practice.'
         },
 
+        // Features Section
+        features: {
+            title: 'Our Key Features',
+            description: 'Everything you need for a healthy pregnancy journey, all in one place.',
+            explore: 'Explore Now',
+            yoga: {
+                title: 'Yoga & Exercise',
+                desc: 'Safe and effective yoga plans tailored for each trimester.'
+            },
+            chatbot: {
+                title: 'Matri AI Assistant',
+                desc: 'Instant answers to your pregnancy questions in your language.'
+            },
+            analytics: {
+                title: 'Health Analytics',
+                desc: 'Upload reports and get AI-powered health insights and tracking.'
+            },
+            findCare: {
+                title: 'Find Healthcare',
+                desc: 'Quickly locate nearest hospitals and ASHA centers in an emergency.'
+            }
+        },
+
         // CTA Section
         cta: {
             title: 'Ready to Begin Your Journey?',
@@ -607,6 +630,29 @@ export const translations = {
 
             disclaimer: 'महत्वपूर्ण:',
             disclaimerText: 'कोई भी योगासन शुरू करने से पहले अपने डॉक्टर या आशा कार्यकर्ता से सलाह लें।'
+        },
+
+        // Features Section
+        features: {
+            title: 'हमारी मुख्य विशेषताएं',
+            description: 'आपकी स्वस्थ गर्भावस्था यात्रा के लिए सब कुछ, एक ही स्थान पर।',
+            explore: 'अभी देखें',
+            yoga: {
+                title: 'योग और व्यायाम',
+                desc: 'प्रत्येक तिमाही के लिए तैयार सुरक्षित और प्रभावी योग योजनाएँ।'
+            },
+            chatbot: {
+                title: 'मैत्री AI सहायक',
+                desc: 'अपनी भाषा में अपनी गर्भावस्था के सवालों के तुरंत उत्तर पाएं।'
+            },
+            analytics: {
+                title: 'स्वास्थ्य एनालिटिक्स',
+                desc: 'रिपोर्ट अपलोड करें और AI-आधारित स्वास्थ्य जानकारी प्राप्त करें।'
+            },
+            findCare: {
+                title: 'स्वास्थ्य सेवा खोजें',
+                desc: 'आपात स्थिति में निकटतम अस्पतालों और आशा केंद्रों का तुरंत पता लगाएं।'
+            }
         },
 
         // CTA Section

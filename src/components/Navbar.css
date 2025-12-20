@@ -66,36 +66,41 @@
 }
 
 /* College Logos */
+.logos-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .college-logo-container {
     display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: center;
 }
 
 .college-logo {
-    height: 45px;
-    width: auto;
-    object-fit: contain;
+    height: 50px;
+    width: 60px;
+    object-fit: cover;
     transition: transform 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+    /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05)); */
+}
+
+.circle-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .college-logo:hover {
     transform: scale(1.1);
 }
 
-.iit-logo {
-    /* IIT logo is a circle, usually looks better with slight padding */
-    padding: 2px;
-}
-
-.thapar-logo {
-    /* Thapar logo might need some padding too */
-    padding: 2px;
-}
-
-
 /* Menu Styles */
+
 .navbar-menu {
     display: flex;
     align-items: center;
