@@ -1,24 +1,26 @@
 /* Robot Animation Styles */
 
 .robot-container {
-    width: 140px;
-    height: 140px;
-    /* Adjusted for square image */
+    width: 150px;
+    height: 150px;
     position: relative;
-    /* margin-bottom removed to let parent control layout */
     animation: robotFloat 3s ease-in-out infinite;
     transform-origin: center center;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: white;
 }
 
 .robot-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top;
-    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+    object-position: center;
     transition: all 0.3s ease;
 }
 
@@ -56,7 +58,8 @@
     }
 
     50% {
-        transform: scale(1.05) rotate(3deg);
+        transform: scale(1.05);
+        /* Removed rotation to keep circle clean */
     }
 }
 
