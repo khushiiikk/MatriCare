@@ -30,8 +30,7 @@ const Navbar = () => {
     // Currently all items visible, but login link logic will change
     const navItems = [
         { name: t.home, path: '/' },
-        { name: t.yoga, path: '/yoga', isScroll: true },
-        // Add Chatbot link explicitly here or below
+        { name: t.yoga, path: '/yoga' },
     ];
 
     // Add Login link only if NOT authenticated
@@ -40,43 +39,11 @@ const Navbar = () => {
     }
 
     const isActive = (path) => {
-        if (path === '/yoga') return false; // Yoga is a section, not a page
         return location.pathname === path;
     };
 
-    const handleNavigation = (item, e) => {
-        if (item.isScroll) {
-            e.preventDefault();
-
-            // If not on home page, navigate to home first
-            if (location.pathname !== '/') {
-                navigate('/');
-                // Wait for navigation to complete, then scroll
-                setTimeout(() => {
-                    scrollToYogaSection();
-                }, 100);
-            } else {
-                scrollToYogaSection();
-            }
-
-            setIsMobileMenuOpen(false);
-        }
-    };
-
-    const scrollToYogaSection = () => {
-        const yogaSection = document.getElementById('yoga-section');
-        if (yogaSection) {
-            const navbarHeight = 80; // Height of navbar
-            const offsetPosition = yogaSection.offsetTop - navbarHeight;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    };
-
     return (
+
         <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
             <div className="container">
                 <div className="navbar-content">
@@ -98,13 +65,9 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li>
-                            <a
-                                href="/#yoga-section"
-                                className="navbar-link"
-                                onClick={(e) => handleNavigation({ isScroll: true }, e)}
-                            >
+                            <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
                                 {t.yoga}
-                            </a>
+                            </Link>
                         </li>
 
                         {/* Chatbot Link */}
@@ -179,12 +142,9 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li>
-                            <a href="/#yoga-section" className="mobile-menu-link" onClick={(e) => {
-                                handleNavigation({ isScroll: true }, e);
-                                setIsMobileMenuOpen(false);
-                            }}>
+                            <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
                                 {t.yoga}
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
@@ -192,6 +152,13 @@ const Navbar = () => {
                                 {t.chatbot}
                             </Link>
                         </li>
+
+                        <li>
+                            <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                Find Care
+                            </Link>
+                        </li>
+
 
                         <li>
                             <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>

@@ -31,7 +31,10 @@ const Login = () => {
     const [signupData, setSignupData] = useState({
         name: '',
         mobile: '',
-        age: '',
+        dob: '',
+        state: '',
+        district: '',
+        village: '',
         lmpDate: '',
         password: ''
     });
@@ -41,6 +44,7 @@ const Login = () => {
 
     // Signup Step State
     const [signupStep, setSignupStep] = useState('details'); // 'details' or 'otp'
+    const [signupOtp, setSignupOtp] = useState('');
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -132,30 +136,66 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
-        // Validation
-        if (!validateName(signupData.name)) return setError(t.errors.invalidName);
-        if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
-        if (!validateAge(signupData.age)) return setError(t.errors.invalidAge);
-        if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
-        if (signupData.password.length < 6) return setError(t.errors.shortPassword);
+        // Validation for the 'details' step
+        if (signupStep === 'details') {
+            if (!validateName(signupData.name)) return setError(t.errors.invalidName);
+            if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
+            if (!signupData.dob) return setError('Please enter your date of birth');
+            if (!signupData.state) return setError('Please enter your state');
+            if (!signupData.district) return setError('Please enter your district');
+            if (!signupData.village) return setError('Please select your village');
+            if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
+            if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
-        setLoading(true);
-
-        // Direct Signup (No OTP for registration as requested)
-        const result = await signup(signupData);
-        setLoading(false);
-
-        if (result.success) {
-            setSuccessMsg('Account created successfully!');
-            setRobotMood('success');
-            // Navigate is handled by AuthContext if we set isAuthenticated, 
-            // but let's ensure we redirect or show success.
-            // The useEffect on isAuthenticated checks navigation, so it should auto-redirect.
+            setLoading(true);
+            try {
+                const result = await sendOTP(signupData.mobile);
+                setLoading(false);
+                if (result.success) {
+                    setSignupStep('otp');
+                    setSuccessMsg(t.errors.otpSent);
+                    setRobotMood('success');
+                } else {
+                    setError(result.error);
+                    setRobotMood('thinking');
+                }
+            } catch (err) {
+                setLoading(false);
+                setError('Failed to send OTP');
+                setRobotMood('thinking');
+            }
         } else {
-            setError(result.error || t.errors.regFailed);
-            setRobotMood('thinking');
+            // Processing OTP step
+            if (!validateOTP(signupOtp)) return setError(t.errors.invalidOtp);
+
+            setLoading(true);
+            try {
+                const loginResult = await login(signupData.mobile, signupOtp);
+                if (loginResult.success) {
+                    // Phone verified, now save profile
+                    const result = await signup(signupData);
+                    setLoading(false);
+
+                    if (result.success) {
+                        setSuccessMsg('Account created successfully!');
+                        setRobotMood('success');
+                    } else {
+                        setError(result.error || t.errors.regFailed);
+                        setRobotMood('thinking');
+                    }
+                } else {
+                    setLoading(false);
+                    setError(loginResult.error);
+                    setRobotMood('thinking');
+                }
+            } catch (err) {
+                setLoading(false);
+                setError('Signup failed. Please try again.');
+                setRobotMood('thinking');
+            }
         }
     };
+
 
     // Toggle Mode
     const toggleMode = () => {
@@ -257,78 +297,132 @@ const Login = () => {
                         ) : (
                             // Signup Form
                             <form onSubmit={handleSignupSubmit} className="login-form">
-                                <div className="form-group">
-                                    <label>{t.fullName}</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        placeholder={t.namePlaceholder}
-                                        value={signupData.name}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    />
-                                </div>
+                                {signupStep === 'details' ? (
+                                    <>
+                                        <div className="form-group">
+                                            <label>{t.fullName}</label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                placeholder={t.namePlaceholder}
+                                                value={signupData.name}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                            />
+                                        </div>
 
-                                <div className="form-row">
-                                    <div className="form-group half">
-                                        <label>{t.mobileRaw}</label>
+                                        <div className="form-group">
+                                            <label>{t.mobileRaw}</label>
+                                            <input
+                                                type="tel"
+                                                name="mobile"
+                                                placeholder={t.mobileRawPlaceholder}
+                                                value={signupData.mobile}
+                                                onChange={handleSignupChange}
+                                                maxLength="10"
+                                                className="form-input"
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.dob}</label>
+                                            <input
+                                                type="date"
+                                                name="dob"
+                                                value={signupData.dob}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                                max={formatDateForInput(new Date())}
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.state}</label>
+                                            <input
+                                                type="text"
+                                                name="state"
+                                                placeholder={t.state}
+                                                value={signupData.state}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.district}</label>
+                                            <input
+                                                type="text"
+                                                name="district"
+                                                placeholder={t.district}
+                                                value={signupData.district}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.village}</label>
+                                            <select
+                                                name="village"
+                                                value={signupData.village}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                            >
+                                                <option value="">Select Village</option>
+                                                <option value="village1">Ramnagar</option>
+                                                <option value="village2">Kishanpur</option>
+                                                <option value="village3">Gopalpur</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.lmpDate}</label>
+                                            <input
+                                                type="date"
+                                                name="lmpDate"
+                                                value={signupData.lmpDate}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                                max={formatDateForInput(new Date())}
+                                            />
+                                            <small className="field-hint">{t.lmpHint}</small>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>{t.createPassword}</label>
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                placeholder={t.createPassPlaceholder}
+                                                value={signupData.password}
+                                                onChange={handleSignupChange}
+                                                className="form-input"
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="form-group animate-slide-down">
+                                        <label>{t.enterOtp}</label>
                                         <input
-                                            type="tel"
-                                            name="mobile"
-                                            placeholder={t.mobileRawPlaceholder}
-                                            value={signupData.mobile}
-                                            onChange={handleSignupChange}
-                                            maxLength="10"
+                                            type="text"
+                                            placeholder={t.otpPlaceholder}
+                                            value={signupOtp}
+                                            onChange={(e) => setSignupOtp(e.target.value)}
+                                            maxLength="6"
                                             className="form-input"
+                                            autoFocus
                                         />
+                                        <small className="otp-hint">{t.otpHint}</small>
                                     </div>
-                                    <div className="form-group half">
-                                        <label>{t.age}</label>
-                                        <input
-                                            type="number"
-                                            name="age"
-                                            placeholder={t.agePlaceholder}
-                                            value={signupData.age}
-                                            onChange={handleSignupChange}
-                                            className="form-input"
-                                            min="18"
-                                            max="55"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <label>{t.lmpDate}</label>
-                                    <input
-                                        type="date"
-                                        name="lmpDate"
-                                        value={signupData.lmpDate}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                        max={formatDateForInput(new Date())}
-                                    />
-                                    <small className="field-hint">{t.lmpHint}</small>
-                                </div>
-
-                                <div className="form-group">
-                                    <label>{t.createPassword}</label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        placeholder={t.createPassPlaceholder}
-                                        value={signupData.password}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    />
-                                </div>
-
-
+                                )}
 
                                 <button type="submit" className="sign-in-btn" disabled={loading}>
-                                    {loading ? t.processing : t.startJourney}
+                                    {loading ? t.processing : (signupStep === 'details' ? t.sendOtp : t.createAccount)}
                                 </button>
                             </form>
                         )}
+
 
                         <div className="divider">
                             <span>OR</span>

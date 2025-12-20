@@ -1,0 +1,170 @@
+.yoga-page {
+    padding-top: 100px;
+    min-height: 100vh;
+}
+
+.yoga-section {
+    background: var(--color-white);
+    /* scroll-margin-top: 80px; removed as it is now a page */
+    position: relative;
+    padding-bottom: 80px;
+}
+
+.section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-3xl);
+}
+
+.section-title {
+    margin-bottom: var(--spacing-sm);
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+}
+
+.trimester-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.trimester-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.clickable-card {
+    background: var(--color-white);
+}
+
+.clickable-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.trimester-image-wrapper {
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FDFBF7;
+    /* Very light cream background for all card images */
+    padding: var(--spacing-xl);
+    overflow: hidden;
+    position: relative;
+}
+
+.trimester-img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    transition: transform var(--transition-base);
+}
+
+.clickable-card:hover .trimester-img {
+    transform: scale(1.05);
+}
+
+.trimester-info {
+    padding: 25px 20px;
+    text-align: center;
+    color: var(--color-text);
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 140px;
+}
+
+/* Specific Footer Gradients */
+.gradient-mauve {
+    background: rgba(155, 123, 126, 0.85);
+    /* Mauve */
+    color: white;
+}
+
+.gradient-peach {
+    background: rgba(229, 196, 192, 0.8);
+    /* Peach */
+    color: #4A4A4A;
+}
+
+.gradient-mint {
+    background: #fff;
+    /* White/Mint */
+    color: #4A4A4A;
+}
+
+.click-indicator {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    top: auto;
+    transform: none;
+}
+
+.gradient-mint .click-indicator {
+    background: rgba(0, 0, 0, 0.05);
+    color: #4A4A4A;
+}
+
+.clickable-card:hover .click-indicator {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateX(4px);
+}
+
+.trimester-title {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    /* For Hindi text support */
+}
+
+.trimester-weeks {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.yoga-disclaimer {
+    background: linear-gradient(135deg, rgba(227, 207, 217, 0.2) 0%, rgba(248, 223, 215, 0.2) 100%);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 2px solid var(--color-mauve);
+}
+
+.yoga-disclaimer p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+
+.yoga-disclaimer strong {
+    color: var(--color-mauve);
+}

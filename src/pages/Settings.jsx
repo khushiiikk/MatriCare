@@ -18,8 +18,11 @@ const Settings = () => {
             security: 'Security',
             logout: 'Logout',
             fullName: 'Full Name',
-            age: 'Age',
+            age: 'Age (years)',
             mobile: 'Mobile',
+            state: 'State',
+            district: 'District',
+            village: 'Village',
             lmpDate: 'LMP Date',
             currentWeek: 'Current Week',
             weeks: 'Weeks',
@@ -43,8 +46,11 @@ const Settings = () => {
             security: 'सुरक्षा',
             logout: 'लॉगआउट',
             fullName: 'पूरा नाम',
-            age: 'उम्र',
+            age: 'उम्र (वर्ष)',
             mobile: 'मोबाइल',
+            state: 'राज्य',
+            district: 'जिला',
+            village: 'गाँव',
             lmpDate: 'एलएमपी तारीख',
             currentWeek: 'वर्तमान सप्ताह',
             weeks: 'सप्ताह',
@@ -68,8 +74,11 @@ const Settings = () => {
             security: 'सुरक्षा',
             logout: 'लॉगआउट',
             fullName: 'पूर्ण नाव',
-            age: 'वय',
+            age: 'वय (वर्षे)',
             mobile: 'मोबाइल',
+            state: 'राज्य',
+            district: 'जिल्हा',
+            village: 'गाव',
             lmpDate: 'एलएमपी तारीख',
             currentWeek: 'सध्याचा आठवडा',
             weeks: 'आठवडे',
@@ -93,8 +102,11 @@ const Settings = () => {
             security: 'பாதுகாப்பு',
             logout: 'வெளியேறு',
             fullName: 'முழு பெயர்',
-            age: 'வயது',
+            age: 'வயது (ஆண்டுகள்)',
             mobile: 'மொபைல்',
+            state: 'மாநிலம்',
+            district: 'மாவட்டம்',
+            village: 'கிராமம்',
             lmpDate: 'எல்எம்பி தேதி',
             currentWeek: 'தற்போதைய வாரம்',
             weeks: 'வாரங்கள்',
@@ -123,6 +135,9 @@ const Settings = () => {
     const [formData, setFormData] = useState({
         name: '',
         age: '',
+        state: '',
+        district: '',
+        village: '',
         lmpDate: ''
     });
 
@@ -135,9 +150,13 @@ const Settings = () => {
         setFormData({
             name: user.name || '',
             age: user.age || '',
+            state: user.state || '',
+            district: user.district || '',
+            village: user.village || '',
             lmpDate: user.lmpDate || ''
         });
     }, [user, navigate]);
+
 
     // Handle Profile Picture Upload
     const handleImageUpload = (e) => {
@@ -274,6 +293,41 @@ const Settings = () => {
                                     </div>
 
                                     <div className="form-group">
+                                        <label>{content.state}</label>
+                                        <input
+                                            type="text"
+                                            value={formData.state}
+                                            onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                                            className="form-input"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>{content.district}</label>
+                                        <input
+                                            type="text"
+                                            value={formData.district}
+                                            onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                                            className="form-input"
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>{content.village}</label>
+                                        <select
+                                            value={formData.village}
+                                            onChange={(e) => setFormData({ ...formData, village: e.target.value })}
+                                            className="form-input"
+                                        >
+                                            <option value="">Select Village</option>
+                                            <option value="village1">Ramnagar</option>
+                                            <option value="village2">Kishanpur</option>
+                                            <option value="village3">Gopalpur</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="form-group">
                                         <label>{content.lmpDate}</label>
                                         <input
                                             type="date"
@@ -283,6 +337,7 @@ const Settings = () => {
                                             max={formatDateForInput(new Date())}
                                         />
                                     </div>
+
 
                                     <div className="pregnancy-info-card">
                                         <div className="info-item">

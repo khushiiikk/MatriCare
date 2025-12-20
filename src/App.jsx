@@ -56,7 +56,7 @@ function App() {
                         <Navbar />
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/yoga" element={<Home />} />
+                            <Route path="/yoga" element={<Yoga />} />
                             <Route path="/about" element={<About />} />
 
                             {/* Public Routes */}

@@ -7,7 +7,8 @@ export const translations = {
             login: 'Login',
             about: 'About',
             analytics: 'Analytics',
-            chatbot: 'Chatbot'
+            chatbot: 'Chatbot',
+            findCare: 'Find Care'
         },
 
         // Hero Section
@@ -349,6 +350,11 @@ export const translations = {
             mobileRawPlaceholder: 'Mobile Number',
             age: 'Age',
             agePlaceholder: 'Years',
+            ageYears: 'Age (years)',
+            dob: 'Date of Birth',
+            state: 'State',
+            district: 'District',
+            village: 'Village',
             lmpDate: 'LMP Date (Last Period)',
             lmpHint: 'Used to calculate pregnancy week',
             createPassword: 'Create Password',
@@ -426,7 +432,8 @@ export const translations = {
             login: 'लॉगिन',
             about: 'हमारे बारे में',
             analytics: 'एनालिटिक्स',
-            chatbot: 'चैटबॉट'
+            chatbot: 'चैटबॉट',
+            findCare: 'केयर खोजें'
         },
 
         // Hero Section
@@ -768,6 +775,11 @@ export const translations = {
             mobileRawPlaceholder: 'मोबाइल नंबर',
             age: 'उम्र',
             agePlaceholder: 'वर्ष',
+            ageYears: 'उम्र (वर्ष)',
+            dob: 'जन्म तिथि',
+            state: 'राज्य',
+            district: 'जिला',
+            village: 'गाँव',
             lmpDate: 'एलएमपी तिथि (पिछली अवधि)',
             lmpHint: 'गर्भावस्था सप्ताह की गणना करने के लिए उपयोग किया जाता है',
             createPassword: 'पासवर्ड बनाएं',
@@ -844,7 +856,8 @@ export const translations = {
             login: 'लॉगिन',
             about: 'आमच्याबद्दल',
             analytics: 'विश्लेषण',
-            chatbot: 'चॅटबॉट'
+            chatbot: 'चॅटबॉट',
+            findCare: 'केअर शोधा'
         },
         hero: {
             title: 'तुमचे आरोग्य,',
@@ -926,6 +939,11 @@ export const translations = {
             mobileRawPlaceholder: 'मोबाइल नंबर',
             age: 'वय',
             agePlaceholder: 'वर्षे',
+            ageYears: 'वय (वर्षे)',
+            dob: 'जन्म तारीख',
+            state: 'राज्य',
+            district: 'जिल्हा',
+            village: 'गाव',
             lmpDate: 'LMP तारीख (शेवटचा कालावधी)',
             lmpHint: 'गर्भधारणा आठवडा मोजण्यासाठी वापरला जातो',
             createPassword: 'पासवर्ड तयार करा',
@@ -1122,7 +1140,8 @@ export const translations = {
             login: 'உள்நுழைய',
             about: 'எங்களை பற்றி',
             analytics: 'பகுப்பாய்வு',
-            chatbot: 'சாட்போட்'
+            chatbot: 'சாட்போட்',
+            findCare: 'பராமரிப்பைக் கண்டறியவும்'
         },
         hero: {
             title: 'உங்கள் ஆரோக்கியம்,',
@@ -1204,6 +1223,11 @@ export const translations = {
             mobileRawPlaceholder: 'மொபைல் எண்',
             age: 'வயது',
             agePlaceholder: 'ஆண்டுகள்',
+            ageYears: 'வயது (ஆண்டுகள்)',
+            dob: 'பிறந்த தேதி',
+            state: 'மாநிலம்',
+            district: 'மாவட்டம்',
+            village: 'கிராமம்',
             lmpDate: 'LMP தேதி (கடைசி காலம்)',
             lmpHint: 'கர்ப்ப வாரத்தைக் கணக்கிட பயன்படுத்தப்படுகிறது',
             createPassword: 'கடவுச்சொல்லை உருவாக்கவும்',

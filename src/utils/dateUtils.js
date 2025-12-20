@@ -52,3 +52,17 @@ export const formatDateForInput = (date) => {
 
     return [year, month, day].join('-');
 };
+
+// Calculate age from DOB
+export const calculateAge = (dob) => {
+    if (!dob) return 0;
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+};
+
