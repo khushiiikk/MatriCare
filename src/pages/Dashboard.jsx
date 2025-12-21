@@ -11,15 +11,30 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const t = translations[language];
 
-    // Helper for translations if they don't exist yet
-    const getT = (path, fallback) => {
-        const keys = path.split('.');
-        let val = translations[language];
-        for (let k of keys) {
-            val = val?.[k];
+    // Local State for Trackers
+    const [waterIntake, setWaterIntake] = useState(0);
+    const [moodHistory, setMoodHistory] = useState([]);
+    const [showMoodSelector, setShowMoodSelector] = useState(false);
+
+    // Initialize state from localStorage
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
         }
-        return val || fallback;
-    };
+
+        const storedWater = localStorage.getItem(`water_${new Date().toDateString()}`);
+        if (storedWater) setWaterIntake(parseInt(storedWater));
+
+        const storedMoods = localStorage.getItem('mood_history');
+        if (storedMoods) setMoodHistory(JSON.parse(storedMoods));
+
+        if (user?.lmpDate) {
+            calculatePregnancyProgress(user.lmpDate);
+        } else {
+            calculatePregnancyProgress(new Date().setDate(new Date().getDate() - 90)); // Mock
+        }
+    }, [user, isAuthenticated, navigate]);
 
     const [pregnancyData, setPregnancyData] = useState({
         weeks: 0,
@@ -29,20 +44,6 @@ const Dashboard = () => {
         progressPercent: 0,
         babySize: "Poppy Seed"
     });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login');
-            return;
-        }
-
-        if (user?.lmpDate) {
-            calculatePregnancyProgress(user.lmpDate);
-        } else {
-            // Default mock if no LMP (or prompt user)
-            calculatePregnancyProgress(new Date().setDate(new Date().getDate() - 90)); // Mock ~12 weeks
-        }
-    }, [user, isAuthenticated, navigate]);
 
     const calculatePregnancyProgress = (lmpDateStr) => {
         const lmp = new Date(lmpDateStr);
@@ -59,7 +60,6 @@ const Dashboard = () => {
         if (weeks >= 13 && weeks <= 26) trimester = 2;
         if (weeks >= 27) trimester = 3;
 
-        // Simple Baby Size Logic (Mock data)
         const sizes = [
             "Poppy Seed", "Sesame Seed", "Lentil", "Blueberry", "Kidney Bean",
             "Grape", "Kumquat", "Fig", "Lime", "Pea Pod",
@@ -69,8 +69,6 @@ const Dashboard = () => {
             "Lettuce", "Coconut", "Pineapple", "Butternut Squash", "Melon",
             "Watermelon", "Pumpkin", "Jackfruit"
         ];
-        // Index roughly maps to weeks 4 - 40. 
-        // Array index 0 = Week 4. So index = weeks - 4.
         let sizeIndex = Math.max(0, weeks - 4);
         sizeIndex = Math.min(sizeIndex, sizes.length - 1);
 
@@ -84,35 +82,51 @@ const Dashboard = () => {
         });
     };
 
+    const handleWaterClick = () => {
+        const newIntake = waterIntake + 1;
+        setWaterIntake(newIntake);
+        localStorage.setItem(`water_${new Date().toDateString()}`, newIntake);
+    };
+
+    const handleMoodSelect = (mood) => {
+        const newHistory = [{ mood, date: new Date().toISOString() }, ...moodHistory].slice(0, 5); // Keep last 5
+        setMoodHistory(newHistory);
+        localStorage.setItem('mood_history', JSON.stringify(newHistory));
+        setShowMoodSelector(false);
+    };
+
+    const getLastMood = () => {
+        if (moodHistory.length === 0) return null;
+        return moodHistory[0].mood;
+    };
+
     return (
         <div className="dashboard-page">
             {/* Top Progress Section */}
-            <div className={`pregnancy-progress-container ${pregnancyData.trimester === 2 ? 'theme-peach' : pregnancyData.trimester === 3 ? 'theme-mint' : ''}`}>
+            <div className="pregnancy-progress-container">
                 <div className="container">
                     <div className="progress-circle-wrapper">
                         {/* Circular Progress SVG */}
-                        <svg className="progress-ring" width="220" height="220">
+                        <svg className="progress-ring" width="200" height="200">
                             <circle
-                                className="progress-ring__circle-bg"
                                 stroke="rgba(255,255,255,0.2)"
-                                strokeWidth="15"
+                                strokeWidth="12"
                                 fill="transparent"
-                                r="100"
-                                cx="110"
-                                cy="110"
+                                r="85"
+                                cx="100"
+                                cy="100"
                             />
                             <circle
-                                className="progress-ring__circle"
                                 stroke="white"
-                                strokeWidth="15"
+                                strokeWidth="12"
                                 strokeLinecap="round"
                                 fill="transparent"
-                                r="100"
-                                cx="110"
-                                cy="110"
+                                r="85"
+                                cx="100"
+                                cy="100"
                                 style={{
-                                    strokeDasharray: `${2 * Math.PI * 100}`,
-                                    strokeDashoffset: `${2 * Math.PI * 100 * (1 - pregnancyData.progressPercent / 100)}`,
+                                    strokeDasharray: `${2 * Math.PI * 85}`,
+                                    strokeDashoffset: `${2 * Math.PI * 85 * (1 - pregnancyData.progressPercent / 100)}`,
                                     transition: 'stroke-dashoffset 1s ease-in-out',
                                     transform: 'rotate(-90deg)',
                                     transformOrigin: '50% 50%'
@@ -130,8 +144,8 @@ const Dashboard = () => {
                     </div>
 
                     <div className="dashboard-header" style={{ marginTop: '20px', color: 'white' }}>
-                        <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-                            {t.login?.helloMom || "Hello Mom!"} {user?.name?.split(' ')[0]}
+                        <h2 style={{ fontSize: '1.4rem', marginBottom: '5px', color: 'white' }}>
+                            {t.login?.helloMom || "Hello Mom"} {user?.name?.split(' ')[0]}
                         </h2>
                         <p style={{ color: 'rgba(255,255,255,0.9)' }}>
                             {pregnancyData.daysLeft} days to go
@@ -143,7 +157,7 @@ const Dashboard = () => {
             <div className="container" style={{ marginTop: '-40px', position: 'relative', zIndex: 10 }}>
                 {/* Baby Size Card */}
                 <div className="baby-size-card slide-up">
-                    <div className="baby-fruit-img" style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="baby-fruit-img">
                         🍋
                     </div>
                     <div className="baby-size-info">
@@ -155,21 +169,11 @@ const Dashboard = () => {
                 {/* Main Action Cards */}
                 <div className="dashboard-grid">
                     {/* Health Tracking Card */}
-                    <div className="info-card pink-gradient hover-scale">
+                    <div className="info-card pink-gradient hover-scale" style={{ gridColumn: '1 / -1' }}>
                         <div className="card-content">
                             <h3>Mother Health & Tracking</h3>
                             <p>Track symptoms, check risks, and analyze reports.</p>
                             <button className="card-btn" onClick={() => navigate('/analytics')}>Track Now</button>
-                        </div>
-                        {/* <img src="/assets/doctor-consult.png" className="card-image" alt="Health" /> */}
-                    </div>
-
-                    {/* Pregnancy Diary Card */}
-                    <div className="info-card purple-gradient hover-scale">
-                        <div className="card-content">
-                            <h3>My Pregnancy Diary</h3>
-                            <p>Record your beautiful journey and memories.</p>
-                            <button className="card-btn">Write Now</button>
                         </div>
                     </div>
                 </div>
@@ -182,58 +186,53 @@ const Dashboard = () => {
                 <div className="tools-grid">
                     <div className="tool-card" onClick={() => navigate('/analytics')}>
                         <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>📄</span>
+                            📄
                         </div>
                         <span className="tool-name">Reports</span>
                     </div>
 
-                    <div className="tool-card">
+                    <div className="tool-card" onClick={handleWaterClick}>
                         <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>⚖️</span>
+                            💧
                         </div>
-                        <span className="tool-name">Weight</span>
+                        <span className="tool-name">Water</span>
+                        <span className="tracker-status">{waterIntake} Glasses</span>
+                    </div>
+
+                    <div className="tool-card" onClick={() => setShowMoodSelector(!showMoodSelector)}>
+                        <div className="tool-icon-wrapper">
+                            {getLastMood() === 'Happy' ? '😊' : getLastMood() === 'Sad' ? '😔' : getLastMood() === 'Tired' ? '😴' : '😐'}
+                        </div>
+                        <span className="tool-name">Mood</span>
+                        {showMoodSelector && (
+                            <div style={{ position: 'absolute', background: 'white', padding: '10px', borderRadius: '10px', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', top: '100%', zIndex: 100, display: 'flex', gap: '5px' }}>
+                                <span onClick={(e) => { e.stopPropagation(); handleMoodSelect('Happy'); }}>😊</span>
+                                <span onClick={(e) => { e.stopPropagation(); handleMoodSelect('Sad'); }}>😔</span>
+                                <span onClick={(e) => { e.stopPropagation(); handleMoodSelect('Tired'); }}>😴</span>
+                            </div>
+                        )}
+                        <span className="tracker-status" style={{ fontSize: '0.7rem' }}>{getLastMood() || 'Log Now'}</span>
                     </div>
 
                     <div className="tool-card" onClick={() => navigate('/find-care')}>
                         <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>🏥</span>
+                            🏥
                         </div>
                         <span className="tool-name">Hospitals</span>
                     </div>
 
-                    <div className="tool-card">
-                        <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>📅</span>
-                        </div>
-                        <span className="tool-name">Appointments</span>
-                    </div>
-
                     <div className="tool-card" onClick={() => navigate('/yoga')}>
                         <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>🧘‍♀️</span>
+                            🧘‍♀️
                         </div>
                         <span className="tool-name">Yoga</span>
                     </div>
 
                     <div className="tool-card" onClick={() => navigate('/chatbot')}>
                         <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>🤖</span>
+                            🤖
                         </div>
                         <span className="tool-name">AI Chat</span>
-                    </div>
-
-                    <div className="tool-card">
-                        <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>💧</span>
-                        </div>
-                        <span className="tool-name">Water</span>
-                    </div>
-
-                    <div className="tool-card">
-                        <div className="tool-icon-wrapper">
-                            <span style={{ fontSize: '2rem' }}>😊</span>
-                        </div>
-                        <span className="tool-name">Mood</span>
                     </div>
                 </div>
             </div>

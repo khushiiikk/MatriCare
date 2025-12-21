@@ -2,55 +2,58 @@
     padding-top: 80px;
     padding-bottom: 60px;
     min-height: 100vh;
-    background-color: #fdfbfb;
+    background-color: var(--color-off-white);
 }
 
 .dashboard-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .dashboard-header h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: var(--color-text);
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    font-family: var(--font-primary);
+    font-weight: 700;
 }
 
 .dashboard-header p {
     color: var(--color-text-light);
+    font-size: 0.9rem;
 }
 
 /* Progress Section */
 .pregnancy-progress-container {
-    background: linear-gradient(135deg, #E5C4C0 0%, #ecd0cc 100%);
-    border-radius: 0 0 40px 40px;
-    padding: 30px 20px 50px;
+    background: linear-gradient(135deg, var(--color-mauve-light) 0%, var(--color-peach-light) 100%);
+    border-radius: 0 0 30px 30px;
+    padding: 20px 20px 40px;
     color: white;
     text-align: center;
     margin-top: -80px;
-    /* Pull up into navbar area if needed, or just normal */
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(229, 196, 192, 0.4);
+    box-shadow: 0 10px 25px rgba(183, 116, 102, 0.2);
 }
 
 .progress-circle-wrapper {
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .progress-circle-inner {
-    width: 190px;
-    height: 190px;
+    width: 170px;
+    height: 170px;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -59,172 +62,138 @@
     justify-content: center;
     position: relative;
     z-index: 2;
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .progress-text-label {
-    font-size: 0.9rem;
-    color: #888;
+    font-size: 0.8rem;
+    color: #999;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
-}
-
-.progress-weeks-display {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--color-mauve);
-    line-height: 1;
-}
-
-.progress-days-display {
-    font-size: 1.1rem;
-    color: #888;
-    margin-top: 5px;
-    font-weight: 500;
-}
-
-.days-left-badge {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px 15px;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
     font-weight: 600;
 }
 
-.days-left-count {
-    display: block;
-    font-size: 1.4rem;
-    font-weight: 700;
+.progress-weeks-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-mauve);
+    line-height: 1;
+    font-family: var(--font-primary);
+    letter-spacing: -1px;
+}
+
+.progress-days-display {
+    font-size: 0.95rem;
+    color: #888;
+    margin-top: 4px;
+    font-weight: 600;
 }
 
 /* Info Cards Grid - 2 columns */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
+    gap: 15px;
     padding: 0 20px;
-    max-width: 1200px;
+    max-width: 1000px;
+    /* Reduced for tighter layout */
     margin: 0 auto;
 }
 
-/* Large Cards (Full Width or 2 cols) */
+/* Large Cards */
 .info-card {
     background: white;
-    border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
     border: 1px solid rgba(0, 0, 0, 0.03);
     overflow: hidden;
     position: relative;
-}
-
-.info-card.wide {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    text-align: left;
 }
 
 .info-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.06);
 }
 
 .info-card.pink-gradient {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    background: linear-gradient(135deg, var(--color-mauve) 0%, var(--color-mauve-light) 100%);
     color: white;
 }
 
 .info-card.purple-gradient {
-    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-    color: white;
-}
-
-.info-card.orange-gradient {
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    background: linear-gradient(135deg, var(--color-mint) 0%, var(--color-mint-light) 100%);
     color: white;
 }
 
 .card-content h3 {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
     font-weight: 700;
+    font-family: var(--font-primary);
 }
 
 .card-content p {
     opacity: 0.9;
-    margin-bottom: 20px;
-    font-size: 1rem;
-    line-height: 1.5;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
 .card-btn {
     background: white;
     color: var(--color-mauve);
     border: none;
-    padding: 10px 25px;
-    border-radius: 30px;
+    padding: 8px 20px;
+    border-radius: 20px;
     font-weight: 600;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: transform 0.2s ease;
     display: inline-block;
-    text-decoration: none;
 }
 
 .card-btn:hover {
     transform: scale(1.05);
 }
 
-.card-image {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-left: 20px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-}
-
 /* Tracking Tools Section */
 .section-title-wrapper {
-    padding: 30px 20px 20px;
-    max-width: 1200px;
+    padding: 20px 20px 15px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .section-title-wrapper h2 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--color-text);
+    font-family: var(--font-display);
 }
 
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 cols on mobile looks better */
+    gap: 12px;
     padding: 0 20px 40px;
     max-width: 600px;
-    /* Keep somewhat narrow like mobile view if desired, or allow wider */
     margin: 0 auto;
 }
 
 @media (min-width: 768px) {
     .tools-grid {
         grid-template-columns: repeat(4, 1fr);
-        max-width: 1000px;
+        max-width: 800px;
     }
 }
 
 .tool-card {
-    background: #fff5f5;
-    /* Light pink bg default */
-    border-radius: 20px;
-    padding: 20px;
+    background: white;
+    border-radius: 16px;
+    padding: 15px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -232,64 +201,80 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 160px;
-    border: 1px solid rgba(229, 196, 192, 0.2);
+    height: 110px;
+    /* Reduced height */
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 }
 
 .tool-card:hover {
-    background: white;
-    box-shadow: 0 10px 25px rgba(229, 196, 192, 0.3);
-    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(183, 116, 102, 0.15);
+    background: var(--color-off-white);
+    transform: translateY(-2px);
+    border-color: var(--color-mauve-light);
 }
 
 .tool-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 12px;
-}
-
-.tool-icon-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-cream-light);
+    border-radius: 50%;
+    font-size: 1.5rem;
 }
 
 .tool-name {
-    font-weight: 600;
+    font-weight: 500;
     color: var(--color-text);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
 }
 
 /* Baby Size Card */
 .baby-size-card {
     background: white;
-    padding: 20px;
-    border-radius: 20px;
+    padding: 15px 20px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(183, 116, 102, 0.08);
+    max-width: 500px;
     margin: 0 auto 20px;
+    border: 1px solid var(--color-peach-light);
 }
 
 .baby-fruit-img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: #f0f0f0;
-    object-fit: contain;
-    padding: 5px;
+    background: var(--color-cream-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
 }
 
 .baby-size-info h4 {
-    margin: 0 0 5px 0;
+    margin: 0 0 2px 0;
     color: var(--color-mauve);
+    font-size: 1rem;
+    font-weight: 700;
 }
 
 .baby-size-info p {
     margin: 0;
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+}
+
+/* Tracker Popups / Active States (Simple implementation) */
+.tracker-status {
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: var(--color-mauve);
+    font-weight: 600;
 }
