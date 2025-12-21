@@ -532,7 +532,7 @@ export const translations = {
         pharmacy: "Pharmacy",
         openMaps: "Open in Maps"
     }
-},
+    },
 
 hi: {
     // Navbar
