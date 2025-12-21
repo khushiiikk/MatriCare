@@ -7,6 +7,7 @@ import { validateMobile, validateName } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
 import './Login.css';
+import plantIllustration from '../assets/login_illustration.png'; // Assuming it's in assets now
 
 const Login = () => {
     const navigate = useNavigate();
@@ -23,10 +24,10 @@ const Login = () => {
     // Login Form State
     const [loginMobile, setLoginMobile] = useState('');
     const [password, setPassword] = useState('');
-    const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
+    const [loginMethod, setLoginMethod] = useState('password');
 
     // Signup Form State
-    const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
+    const [userType, setUserType] = useState('patient');
     const [signupData, setSignupData] = useState({
         name: '',
         mobile: '',
@@ -36,15 +37,17 @@ const Login = () => {
         village: '',
         lmpDate: '',
         employeeId: '',
-        password: ''
+        password: '',
+        weight: '' // Added weight field
     });
 
-    // Robot Animation State
-    const [robotMood, setRobotMood] = useState('happy'); // happy, thinking, success
+    // Robot Animation Stats
+    const [robotMood, setRobotMood] = useState('happy');
 
     useEffect(() => {
         if (isAuthenticated && user) {
-            if (user.userType === 'asha' || user.role === 'asha') {
+            const role = user.userType || user.role;
+            if (role === 'asha') {
                 navigate('/asha-dashboard');
             } else {
                 navigate('/dashboard');
@@ -52,70 +55,61 @@ const Login = () => {
         }
     }, [isAuthenticated, user, navigate]);
 
-
-
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        if (!loginMobile || !password) {
+            setError('Please fill in all fields');
+            return;
+        }
 
         setLoading(true);
-
         try {
-            if (!password) {
-                setError(t.errors.invalidPassword);
-                setLoading(false);
-                return;
-            }
             const result = await loginWithPassword(loginMobile, password);
-
             setLoading(false);
 
             if (result.success) {
-                navigate('/dashboard');
+                setRobotMood('success');
+                // Navigation handled by useEffect
             } else {
-                setError(result.error);
+                setError(result.error || 'Login failed');
                 setRobotMood('thinking');
             }
         } catch (err) {
             setLoading(false);
-            console.error(err);
             setError('Login failed. Please try again.');
             setRobotMood('thinking');
         }
     };
 
-    // Handle Signup Flow
     const handleSignupChange = (e) => {
-        setSignupData({
-            ...signupData,
-            [e.target.name]: e.target.value
-        });
+        setSignupData({ ...signupData, [e.target.name]: e.target.value });
     };
 
     const handleSignupSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
+        // Basic Validations
         if (!validateName(signupData.name)) return setError(t.errors.invalidName);
         if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
+        if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
-        // Conditional Validation based on User Type
+        // Specific Validations
         if (userType === 'patient') {
-            if (!signupData.dob) return setError(t.errors.invalidAge || 'Please enter valid DOB'); // Fallback reusing invalidAge
+            if (!signupData.dob) return setError('Date of Birth is required');
             if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
-        } else if (userType === 'asha') {
-            if (!signupData.employeeId) return setError(t.errors.employeeId || 'Please enter Employee ID');
+        } else {
+            if (!signupData.employeeId) return setError(t.errors.employeeId || 'Employee ID required');
         }
 
-        if (!signupData.state) return setError('Please enter your state');
-        if (!signupData.district) return setError('Please enter your district');
-        if (!signupData.village) return setError('Please select your village');
-        if (signupData.password.length < 6) return setError(t.errors.shortPassword);
+        if (!signupData.state || !signupData.district || !signupData.village) {
+            return setError('Please fill in location details');
+        }
 
         setLoading(true);
         try {
-            const payload = { ...signupData, userType };
-            // Remove irrelevant fields for cleaner data
+            const payload = { ...signupData, userType, role: userType };
             if (userType === 'asha') {
                 delete payload.dob;
                 delete payload.lmpDate;
@@ -127,375 +121,197 @@ const Login = () => {
             setLoading(false);
 
             if (result.success) {
-                setSuccessMsg('Account created successfully!');
                 setRobotMood('success');
+                // Navigation will be handled by useEffect but explicit fallback:
+                setTimeout(() => {
+                    navigate(userType === 'asha' ? '/asha-dashboard' : '/dashboard');
+                }, 100);
             } else {
                 setError(result.error || t.errors.regFailed);
                 setRobotMood('thinking');
             }
         } catch (err) {
             setLoading(false);
-            console.error(err);
-            setError('Signup failed. Please try again.');
+            setError('Registration failed. Please try again.');
             setRobotMood('thinking');
         }
     };
 
-
-    // Toggle Mode
     const toggleMode = () => {
         setIsLoginMode(!isLoginMode);
         setError('');
         setSuccessMsg('');
-        setRobotMood(isLoginMode ? 'happy' : 'success'); // Change mood on toggle
     };
 
     return (
         <div className="login-page">
-            <div className="login-container">
-                {/* Left Side - Form Section */}
-                <div className="login-form-section">
-                    <div className="form-content">
-                        <h1 className="login-title">
-                            {isLoginMode ? t.welcomeBack : t.joinMatriCare}
-                        </h1>
-                        <p style={{ textAlign: 'center', color: '#888', fontSize: '0.9rem', marginBottom: '30px' }}>
-                            {isLoginMode ? 'Nice to see you naturally' : 'Create an account. It\'s free'}
-                        </p>
+            <div className="login-glass-card">
+                {/* Form Section */}
+                <div className="login-form-side">
+                    <div className="login-form-inner">
+                        <header className="form-header">
+                            <h2 className="brand-name">MatriCare</h2>
+                            <h1 className="form-title">
+                                {isLoginMode ? 'Login' : 'Sign Up'}
+                            </h1>
+                            <p className="form-subtitle">
+                                {isLoginMode ? 'Welcome back, please enter your details' : 'Join our community of healthy mothers'}
+                            </p>
+                        </header>
 
-                        {error && <div className="error-message">{error}</div>}
-                        {successMsg && <div className="success-message">{successMsg}</div>}
+                        {error && <div className="error-pill">{error}</div>}
 
-                        {isLoginMode ? (
-                            // Login Form
-                            <div className="login-wrapper">
-                                {/* LOGIN User Type Toggle */}
-                                <div className="user-type-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                                    <button
-                                        type="button"
-                                        className={`type-btn ${userType === 'patient' ? 'active' : ''}`}
-                                        onClick={() => setUserType('patient')}
-                                        style={{
-                                            flex: 1,
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            border: `2px solid ${userType === 'patient' ? 'var(--color-mauve)' : '#eee'}`,
-                                            backgroundColor: userType === 'patient' ? 'var(--color-mauve)' : '#f9f9f9',
-                                            color: userType === 'patient' ? 'white' : '#666',
-                                            cursor: 'pointer',
-                                            fontWeight: '600'
-                                        }}
-                                    >
-                                        {t.rolePatient || 'Patient'}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`type-btn ${userType === 'asha' ? 'active' : ''}`}
-                                        onClick={() => setUserType('asha')}
-                                        style={{
-                                            flex: 1,
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            border: `2px solid ${userType === 'asha' ? 'var(--color-mauve)' : '#eee'}`,
-                                            backgroundColor: userType === 'asha' ? 'var(--color-mauve)' : '#f9f9f9',
-                                            color: userType === 'asha' ? 'white' : '#666',
-                                            cursor: 'pointer',
-                                            fontWeight: '600'
-                                        }}
-                                    >
-                                        {t.roleAsha || 'ASHA Worker'}
-                                    </button>
-                                </div>
+                        <form onSubmit={isLoginMode ? handleLoginSubmit : handleSignupSubmit}>
+                            <div className="user-role-toggle">
+                                <button
+                                    type="button"
+                                    className={userType === 'patient' ? 'active' : ''}
+                                    onClick={() => setUserType('patient')}
+                                >
+                                    Patient
+                                </button>
+                                <button
+                                    type="button"
+                                    className={userType === 'asha' ? 'active' : ''}
+                                    onClick={() => setUserType('asha')}
+                                >
+                                    ASHA Worker
+                                </button>
+                            </div>
 
-                                {/* Login Method Toggle */}
-                                <div className="login-method-tabs" style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', borderBottom: '1px solid #eee' }}>
-                                    <button
-                                        type="button"
-                                        style={{
-                                            padding: '10px 20px',
-                                            border: 'none',
-                                            background: 'none',
-                                            color: loginMethod === 'password' ? 'var(--color-mauve)' : '#888',
-                                            borderBottom: loginMethod === 'password' ? '2px solid var(--color-mauve)' : 'none',
-                                            fontWeight: '600',
-                                            cursor: 'pointer'
-                                        }}
-                                        onClick={() => setLoginMethod('password')}
-                                    >
-                                        Password
-                                    </button>
-                                    <button
-                                        type="button"
-                                        style={{
-                                            padding: '10px 20px',
-                                            border: 'none',
-                                            background: 'none',
-                                            color: loginMethod === 'otp' ? 'var(--color-mauve)' : '#888',
-                                            borderBottom: loginMethod === 'otp' ? '2px solid var(--color-mauve)' : 'none',
-                                            fontWeight: '600',
-                                            cursor: 'pointer'
-                                        }}
-                                        onClick={() => setLoginMethod('otp')}
-                                    >
-                                        Via OTP
-                                    </button>
-                                </div>
-
-                                <form onSubmit={handleLoginSubmit} className="login-form">
-                                    <div className="form-group">
-                                        <label>{t.mobileLabel}</label>
+                            {!isLoginMode && (
+                                <div className="form-row">
+                                    <div className="input-group">
+                                        <label>Full Name</label>
                                         <input
-                                            type="tel"
-                                            placeholder={t.mobilePlaceholder}
-                                            value={loginMobile}
-                                            onChange={(e) => setLoginMobile(e.target.value)}
-                                            maxLength="10"
-                                            className="form-input"
+                                            type="text"
+                                            name="name"
+                                            value={signupData.name}
+                                            onChange={handleSignupChange}
+                                            placeholder="Your name"
                                         />
                                     </div>
+                                </div>
+                            )}
 
-                                    {loginMethod === 'password' ? (
-                                        <div className="form-group animate-slide-down">
-                                            <label>{t.passwordLabel}</label>
-                                            <input
-                                                type="password"
-                                                placeholder={t.passwordPlaceholder}
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                className="form-input"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="form-group animate-slide-down">
-                                            <label>OTP (Simulated)</label>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Enter OTP"
-                                                    value={password} // Reusing password field for OTP temporarily
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    className="form-input"
-                                                />
-                                                <button type="button" className="btn-secondary" style={{ fontSize: '0.8rem', whiteSpace: 'nowrap' }}>Get OTP</button>
+                            <div className="form-row">
+                                <div className="input-group">
+                                    <label>Mobile Number</label>
+                                    <input
+                                        type="tel"
+                                        name={isLoginMode ? "loginMobile" : "mobile"}
+                                        value={isLoginMode ? loginMobile : signupData.mobile}
+                                        onChange={(e) => isLoginMode ? setLoginMobile(e.target.value) : handleSignupChange(e)}
+                                        placeholder="10-digit number"
+                                        maxLength="10"
+                                    />
+                                </div>
+                            </div>
+
+                            {!isLoginMode && (
+                                <>
+                                    <div className="form-row multi">
+                                        {userType === 'patient' ? (
+                                            <div className="input-group">
+                                                <label>DOB</label>
+                                                <input type="date" name="dob" value={signupData.dob} onChange={handleSignupChange} max={formatDateForInput(new Date())} />
                                             </div>
-                                            <small style={{ color: '#666', fontSize: '0.8rem' }}>Note: OTP is simulated for this demo.</small>
+                                        ) : (
+                                            <div className="input-group">
+                                                <label>Employee ID</label>
+                                                <input type="text" name="employeeId" value={signupData.employeeId} onChange={handleSignupChange} placeholder="ID Number" />
+                                            </div>
+                                        )}
+                                        <div className="input-group">
+                                            <label>State</label>
+                                            <input type="text" name="state" value={signupData.state} onChange={handleSignupChange} placeholder="State" />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row multi">
+                                        <div className="input-group">
+                                            <label>District</label>
+                                            <input type="text" name="district" value={signupData.district} onChange={handleSignupChange} placeholder="District" />
+                                        </div>
+                                        <div className="input-group">
+                                            <label>Village</label>
+                                            <input type="text" name="village" value={signupData.village} onChange={handleSignupChange} placeholder="Village" />
+                                        </div>
+                                    </div>
+
+                                    {userType === 'patient' && (
+                                        <div className="form-row">
+                                            <div className="input-group">
+                                                <label>LMP Date</label>
+                                                <input type="date" name="lmpDate" value={signupData.lmpDate} onChange={handleSignupChange} max={formatDateForInput(new Date())} />
+                                            </div>
                                         </div>
                                     )}
 
-                                    <button type="submit" className="sign-in-btn" disabled={loading}>
-                                        {loading ? t.processing : t.loginBtn}
-                                    </button>
-                                </form>
-                            </div>
-                        ) : (
-                            // Signup Form
-                            <form onSubmit={handleSignupSubmit} className="login-form">
-                                {/* User Type Toggle */}
-                                <div className="user-type-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                                    <button
-                                        type="button"
-                                        className={`type-btn ${userType === 'patient' ? 'active' : ''}`}
-                                        onClick={() => setUserType('patient')}
-                                        style={{
-                                            flex: 1,
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            border: `2px solid ${userType === 'patient' ? 'var(--color-mauve)' : '#eee'}`,
-                                            backgroundColor: userType === 'patient' ? 'var(--color-mauve)' : '#f9f9f9',
-                                            color: userType === 'patient' ? 'white' : '#666',
-                                            cursor: 'pointer',
-                                            fontWeight: '600'
-                                        }}
-                                    >
-                                        {t.rolePatient || 'Patient'}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`type-btn ${userType === 'asha' ? 'active' : ''}`}
-                                        onClick={() => setUserType('asha')}
-                                        style={{
-                                            flex: 1,
-                                            padding: '10px',
-                                            borderRadius: '10px',
-                                            border: `2px solid ${userType === 'asha' ? 'var(--color-mauve)' : '#eee'}`,
-                                            backgroundColor: userType === 'asha' ? 'var(--color-mauve)' : '#f9f9f9',
-                                            color: userType === 'asha' ? 'white' : '#666',
-                                            cursor: 'pointer',
-                                            fontWeight: '600'
-                                        }}
-                                    >
-                                        {t.roleAsha || 'ASHA Worker'}
-                                    </button>
-                                </div>
+                                    {userType === 'patient' && (
+                                        <div className="form-row">
+                                            <div className="input-group">
+                                                <label>Mother's Weight (kg)</label>
+                                                <input
+                                                    type="number"
+                                                    name="weight"
+                                                    value={signupData.weight}
+                                                    onChange={handleSignupChange}
+                                                    placeholder="Current weight in kg"
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            )}
 
-                                <div className="form-group">
-                                    <label>{t.fullName}</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        placeholder={t.namePlaceholder}
-                                        value={signupData.name}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>{t.mobileRaw}</label>
-                                    <input
-                                        type="tel"
-                                        name="mobile"
-                                        placeholder={t.mobileRawPlaceholder}
-                                        value={signupData.mobile}
-                                        onChange={handleSignupChange}
-                                        maxLength="10"
-                                        className="form-input"
-                                    />
-                                </div>
-
-                                {userType === 'patient' && (
-                                    <div className="form-group">
-                                        <label>{t.dob}</label>
-                                        <input
-                                            type="date"
-                                            name="dob"
-                                            value={signupData.dob}
-                                            onChange={handleSignupChange}
-                                            className="form-input"
-                                            max={formatDateForInput(new Date())}
-                                        />
-                                    </div>
-                                )}
-
-                                {userType === 'asha' && (
-                                    <div className="form-group">
-                                        <label>{t.employeeId || 'Employee ID'}</label>
-                                        <input
-                                            type="text"
-                                            name="employeeId"
-                                            placeholder={t.employeeId || 'Enter ID'}
-                                            value={signupData.employeeId}
-                                            onChange={handleSignupChange}
-                                            className="form-input"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="form-group">
-                                    <label>{t.state}</label>
-                                    <input
-                                        type="text"
-                                        name="state"
-                                        placeholder={t.state}
-                                        value={signupData.state}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>{t.district}</label>
-                                    <input
-                                        type="text"
-                                        name="district"
-                                        placeholder={t.district}
-                                        value={signupData.district}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>{t.village}</label>
-                                    <select
-                                        name="village"
-                                        value={signupData.village}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                    >
-                                        <option value="">Select Village</option>
-                                        <option value="village1">Ramnagar</option>
-                                        <option value="village2">Kishanpur</option>
-                                        <option value="village3">Gopalpur</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-
-                                {userType === 'patient' && (
-                                    <div className="form-group">
-                                        <label>{t.lmpDate}</label>
-                                        <input
-                                            type="date"
-                                            name="lmpDate"
-                                            value={signupData.lmpDate}
-                                            onChange={handleSignupChange}
-                                            className="form-input"
-                                            max={formatDateForInput(new Date())}
-                                        />
-                                        <small className="field-hint">{t.lmpHint}</small>
-                                    </div>
-                                )}
-
-                                <div className="form-group">
-                                    <label>{t.createPassword}</label>
+                            <div className="form-row">
+                                <div className="input-group">
+                                    <label>Password</label>
                                     <input
                                         type="password"
-                                        name="password"
-                                        placeholder={t.createPassPlaceholder}
-                                        value={signupData.password}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
+                                        name={isLoginMode ? "loginPassword" : "password"}
+                                        value={isLoginMode ? password : signupData.password}
+                                        onChange={(e) => isLoginMode ? setPassword(e.target.value) : handleSignupChange(e)}
+                                        placeholder="Min. 6 characters"
                                     />
                                 </div>
+                            </div>
 
-                                <button type="submit" className="sign-in-btn" disabled={loading}>
-                                    {loading ? t.processing : t.createAccount}
-                                </button>
-                            </form>
-                        )}
-
-
-                        <div className="divider">
-                            <span>OR</span>
-                        </div>
-
-                        <div className="toggle-text">
-                            {isLoginMode ? t.firstTime : t.alreadyHave}
-                            <button onClick={toggleMode} className="toggle-btn">
-                                {isLoginMode ? t.createAccount : t.loginBtn}
+                            <button type="submit" className="submit-action-btn" disabled={loading}>
+                                {loading ? 'Processing...' : (isLoginMode ? 'Sign In' : 'Sign Up')}
                             </button>
-                        </div>
+                        </form>
+
+                        <footer className="form-footer">
+                            <p>
+                                {isLoginMode ? "Don't have an account?" : "Already have an account?"}
+                                <button onClick={toggleMode} className="inline-toggle-btn">
+                                    {isLoginMode ? 'Create Account' : 'Login'}
+                                </button>
+                            </p>
+                        </footer>
                     </div>
                 </div>
 
-                {/* Right Side - Welcome & Robot Panel */}
-                <div className={`welcome-section ${isLoginMode ? 'login-bg' : 'signup-bg'}`}>
-                    <div className="welcome-content">
-                        {/* Character Animation */}
-                        <Robot mood={robotMood} />
-
-                        <h2 className="welcome-title">
-                            {isLoginMode ? t.helloMom : t.welcomeTitle}
-                        </h2>
-                        <p className="welcome-text">
-                            {isLoginMode
-                                ? t.loginDesc
-                                : t.signupDesc}
-                        </p>
-
-                        <div className="feature-badges">
-                            <span className="badge">{t.badgeTracker}</span>
-                            <span className="badge">{t.badgeAI}</span>
-                            <span className="badge">{t.badgeYoga}</span>
+                {/* Illustration Section */}
+                <div className="login-visual-side">
+                    <div className="visual-container">
+                        <div className="illustration-wrapper">
+                            <img src={plantIllustration} alt="Wellness" className="floating-plant" />
+                            <div className="glow-effect"></div>
+                        </div>
+                        <div className="robot-mini">
+                            <Robot mood={robotMood} />
                         </div>
                     </div>
-
-                    {/* Floating Orbs */}
-                    <div className="gradient-orb orb-1"></div>
-                    <div className="gradient-orb orb-2"></div>
                 </div>
             </div>
-        </div >
+
+            {/* Background Elements */}
+            <div className="bg-blur-circle pink"></div>
+            <div className="bg-blur-circle purple"></div>
+        </div>
     );
 };
 

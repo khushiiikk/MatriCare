@@ -17,8 +17,7 @@ const Dashboard = () => {
 
     // Trackers
     const [waterIntake, setWaterIntake] = useState(0);
-    // Mock Data for Weight (could be user input later)
-    const [weight, setWeight] = useState(61);
+    const userWeight = user?.weight || 61;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -190,7 +189,7 @@ const Dashboard = () => {
                                 <div className="vital-icon">
                                     ⚖️
                                 </div>
-                                <span className="vital-label">{t?.motherWeight || "Weight"}<br /><strong>{weight} kg</strong></span>
+                                <span className="vital-label">{t?.motherWeight || "Weight"}<br /><strong>{userWeight} kg</strong></span>
                             </div>
 
                             <div className="vital-item">

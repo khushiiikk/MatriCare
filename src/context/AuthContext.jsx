@@ -23,30 +23,33 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
-                // User is signed in via Firebase
+                // User is signed in via Firebase (OTP)
                 let profileData = {};
 
                 try {
-                    // Try fetching from Firestore first
                     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                     if (userDoc.exists()) {
                         profileData = userDoc.data();
-                    } else {
-                        // Fallback/Legacy: Check localStorage if not found in Firestore
-                        const storedUser = localStorage.getItem('matricare_user');
-                        if (storedUser) {
-                            profileData = JSON.parse(storedUser);
-                        }
                     }
                 } catch (error) {
                     console.error("Error fetching user profile:", error);
                 }
 
-                setUser({ ...currentUser, ...profileData, mobile: currentUser.phoneNumber || profileData.mobile });
+                const userData = { ...currentUser, ...profileData, uid: currentUser.uid, mobile: currentUser.phoneNumber || profileData.mobile };
+                setUser(userData);
+                localStorage.setItem('matricare_user', JSON.stringify(userData));
                 setIsAuthenticated(true);
             } else {
-                setUser(null);
-                setIsAuthenticated(false);
+                // No Firebase user. Check local storage for password-login session
+                const storedUser = localStorage.getItem('matricare_user');
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
+                    setUser(userData);
+                    setIsAuthenticated(true);
+                } else {
+                    setUser(null);
+                    setIsAuthenticated(false);
+                }
             }
             setLoading(false);
         });
@@ -109,7 +112,7 @@ export const AuthProvider = ({ children }) => {
             if (userDoc.exists()) {
                 userData = userDoc.data();
             } else {
-                // New user via OTP, create barebones doc if needed, or wait for signup flow
+                // New user via OTP, create barebones doc
                 userData = {
                     uid: user.uid,
                     mobile: user.phoneNumber,
@@ -119,6 +122,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             setUser({ ...user, ...userData });
+            localStorage.setItem('matricare_user', JSON.stringify({ ...user, ...userData }));
             return { success: true, user: user };
         } catch (error) {
             console.error("Error verifying OTP:", error);
@@ -129,18 +133,11 @@ export const AuthProvider = ({ children }) => {
     // Sign up new user
     const signup = async (userData) => {
         try {
-            // For now, we assume user is already authenticated via OTP or we are creating a fresh record.
-            // If strictly using Phone Auth, 'auth.currentUser' should be present.
-            // IF using fallback (password/mock), we create a mock UID.
-
-            const currentUser = auth.currentUser;
-            const uid = currentUser ? currentUser.uid : `user_${userData.mobile}`;
-            const mobile = currentUser ? (currentUser.phoneNumber || userData.mobile) : userData.mobile;
+            const uid = userData.uid || `user_${userData.mobile}_${Date.now()}`;
 
             const newUser = {
                 ...userData,
                 uid: uid,
-                mobile: mobile,
                 createdAt: new Date().toISOString(),
                 profilePicture: null,
                 settings: {
@@ -151,47 +148,41 @@ export const AuthProvider = ({ children }) => {
             // SAVE TO FIRESTORE
             await setDoc(doc(db, "users", uid), newUser);
 
-            // Also keep local storage as backup/cache
-            localStorage.setItem('matricare_user', JSON.stringify(newUser));
-
+            // Set state and persist
             setUser(newUser);
             setIsAuthenticated(true);
+            localStorage.setItem('matricare_user', JSON.stringify(newUser));
 
             return { success: true, user: newUser };
         } catch (error) {
-            console.error("Signup/Firestore Save Error:", error);
-            return { success: false, error: 'Failed to save account details. ' + error.message };
+            console.error("Signup Error:", error);
+            return { success: false, error: 'Failed to create account: ' + error.message };
         }
     };
 
-    // Login with Password (Legacy/Alternative)
+    // Login with Password (Cross-device support)
     const loginWithPassword = async (mobile, password) => {
-        // Query Firestore for user with this mobile number
-        // Note: For real security, don't store plain text passwords. This is a demo fallback.
+        setLoading(true);
         try {
-            // Since we can't easily query by mobile without index, we try to simulate or check local/mock logic
-            // OR, better, we assume the UID logic was consistent or check a special 'credentials' collection.
-            // For this DEMO, we will stick to LocalStorage for Password-based Patient login fallback if Firestore fails,
-            // OR we can query Firestore if we knew the ID.
+            const { collection, query, where, getDocs } = await import('firebase/firestore');
+            const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));
+            const querySnapshot = await getDocs(q);
 
-            // ACTUAL MOCK IMPLEMENTATION (matches previous behavior but attempts Firestore read if ID known):
-
-            const storedUser = localStorage.getItem('matricare_user');
-            if (storedUser) {
-                const userData = JSON.parse(storedUser);
-                if (userData.mobile === mobile && userData.password === password) {
-                    setUser(userData);
-                    setIsAuthenticated(true);
-                    return { success: true, user: userData };
-                }
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const userData = { ...userDoc.data(), uid: userDoc.id };
+                setUser(userData);
+                setIsAuthenticated(true);
+                localStorage.setItem('matricare_user', JSON.stringify(userData));
+                setLoading(false);
+                return { success: true, user: userData };
             }
 
-            // If you want to enable "ASHA Login" via Password (common for workers), we might need a dedicated collection query.
-            // But typically they would use Phone Auth too.
-            // Adding a simple error for now.
-            return { success: false, error: 'Invalid credentials (Password login only works for locally saved users in this demo. Please use OTP)' };
-
+            setLoading(false);
+            return { success: false, error: 'Invalid mobile number or password.' };
         } catch (e) {
+            setLoading(false);
+            console.error("Password Login Error:", e);
             return { success: false, error: e.message };
         }
     };

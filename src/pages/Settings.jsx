@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { calculatePregnancyWeek, calculateDueDate, formatDateForInput } from '../utils/dateUtils';
+import { calculatePregnancyWeek, calculateDueDate, formatDateForInput, calculateAge } from '../utils/dateUtils';
 import './Settings.css';
 
 const Settings = () => {
@@ -155,7 +155,9 @@ const Settings = () => {
         district: '',
         village: '',
         lmpDate: '',
-        employeeId: ''
+        employeeId: '',
+        weight: '',
+        dob: ''
     });
 
     useEffect(() => {
@@ -171,7 +173,10 @@ const Settings = () => {
             district: user.district || '',
             village: user.village || '',
             lmpDate: user.lmpDate || '',
-            employeeId: user.employeeId || ''
+            employeeId: user.employeeId || '',
+            weight: user.weight || '',
+            dob: user.dob || '',
+            age: user.dob ? calculateAge(user.dob) : (user.age || '')
         });
     }, [user, navigate]);
 
@@ -300,9 +305,31 @@ const Settings = () => {
                                             <label>{content.age}</label>
                                             <input
                                                 type="number"
-                                                value={formData.age}
-                                                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                                                value={formData.dob ? calculateAge(formData.dob) : formData.age}
+                                                readOnly
+                                                className="form-input disabled"
+                                            />
+                                        </div>
+                                        <div className="form-group half">
+                                            <label>Weight (kg)</label>
+                                            <input
+                                                type="number"
+                                                value={formData.weight}
+                                                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                                                 className="form-input"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-row">
+                                        <div className="form-group half">
+                                            <label>Date of Birth</label>
+                                            <input
+                                                type="date"
+                                                value={formData.dob}
+                                                onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                                                className="form-input"
+                                                max={formatDateForInput(new Date())}
                                             />
                                         </div>
                                         <div className="form-group half">
@@ -419,8 +446,8 @@ const Settings = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

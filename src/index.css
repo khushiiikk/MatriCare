@@ -80,6 +80,9 @@
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
+
+  /* 7. Typography */
+  --font-display: 'Playfair Display', 'Merriweather', serif;
 }
 
 body {
