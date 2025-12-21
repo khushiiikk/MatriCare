@@ -58,25 +58,37 @@ const Dashboard = () => {
     const calculatePregnancyProgress = (lmpDateStr) => {
         const lmp = new Date(lmpDateStr);
         const today = new Date();
-        const diffTime = Math.abs(today - lmp);
+        const diffTime = today - lmp; // Not absolute, we want actual time passed
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        const weeks = Math.floor(diffDays / 7);
-        const days = diffDays % 7;
-        const daysLeft = 280 - diffDays;
+        // Cap weeks at 40
+        let weeks = Math.floor(diffDays / 7);
+        let days = diffDays % 7;
+
+        let displayWeeks = weeks;
+        let displayDays = days;
+        let daysLeft = 280 - diffDays;
+
+        if (weeks > 40) {
+            displayWeeks = 40;
+            displayDays = 0;
+            daysLeft = 0;
+        }
+
         const progressPercent = Math.min(100, (diffDays / 280) * 100);
 
         let trimester = 1;
         if (weeks >= 13 && weeks <= 26) trimester = 2;
         if (weeks >= 27) trimester = 3;
 
-        // Use data from translations file based on week number
-        const dataPoint = pregnancyWeeksData.find(d => d.week === weeks) || pregnancyWeeksData[pregnancyWeeksData.length - 1];
-        const safeData = dataPoint || { size: "Seed", weight: "<1g", length: "0.1cm", desc: "Growing..." };
+        // Use data from translations file based on week number, clamped to 40
+        const searchWeek = Math.min(weeks, 40);
+        const dataPoint = pregnancyWeeksData.find(d => d.week === searchWeek) || pregnancyWeeksData[pregnancyWeeksData.length - 1];
+        const safeData = dataPoint || { size: "Pumpkin", weight: "3.5kg", length: "51cm", desc: "Your baby has arrived or is due any moment!" };
 
         setPregnancyData({
-            weeks,
-            days,
+            weeks: displayWeeks,
+            days: displayDays,
             daysLeft: Math.max(0, daysLeft),
             trimester,
             progressPercent,

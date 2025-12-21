@@ -23,6 +23,7 @@ const Login = () => {
     // Login Form State
     const [loginMobile, setLoginMobile] = useState('');
     const [password, setPassword] = useState('');
+    const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
 
     // Signup Form State
     const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
@@ -168,6 +169,78 @@ const Login = () => {
                         {isLoginMode ? (
                             // Login Form
                             <div className="login-wrapper">
+                                {/* LOGIN User Type Toggle */}
+                                <div className="user-type-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                                    <button
+                                        type="button"
+                                        className={`type-btn ${userType === 'patient' ? 'active' : ''}`}
+                                        onClick={() => setUserType('patient')}
+                                        style={{
+                                            flex: 1,
+                                            padding: '10px',
+                                            borderRadius: '10px',
+                                            border: `2px solid ${userType === 'patient' ? 'var(--color-mauve)' : '#eee'}`,
+                                            backgroundColor: userType === 'patient' ? 'var(--color-mauve)' : '#f9f9f9',
+                                            color: userType === 'patient' ? 'white' : '#666',
+                                            cursor: 'pointer',
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        {t.rolePatient || 'Patient'}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`type-btn ${userType === 'asha' ? 'active' : ''}`}
+                                        onClick={() => setUserType('asha')}
+                                        style={{
+                                            flex: 1,
+                                            padding: '10px',
+                                            borderRadius: '10px',
+                                            border: `2px solid ${userType === 'asha' ? 'var(--color-mauve)' : '#eee'}`,
+                                            backgroundColor: userType === 'asha' ? 'var(--color-mauve)' : '#f9f9f9',
+                                            color: userType === 'asha' ? 'white' : '#666',
+                                            cursor: 'pointer',
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        {t.roleAsha || 'ASHA Worker'}
+                                    </button>
+                                </div>
+
+                                {/* Login Method Toggle */}
+                                <div className="login-method-tabs" style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', borderBottom: '1px solid #eee' }}>
+                                    <button
+                                        type="button"
+                                        style={{
+                                            padding: '10px 20px',
+                                            border: 'none',
+                                            background: 'none',
+                                            color: loginMethod === 'password' ? 'var(--color-mauve)' : '#888',
+                                            borderBottom: loginMethod === 'password' ? '2px solid var(--color-mauve)' : 'none',
+                                            fontWeight: '600',
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => setLoginMethod('password')}
+                                    >
+                                        Password
+                                    </button>
+                                    <button
+                                        type="button"
+                                        style={{
+                                            padding: '10px 20px',
+                                            border: 'none',
+                                            background: 'none',
+                                            color: loginMethod === 'otp' ? 'var(--color-mauve)' : '#888',
+                                            borderBottom: loginMethod === 'otp' ? '2px solid var(--color-mauve)' : 'none',
+                                            fontWeight: '600',
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => setLoginMethod('otp')}
+                                    >
+                                        Via OTP
+                                    </button>
+                                </div>
+
                                 <form onSubmit={handleLoginSubmit} className="login-form">
                                     <div className="form-group">
                                         <label>{t.mobileLabel}</label>
@@ -181,16 +254,33 @@ const Login = () => {
                                         />
                                     </div>
 
-                                    <div className="form-group animate-slide-down">
-                                        <label>{t.passwordLabel}</label>
-                                        <input
-                                            type="password"
-                                            placeholder={t.passwordPlaceholder}
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            className="form-input"
-                                        />
-                                    </div>
+                                    {loginMethod === 'password' ? (
+                                        <div className="form-group animate-slide-down">
+                                            <label>{t.passwordLabel}</label>
+                                            <input
+                                                type="password"
+                                                placeholder={t.passwordPlaceholder}
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                className="form-input"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="form-group animate-slide-down">
+                                            <label>OTP (Simulated)</label>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter OTP"
+                                                    value={password} // Reusing password field for OTP temporarily
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    className="form-input"
+                                                />
+                                                <button type="button" className="btn-secondary" style={{ fontSize: '0.8rem', whiteSpace: 'nowrap' }}>Get OTP</button>
+                                            </div>
+                                            <small style={{ color: '#666', fontSize: '0.8rem' }}>Note: OTP is simulated for this demo.</small>
+                                        </div>
+                                    )}
 
                                     <button type="submit" className="sign-in-btn" disabled={loading}>
                                         {loading ? t.processing : t.loginBtn}
