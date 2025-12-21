@@ -53,7 +53,6 @@ const Analytics = () => {
             <div className="container">
                 <div className="trimester-header">
                     <h1>{t('analytics.title')}</h1>
-                    {view === 'hub' && <p className="subtitle">{t('analytics.subtitle')}</p>}
                 </div>
 
                 {view !== 'hub' && (
