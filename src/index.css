@@ -1,235 +1,96 @@
-/* MatriCare Design System - Reverted to Initial Theme */
-/* ========================================
-   MatriCare Design System
-   Color Palette: Mauve/Rosy, Peach, Cream, Mint
-   ======================================== */
+/* MatriCare Professional Design System */
+/* Theme: Deep Mauve, Soft Rose, Cream, Pale Lime */
 
 :root {
-  /* Core Palette (Reverted) */
-  --color-mauve: #E4A0B7;
-  /* Dusty Rose / Mauve */
-  --color-mauve-light: #F8D7E3;
-  /* Lighter Pink */
-  --color-mauve-dark: #C67593;
-  /* Deeper Mauve */
+  /* 1. Core Brand Colors (extracted from user image) */
+  --color-mauve-deep: #8B6563;
+  /* Deep brownish-mauve (top bar) */
+  --color-rose-soft: #E6BDB5;
+  /* Soft rose/pink (2nd bar) */
+  --color-cream-warm: #EEE6CD;
+  /* Warm cream/beige (3rd bar) */
+  --color-lime-pale: #F3F8E4;
+  /* Very pale lime/white (bottom bar) */
 
-  --color-peach: #FFDAB9;
-  /* Soft Peach */
-  --color-peach-light: #FFF0E6;
-  /* Very Pale Peach */
-  --color-peach-dark: #F5B895;
-  /* Darker Peach */
+  /* 2. Semantic Mapping */
+  --color-primary: var(--color-mauve-deep);
+  --color-secondary: var(--color-rose-soft);
+  --color-background: var(--color-lime-pale);
+  --color-surface: #FFFFFF;
+  --color-accent: var(--color-cream-warm);
 
-  --color-cream: #FFFDD0;
-  /* Cream/Beige */
-  --color-cream-light: #FFFEF0;
-  /* Off White */
-  --color-cream-dark: #F2E8C4;
-  /* Darker Cream */
+  /* 3. Text Colors */
+  --text-primary: #4A3B3A;
+  /* Dark warm gray/brown for main text */
+  --text-secondary: #7D6361;
+  /* Muted mauve for subtitles */
+  --text-light: #FDFBF7;
+  /* Off-white text */
 
-  --color-mint: #B0E0E6;
-  /* Mint Green / Soft Blue-Green */
-  --color-mint-light: #E0F5F7;
-  /* Pale Mint */
-  --color-mint-dark: #87C5CD;
-  /* Darker Mint */
+  /* 4. Shadows & Layers */
+  --shadow-sm: 0 4px 6px rgba(139, 101, 99, 0.05);
+  --shadow-md: 0 8px 16px rgba(139, 101, 99, 0.08);
+  --shadow-lg: 0 16px 32px rgba(139, 101, 99, 0.12);
 
-  /* Neutral Colors */
-  --color-white: #FFFFFF;
-  --color-off-white: #FAFAFA;
-  --color-gray-light: #F2F2F2;
-  --color-gray: #9E9E9E;
-  --color-gray-dark: #616161;
-  --color-black: #333333;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: 1px solid rgba(230, 189, 181, 0.3);
 
-  /* Semantic Colors */
-  --color-primary: var(--color-mauve);
-  --color-secondary: var(--color-mint);
-  --color-accent: var(--color-peach);
-  --color-background: var(--color-cream-light);
-  --color-surface: var(--color-white);
-  --color-text: var(--color-black);
-  --color-text-light: var(--color-gray);
-
-  /* Typography */
-  --font-primary: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Merriweather', 'Playfair Display', Georgia, serif;
-
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-  --spacing-2xl: 4rem;
-  --spacing-3xl: 6rem;
-
-  /* Border Radius */
-  --radius-sm: 8px;
+  /* 5. Spacing & Radius */
   --radius-md: 12px;
-  --radius-lg: 24px;
+  --radius-lg: 20px;
   --radius-xl: 32px;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.15);
-
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Smooth transition for theme changes */
-body,
-.card,
-.navbar,
-.footer {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* ========================================
-   Reset & Base Styles
-   ======================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-primary);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-text);
   background-color: var(--color-background);
-  overflow-x: hidden;
+  /* Pale Lime/White base */
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  line-height: 1.6;
 }
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
+h3 {
+  font-family: 'Merriweather', serif;
+  color: var(--color-mauve-deep);
   font-weight: 700;
-  line-height: 1.2;
-  color: var(--color-mauve-dark);
 }
 
-h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  margin-bottom: var(--spacing-md);
-}
-
-h2 {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  margin-bottom: var(--spacing-md);
-}
-
-/* Utility Classes */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-/* Gradient Backgrounds */
-.gradient-mauve {
-  background: linear-gradient(135deg, var(--color-mauve) 0%, var(--color-mauve-light) 100%);
-}
-
-.gradient-peach {
-  background: linear-gradient(135deg, var(--color-peach) 0%, var(--color-peach-light) 100%);
-}
-
-.gradient-soft {
-  background: linear-gradient(135deg, #FFF0F5 0%, #F0F8FF 100%);
-}
-
-/* Button Styles - Rounder & Cuter */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: var(--radius-full);
-  transition: all var(--transition-base);
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-}
-
+/* Button Styles */
 .btn-primary {
-  background: var(--color-mauve);
+  background: var(--color-mauve-deep);
   color: white;
-  box-shadow: 0 4px 12px rgba(228, 160, 183, 0.4);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 12px 28px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background: var(--color-mauve-dark);
-  box-shadow: 0 6px 16px rgba(228, 160, 183, 0.6);
+  background: #6E4D4B;
+  /* Darker shade of deep mauve */
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-  background: var(--color-mint);
-  color: var(--color-black);
-  box-shadow: 0 4px 12px rgba(176, 224, 230, 0.4);
-}
-
-.btn-secondary:hover {
-  background: var(--color-mint-dark);
-  box-shadow: 0 6px 16px rgba(176, 224, 230, 0.6);
-  transform: translateY(-2px);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
+  background: var(--color-rose-soft);
+  color: var(--text-primary);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 10px 24px;
+  font-weight: 600;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-mauve);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-mauve-dark);
+  background: var(--color-rose-soft);
+  border-radius: 4px;
 }

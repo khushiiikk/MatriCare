@@ -99,7 +99,7 @@ const Dashboard = () => {
         <div className="dashboard-page">
             <div className="dashboard-container">
 
-                {/* Section 1: Top Status Card */}
+                {/* 1. Header (Full Width) */}
                 <div className="pregnancy-term-card slide-up">
                     <div className="date-header">
                         <span>📅</span> {pregnancyData.dateString}
@@ -124,106 +124,104 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Section 2: Symptoms/Vitals Row */}
-                <div className="vitals-card slide-up" style={{ animationDelay: '0.1s' }}>
-                    <div className="vitals-row">
-                        <div className="vital-item" onClick={() => navigate('/analytics')}>
-                            <div className="vital-icon" style={{ background: '#fff0f5', color: '#c67593' }}>
-                                ⚡
+                {/* 2. Main Professional Grid */}
+                <div className="dashboard-grid">
+
+                    {/* Left Column: Baby Hero Card */}
+                    <div className="baby-section-wrapper slide-up" style={{ animationDelay: '0.1s' }}>
+                        <div className="baby-card-wrapper">
+                            <div className="baby-card-header">
+                                BABY DEVELOPMENT
                             </div>
-                            <span className="vital-label">{t?.symptoms || 'Symptoms'}</span>
-                        </div>
-
-                        <div className="vital-item" onClick={handleWaterClick}>
-                            <div className="vital-icon" style={{ background: '#e0f7fa', color: '#00bcd4' }}>
-                                💧
-                            </div>
-                            <span className="vital-label">{t?.water || 'Water'} ({waterIntake})</span>
-                        </div>
-
-                        <div className="vital-item">
-                            <div className="vital-icon" style={{ background: '#e8f5e9', color: '#66bb6a' }}>
-                                😊
-                            </div>
-                            <span className="vital-label">{t?.mood || 'Mood'}</span>
-                        </div>
-                    </div>
-
-                    <div className="weight-display">
-                        <div className="weight-label">{t?.motherWeight || "Mother's weight"}</div>
-                        <div className="weight-value">{weight} kg</div>
-                    </div>
-                </div>
-
-                {/* Section 3: Baby Card (Unified) */}
-                <div className="tabs-container slide-up" style={{ animationDelay: '0.2s' }}>
-                    {/* Header Bar */}
-                    <div className="baby-card-header" style={{ background: '#B0E0E6', color: '#333' }}>
-                        BABY
-                    </div>
-
-                    <div className="tab-content">
-                        <div className="baby-content">
-                            <div className="baby-info-header">
+                            <div className="baby-content">
                                 <div className="approxim-text">{t?.babySize || "Baby's approximate size:"}</div>
                                 <div className="fruit-name">{pregnancyData.babySize}</div>
-                            </div>
 
-                            <div className="baby-visual-section">
-                                <div className="baby-illustration">
-                                    {/* Use Real Image from assets */}
-                                    <img src={fetusImage} alt="Fetus Illustration" />
+                                <div className="baby-visual-section">
+                                    <div className="baby-illustration">
+                                        <img src={fetusImage} alt="Baby Development" />
+                                    </div>
+
+                                    <div className="stats-row">
+                                        <div className="metric-box">
+                                            <h4>{t?.weight || 'Weight'}</h4>
+                                            <span>{pregnancyData.babyWeight}</span>
+                                        </div>
+                                        <div className="metric-box">
+                                            <h4>{t?.length || 'Length'}</h4>
+                                            <span>{pregnancyData.babyLength}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="stats-row">
-                                    <div className="metric-box">
-                                        <h4>{t?.weight || 'Weight'}:</h4>
-                                        <span>{pregnancyData.babyWeight}</span>
-                                    </div>
-                                    <div className="metric-box">
-                                        <h4>{t?.length || 'Length'}:</h4>
-                                        <span>{pregnancyData.babyLength}</span>
-                                    </div>
+                                <div className="dev-info">
+                                    <h4 style={{ color: 'var(--color-mauve-deep)', marginBottom: '8px' }}>{t?.whatsGoingOn || "Description"}</h4>
+                                    <p style={{ fontSize: '0.95rem', color: '#555' }}>{pregnancyData.description}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div className="dev-info" style={{ background: '#fff3e0' }}>
-                                <h4>{t?.whatsGoingOn || "What's going on?"}</h4>
-                                <p>{pregnancyData.description}</p>
+                    {/* Right Column: Vitals & Tools List */}
+                    <div className="actions-section-wrapper slide-up" style={{ animationDelay: '0.2s' }}>
+
+                        {/* 2x2 Vitals Grid */}
+                        <div className="vitals-row">
+                            <div className="vital-item" onClick={handleWaterClick}>
+                                <div className="vital-icon">
+                                    💧
+                                </div>
+                                <span className="vital-label">{t?.water || 'Water'}<br /><strong>{waterIntake} gls</strong></span>
+                            </div>
+
+                            <div className="vital-item">
+                                <div className="vital-icon">
+                                    ⚖️
+                                </div>
+                                <span className="vital-label">{t?.motherWeight || "Weight"}<br /><strong>{weight} kg</strong></span>
+                            </div>
+
+                            <div className="vital-item">
+                                <div className="vital-icon">
+                                    😊
+                                </div>
+                                <span className="vital-label">{t?.mood || 'Mood'}<br /><strong>Good</strong></span>
+                            </div>
+
+                            <div className="vital-item" onClick={() => navigate('/analytics')}>
+                                <div className="vital-icon">
+                                    ⚡
+                                </div>
+                                <span className="vital-label">{t?.symptoms || 'Symptoms'}<br /><strong>Check</strong></span>
                             </div>
                         </div>
+
+                        {/* Vertical Tools List */}
+                        <div className="tools-grid">
+                            <div className="tool-card" onClick={() => navigate('/analytics')}>
+                                <div className="tool-icon-wrapper">📊</div>
+                                <span className="tool-name">{t?.healthHub || 'Health Reports'}</span>
+                            </div>
+
+                            <div className="tool-card" onClick={() => navigate('/chatbot')}>
+                                <div className="tool-icon-wrapper">🤖</div>
+                                <span className="tool-name">{t?.aiChat || 'AI Assistant'}</span>
+                            </div>
+
+                            <div className="tool-card" onClick={() => navigate('/find-care')}>
+                                <div className="tool-icon-wrapper">🏥</div>
+                                <span className="tool-name">{t?.hospitals || 'Find Healthcare'}</span>
+                            </div>
+
+                            <div className="tool-card" onClick={() => navigate('/yoga')}>
+                                <div className="tool-icon-wrapper">🧘‍♀️</div>
+                                <span className="tool-name">{t?.yoga || 'Yoga & Exercise'}</span>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
-
-                {/* Bottom Tools - Professional Grid */}
-                <div className="tools-grid">
-                    <div className="tool-card" onClick={() => navigate('/analytics')}>
-                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
-                            📊
-                        </div>
-                        <span className="tool-name">{t?.healthHub || 'Health'}</span>
-                    </div>
-
-                    <div className="tool-card" onClick={() => navigate('/chatbot')}>
-                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
-                            🤖
-                        </div>
-                        <span className="tool-name">{t?.aiChat || 'AI Chat'}</span>
-                    </div>
-                    <div className="tool-card" onClick={() => navigate('/find-care')}>
-                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
-                            🏥
-                        </div>
-                        <span className="tool-name">{t?.hospitals || 'Care'}</span>
-                    </div>
-                    <div className="tool-card" onClick={() => navigate('/yoga')}>
-                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
-                            🧘‍♀️
-                        </div>
-                        <span className="tool-name">{t?.yoga || 'Yoga'}</span>
-                    </div>
-                </div>
-
             </div>
         </div>
     );

@@ -232,20 +232,49 @@ const Analytics = () => {
                                 <h2 className="health-section-title">
                                     <span className="icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                    </span> {t('analytics.prevention.title')}
+                                    </span>
+                                    High-Risk Pregnancy Factors
                                 </h2>
-                                <p className="health-section-subtitle">{t('analytics.prevention.subtitle')}</p>
+                                <p className="health-section-subtitle">
+                                    A high-risk pregnancy involves higher-than-average risks. Understanding these factors can help in early management.
+                                    <br /><em>Source: Cleveland Clinic</em>
+                                </p>
                             </div>
-                            <div className="health-info-list">
-                                {t('analytics.prevention.list').map((item, index) => (
-                                    <div key={index} className="info-row prevention-row">
-                                        <div className="info-row-marker" style={{ background: '#4CAF50' }}></div>
-                                        <div className="info-row-content">
-                                            <h3>{item.title}</h3>
-                                            <p>{item.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
+
+                            <div className="risk-categories-grid">
+                                <div className="risk-category-card">
+                                    <h3>Preexisting Conditions</h3>
+                                    <ul>
+                                        <li>High blood pressure (Hypertension)</li>
+                                        <li>Diabetes</li>
+                                        <li>Polycystic ovary syndrome (PCOS)</li>
+                                        <li>Autoimmune diseases (Lupus, MS)</li>
+                                        <li>Thyroid disease</li>
+                                        <li>Obesity</li>
+                                        <li>HIV/AIDS</li>
+                                    </ul>
+                                </div>
+                                <div className="risk-category-card">
+                                    <h3>Pregnancy-Related Conditions</h3>
+                                    <ul>
+                                        <li>Gestational Diabetes</li>
+                                        <li>Preeclampsia & Eclampsia</li>
+                                        <li>Multiple Gestation (Twins/Triplets)</li>
+                                        <li>Placenta Previa or Abruption</li>
+                                        <li>Previous Preterm Birth</li>
+                                        <li>Low Birth Weight</li>
+                                    </ul>
+                                </div>
+                                <div className="risk-category-card">
+                                    <h3>Lifestyle Factors</h3>
+                                    <ul>
+                                        <li>Smoking</li>
+                                        <li>Alcohol use</li>
+                                        <li>Substance use</li>
+                                        <li>Exposure to toxins</li>
+                                        <li>High stress</li>
+                                    </ul>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -257,22 +286,57 @@ const Analytics = () => {
                         <section className="health-info-section warning-signs" style={{ marginTop: 0 }}>
                             <div className="section-header">
                                 <h2 className="health-section-title">
-                                    <span className="icon">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                                    </span> {t('analytics.symptoms.title')}
+                                    <span className="icon">⚠️</span>
+                                    Warning Signs & Symptoms
                                 </h2>
-                                <p className="health-section-subtitle">{t('analytics.symptoms.subtitle')}</p>
+                                <p className="health-section-subtitle">
+                                    Contact your healthcare provider <strong>immediately</strong> if you experience any of these symptoms.
+                                    <br /><em>Source: Cleveland Clinic</em>
+                                </p>
                             </div>
                             <div className="health-info-list">
-                                {t('analytics.symptoms.list').map((item, index) => (
-                                    <div key={index} className="info-row warning-row">
-                                        <div className="info-row-marker"></div>
-                                        <div className="info-row-content">
-                                            <h3>{item.title}</h3>
-                                            <p>{item.desc}</p>
-                                        </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Severe Physical Pain</h3>
+                                        <p>Abdominal pain that doesn’t go away, severe headaches that get worse, or chest pain.</p>
                                     </div>
-                                ))}
+                                </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Fluid & Discharge Issues</h3>
+                                        <p>Vaginal bleeding, increased discharge, or swelling/redness/pain in face or limbs.</p>
+                                    </div>
+                                </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Systemic Symptoms</h3>
+                                        <p>Dizziness, fainting, extreme fatigue, trouble breathing, or high fever.</p>
+                                    </div>
+                                </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Stomach & Digestion</h3>
+                                        <p>Nausea and vomiting that is worse than typical morning sickness.</p>
+                                    </div>
+                                </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Fetal Movement</h3>
+                                        <p>The fetus’s movement stopping or slowing significantly.</p>
+                                    </div>
+                                </div>
+                                <div className="info-row warning-row">
+                                    <div className="info-row-marker"></div>
+                                    <div className="info-row-content">
+                                        <h3>Mental Health</h3>
+                                        <p>Thoughts about harming yourself or extreme anxiety.</p>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </div>
