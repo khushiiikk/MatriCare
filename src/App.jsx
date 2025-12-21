@@ -19,6 +19,7 @@ import FloatingRobot from './components/FloatingRobot';
 import Footer from './components/Footer';
 import FindCare from './pages/FindCare';
 import Analytics from './pages/Analytics';
+import Dashboard from './pages/Dashboard';
 import './index.css';
 
 // Protected Route Component
@@ -41,7 +42,7 @@ const PublicRoute = ({ children }) => {
     if (loading) return <div>Loading...</div>;
 
     if (isAuthenticated) {
-        return <Navigate to="/" />;
+        return <Navigate to="/dashboard" />;
     }
 
     return children;
@@ -66,6 +67,11 @@ const AppContent = () => {
                     </ProtectedRoute>
                 } />
 
+                <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } />
 
                 {/* Public Routes */}
                 <Route path="/login" element={

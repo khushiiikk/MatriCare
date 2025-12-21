@@ -8,7 +8,14 @@ export const translations = {
             about: 'About',
             health: 'Health',
             chatbot: 'Chatbot',
-            findCare: 'Find Care'
+            findCare: 'Find Care',
+            dashboard: 'Dashboard'
+        },
+
+        dashboard: {
+            welcome: 'Hello Mom',
+            daysLeft: 'days to go',
+            weeks: 'Week'
         },
 
         // Hero Section

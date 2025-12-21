@@ -2,6 +2,21 @@
     padding-top: 70px;
 }
 
+/* Mobile Padding */
+@media (max-width: 768px) {
+    .home {
+        padding-top: 80px;
+    }
+
+    .section {
+        padding: 40px 15px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+}
+
 /* ========================================
    Hero Section
    ======================================== */
@@ -355,7 +370,7 @@
 @media (max-width: 968px) {
     .hero-content {
         grid-template-columns: 1fr;
-        gap: var(--spacing-2xl);
+        gap: var(--spacing-xl);
     }
 
     .hero-image-container {
@@ -363,8 +378,8 @@
     }
 
     .hero-main-image {
-        width: 320px;
-        height: 320px;
+        width: 280px;
+        height: 280px;
     }
 
     .hero-text {
@@ -375,11 +390,57 @@
     .hero-quotes {
         justify-content: center;
     }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
 }
 
 @media (max-width: 600px) {
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 10px;
+    }
+
+    .feature-card {
+        padding: 25px 20px;
+        border-radius: 18px;
+    }
+
+    .feature-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+
+    .feature-icon {
+        font-size: 1.5rem;
+    }
+
+    .feature-card-title {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .feature-card-description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .feature-link {
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .section-header {
+        margin-bottom: 25px;
     }
 }
 

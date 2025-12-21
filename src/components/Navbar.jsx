@@ -73,6 +73,13 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
+                        {isAuthenticated && (
+                            <li>
+                                <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
+                                    Dashboard
+                                </Link>
+                            </li>
+                        )}
                         <li>
                             <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
                                 {t.yoga}
@@ -155,6 +162,13 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
+                        {isAuthenticated && (
+                            <li>
+                                <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Dashboard
+                                </Link>
+                            </li>
+                        )}
                         <li>
                             <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
                                 {t.yoga}
