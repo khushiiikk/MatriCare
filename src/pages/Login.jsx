@@ -4,324 +4,254 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import { validateMobile, validateName } from '../utils/validation';
-import { formatDateForInput } from '../utils/dateUtils';
-import Robot from '../components/Robot';
 import './Login.css';
-import plantIllustration from '../assets/fetus.png'; // Fallback for missing illustration
+import cuteMotherImg from '../assets/cute-mother.jpg';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { loginWithPassword, signup, isAuthenticated, user } = useAuth();
+    const { loginWithPassword, sendOTP, login, signup, isAuthenticated, user } = useAuth();
     const { language } = useLanguage();
     const t = translations[language].login;
 
     // UI State
     const [isLoginMode, setIsLoginMode] = useState(true);
+    const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
     const [error, setError] = useState('');
-    const [successMsg, setSuccessMsg] = useState('');
     const [loading, setLoading] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
 
-    // Login Form State
-    const [loginMobile, setLoginMobile] = useState('');
+    // Form State
+    const [mobile, setMobile] = useState('');
     const [password, setPassword] = useState('');
-    const [loginMethod, setLoginMethod] = useState('password');
+    const [otp, setOtp] = useState('');
+    const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
 
-    // Signup Form State
-    const [userType, setUserType] = useState('patient');
+    // Signup State
     const [signupData, setSignupData] = useState({
         name: '',
         mobile: '',
-        dob: '',
-        state: '',
-        district: '',
-        village: '',
-        lmpDate: '',
-        employeeId: '',
         password: '',
-        weight: '' // Added weight field
+        userType: 'patient'
     });
-
-    // Robot Animation Stats
-    const [robotMood, setRobotMood] = useState('happy');
 
     useEffect(() => {
         if (isAuthenticated && user) {
             const role = user.userType || user.role;
-            if (role === 'asha') {
-                navigate('/asha-dashboard');
-            } else {
-                navigate('/dashboard');
-            }
+            navigate(role === 'asha' ? '/asha-dashboard' : '/dashboard');
         }
     }, [isAuthenticated, user, navigate]);
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        if (!loginMobile || !password) {
-            setError('Please fill in all fields');
-            return;
-        }
+        if (!mobile) return setError(t.errors.invalidMobile);
 
         setLoading(true);
         try {
-            const result = await loginWithPassword(loginMobile, password);
-            setLoading(false);
-
-            if (result.success) {
-                console.log("Login successful, role:", result.user.role || result.user.userType);
-                setRobotMood('success');
-                // Navigation handled by useEffect
+            if (loginMethod === 'password') {
+                if (!password) {
+                    setLoading(false);
+                    return setError(t.errors.invalidPassword);
+                }
+                const result = await loginWithPassword(mobile, password);
+                if (!result.success) setError(result.error);
             } else {
-                console.error("Login failed:", result.error);
-                setError(result.error || 'Login failed');
-                setRobotMood('thinking');
+                // OTP Login
+                if (!otpSent) {
+                    const result = await sendOTP(mobile);
+                    if (result.success) {
+                        setOtpSent(true);
+                        setError('');
+                    } else {
+                        setError(result.error);
+                    }
+                } else {
+                    if (!otp) {
+                        setLoading(false);
+                        return setError(t.errors.invalidOtp);
+                    }
+                    const result = await login(mobile, otp);
+                    if (!result.success) setError(result.error);
+                }
             }
         } catch (err) {
-            setLoading(false);
-            console.error("Login exception:", err);
             setError('Login failed. Please try again.');
-            setRobotMood('thinking');
+        } finally {
+            setLoading(false);
         }
-    };
-
-    const handleSignupChange = (e) => {
-        setSignupData({ ...signupData, [e.target.name]: e.target.value });
     };
 
     const handleSignupSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Basic Validations
         if (!validateName(signupData.name)) return setError(t.errors.invalidName);
         if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
         if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
-        // Specific Validations
-        if (userType === 'patient') {
-            if (!signupData.dob) return setError('Date of Birth is required');
-            if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
-        } else {
-            if (!signupData.employeeId) return setError(t.errors.employeeId || 'Employee ID required');
-        }
-
-        if (!signupData.state || !signupData.district || !signupData.village) {
-            return setError('Please fill in location details');
-        }
-
         setLoading(true);
         try {
-            const payload = { ...signupData, userType, role: userType };
-            if (userType === 'asha') {
-                delete payload.dob;
-                delete payload.lmpDate;
-            } else {
-                delete payload.employeeId;
-            }
-
-            console.log("Submitting signup payload:", payload);
-            const result = await signup(payload);
-            setLoading(false);
-
-            if (result.success) {
-                console.log("Signup success, navigating...");
-                setRobotMood('success');
-                // Navigation will be handled by useEffect but explicit fallback:
-                setTimeout(() => {
-                    const dest = userType === 'asha' ? '/asha-dashboard' : '/dashboard';
-                    console.log("Navigating to:", dest);
-                    navigate(dest);
-                }, 100);
-            } else {
-                console.error("Signup failed:", result.error);
-                setError(result.error || t.errors.regFailed);
-                setRobotMood('thinking');
-            }
+            const result = await signup({ ...signupData, userType });
+            if (!result.success) setError(result.error);
         } catch (err) {
+            setError(t.errors.regFailed);
+        } finally {
             setLoading(false);
-            console.error("Signup exception:", err);
-            setError('Registration failed. Please try again.');
-            setRobotMood('thinking');
         }
     };
 
     const toggleMode = () => {
         setIsLoginMode(!isLoginMode);
         setError('');
-        setSuccessMsg('');
+        setOtpSent(false);
     };
 
     return (
         <div className="login-page">
-            <div className="login-glass-card">
-                {/* Form Section */}
-                <div className="login-form-side">
-                    <div className="login-form-inner">
-                        <header className="form-header">
-                            <h2 className="brand-name">MatriCare</h2>
-                            <h1 className="form-title">
-                                {isLoginMode ? 'Login' : 'Sign Up'}
-                            </h1>
-                            <p className="form-subtitle">
-                                {isLoginMode ? 'Welcome back, please enter your details' : 'Join our community of healthy mothers'}
-                            </p>
-                        </header>
+            <div id="recaptcha-container"></div>
+            <div className="login-card-container">
+                <div className="login-card">
+                    {/* Left Side: Form */}
+                    <div className="login-form-pane">
+                        <div className="form-inner-content">
+                            <h2 className="welcome-heading">{isLoginMode ? t.welcomeBack : t.joinMatriCare}</h2>
+                            <p className="welcome-sublabel">{isLoginMode ? "Nice to see you naturally" : t.signupDesc}</p>
 
-                        {error && <div className="error-pill">{error}</div>}
-
-                        <form onSubmit={isLoginMode ? handleLoginSubmit : handleSignupSubmit}>
-                            <div className="user-role-toggle">
+                            <div className="role-tabs">
                                 <button
-                                    type="button"
-                                    className={userType === 'patient' ? 'active' : ''}
+                                    className={`role-tab ${userType === 'patient' ? 'active' : ''}`}
                                     onClick={() => setUserType('patient')}
                                 >
-                                    Patient
+                                    {t.rolePatient || 'Patient (Mother)'}
                                 </button>
                                 <button
-                                    type="button"
-                                    className={userType === 'asha' ? 'active' : ''}
+                                    className={`role-tab ${userType === 'asha' ? 'active' : ''}`}
                                     onClick={() => setUserType('asha')}
                                 >
-                                    ASHA Worker
+                                    {t.roleAsha || 'ASHA Worker'}
                                 </button>
                             </div>
 
-                            {!isLoginMode && (
-                                <div className="form-row">
-                                    <div className="input-group">
-                                        <label>Full Name</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={signupData.name}
-                                            onChange={handleSignupChange}
-                                            placeholder="Your name"
-                                        />
-                                    </div>
+                            {isLoginMode && (
+                                <div className="method-tabs">
+                                    <button
+                                        className={`method-tab ${loginMethod === 'password' ? 'active' : ''}`}
+                                        onClick={() => { setLoginMethod('password'); setOtpSent(false); }}
+                                    >
+                                        {t.password}
+                                    </button>
+                                    <button
+                                        className={`method-tab ${loginMethod === 'otp' ? 'active' : ''}`}
+                                        onClick={() => setLoginMethod('otp')}
+                                    >
+                                        {t.mobileOtp || 'Via OTP'}
+                                    </button>
                                 </div>
                             )}
 
-                            <div className="form-row">
-                                <div className="input-group">
-                                    <label>Mobile Number</label>
+                            {error && <div className="login-error-msg">{error}</div>}
+
+                            <form onSubmit={isLoginMode ? handleLoginSubmit : handleSignupSubmit}>
+                                {!isLoginMode && (
+                                    <div className="input-field-group">
+                                        <label>{t.fullName}</label>
+                                        <input
+                                            type="text"
+                                            placeholder={t.namePlaceholder}
+                                            value={signupData.name}
+                                            onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="input-field-group">
+                                    <label>{t.mobileLabel}</label>
                                     <input
                                         type="tel"
-                                        name={isLoginMode ? "loginMobile" : "mobile"}
-                                        value={isLoginMode ? loginMobile : signupData.mobile}
-                                        onChange={(e) => isLoginMode ? setLoginMobile(e.target.value) : handleSignupChange(e)}
-                                        placeholder="10-digit number"
+                                        placeholder={t.mobilePlaceholder}
+                                        value={isLoginMode ? mobile : signupData.mobile}
+                                        onChange={(e) => isLoginMode ? setMobile(e.target.value) : setSignupData({ ...signupData, mobile: e.target.value })}
+                                        required
                                         maxLength="10"
                                     />
                                 </div>
-                            </div>
 
-                            {!isLoginMode && (
-                                <>
-                                    <div className="form-row multi">
-                                        {userType === 'patient' ? (
-                                            <div className="input-group">
-                                                <label>DOB</label>
-                                                <input type="date" name="dob" value={signupData.dob} onChange={handleSignupChange} max={formatDateForInput(new Date())} />
-                                            </div>
-                                        ) : (
-                                            <div className="input-group">
-                                                <label>Employee ID</label>
-                                                <input type="text" name="employeeId" value={signupData.employeeId} onChange={handleSignupChange} placeholder="ID Number" />
-                                            </div>
-                                        )}
-                                        <div className="input-group">
-                                            <label>State</label>
-                                            <input type="text" name="state" value={signupData.state} onChange={handleSignupChange} placeholder="State" />
+                                {isLoginMode ? (
+                                    loginMethod === 'password' ? (
+                                        <div className="input-field-group">
+                                            <label>{t.passwordLabel}</label>
+                                            <input
+                                                type="password"
+                                                placeholder={t.passwordPlaceholder}
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                            />
                                         </div>
-                                    </div>
-
-                                    <div className="form-row multi">
-                                        <div className="input-group">
-                                            <label>District</label>
-                                            <input type="text" name="district" value={signupData.district} onChange={handleSignupChange} placeholder="District" />
-                                        </div>
-                                        <div className="input-group">
-                                            <label>Village</label>
-                                            <input type="text" name="village" value={signupData.village} onChange={handleSignupChange} placeholder="Village" />
-                                        </div>
-                                    </div>
-
-                                    {userType === 'patient' && (
-                                        <div className="form-row">
-                                            <div className="input-group">
-                                                <label>LMP Date</label>
-                                                <input type="date" name="lmpDate" value={signupData.lmpDate} onChange={handleSignupChange} max={formatDateForInput(new Date())} />
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {userType === 'patient' && (
-                                        <div className="form-row">
-                                            <div className="input-group">
-                                                <label>Mother's Weight (kg)</label>
+                                    ) : (
+                                        otpSent && (
+                                            <div className="input-field-group">
+                                                <label>{t.enterOtp}</label>
                                                 <input
-                                                    type="number"
-                                                    name="weight"
-                                                    value={signupData.weight}
-                                                    onChange={handleSignupChange}
-                                                    placeholder="Current weight in kg"
+                                                    type="text"
+                                                    placeholder={t.otpPlaceholder}
+                                                    value={otp}
+                                                    onChange={(e) => setOtp(e.target.value)}
+                                                    required
+                                                    maxLength="6"
                                                 />
                                             </div>
-                                        </div>
-                                    )}
-                                </>
-                            )}
+                                        )
+                                    )
+                                ) : (
+                                    <div className="input-field-group">
+                                        <label>{t.createPassword}</label>
+                                        <input
+                                            type="password"
+                                            placeholder={t.createPassPlaceholder}
+                                            value={signupData.password}
+                                            onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                )}
 
-                            <div className="form-row">
-                                <div className="input-group">
-                                    <label>Password</label>
-                                    <input
-                                        type="password"
-                                        name={isLoginMode ? "loginPassword" : "password"}
-                                        value={isLoginMode ? password : signupData.password}
-                                        onChange={(e) => isLoginMode ? setPassword(e.target.value) : handleSignupChange(e)}
-                                        placeholder="Min. 6 characters"
-                                    />
-                                </div>
-                            </div>
-
-                            <button type="submit" className="submit-action-btn" disabled={loading}>
-                                {loading ? 'Processing...' : (isLoginMode ? 'Sign In' : 'Sign Up')}
-                            </button>
-                        </form>
-
-                        <footer className="form-footer">
-                            <p>
-                                {isLoginMode ? "Don't have an account?" : "Already have an account?"}
-                                <button onClick={toggleMode} className="inline-toggle-btn">
-                                    {isLoginMode ? 'Create Account' : 'Login'}
+                                <button type="submit" className="login-submit-button" disabled={loading}>
+                                    {loading ? t.processing : (isLoginMode ? (loginMethod === 'otp' && !otpSent ? t.sendOtp : t.loginBtn) : t.createAccount)}
                                 </button>
-                            </p>
-                        </footer>
-                    </div>
-                </div>
+                            </form>
 
-                {/* Illustration Section */}
-                <div className="login-visual-side">
-                    <div className="visual-container">
-                        <div className="illustration-wrapper">
-                            <img src={plantIllustration} alt="Wellness" className="floating-plant" />
-                            <div className="glow-effect"></div>
+                            <p className="toggle-mode-text">
+                                {isLoginMode ? t.firstTime : t.alreadyHave}{' '}
+                                <span onClick={toggleMode} className="toggle-action-link">
+                                    {isLoginMode ? t.createAccount : t.loginBtn}
+                                </span>
+                            </p>
                         </div>
-                        <div className="robot-mini">
-                            <Robot mood={robotMood} />
+                    </div>
+
+                    {/* Right Side: Welcome Side */}
+                    <div className="login-welcome-pane">
+                        <div className="welcome-content-wrapper">
+                            <div className="welcome-avatar-circle">
+                                <img src={cuteMotherImg} alt="Mother" className="welcome-avatar-img" />
+                            </div>
+                            <h2 className="hello-mom-text">{t.helloMom || "Hello Mom!"}</h2>
+                            <p className="welcome-description-text">{t.loginDesc}</p>
+
+                            <div className="feature-badges">
+                                <div className="feature-badge">{t.badgeTracker}</div>
+                                <div className="feature-badge">{t.badgeAI}</div>
+                                <div className="feature-badge">{t.badgeYoga}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Background Elements */}
-            <div className="bg-blur-circle pink"></div>
-            <div className="bg-blur-circle purple"></div>
         </div>
     );
 };
 
 export default Login;
+

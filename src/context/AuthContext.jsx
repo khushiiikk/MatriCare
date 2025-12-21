@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { auth, db } from '../firebase';
 import { RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -41,19 +41,12 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
             } else {
                 // No Firebase user. Check local storage for password-login session
-                try {
-                    const storedUser = localStorage.getItem('matricare_user');
-                    if (storedUser) {
-                        const userData = JSON.parse(storedUser);
-                        setUser(userData);
-                        setIsAuthenticated(true);
-                    } else {
-                        setUser(null);
-                        setIsAuthenticated(false);
-                    }
-                } catch (e) {
-                    console.error("Failed to parse stored user:", e);
-                    localStorage.removeItem('matricare_user');
+                const storedUser = localStorage.getItem('matricare_user');
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
+                    setUser(userData);
+                    setIsAuthenticated(true);
+                } else {
                     setUser(null);
                     setIsAuthenticated(false);
                 }
@@ -140,8 +133,6 @@ export const AuthProvider = ({ children }) => {
     // Sign up new user
     const signup = async (userData) => {
         try {
-            console.log("Starting signup for:", userData.mobile);
-            // Default UID if not provided
             const uid = userData.uid || `user_${userData.mobile}_${Date.now()}`;
 
             const newUser = {
@@ -156,7 +147,6 @@ export const AuthProvider = ({ children }) => {
 
             // SAVE TO FIRESTORE
             await setDoc(doc(db, "users", uid), newUser);
-            console.log("Signup successful, user doc created:", uid);
 
             // Set state and persist
             setUser(newUser);
@@ -174,15 +164,13 @@ export const AuthProvider = ({ children }) => {
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
-            console.log("Attempting password login for:", mobile);
-            // Try matching 10-digit number exactly as stored
+            const { collection, query, where, getDocs } = await import('firebase/firestore');
             const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
                 const userData = { ...userDoc.data(), uid: userDoc.id };
-                console.log("Login successful:", userData.uid);
                 setUser(userData);
                 setIsAuthenticated(true);
                 localStorage.setItem('matricare_user', JSON.stringify(userData));
@@ -190,7 +178,6 @@ export const AuthProvider = ({ children }) => {
                 return { success: true, user: userData };
             }
 
-            console.log("No matching user found for:", mobile);
             setLoading(false);
             return { success: false, error: 'Invalid mobile number or password.' };
         } catch (e) {
@@ -199,7 +186,6 @@ export const AuthProvider = ({ children }) => {
             return { success: false, error: e.message };
         }
     };
-
 
     const logout = async () => {
         try {

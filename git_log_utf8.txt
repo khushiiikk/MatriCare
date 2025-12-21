@@ -1,0 +1,20 @@
+﻿063c61e Fix login and registration logic: improve Firestore imports, add logging, and refine role-based navigation
+3c86efe Fix build errors: resolve missing asset import and remove duplicate key
+346e913 Ensure age is synced when updating profile
+593114d Refine Dashboard UI, Fix Registration flow, Add weight field, and Auto-calculate Age from DOB
+99bd363 Enhance Login Page with Patient/ASHA toggle and Password/OTP login methods
+7920b43 Finalizing UI updates for live site deployment
+68d9e08 Update UI theme to Soft Pastel Pink palette as requested
+f6dfab3 Update Analytics with High Risk Pregnancy data from Cleveland Clinic and apply new theme variables
+2dd9592 Update pregnancy week data (1-40) with detailed descriptions
+68783f3 Update baby illustration to user provided image
+27012f2 Revert theme, update dashboard layout + illustration
+931f0d1 Fix dashboard object structure in translations.js
+ff5e9b4 Fix syntax error in translations.js
+0d41cd0 Update color palette to Slate/Sage/Peach and fix dashboard structure
+71077d8 Hide Home link for authenticated users
+3232053 Enhance Dashboard UI, Login design, and add Water/Mood tracking
+37a5da3 Implement Dashboard, Health Hub updates, and navigation improvements
+0e4bf60 fix: Force update all theme and login changes
+add8519 feat: Implement role-based registration and update translations
+5a77f52 Enhance Health Hub: Remove subtitle, premium card gradients, modern shadows, and improved upload UI
