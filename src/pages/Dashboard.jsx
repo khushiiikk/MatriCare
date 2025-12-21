@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations, getTranslation } from '../translations/translations'; // Added getTranslation import for safety
 import './Dashboard.css';
-import fetusImage from '../assets/fetus.png'; // Import the real/generated image
+import fetusImage from '../assets/baby_illustration.jpg'; // Import the new illustration
 
 const Dashboard = () => {
     const { user, isAuthenticated } = useAuth();
