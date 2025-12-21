@@ -403,8 +403,12 @@ export const translations = {
                 invalidLMP: 'Please select your LMP date',
                 shortPassword: 'Password must be at least 6 characters',
                 regFailed: 'Registration failed. Please try again.',
-                otpSent: 'OTP sent successfully!'
-            }
+                otpSent: 'OTP sent successfully!',
+                employeeId: 'Please enter your Employee ID'
+            },
+            rolePatient: 'Patient (Mother)',
+            roleAsha: 'ASHA Worker',
+            employeeId: 'Employee ID',
         },
 
         // Analytics Page
@@ -889,8 +893,12 @@ export const translations = {
                 invalidLMP: 'कृपया अपनी एलएमपी तिथि चुनें',
                 shortPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए',
                 regFailed: 'पंजीकरण विफल। कृपया पुनः प्रयास करें।',
-                otpSent: 'ओटीपी सफलतापूर्वक भेजा गया!'
-            }
+                otpSent: 'ओटीपी सफलतापूर्वक भेजा गया!',
+                employeeId: 'कृपया अपनी कर्मचारी आईडी दर्ज करें'
+            },
+            rolePatient: 'रोगी (Mother)',
+            roleAsha: 'आशा वर्कर (ASHA)',
+            employeeId: 'कर्मचारी आईडी',
         },
 
         // Analytics Page
@@ -1115,8 +1123,12 @@ export const translations = {
                 invalidLMP: 'कृपया तुमची LMP तारीख निवडा',
                 shortPassword: 'पासवर्ड किमान 6 वर्णांचा असावा',
                 regFailed: 'नोंदणी अयशस्वी. कृपया पुन्हा प्रयत्न करा.',
-                otpSent: 'OTP यशस्वीरित्या पाठवला!'
-            }
+                otpSent: 'OTP यशस्वीरित्या पाठवला!',
+                employeeId: 'कृपया आपला कर्मचारी आयडी प्रविष्ट करा'
+            },
+            rolePatient: 'रुग्ण (Mother)',
+            roleAsha: 'आशा वर्कर (ASHA)',
+            employeeId: 'कर्मचारी आयडी',
         },
         analytics: {
             title: 'Health & Knowledge Hub',
@@ -1458,8 +1470,12 @@ export const translations = {
                 invalidLMP: 'உங்கள் LMP தேதியைத் தேர்ந்தெடுக்கவும்',
                 shortPassword: 'கடவுச்சொல் குறைந்தது 6 எழுத்துக்களாக இருக்க வேண்டும்',
                 regFailed: 'பதிவு தோல்வியுற்றது. மீண்டும் முயற்சிக்கவும்.',
-                otpSent: 'OTP வெற்றிகரமாக அனுப்பப்பட்டது!'
-            }
+                otpSent: 'OTP வெற்றிகரமாக அனுப்பப்பட்டது!',
+                employeeId: 'உங்கள் பணியாளர் அடையாள எண்ணை உள்ளிடவும்'
+            },
+            rolePatient: 'நோயாளி (Mother)',
+            roleAsha: 'ஆஷா பணியாளர் (ASHA)',
+            employeeId: 'ஊழியர் அடையாள எண்',
         },
         analytics: {
             title: 'Health & Knowledge Hub',

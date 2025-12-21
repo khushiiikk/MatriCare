@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
-import { validateMobile, validateName, validateAge } from '../utils/validation';
+import { validateMobile, validateName } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
 import './Login.css';
@@ -25,6 +25,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     // Signup Form State
+    const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
     const [signupData, setSignupData] = useState({
         name: '',
         mobile: '',
@@ -33,6 +34,7 @@ const Login = () => {
         district: '',
         village: '',
         lmpDate: '',
+        employeeId: '',
         password: ''
     });
 
@@ -91,22 +93,37 @@ const Login = () => {
 
         if (!validateName(signupData.name)) return setError(t.errors.invalidName);
         if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
-        if (!signupData.dob) return setError('Please enter your date of birth');
+
+        // Conditional Validation based on User Type
+        if (userType === 'patient') {
+            if (!signupData.dob) return setError(t.errors.invalidAge || 'Please enter valid DOB'); // Fallback reusing invalidAge
+            if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
+        } else if (userType === 'asha') {
+            if (!signupData.employeeId) return setError(t.errors.employeeId || 'Please enter Employee ID');
+        }
+
         if (!signupData.state) return setError('Please enter your state');
         if (!signupData.district) return setError('Please enter your district');
         if (!signupData.village) return setError('Please select your village');
-        if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
         if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
         setLoading(true);
         try {
-            const result = await signup(signupData);
+            const payload = { ...signupData, userType };
+            // Remove irrelevant fields for cleaner data
+            if (userType === 'asha') {
+                delete payload.dob;
+                delete payload.lmpDate;
+            } else {
+                delete payload.employeeId;
+            }
+
+            const result = await signup(payload);
             setLoading(false);
 
             if (result.success) {
                 setSuccessMsg('Account created successfully!');
                 setRobotMood('success');
-                // Optional: navigate('/') or let the AuthContext update trigger the redirect
             } else {
                 setError(result.error || t.errors.regFailed);
                 setRobotMood('thinking');
@@ -181,6 +198,44 @@ const Login = () => {
                         ) : (
                             // Signup Form
                             <form onSubmit={handleSignupSubmit} className="login-form">
+                                {/* User Type Toggle */}
+                                <div className="user-type-selector" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                                    <button
+                                        type="button"
+                                        className={`type-btn ${userType === 'patient' ? 'active' : ''}`}
+                                        onClick={() => setUserType('patient')}
+                                        style={{
+                                            flex: 1,
+                                            padding: '10px',
+                                            borderRadius: '10px',
+                                            border: `2px solid ${userType === 'patient' ? 'var(--color-mauve)' : '#eee'}`,
+                                            backgroundColor: userType === 'patient' ? 'var(--color-mauve)' : '#f9f9f9',
+                                            color: userType === 'patient' ? 'white' : '#666',
+                                            cursor: 'pointer',
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        {t.rolePatient || 'Patient'}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`type-btn ${userType === 'asha' ? 'active' : ''}`}
+                                        onClick={() => setUserType('asha')}
+                                        style={{
+                                            flex: 1,
+                                            padding: '10px',
+                                            borderRadius: '10px',
+                                            border: `2px solid ${userType === 'asha' ? 'var(--color-mauve)' : '#eee'}`,
+                                            backgroundColor: userType === 'asha' ? 'var(--color-mauve)' : '#f9f9f9',
+                                            color: userType === 'asha' ? 'white' : '#666',
+                                            cursor: 'pointer',
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        {t.roleAsha || 'ASHA Worker'}
+                                    </button>
+                                </div>
+
                                 <div className="form-group">
                                     <label>{t.fullName}</label>
                                     <input
@@ -206,17 +261,33 @@ const Login = () => {
                                     />
                                 </div>
 
-                                <div className="form-group">
-                                    <label>{t.dob}</label>
-                                    <input
-                                        type="date"
-                                        name="dob"
-                                        value={signupData.dob}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                        max={formatDateForInput(new Date())}
-                                    />
-                                </div>
+                                {userType === 'patient' && (
+                                    <div className="form-group">
+                                        <label>{t.dob}</label>
+                                        <input
+                                            type="date"
+                                            name="dob"
+                                            value={signupData.dob}
+                                            onChange={handleSignupChange}
+                                            className="form-input"
+                                            max={formatDateForInput(new Date())}
+                                        />
+                                    </div>
+                                )}
+
+                                {userType === 'asha' && (
+                                    <div className="form-group">
+                                        <label>{t.employeeId || 'Employee ID'}</label>
+                                        <input
+                                            type="text"
+                                            name="employeeId"
+                                            placeholder={t.employeeId || 'Enter ID'}
+                                            value={signupData.employeeId}
+                                            onChange={handleSignupChange}
+                                            className="form-input"
+                                        />
+                                    </div>
+                                )}
 
                                 <div className="form-group">
                                     <label>{t.state}</label>
@@ -258,18 +329,20 @@ const Login = () => {
                                     </select>
                                 </div>
 
-                                <div className="form-group">
-                                    <label>{t.lmpDate}</label>
-                                    <input
-                                        type="date"
-                                        name="lmpDate"
-                                        value={signupData.lmpDate}
-                                        onChange={handleSignupChange}
-                                        className="form-input"
-                                        max={formatDateForInput(new Date())}
-                                    />
-                                    <small className="field-hint">{t.lmpHint}</small>
-                                </div>
+                                {userType === 'patient' && (
+                                    <div className="form-group">
+                                        <label>{t.lmpDate}</label>
+                                        <input
+                                            type="date"
+                                            name="lmpDate"
+                                            value={signupData.lmpDate}
+                                            onChange={handleSignupChange}
+                                            className="form-input"
+                                            max={formatDateForInput(new Date())}
+                                        />
+                                        <small className="field-hint">{t.lmpHint}</small>
+                                    </div>
+                                )}
 
                                 <div className="form-group">
                                     <label>{t.createPassword}</label>
