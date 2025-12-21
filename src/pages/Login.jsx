@@ -69,14 +69,17 @@ const Login = () => {
             setLoading(false);
 
             if (result.success) {
+                console.log("Login successful, role:", result.user.role || result.user.userType);
                 setRobotMood('success');
                 // Navigation handled by useEffect
             } else {
+                console.error("Login failed:", result.error);
                 setError(result.error || 'Login failed');
                 setRobotMood('thinking');
             }
         } catch (err) {
             setLoading(false);
+            console.error("Login exception:", err);
             setError('Login failed. Please try again.');
             setRobotMood('thinking');
         }
@@ -117,21 +120,27 @@ const Login = () => {
                 delete payload.employeeId;
             }
 
+            console.log("Submitting signup payload:", payload);
             const result = await signup(payload);
             setLoading(false);
 
             if (result.success) {
+                console.log("Signup success, navigating...");
                 setRobotMood('success');
                 // Navigation will be handled by useEffect but explicit fallback:
                 setTimeout(() => {
-                    navigate(userType === 'asha' ? '/asha-dashboard' : '/dashboard');
+                    const dest = userType === 'asha' ? '/asha-dashboard' : '/dashboard';
+                    console.log("Navigating to:", dest);
+                    navigate(dest);
                 }, 100);
             } else {
+                console.error("Signup failed:", result.error);
                 setError(result.error || t.errors.regFailed);
                 setRobotMood('thinking');
             }
         } catch (err) {
             setLoading(false);
+            console.error("Signup exception:", err);
             setError('Registration failed. Please try again.');
             setRobotMood('thinking');
         }
