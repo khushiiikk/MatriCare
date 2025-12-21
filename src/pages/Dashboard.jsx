@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
+import { translations, getTranslation } from '../translations/translations'; // Added getTranslation import for safety
 import './Dashboard.css';
+import fetusImage from '../assets/fetus.png'; // Import the real/generated image
 
 const Dashboard = () => {
     const { user, isAuthenticated } = useAuth();
     const { language } = useLanguage();
     const navigate = useNavigate();
-    const t = translations[language].dashboard; // Access dashboard translations
-    const pregnancyWeeksData = translations[language].pregnancyWeeks || translations['en'].pregnancyWeeks; // Fallback to English if data missing
+
+    // Fallback safely for translations
+    const t = translations[language]?.dashboard || translations['en'].dashboard;
+    const pregnancyWeeksData = translations[language]?.pregnancyWeeks || translations['en'].pregnancyWeeks;
 
     // Trackers
     const [waterIntake, setWaterIntake] = useState(0);
@@ -120,21 +123,21 @@ const Dashboard = () => {
                 <div className="vitals-card slide-up" style={{ animationDelay: '0.1s' }}>
                     <div className="vitals-row">
                         <div className="vital-item" onClick={() => navigate('/analytics')}>
-                            <div className="vital-icon" style={{ background: '#E6E4E0', color: '#3F5B67' }}>
+                            <div className="vital-icon" style={{ background: '#fff0f5', color: '#c67593' }}>
                                 ⚡
                             </div>
                             <span className="vital-label">{t?.symptoms || 'Symptoms'}</span>
                         </div>
 
                         <div className="vital-item" onClick={handleWaterClick}>
-                            <div className="vital-icon" style={{ background: '#e1f5fe', color: '#0288d1' }}>
+                            <div className="vital-icon" style={{ background: '#e0f7fa', color: '#00bcd4' }}>
                                 💧
                             </div>
                             <span className="vital-label">{t?.water || 'Water'} ({waterIntake})</span>
                         </div>
 
                         <div className="vital-item">
-                            <div className="vital-icon" style={{ background: '#F1D4C6', color: '#3F5B67' }}>
+                            <div className="vital-icon" style={{ background: '#e8f5e9', color: '#66bb6a' }}>
                                 😊
                             </div>
                             <span className="vital-label">{t?.mood || 'Mood'}</span>
@@ -150,7 +153,7 @@ const Dashboard = () => {
                 {/* Section 3: Baby Card (Unified) */}
                 <div className="tabs-container slide-up" style={{ animationDelay: '0.2s' }}>
                     {/* Header Bar */}
-                    <div className="baby-card-header" style={{ background: 'var(--color-sage)', color: 'white' }}>
+                    <div className="baby-card-header" style={{ background: '#B0E0E6', color: '#333' }}>
                         BABY
                     </div>
 
@@ -158,33 +161,29 @@ const Dashboard = () => {
                         <div className="baby-content">
                             <div className="baby-info-header">
                                 <div className="approxim-text">{t?.babySize || "Baby's approximate size:"}</div>
-                                <div className="fruit-name" style={{ color: 'var(--color-slate)' }}>{pregnancyData.babySize}</div>
+                                <div className="fruit-name">{pregnancyData.babySize}</div>
                             </div>
 
                             <div className="baby-visual-section">
-                                <div className="metric-box">
-                                    <h4>{t?.weight || 'Weight'}:</h4>
-                                    <span>{pregnancyData.babyWeight}</span>
+                                <div className="baby-illustration">
+                                    {/* Use Real Image from assets */}
+                                    <img src={fetusImage} alt="Fetus Illustration" />
                                 </div>
 
-                                <div className="baby-illustration" style={{ borderColor: 'var(--color-blush)' }}>
-                                    {/* Cleaner Icons/Emojis */}
-                                    {pregnancyData.babySize === 'Avocado' ? '🥑'
-                                        : pregnancyData.babySize === 'Lemon' ? '🍋'
-                                            : pregnancyData.babySize === 'Apple' ? '🍎'
-                                                : pregnancyData.babySize === 'Banana' ? '🍌'
-                                                    : pregnancyData.babySize === 'Mango' ? '🥭'
-                                                        : '👶'}
-                                </div>
-
-                                <div className="metric-box">
-                                    <h4>{t?.length || 'Length'}:</h4>
-                                    <span>{pregnancyData.babyLength}</span>
+                                <div className="stats-row">
+                                    <div className="metric-box">
+                                        <h4>{t?.weight || 'Weight'}:</h4>
+                                        <span>{pregnancyData.babyWeight}</span>
+                                    </div>
+                                    <div className="metric-box">
+                                        <h4>{t?.length || 'Length'}:</h4>
+                                        <span>{pregnancyData.babyLength}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="dev-info" style={{ background: 'var(--color-off-white)' }}>
-                                <h4 style={{ color: 'var(--color-slate)' }}>{t?.whatsGoingOn || "What's going on?"}</h4>
+                            <div className="dev-info" style={{ background: '#fff3e0' }}>
+                                <h4>{t?.whatsGoingOn || "What's going on?"}</h4>
                                 <p>{pregnancyData.description}</p>
                             </div>
                         </div>
@@ -194,26 +193,26 @@ const Dashboard = () => {
                 {/* Bottom Tools - Professional Grid */}
                 <div className="tools-grid">
                     <div className="tool-card" onClick={() => navigate('/analytics')}>
-                        <div className="tool-icon-wrapper" style={{ color: 'var(--color-slate)' }}>
+                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
                             📊
                         </div>
                         <span className="tool-name">{t?.healthHub || 'Health'}</span>
                     </div>
 
                     <div className="tool-card" onClick={() => navigate('/chatbot')}>
-                        <div className="tool-icon-wrapper" style={{ color: 'var(--color-slate)' }}>
+                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
                             🤖
                         </div>
                         <span className="tool-name">{t?.aiChat || 'AI Chat'}</span>
                     </div>
                     <div className="tool-card" onClick={() => navigate('/find-care')}>
-                        <div className="tool-icon-wrapper" style={{ color: 'var(--color-slate)' }}>
+                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
                             🏥
                         </div>
                         <span className="tool-name">{t?.hospitals || 'Care'}</span>
                     </div>
                     <div className="tool-card" onClick={() => navigate('/yoga')}>
-                        <div className="tool-icon-wrapper" style={{ color: 'var(--color-slate)' }}>
+                        <div className="tool-icon-wrapper" style={{ color: '#E4A0B7' }}>
                             🧘‍♀️
                         </div>
                         <span className="tool-name">{t?.yoga || 'Yoga'}</span>

@@ -1,67 +1,54 @@
-/* MatriCare Design System - Updated 2025-12-21 */
+/* MatriCare Design System - Reverted to Initial Theme */
 /* ========================================
    MatriCare Design System
-   Color Palette: Earthy Slate, Sage, Peach, Cream (User Provided)
+   Color Palette: Mauve/Rosy, Peach, Cream, Mint
    ======================================== */
 
 :root {
-  /* Core Palette */
-  --color-slate: #3F5B67;
-  /* Deep Slate Blue - Primary Text/Action */
-  --color-sage: #A7AC98;
-  /* Sage Green - Secondary/Accent */
-  --color-blush: #F1D4C6;
-  /* Pale Peach/Pink - Soft Backgrounds/Highlights */
-  --color-oat: #F7F6F3;
-  /* Off White/Oat - Main Background */
+  /* Core Palette (Reverted) */
+  --color-mauve: #E4A0B7;
+  /* Dusty Rose / Mauve */
+  --color-mauve-light: #F8D7E3;
+  /* Lighter Pink */
+  --color-mauve-dark: #C67593;
+  /* Deeper Mauve */
 
-  /* Mapping to existing semantic names for compatibility */
-  /* We replace the old "mauve", "peach", "mint" with the new palette */
+  --color-peach: #FFDAB9;
+  /* Soft Peach */
+  --color-peach-light: #FFF0E6;
+  /* Very Pale Peach */
+  --color-peach-dark: #F5B895;
+  /* Darker Peach */
 
-  --color-mauve: var(--color-slate);
-  /* Was Mauve, now Slate (Primary Dark) */
-  --color-mauve-light: #5A7D8C;
-  /* Lighter Slate */
-  --color-mauve-dark: #2A404A;
-  /* Darker Slate */
+  --color-cream: #FFFDD0;
+  /* Cream/Beige */
+  --color-cream-light: #FFFEF0;
+  /* Off White */
+  --color-cream-dark: #F2E8C4;
+  /* Darker Cream */
 
-  --color-peach: var(--color-blush);
-  /* Was Peach, now Blush */
-  --color-peach-light: #FFF0E8;
-  /* Lighter Blush */
-  --color-peach-dark: #D4B5A6;
-  /* Darker Blush */
-
-  --color-cream: var(--color-oat);
-  /* Was Cream, now Oat */
-  --color-cream-light: #FFFFFF;
-  /* White */
-  --color-cream-dark: #E6E4E0;
-  /* Darker Oat */
-
-  --color-mint: var(--color-sage);
-  /* Was Mint, now Sage */
-  --color-mint-light: #C5C9B8;
-  /* Lighter Sage */
-  --color-mint-dark: #898E7B;
-  /* Darker Sage */
+  --color-mint: #B0E0E6;
+  /* Mint Green / Soft Blue-Green */
+  --color-mint-light: #E0F5F7;
+  /* Pale Mint */
+  --color-mint-dark: #87C5CD;
+  /* Darker Mint */
 
   /* Neutral Colors */
   --color-white: #FFFFFF;
-  --color-off-white: var(--color-oat);
-  --color-gray-light: #E6E4E0;
-  --color-gray: #8A8A8A;
-  --color-gray-dark: #4A4A4A;
-  --color-black: #2C2C2C;
+  --color-off-white: #FAFAFA;
+  --color-gray-light: #F2F2F2;
+  --color-gray: #9E9E9E;
+  --color-gray-dark: #616161;
+  --color-black: #333333;
 
   /* Semantic Colors */
-  --color-primary: var(--color-slate);
-  --color-secondary: var(--color-sage);
-  --color-accent: var(--color-blush);
-  --color-background: var(--color-oat);
+  --color-primary: var(--color-mauve);
+  --color-secondary: var(--color-mint);
+  --color-accent: var(--color-peach);
+  --color-background: var(--color-cream-light);
   --color-surface: var(--color-white);
-  --color-text: var(--color-slate);
-  /* Using Slate for main text for a softer look than black */
+  --color-text: var(--color-black);
   --color-text-light: var(--color-gray);
 
   /* Typography */
@@ -80,16 +67,15 @@
   /* Border Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 20px;
-  /* Softer, larger radius */
-  --radius-xl: 30px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
-  /* Shadows - Softer and tinted with slate */
-  --shadow-sm: 0 2px 8px rgba(63, 91, 103, 0.08);
-  --shadow-md: 0 4px 16px rgba(63, 91, 103, 0.12);
-  --shadow-lg: 0 8px 32px rgba(63, 91, 103, 0.16);
-  --shadow-xl: 0 16px 48px rgba(63, 91, 103, 0.2);
+  /* Shadows */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.15);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -123,7 +109,7 @@ html {
 
 body {
   font-family: var(--font-primary);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-background);
@@ -139,16 +125,16 @@ h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--color-slate);
+  color: var(--color-mauve-dark);
 }
 
 h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   margin-bottom: var(--spacing-md);
 }
 
 h2 {
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-size: clamp(2rem, 4vw, 2.5rem);
   margin-bottom: var(--spacing-md);
 }
 
@@ -160,9 +146,9 @@ h2 {
   padding: 0 var(--spacing-md);
 }
 
-/* Gradient Backgrounds - Updated */
+/* Gradient Backgrounds */
 .gradient-mauve {
-  background: linear-gradient(135deg, var(--color-slate) 0%, #5A7D8C 100%);
+  background: linear-gradient(135deg, var(--color-mauve) 0%, var(--color-mauve-light) 100%);
 }
 
 .gradient-peach {
@@ -170,10 +156,10 @@ h2 {
 }
 
 .gradient-soft {
-  background: linear-gradient(135deg, var(--color-peach-light) 0%, var(--color-oat) 100%);
+  background: linear-gradient(135deg, #FFF0F5 0%, #F0F8FF 100%);
 }
 
-/* Button Styles - Updated */
+/* Button Styles - Rounder & Cuter */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -181,7 +167,7 @@ h2 {
   gap: var(--spacing-xs);
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: var(--radius-full);
   transition: all var(--transition-base);
   cursor: pointer;
@@ -190,26 +176,26 @@ h2 {
 }
 
 .btn-primary {
-  background: var(--color-slate);
-  color: var(--color-white);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-mauve);
+  color: white;
+  box-shadow: 0 4px 12px rgba(228, 160, 183, 0.4);
 }
 
 .btn-primary:hover {
-  background: #2A404A;
-  box-shadow: var(--shadow-md);
+  background: var(--color-mauve-dark);
+  box-shadow: 0 6px 16px rgba(228, 160, 183, 0.6);
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background: var(--color-sage);
-  color: white;
-  box-shadow: var(--shadow-sm);
+  background: var(--color-mint);
+  color: var(--color-black);
+  box-shadow: 0 4px 12px rgba(176, 224, 230, 0.4);
 }
 
 .btn-secondary:hover {
-  background: #898E7B;
-  box-shadow: var(--shadow-md);
+  background: var(--color-mint-dark);
+  box-shadow: 0 6px 16px rgba(176, 224, 230, 0.6);
   transform: translateY(-2px);
 }
 
@@ -227,23 +213,23 @@ h2 {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-oat);
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+  background: var(--color-mauve);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-slate);
+  background: var(--color-mauve-dark);
 }
