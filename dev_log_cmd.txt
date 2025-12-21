@@ -1,0 +1,36 @@
+
+> matricare@1.0.0 dev
+> vite
+
+Re-optimizing dependencies because lockfile has changed
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m2630[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.4:[1m5173[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m10:52:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx[22m
+[2m10:53:09 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.css[22m
+[2m11:05:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Home.css[22m
+[2m11:07:10 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Footer.css[22m
+[2m11:07:35 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Footer.css[22m
+[2m11:07:59 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Home.css[22m
+[2m11:08:33 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:09:02 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:09:02 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:10:19 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Chatbot.jsx[22m
+[2m11:11:28 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:13:53 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Yoga.css[22m
+[2m11:14:11 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx[22m
+[2m11:14:46 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.css[22m
+[2m11:15:50 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/FindCare.css[22m
+[2m11:16:17 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.css[22m
+[2m11:41:27 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:43:32 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx, /src/pages/Chatbot.jsx, /src/pages/Yoga.jsx, /src/pages/Trimester3.jsx, /src/pages/Trimester1.jsx, /src/pages/Login.jsx, /src/pages/Home.jsx, /src/pages/Trimester2.jsx, /src/components/Navbar.jsx, /src/pages/FindCare.jsx[22m
+[2m11:45:10 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx[22m
+[2m11:49:04 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx[22m
+[2m11:52:01 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx[22m
+[2m11:53:41 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.css[22m
+[2m11:55:11 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Home.jsx[22m
+[2m12:12:57 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Analytics.jsx[22m
+^C^C

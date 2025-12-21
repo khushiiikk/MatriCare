@@ -79,12 +79,7 @@ const Navbar = () => {
                             </Link>
                         </li>
 
-                        {/* Chatbot Link */}
-                        <li>
-                            <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
-                                {t.chatbot}
-                            </Link>
-                        </li>
+
 
                         {/* Find Care Link */}
                         <li>
@@ -96,7 +91,7 @@ const Navbar = () => {
 
                         <li>
                             <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
-                                {t.analytics}
+                                {t.health}
                             </Link>
                         </li>
 
@@ -166,11 +161,7 @@ const Navbar = () => {
                             </Link>
                         </li>
 
-                        <li>
-                            <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.chatbot}
-                            </Link>
-                        </li>
+
 
                         <li>
                             <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
@@ -182,7 +173,7 @@ const Navbar = () => {
 
                         <li>
                             <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.analytics}
+                                {t.health}
                             </Link>
                         </li>
                         <li>

@@ -63,17 +63,17 @@ const Chatbot = () => {
     const generateResponse = (input) => {
         const lowerInput = input.toLowerCase();
 
-        if (lowerInput.includes('yoga') || lowerInput.includes('योग') || lowerInput.includes('exercise') || lowerInput.includes('व्यायाम')) {
+        if (lowerInput.includes('yoga') || lowerInput.includes('योग') || lowerInput.includes('exercise') || lowerInput.includes('व्यायाम') || lowerInput.includes('யோகா') || lowerInput.includes('உடற்பயிற்சி') || lowerInput.includes('योगा')) {
             return t.chatbot.responses.yoga;
         }
-        if (lowerInput.includes('pain') || lowerInput.includes('दर्द') || lowerInput.includes('hurt')) {
+        if (lowerInput.includes('pain') || lowerInput.includes('दर्द') || lowerInput.includes('hurt') || lowerInput.includes('वेदना') || lowerInput.includes('दुखणे') || lowerInput.includes('வலி')) {
             return t.chatbot.responses.pain;
         }
-        if (lowerInput.includes('diet') || lowerInput.includes('food') || lowerInput.includes('eat') || lowerInput.includes('आहार') || lowerInput.includes('खाना')) {
+        if (lowerInput.includes('diet') || lowerInput.includes('food') || lowerInput.includes('eat') || lowerInput.includes('आहार') || lowerInput.includes('खाना') || lowerInput.includes('जेवण') || lowerInput.includes('உணவு')) {
             return t.chatbot.responses.diet;
         }
-        if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('नमस्ते') || lowerInput.includes('हैलो')) {
-            const name = user ? user.name.split(' ')[0] : (language === 'hi' ? 'दोस्त' : 'friend');
+        if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('नमस्ते') || lowerInput.includes('हैलो') || lowerInput.includes('नमस्कार') || lowerInput.includes('வணக்கம்')) {
+            const name = user ? user.name.split(' ')[0] : (language === 'hi' ? 'दोस्त' : (language === 'mr' ? 'मित्रा' : (language === 'ta' ? 'நண்பா' : 'friend')));
             return t.chatbot.responses.hello.replace('{name}', name);
         }
         return t.chatbot.responses.default;

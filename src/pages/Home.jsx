@@ -76,7 +76,7 @@ const Home = () => {
                 <div className="container">
                     <div className="section-header text-center animate-fade-in">
                         <h2 className="section-title">{t.features.title}</h2>
-                        <p className="section-subtitle">{t.features.description}</p>
+                        {t.features.description && <p className="section-subtitle">{t.features.description}</p>}
                     </div>
                     <div className="features-grid">
                         <div className="feature-card animate-fade-in" style={{ animationDelay: '0.1s' }} onClick={() => navigate('/yoga')}>
@@ -101,8 +101,8 @@ const Home = () => {
                             <div className="feature-icon-wrapper" style={{ background: 'var(--color-mint-dark)' }}>
                                 <span className="feature-icon">📊</span>
                             </div>
-                            <h3 className="feature-card-title">{t.features.analytics.title}</h3>
-                            <p className="feature-card-description">{t.features.analytics.desc}</p>
+                            <h3 className="feature-card-title">{t.features.health.title}</h3>
+                            <p className="feature-card-description">{t.features.health.desc}</p>
                             <span className="feature-link">{t.features.explore} →</span>
                         </div>
 

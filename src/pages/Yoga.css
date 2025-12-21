@@ -27,9 +27,11 @@
 
 .trimester-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-xl);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-2xl);
+    max-width: 1000px;
+    margin: 0 auto var(--spacing-2xl);
 }
 
 .trimester-card {
@@ -56,13 +58,13 @@
 
 .trimester-image-wrapper {
     width: 100%;
-    height: 280px;
+    height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #FDFBF7;
     /* Very light cream background for all card images */
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     overflow: hidden;
     position: relative;
 }
@@ -79,7 +81,7 @@
 }
 
 .trimester-info {
-    padding: 25px 20px;
+    padding: 20px 15px;
     text-align: center;
     color: var(--color-text);
     position: relative;
@@ -88,26 +90,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 140px;
+    min-height: 120px;
+    transition: background var(--transition-base);
 }
 
-/* Specific Footer Gradients */
-.gradient-mauve {
-    background: rgba(155, 123, 126, 0.85);
-    /* Mauve */
-    color: white;
-}
-
-.gradient-peach {
-    background: rgba(229, 196, 192, 0.8);
-    /* Peach */
-    color: #4A4A4A;
-}
-
+/* Consistent Shades for all cards */
+.gradient-mauve,
+.gradient-peach,
 .gradient-mint {
-    background: #fff;
-    /* White/Mint */
-    color: #4A4A4A;
+    background: rgba(155, 123, 126, 0.08);
+    /* Very light mauve bg */
+    color: var(--color-text);
+    border-top: 1px solid rgba(155, 123, 126, 0.1);
+}
+
+.clickable-card:hover .trimester-info {
+    background: rgba(155, 123, 126, 0.15);
 }
 
 .click-indicator {

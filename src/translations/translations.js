@@ -6,7 +6,7 @@ export const translations = {
             yoga: 'Yoga',
             login: 'Login',
             about: 'About',
-            analytics: 'Analytics',
+            health: 'Health',
             chatbot: 'Chatbot',
             findCare: 'Find Care'
         },
@@ -15,7 +15,7 @@ export const translations = {
         hero: {
             title: 'Your Health,',
             titleHighlight: 'Our Responsibility',
-            description: 'Comprehensive maternal health support from pregnancy to delivery. Health information, yoga, and care for mothers in rural areas - everything in your language, for you.',
+            description: 'Support for your pregnancy journey. Health info, yoga, and expert care in your language.',
             quotes: [
                 '"A mother\'s joy begins when new life is stirring inside... when a tiny heartbeat is heard for the very first time."',
                 '"You are braver than you believe, stronger than you seem, and loved more than you know."',
@@ -186,32 +186,32 @@ export const translations = {
 
         // Features Section
         features: {
-            title: 'Our Key Features',
-            description: 'Everything you need for a healthy pregnancy journey, all in one place.',
-            explore: 'Explore Now',
+            title: 'Our Features',
+            description: '',
+            explore: 'Explore',
             yoga: {
-                title: 'Yoga & Exercise',
-                desc: 'Safe and effective yoga plans tailored for each trimester.'
+                title: 'Yoga',
+                desc: 'Plans for each trimester.'
             },
             chatbot: {
-                title: 'Matri AI Assistant',
-                desc: 'Instant answers to your pregnancy questions in your language.'
+                title: 'AI Assistant',
+                desc: 'Instant answers.'
             },
-            analytics: {
-                title: 'Health Analytics',
-                desc: 'Upload reports and get AI-powered health insights and tracking.'
+            health: {
+                title: 'Health',
+                desc: 'Health insights.'
             },
             findCare: {
-                title: 'Find Healthcare',
-                desc: 'Quickly locate nearest hospitals and ASHA centers in an emergency.'
+                title: 'Care Locator',
+                desc: 'Find nearby care.'
             }
         },
 
         // CTA Section
         cta: {
-            title: 'Ready to Begin Your Journey?',
-            description: 'Join thousands of mothers who trust MatriCare for their maternal health needs.',
-            button: 'Start Your Journey Today'
+            title: 'Ready for Your Journey?',
+            description: 'Join mothers who trust MatriCare.',
+            button: 'Start Now'
         },
 
         // Trimester Pages
@@ -409,8 +409,13 @@ export const translations = {
 
         // Analytics Page
         analytics: {
-            title: 'Health Analysis & Reports',
-            subtitle: 'Upload your medical reports for AI-powered insights',
+            title: 'Health Insights',
+            tabs: {
+                analytics: 'Analytics',
+                risk: 'Risk',
+                symptoms: 'Symptoms'
+            },
+            subtitle: 'Upload medical reports for AI-powered insights',
             uploadTitle: 'Upload Medical Report',
             uploadDesc: 'Drag & drop your report here, or click to browse',
             supportedFormats: 'Supported formats: PDF, JPG, PNG',
@@ -428,7 +433,30 @@ export const translations = {
             attention: 'Needs Attention',
             low: 'Low',
             high: 'High',
-            consultDoctor: 'Please consult your doctor for detailed advice.'
+            consultDoctor: 'Please consult your doctor for detailed advice.',
+            symptoms: {
+                title: 'Pregnancy Warning Signs',
+                subtitle: 'Contact your health provider immediately if you experience any of these:',
+                list: [
+                    { title: 'Severe Headache', desc: 'Could be a sign of high blood pressure or preeclampsia.' },
+                    { title: 'Vision Changes', desc: 'Blurred vision, flashes, or spots can be serious signs.' },
+                    { title: 'Sudden Swelling', desc: 'Noticeable swelling in your face, hands, or feet.' },
+                    { title: 'Vaginal Bleeding', desc: 'Any amount of spotting or bleeding should be checked.' },
+                    { title: 'Decreased Movement', desc: 'If your baby is moving less than usual.' },
+                    { title: 'Severe Pain', desc: 'Persistent stomach or pelvic pain that doesn\'t go away.' }
+                ]
+            },
+            prevention: {
+                title: 'Prevention & Healthy Tips',
+                subtitle: 'Steps for a safe and healthy pregnancy journey.',
+                list: [
+                    { title: 'Nutritious Diet', desc: 'Eat iron-rich foods like spinach and clean protein.' },
+                    { title: 'Stay Hydrated', desc: 'Drink at least 8-10 glasses of water every day.' },
+                    { title: 'Prenatal Care', desc: 'Regular checkups with your doctor or ASHA worker.' },
+                    { title: 'Folic Acid', desc: 'Take daily supplements to prevent birth defects.' },
+                    { title: 'Rest & Sleep', desc: 'Ensure you get 8 hours of sleep and frequent rest.' }
+                ]
+            }
         },
 
         // Find Care Page
@@ -463,7 +491,7 @@ export const translations = {
         hero: {
             title: 'आपकी सेहत,',
             titleHighlight: 'हमारी ज़िम्मेदारी',
-            description: 'गर्भावस्था से लेकर प्रसव तक, हर कदम पर आपके साथ। ग्रामीण क्षेत्रों की माताओं के लिए स्वास्थ्य जानकारी, योग, और देखभाल - सब कुछ आपकी भाषा में, आपके लिए।',
+            description: 'आपकी गर्भावस्था यात्रा का साथी। स्वास्थ्य जानकारी, योग, और देखभाल - सब कुछ आपकी भाषा में।',
             quotes: [
                 '"माँ का आनंद तब शुरू होता है जब गर्भ में नया जीवन हलचल करता है... जब पहली बार दिल की धड़कन सुनाई देती है।"',
                 '"आप जितना मानती हैं उससे अधिक साहसी हैं, जितना दिखती हैं उससे अधिक मजबूत हैं।"',
@@ -634,32 +662,32 @@ export const translations = {
 
         // Features Section
         features: {
-            title: 'हमारी मुख्य विशेषताएं',
-            description: 'आपकी स्वस्थ गर्भावस्था यात्रा के लिए सब कुछ, एक ही स्थान पर।',
-            explore: 'अभी देखें',
+            title: 'हमारी विशेषताएं',
+            description: '',
+            explore: 'खोजें',
             yoga: {
-                title: 'योग और व्यायाम',
-                desc: 'प्रत्येक तिमाही के लिए तैयार सुरक्षित और प्रभावी योग योजनाएँ।'
+                title: 'योग',
+                desc: 'तिमाही आधारित योजनाएं।'
             },
             chatbot: {
-                title: 'मैत्री AI सहायक',
-                desc: 'अपनी भाषा में अपनी गर्भावस्था के सवालों के तुरंत उत्तर पाएं।'
+                title: 'AI सहायक',
+                desc: 'तुरंत उत्तर।'
             },
-            analytics: {
-                title: 'स्वास्थ्य एनालिटिक्स',
-                desc: 'रिपोर्ट अपलोड करें और AI-आधारित स्वास्थ्य जानकारी प्राप्त करें।'
+            health: {
+                title: 'स्वास्थ्य',
+                desc: 'स्वास्थ्य अंतर्दृष्टि।'
             },
             findCare: {
-                title: 'स्वास्थ्य सेवा खोजें',
-                desc: 'आपात स्थिति में निकटतम अस्पतालों और आशा केंद्रों का तुरंत पता लगाएं।'
+                title: 'केयर खोजें',
+                desc: 'निकटतम केंद्र खोजें।'
             }
         },
 
         // CTA Section
         cta: {
-            title: 'अपनी यात्रा शुरू करने के लिए तैयार हैं?',
-            description: 'हजारों माताओं के साथ जुड़ें जो अपनी मातृ स्वास्थ्य आवश्यकताओं के लिए MatriCare पर भरोसा करती हैं।',
-            button: 'आज ही अपनी यात्रा शुरू  करें'
+            title: 'यात्रा शुरू करें?',
+            description: 'MatriCare पर भरोसा करने वाली माताओं से जुड़ें।',
+            button: 'अभी शुरू करें'
         },
 
         // Trimester Pages
@@ -857,7 +885,12 @@ export const translations = {
 
         // Analytics Page
         analytics: {
-            title: 'स्वास्थ्य विश्लेषण और रिपोर्ट',
+            title: 'स्वास्थ्य जानकारी',
+            tabs: {
+                analytics: 'विश्लेषण',
+                risk: 'जोखिम',
+                symptoms: 'लक्षण'
+            },
             subtitle: 'AI-संचालित जानकारी के लिए अपनी मेडिकल रिपोर्ट अपलोड करें',
             uploadTitle: 'मेडिकल रिपोर्ट अपलोड करें',
             uploadDesc: 'अपनी रिपोर्ट यहाँ खींचें और छोड़ें, या ब्राउज़ करने के लिए क्लिक करें',
@@ -876,7 +909,30 @@ export const translations = {
             attention: 'ध्यान देने की आवश्यकता',
             low: 'कम',
             high: 'उच्च',
-            consultDoctor: 'विस्तृत सलाह के लिए कृपया अपने डॉक्टर से परामर्श लें।'
+            consultDoctor: 'विस्तृत सलाह के लिए कृपया अपने डॉक्टर से परामर्श लें।',
+            symptoms: {
+                title: 'गर्भावस्था के चेतावनी संकेत',
+                subtitle: 'यदि आप इनमें से किसी का अनुभव करते हैं, तो तुरंत डॉक्टर से संपर्क करें:',
+                list: [
+                    { title: 'तेज सिरदर्द', desc: 'यह उच्च रक्तचाप या प्रिव्लैम्पसिया का संकेत हो सकता है।' },
+                    { title: 'दृष्टि में परिवर्तन', desc: 'धुंधली दृष्टि, चमक या धब्बे गंभीर संकेत हो सकते हैं।' },
+                    { title: 'अचानक सूजन', desc: 'चेहरे, हाथों या पैरों में ध्यान देने योग्य सूजन।' },
+                    { title: 'योनि से रक्तस्राव', desc: 'किसी भी मात्रा में रक्तस्राव की जाँच की जानी चाहिए।' },
+                    { title: 'हलचल में कमी', desc: 'यदि आपका बच्चा सामान्य से कम हलचल कर रहा है।' },
+                    { title: 'गंभीर दर्द', desc: 'लगातार पेट या पेल्विक दर्द जो दूर नहीं होता है।' }
+                ]
+            },
+            prevention: {
+                title: 'निवारण और स्वस्थ सुझाव',
+                subtitle: 'एक सुरक्षित और स्वस्थ गर्भावस्था यात्रा के लिए कदम।',
+                list: [
+                    { title: 'पौष्टिक आहार', desc: 'पालक और स्वच्छ प्रोटीन जैसे आयरन युक्त खाद्य पदार्थ खाएं।' },
+                    { title: 'हाइड्रेटेड रहें', desc: 'हर दिन कम से कम 8-10 गिलास पानी पिएं।' },
+                    { title: 'प्रसवपूर्व देखभाल', desc: 'अपने डॉक्टर या आशा कार्यकर्ता के साथ नियमित जांच।' },
+                    { title: 'फोलिक एसिड', desc: 'जन्म दोषों को रोकने के लिए दैनिक पूरक लें।' },
+                    { title: 'आराम और नींद', desc: 'सुनिश्चित करें कि आपको 8 घंटे की नींद और पर्याप्त आराम मिले।' }
+                ]
+            }
         },
 
         // Find Care Page
@@ -901,14 +957,36 @@ export const translations = {
             yoga: 'योग',
             login: 'लॉगिन',
             about: 'आमच्याबद्दल',
-            analytics: 'विश्लेषण',
+            health: 'आरोग्य',
             chatbot: 'चॅटबॉट',
             findCare: 'केअर शोधा'
         },
+        features: {
+            title: 'आमची वैशिष्ट्ये',
+            description: '',
+            explore: 'अधिक पहा',
+            yoga: {
+                title: 'योग',
+                desc: 'प्रत्येक तिमाहीसाठी योजना.'
+            },
+            chatbot: {
+                title: 'AI सहाय्यक',
+                desc: 'त्वरीत उत्तरे.'
+            },
+            health: {
+                title: 'आरोग्य',
+                desc: 'आरोग्य अंतर्दृष्टी.'
+            },
+            findCare: {
+                title: 'केअर लोकेटर',
+                desc: 'जवळपासची काळजी शोधा.'
+            }
+        },
+        // Hero Section
         hero: {
             title: 'तुमचे आरोग्य,',
             titleHighlight: 'आमची जबाबदारी',
-            description: 'गर्भधारणेपासून प्रसूतीपर्यंत सर्वसमावेशक मातृ आरोग्य सहाय्य. ग्रामीण भागातील मातांसाठी आरोग्य माहिती, योग आणि काळजी - सर्व काही तुमच्या भाषेत, तुमच्यासाठी.',
+            description: 'तुमच्या गर्भधारणा प्रवासासाठी आधार. आरोग्य माहिती, योग आणि काळजी - सर्व काही तुमच्या भाषेत.',
             quotes: [
                 '"आईचा आनंद तेव्हा सुरू होतो जेव्हा आतमध्ये नवीन जीवन हलू लागते... जेव्हा पहिल्यांदा एक लहान हृदयाचा ठोका ऐकू येतो."',
                 '"तुम्ही तुमच्या विश्वासापेक्षा धाडसी आहात, तुम्ही दिसता त्यापेक्षा मजबूत आहात आणि तुम्हाला माहीत आहे त्यापेक्षा जास्त प्रेम केले जाते."',
@@ -916,6 +994,8 @@ export const translations = {
                 '"तुमचे शरीर मंदिर नाही, ते एक घर आहे. त्याची प्रेम आणि काळजीने काळजी घ्या."'
             ]
         },
+
+        // Yoga Section
         yoga: {
             sectionTitle: 'योग आणि व्यायाम',
             sectionSubtitle: 'गर्भधारणेच्या प्रत्येक टप्प्यासाठी सुरक्षित आणि प्रभावी योग आसने',
@@ -1019,7 +1099,12 @@ export const translations = {
             }
         },
         analytics: {
-            title: 'आरोग्य विश्लेषण आणि अहवाल',
+            title: 'आरोग्य अंतर्दृष्टी',
+            tabs: {
+                analytics: 'विश्लेषण',
+                risk: 'जोखीम',
+                symptoms: 'लक्षणे'
+            },
             subtitle: 'AI-संचालित अंतर्दृष्टीसाठी तुमचे वैद्यकीय अहवाल अपलोड करा',
             uploadTitle: 'वैद्यकीय अहवाल अपलोड करा',
             uploadDesc: 'तुमचा अहवाल येथे ड्रॅग आणि ड्रॉप करा, किंवा ब्राउझ करण्यासाठी क्लिक करा',
@@ -1038,7 +1123,30 @@ export const translations = {
             attention: 'लक्ष देणे आवश्यक',
             low: 'कमी',
             high: 'उच्च',
-            consultDoctor: 'तपशीलवार सल्ल्यासाठी कृपया तुमच्या डॉक्टरांचा सल्ला घ्या.'
+            consultDoctor: 'तपशीलवार सल्ल्यासाठी कृपया तुमच्या डॉक्टरांचा सल्ला घ्या.',
+            symptoms: {
+                title: 'गर्भधारणेचे चेतावणी संकेत',
+                subtitle: 'यापैकी कशाचाही अनुभव आल्यास ताबडतोब तुमच्या डॉक्टरांशी संपर्क साधा:',
+                list: [
+                    { title: 'तीव्र डोकेदुखी', desc: 'उच्च रक्तदाब किंवा प्रिव्हलॅम्पसियाचे लक्षण असू शकते.' },
+                    { title: 'दृष्टी बदलणे', desc: 'धूसर दृष्टी किंवा ठिपके येणे ही गंभीर लक्षणे असू शकतात.' },
+                    { title: 'अचानक सूज येणे', desc: 'चेहरा, हात किंवा पायांवर लक्षणीय सूज येणे.' },
+                    { title: 'योनीतून रक्तस्त्राव', desc: 'रक्तस्त्राव झाल्यास त्वरित तपासणी करणे आवश्यक आहे.' },
+                    { title: 'हालचाल कमी होणे', desc: 'जर बाळ नेहमीपेक्षा कमी हालचाल करत असेल.' },
+                    { title: 'गंभीर वेदना', desc: 'सतत पोट किंवा पेल्विक वेदना ज्या कमी होत नाहीत.' }
+                ]
+            },
+            prevention: {
+                title: 'प्रतिबंध आणि निरोगी टिप्स',
+                subtitle: 'सुरक्षित आणि निरोगी गर्भधारणा प्रवासासाठी पावले.',
+                list: [
+                    { title: 'पौष्टिक आहार', desc: 'पालक आणि प्रथिने यांसारखे लोहयुक्त पदार्थ खा.' },
+                    { title: 'हायड्रेटेड रहा', desc: 'दिवसातून किमान ८-१० ग्लास पाणी प्या.' },
+                    { title: 'जन्मपूर्व काळजी', desc: 'तुमच्या डॉक्टर किंवा आशा कार्यकर्त्याशी नियमित तपासणी.' },
+                    { title: 'फॉलिक ऍसिड', desc: 'दोष टाळण्यासाठी दररोज फॉलिक ऍसिड सप्लीमेंट्स घ्या.' },
+                    { title: 'विश्रांती आणि झोप', desc: '८ तास झोप आणि वारंवार विश्रांतीची खात्री करा.' }
+                ]
+            }
         },
         findCare: {
             title: "आरोग्य सेवा शोधा",
@@ -1185,9 +1293,30 @@ export const translations = {
             yoga: 'யோகா',
             login: 'உள்நுழைய',
             about: 'எங்களை பற்றி',
-            analytics: 'பகுப்பாய்வு',
+            health: 'ஆரோக்கியம்',
             chatbot: 'சாட்போட்',
             findCare: 'பராமரிப்பைக் கண்டறியவும்'
+        },
+        features: {
+            title: 'எங்கள் அம்சங்கள்',
+            description: '',
+            explore: 'மேலும் அறிக',
+            yoga: {
+                title: 'யோகா',
+                desc: 'ஒவ்வொரு மூன்று மாதங்களுக்கும் திட்டங்கள்.'
+            },
+            chatbot: {
+                title: 'AI உதவியாளர்',
+                desc: 'உடனடி பதில்கள்.'
+            },
+            health: {
+                title: 'ஆரோக்கியம்',
+                desc: 'ஆரோக்கிய நுண்ணறிவு.'
+            },
+            findCare: {
+                title: 'பராமரிப்பு இருப்பிடம்',
+                desc: 'அருகிலுள்ள பராமரிப்பைக் கண்டறியவும்.'
+            }
         },
         hero: {
             title: 'உங்கள் ஆரோக்கியம்,',
@@ -1303,7 +1432,12 @@ export const translations = {
             }
         },
         analytics: {
-            title: 'சுகாதார பகுப்பாய்வு & அறிக்கைகள்',
+            title: 'ஆரோக்கிய நுண்ணறிவு',
+            tabs: {
+                analytics: 'பகுப்பாய்வு',
+                risk: 'ஆபத்து',
+                symptoms: 'அறிகுறிகள்'
+            },
             subtitle: 'AI-இயக்கப்படும் நுண்ணறிவுகளுக்கு உங்கள் மருத்துவ அறிக்கைகளைப் பதிவேற்றவும்',
             uploadTitle: 'மருத்துவ அறிக்கையைப் பதிவேற்றவும்',
             uploadDesc: 'உங்கள் அறிக்கையை இங்கே இழுத்து விடவும், அல்லது உலாவ கிளிக் செய்யவும்',
@@ -1322,7 +1456,30 @@ export const translations = {
             attention: 'கவனம் தேவை',
             low: 'குறைவு',
             high: 'அதிகம்',
-            consultDoctor: 'விரிவான ஆலோசனைக்கு உங்கள் மருத்துவரை அணுகவும்.'
+            consultDoctor: 'விரிவான ஆலோசனைக்கு உங்கள் மருத்துவரை அணுகவும்.',
+            symptoms: {
+                title: 'கர்ப்பகால எச்சரிக்கை அறிகுறிகள்',
+                subtitle: 'இவற்றில் ஏதேனும் ஒன்றை நீங்கள் அனுபவித்தால் உடனடியாக உங்கள் மருத்துவரை அணுகவும்:',
+                list: [
+                    { title: 'கடுமையான தலைவலி', desc: 'அதிக இரத்த அழுத்தம் அல்லது ப்ரீ-எக்லம்ப்சியாவின் அறிகுறியாக இருக்கலாம்.' },
+                    { title: 'பார்வை மாற்றங்கள்', desc: 'மங்கலான பார்வை அல்லது புள்ளிகள் தீவிர அறிகுறிகளாக இருக்கலாம்.' },
+                    { title: 'திடீர் வீக்கம்', desc: 'முகம், கைகள் அல்லது கால்களில் குறிப்பிடத்தக்க வீக்கம்.' },
+                    { title: 'யோனி இரத்தப்போக்கு', desc: 'இரத்தப்போக்கு ஏற்பட்டால் உடனடியாக பரிசோதிக்க வேண்டும்.' },
+                    { title: 'குறைந்த இயக்கம்', desc: 'குழந்தை வழக்கத்தை விட குறைவாக அசைந்தால்.' },
+                    { title: 'கடுமையான வலி', desc: 'குறையாத வயிற்று வலி அல்லது இடுப்பு வலி.' }
+                ]
+            },
+            prevention: {
+                title: 'தடுப்பு மற்றும் ஆரோக்கியமான குறிப்புகள்',
+                subtitle: 'பாதுகாப்பான மற்றும் ஆரோக்கியமான கர்ப்ப பயணத்திற்கான படிகள்.',
+                list: [
+                    { title: 'சத்தான உணவு', desc: 'கீரை மற்றும் புரதம் போன்ற இரும்புச்சத்து நிறைந்த உணவுகளை உண்ணுங்கள்.' },
+                    { title: 'நீரேற்றத்துடன் இருங்கள்', desc: 'தினமும் குறைந்தது 8-10 கிளாஸ் தண்ணீர் குடிக்கவும்.' },
+                    { title: 'கர்ப்பகால பராமரிப்பு', desc: 'மருத்துவர் அல்லது ஆஷா பணியாளரிடம் வழக்கமான பரிசோதனை.' },
+                    { title: 'ஃபோலிக் அமிலம்', desc: 'பிறப்பு குறைபாடுகளைத் தடுக்க தினமும் கூடுதல் மருந்துகளை எடுக்கவும்.' },
+                    { title: 'ஓய்வு மற்றும் தூக்கம்', desc: '8 மணிநேர தூக்கம் மற்றும் அடிக்கடி ஓய்வு எடுப்பதை உறுதி செய்யவும்.' }
+                ]
+            }
         },
         findCare: {
             title: "சுகாதார சேவையைக் கண்டறியவும்",

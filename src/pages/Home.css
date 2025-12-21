@@ -57,7 +57,7 @@
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     line-height: 1.1;
     margin-bottom: var(--spacing-md);
     color: var(--color-text);
@@ -72,8 +72,8 @@
 }
 
 .hero-description {
-    font-size: 1.125rem;
-    line-height: 1.8;
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--color-text-light);
     margin-bottom: var(--spacing-xl);
 }
@@ -86,10 +86,10 @@
 }
 
 .rotating-quote {
-    font-size: 1.125rem;
+    font-size: 0.95rem;
     font-style: italic;
     color: var(--color-mauve);
-    line-height: 1.7;
+    line-height: 1.6;
     font-weight: 500;
     animation: fadeInUp 0.8s ease-in-out;
     margin: 0;
@@ -185,6 +185,7 @@
     background: var(--color-white);
     position: relative;
     z-index: 2;
+    padding: var(--spacing-3xl) 0;
 }
 
 .text-center {
@@ -202,34 +203,34 @@
 }
 
 .section-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--color-text-light);
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--spacing-xl);
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
 }
 
 .feature-card {
     background: var(--color-surface);
     border-radius: var(--radius-xl);
-    padding: var(--spacing-xl);
-    box-shadow: var(--shadow-md);
+    padding: var(--spacing-xl) var(--spacing-md);
+    box-shadow: 0 10px 40px rgba(155, 123, 126, 0.15);
     transition: all var(--transition-base);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border: 1px solid rgba(155, 123, 126, 0.05);
+    border: 1px solid rgba(155, 123, 126, 0.12);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--color-peach-dark);
+    box-shadow: 0 15px 50px rgba(155, 123, 126, 0.25);
+    border-color: var(--color-mauve);
 }
 
 .feature-icon-wrapper {
@@ -248,13 +249,13 @@
 }
 
 .feature-card-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin-bottom: var(--spacing-sm);
     color: var(--color-text);
 }
 
 .feature-card-description {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     color: var(--color-text-light);
     margin-bottom: var(--spacing-lg);
     flex-grow: 1;
@@ -269,7 +270,6 @@
 
 .feature-card:hover .feature-link {
     color: var(--color-mauve-dark);
-    gap: 8px;
 }
 
 /* ========================================
@@ -310,7 +310,7 @@
 }
 
 .cta-description {
-    font-size: 1.125rem;
+    font-size: 1rem;
     margin-bottom: var(--spacing-xl);
     color: rgba(255, 255, 255, 0.9);
 }
@@ -333,7 +333,13 @@
 
 /* ========================================
    Responsive
-   ========================================/* Responsive */
+   ======================================== */
+@media (max-width: 1100px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 968px) {
     .hero-content {
         grid-template-columns: 1fr;
@@ -359,8 +365,13 @@
     }
 }
 
+@media (max-width: 600px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Exercise Animation Styles */
-/* Exercise Image & Video Styles */
 .exercise-image-container {
     width: 100%;
     margin-bottom: 20px;
@@ -389,13 +400,6 @@
     justify-content: center;
     gap: 8px;
     background: white !important;
-    /* Force white background for contrast against colored button bg if inline style overrides, but actually inline style sets bg color. Wait. */
-    /* The inline style sets background color. I should probably use that or override it.
-       In JSX: style={{ backgroundColor: ex.color }}
-       This sets the background color of the button to the exercise color.
-       Text color should be readable.
-       Let's stick to the inline style but set basic layout here.
-    */
     color: #4A4A4A;
     text-decoration: none;
     padding: 8px 16px;
@@ -451,50 +455,8 @@
     margin-bottom: 20px;
     padding: 0;
     font-size: 1rem;
-    transition: transform 0.2s;
 }
 
 .back-btn:hover {
     transform: translateX(-5px);
-}
-
-/* Color Variables Adjustment if needed */
-:root {
-    --color-mauve: #9B7B7E;
-    --color-mauve-dark: #7D6264;
-    --color-peach: #E5C4C0;
-    --color-peach-dark: #d4aba7;
-    --color-cream: #EDE8C8;
-    --color-cream-light: #F5F1DC;
-    --color-mint: #E8F0D7;
-    --color-mint-light: #f2f7e9;
-    --color-text: #4A4A4A;
-    --color-text-light: #777;
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-    --spacing-2xl: 48px;
-    --spacing-3xl: 64px;
-}
-
-@media (max-width: 768px) {
-    .hero {
-        min-height: auto;
-        padding: var(--spacing-3xl) 0;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-    }
 }
