@@ -202,7 +202,11 @@ const Settings = () => {
     // Handle Profile Update
     const handleProfileUpdate = (e) => {
         e.preventDefault();
-        const result = updateProfile(formData);
+        const updatedData = {
+            ...formData,
+            age: formData.dob ? calculateAge(formData.dob) : formData.age
+        };
+        const result = updateProfile(updatedData);
         if (result.success) {
             setMessage({ type: 'success', text: content.profileUpdated });
         }
