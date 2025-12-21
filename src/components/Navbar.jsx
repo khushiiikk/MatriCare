@@ -68,11 +68,13 @@ const Navbar = () => {
                     {/* Desktop Navigation */}
                     <ul className="navbar-menu">
                         {/* Static Links + Chatbot */}
-                        <li>
-                            <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
-                                {t.home}
-                            </Link>
-                        </li>
+                        {!isAuthenticated && (
+                            <li>
+                                <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
+                                    {t.home}
+                                </Link>
+                            </li>
+                        )}
                         {isAuthenticated && (
                             <li>
                                 <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
@@ -157,11 +159,13 @@ const Navbar = () => {
                         )}
 
                         {/* Mobile Links */}
-                        <li>
-                            <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.home}
-                            </Link>
-                        </li>
+                        {!isAuthenticated && (
+                            <li>
+                                <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    {t.home}
+                                </Link>
+                            </li>
+                        )}
                         {isAuthenticated && (
                             <li>
                                 <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
