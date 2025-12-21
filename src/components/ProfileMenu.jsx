@@ -58,6 +58,14 @@ const ProfileMenu = () => {
                     <div className="dropdown-header">
                         <div className="user-info">
                             <p className="user-name">{user.name}</p>
+                            <p className="user-role" style={{
+                                fontSize: '0.75rem',
+                                color: 'var(--color-mauve)',
+                                fontWeight: '600',
+                                textTransform: 'capitalize'
+                            }}>
+                                {user.userType === 'asha' ? 'ASHA Worker' : 'Patient'}
+                            </p>
                             <p className="user-mobile">{user.mobile}</p>
                         </div>
                     </div>

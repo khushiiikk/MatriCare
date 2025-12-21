@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 70px;
     background: transparent;
     z-index: 1000;
     transition: all 0.3s ease;
@@ -19,7 +19,7 @@
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 30px;
     height: 100%;
 }
 
@@ -39,17 +39,17 @@
 }
 
 .logo-image {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
     object-fit: cover;
     border-radius: 50%;
-    transform: scale(1.15);
+    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(155, 123, 126, 0.15);
     border: 2px solid white;
 }
 
 .logo-text {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -75,7 +75,7 @@
 .logos-group {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .college-logo-container {
@@ -86,15 +86,15 @@
 
 .college-logo {
     height: 50px;
-    width: 60px;
+    width: 50px;
     object-fit: cover;
     transition: transform 0.3s ease;
     /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05)); */
 }
 
 .circle-logo {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
@@ -110,7 +110,7 @@
 .navbar-menu {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 30px;
     list-style: none;
     margin: 0;
     margin-left: 40px;
@@ -129,7 +129,7 @@
 
 .navbar-link:hover,
 .navbar-link.active {
-    color: #9B7B7E;
+    color: var(--color-mauve);
 }
 
 .navbar-link::after {
@@ -139,7 +139,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #9B7B7E;
+    background: var(--color-mauve);
     transition: width 0.3s ease;
 }
 
@@ -238,9 +238,9 @@
 
 .mobile-menu-link:hover,
 .mobile-menu-link.active {
-    background: #F5F1DC;
+    background: var(--color-cream-light);
     /* Cream Light */
-    color: #9B7B7E;
+    color: var(--color-mauve);
 }
 
 .mobile-lang-switcher {
@@ -266,7 +266,7 @@
 }
 
 .profile-btn:hover {
-    background: rgba(155, 123, 126, 0.1);
+    background: rgba(183, 116, 102, 0.1);
 }
 
 .profile-avatar {
@@ -274,14 +274,14 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #E5C4C0;
+    border: 2px solid var(--color-peach);
 }
 
 .profile-avatar-placeholder {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9B7B7E, #E5C4C0);
+    background: linear-gradient(135deg, var(--color-mauve), var(--color-peach));
     color: white;
     display: flex;
     align-items: center;
@@ -365,7 +365,7 @@
 .dropdown-list li a:hover,
 .dropdown-list li button:hover {
     background: #f9f9f9;
-    color: #9B7B7E;
+    color: var(--color-mauve);
 }
 
 .logout-btn {

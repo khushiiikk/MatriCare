@@ -1,7 +1,7 @@
 .find-care-page {
-    padding-top: 100px;
-    padding-bottom: 40px;
-    background: #fdfbf7;
+    padding-top: 80px;
+    padding-bottom: 30px;
+    background: var(--color-off-white);
     min-height: 100vh;
 }
 
@@ -11,25 +11,32 @@
 }
 
 .find-care-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #2D3748;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .find-care-header p {
     color: #718096;
 }
 
+.find-care-main-content {
+    display: flex;
+    gap: 30px;
+    width: 95%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .map-container {
-    width: 85%;
-    max-width: 900px;
-    height: 350px;
-    margin: 0 auto 40px;
-    border-radius: 20px;
+    flex: 1.5;
+    height: 450px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     position: relative;
-    border: 8px solid white;
+    border: 1px solid #eee;
 }
 
 .leaflet-map {
@@ -69,58 +76,73 @@
 }
 
 .care-categories {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .care-categories h2 {
-    text-align: center;
-    margin-bottom: 30px;
+    text-align: left;
+    margin-bottom: 20px;
     color: #2D3748;
+    font-size: 1.5rem;
 }
 
 .grid-categories {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 .category-card {
     background: white;
-    padding: 25px;
+    padding: 15px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
     cursor: pointer;
-    border: 1px solid #edf2f7;
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    border-color: #E5C4C0;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-mauve);
 }
 
 .cat-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
+    font-size: 2rem;
+    margin-bottom: 8px;
 }
 
 .category-card h3 {
-    margin: 0 0 15px;
+    margin: 0 0 8px;
     color: #4a5568;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .action-link {
-    color: #e53e3e;
+    color: var(--color-mauve);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+    .find-care-main-content {
+        flex-direction: column;
+    }
+
     .map-container {
-        height: 300px;
+        height: 350px;
+    }
+
+    .grid-categories {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }

@@ -147,11 +147,6 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            {/* Animated Starry Background */}
-            <div className="stars"></div>
-            <div className="stars2"></div>
-            <div className="stars3"></div>
-
             <div className="login-container">
                 {/* Left Side - Form Section */}
                 <div className="login-form-section">
@@ -159,6 +154,9 @@ const Login = () => {
                         <h1 className="login-title">
                             {isLoginMode ? t.welcomeBack : t.joinMatriCare}
                         </h1>
+                        <p style={{ textAlign: 'center', color: '#888', fontSize: '0.9rem', marginBottom: '30px' }}>
+                            {isLoginMode ? 'Nice to see you naturally' : 'Create an account. It\'s free'}
+                        </p>
 
                         {error && <div className="error-message">{error}</div>}
                         {successMsg && <div className="success-message">{successMsg}</div>}

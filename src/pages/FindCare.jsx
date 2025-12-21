@@ -37,7 +37,7 @@ const FindCare = () => {
         error: "Unable to retrieve location.",
         categories: "Emergency Categories",
         asha: "ASHA Center",
-        hospital: "Govt Hospital",
+        hospital: "HOSPITAL",
         ambulance: "Ambulance",
         pharmacy: "Pharmacy",
         openMaps: "Open in Maps"
@@ -79,53 +79,55 @@ const FindCare = () => {
                 <p>{t.subtitle}</p>
             </div>
 
-            <div className="map-container">
-                {loading ? (
-                    <div className="loading-map">
-                        <div className="spinner"></div>
-                        <p>{t.locating}</p>
-                    </div>
-                ) : (
-                    <MapContainer center={position} zoom={13} scrollWheelZoom={false} className="leaflet-map">
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={position}>
-                            <Popup>
-                                You are here
-                            </Popup>
-                        </Marker>
-                        <RecenterMap lat={position[0]} lng={position[1]} />
-                    </MapContainer>
-                )}
-            </div>
+            <div className="find-care-main-content">
+                <div className="map-container">
+                    {loading ? (
+                        <div className="loading-map">
+                            <div className="spinner"></div>
+                            <p>{t.locating}</p>
+                        </div>
+                    ) : (
+                        <MapContainer center={position} zoom={13} scrollWheelZoom={false} className="leaflet-map">
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={position}>
+                                <Popup>
+                                    You are here
+                                </Popup>
+                            </Marker>
+                            <RecenterMap lat={position[0]} lng={position[1]} />
+                        </MapContainer>
+                    )}
+                </div>
 
-            <div className="care-categories">
-                <h2>{t.categories}</h2>
-                <div className="grid-categories">
-                    <div className="category-card" onClick={() => handleSearch('ASHA center')}>
-                        <div className="cat-icon">👩‍⚕️</div>
-                        <h3>{t.asha}</h3>
-                        <span className="action-link">{t.openMaps} &rarr;</span>
-                    </div>
+                <div className="care-categories">
+                    <h2>{t.categories}</h2>
+                    <div className="grid-categories">
+                        <div className="category-card" onClick={() => handleSearch('ASHA center')}>
+                            <div className="cat-icon">👩‍⚕️</div>
+                            <h3>{t.asha}</h3>
+                            <span className="action-link">{t.openMaps} &rarr;</span>
+                        </div>
 
-                    <div className="category-card" onClick={() => handleSearch('Government Hospital')}>
-                        <div className="cat-icon">🏥</div>
-                        <h3>{t.hospital}</h3>
-                        <span className="action-link">{t.openMaps} &rarr;</span>
-                    </div>
+                        <div className="category-card" onClick={() => handleSearch('Hospital')}>
+                            <div className="cat-icon">🏥</div>
+                            <h3>{t.hospital}</h3>
+                            <span className="action-link">{t.openMaps} &rarr;</span>
+                        </div>
 
-                    <div className="category-card" onClick={() => handleSearch('Ambulance Service')}>
-                        <div className="cat-icon">🚑</div>
-                        <h3>{t.ambulance}</h3>
-                        <span className="action-link">{t.openMaps} &rarr;</span>
-                    </div>
+                        <div className="category-card" onClick={() => handleSearch('Ambulance Service')}>
+                            <div className="cat-icon">🚑</div>
+                            <h3>{t.ambulance}</h3>
+                            <span className="action-link">{t.openMaps} &rarr;</span>
+                        </div>
 
-                    <div className="category-card" onClick={() => handleSearch('Pharmacy')}>
-                        <div className="cat-icon">💊</div>
-                        <h3>{t.pharmacy}</h3>
-                        <span className="action-link">{t.openMaps} &rarr;</span>
+                        <div className="category-card" onClick={() => handleSearch('Pharmacy')}>
+                            <div className="cat-icon">💊</div>
+                            <h3>{t.pharmacy}</h3>
+                            <span className="action-link">{t.openMaps} &rarr;</span>
+                        </div>
                     </div>
                 </div>
             </div>

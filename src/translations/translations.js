@@ -1131,22 +1131,22 @@ export const translations = {
             employeeId: 'कर्मचारी आयडी',
         },
         analytics: {
-            title: 'Health & Knowledge Hub',
-            subtitle: 'Comprehensive health tracking and information.',
+            title: 'आरोग्य आणि ज्ञान केंद्र',
+            subtitle: 'सर्वसमावेशक आरोग्य ट्रॅकिंग आणि माहिती.',
             analyzeCard: {
-                title: 'Analyze Your Report',
-                desc: 'Upload reports for AI insights.',
-                btn: 'Upload Medical Report'
+                title: 'तुमच्या अहवालाचे विश्लेषण करा',
+                desc: 'AI अंतर्दृष्टीसाठी अहवाल अपलोड करा.',
+                btn: 'वैद्यकीय अहवाल अपलोड करा'
             },
             riskCard: {
-                title: 'Pregnancy Risk Guide',
-                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
-                btn: 'Read Risk Factors'
+                title: 'गर्भधारणा जोखीम मार्गदर्शक',
+                items: ['प्रिव्हलॅम्पसिया', 'गर्भधारणा मधुमेह', 'अॅनिमिया'],
+                btn: 'जोखीम घटक वाचा'
             },
             symptomCard: {
-                title: 'Symptom Dictionary',
-                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
-                btn: 'Browse Symptoms'
+                title: 'लक्षण शब्दकोश',
+                items: ['मार्निंग सिकनेस', 'थकवा', 'सूज'],
+                btn: 'लक्षणे पहा'
             },
             uploadTitle: 'वैद्यकीय अहवाल अपलोड करा',
             uploadDesc: 'तुमचा अहवाल येथे ड्रॅग आणि ड्रॉप करा, किंवा ब्राउझ करण्यासाठी क्लिक करा',
@@ -1478,22 +1478,22 @@ export const translations = {
             employeeId: 'ஊழியர் அடையாள எண்',
         },
         analytics: {
-            title: 'Health & Knowledge Hub',
-            subtitle: 'Comprehensive health tracking and information.',
+            title: 'சுகாதார மற்றும் அறிவு மையம்',
+            subtitle: 'விரிவான சுகாதார கண்காணிப்பு மற்றும் தகவல்.',
             analyzeCard: {
-                title: 'Analyze Your Report',
-                desc: 'Upload reports for AI insights.',
-                btn: 'Upload Medical Report'
+                title: 'உங்கள் அறிக்கையை ஆய்வு செய்யுங்கள்',
+                desc: 'AI நுண்ணறிவுகளுக்கு அறிக்கைகளைப் பதிவேற்றவும்.',
+                btn: 'மருத்துவ அறிக்கையைப் பதிவேற்றவும்'
             },
             riskCard: {
-                title: 'Pregnancy Risk Guide',
-                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
-                btn: 'Read Risk Factors'
+                title: 'கர்ப்பகால ஆபத்து வழிகாட்டி',
+                items: ['ப்ரீ-எக்லம்ப்சியா', 'கர்ப்பகால நீரிழிவு', 'இரத்த சோகை'],
+                btn: 'ஆபத்து காரணிகளைப் படிக்கவும்'
             },
             symptomCard: {
-                title: 'Symptom Dictionary',
-                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
-                btn: 'Browse Symptoms'
+                title: 'அறிகுறி அகராதி',
+                items: ['கர்ப்பகால வாந்தி', 'சோர்வு', 'வீக்கம்'],
+                btn: 'அறிகுறிகளை உலாவவும்'
             },
             subtitle: 'AI-இயக்கப்படும் நுண்ணறிவுகளுக்கு உங்கள் மருத்துவ அறிக்கைகளைப் பதிவேற்றவும்',
             uploadTitle: 'மருத்துவ அறிக்கையைப் பதிவேற்றவும்',

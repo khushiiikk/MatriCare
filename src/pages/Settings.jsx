@@ -38,7 +38,11 @@ const Settings = () => {
             profileUpdated: 'Profile updated successfully!',
             passwordUpdated: 'Password updated successfully!',
             imageSizeError: 'Image size should be less than 5MB',
-            pictureUpdated: 'Profile picture updated successfully!'
+            pictureUpdated: 'Profile picture updated successfully!',
+            employeeId: 'Employee ID',
+            role: 'User Role',
+            rolePatient: 'Patient (Mother)',
+            roleAsha: 'ASHA Worker'
         },
         hi: {
             title: 'खाता सेटिंग्स',
@@ -66,7 +70,11 @@ const Settings = () => {
             profileUpdated: 'प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई!',
             passwordUpdated: 'पासवर्ड सफलतापूर्वक अपडेट हो गया!',
             imageSizeError: 'छवि का आकार 5MB से कम होना चाहिए',
-            pictureUpdated: 'प्रोफ़ाइल चित्र सफलतापूर्वक अपडेट हो गया!'
+            pictureUpdated: 'प्रोफ़ाइल चित्र सफलतापूर्वक अपडेट हो गया!',
+            employeeId: 'कर्मचारी आईडी',
+            role: 'उपयोगकर्ता भूमिका',
+            rolePatient: 'रोगी (Mother)',
+            roleAsha: 'आशा वर्कर (ASHA)'
         },
         mr: {
             title: 'खाते सेटिंग्ज',
@@ -94,7 +102,11 @@ const Settings = () => {
             profileUpdated: 'प्रोफाइल यशस्वीरित्या अपडेट झाले!',
             passwordUpdated: 'पासवर्ड यशस्वीरित्या अपडेट झाला!',
             imageSizeError: 'प्रतिमेचा आकार 5MB पेक्षा कमी असावा',
-            pictureUpdated: 'प्रोफाइल चित्र यशस्वीरित्या अपडेट झाले!'
+            pictureUpdated: 'प्रोफाइल चित्र यशस्वीरित्या अपडेट झाले!',
+            employeeId: 'कर्मचारी आयडी',
+            role: 'वापरकर्ता भूमिका',
+            rolePatient: 'रुग्ण (Mother)',
+            roleAsha: 'आशा वर्कर (ASHA)'
         },
         ta: {
             title: 'கணக்கு அமைப்புகள்',
@@ -122,7 +134,11 @@ const Settings = () => {
             profileUpdated: 'சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
             passwordUpdated: 'கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
             imageSizeError: 'படத்தின் அளவு 5MB க்கும் குறைவாக இருக்க வேண்டும்',
-            pictureUpdated: 'சுயவிவர படம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!'
+            pictureUpdated: 'சுயவிவர படம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!',
+            employeeId: 'பணியாளர் அடையாள எண்',
+            role: 'பயனர் பங்கு',
+            rolePatient: 'நோயாளி (Mother)',
+            roleAsha: 'ஆஷா பணியாளர் (ASHA)'
         }
     };
 
@@ -138,7 +154,8 @@ const Settings = () => {
         state: '',
         district: '',
         village: '',
-        lmpDate: ''
+        lmpDate: '',
+        employeeId: ''
     });
 
     useEffect(() => {
@@ -153,7 +170,8 @@ const Settings = () => {
             state: user.state || '',
             district: user.district || '',
             village: user.village || '',
-            lmpDate: user.lmpDate || ''
+            lmpDate: user.lmpDate || '',
+            employeeId: user.employeeId || ''
         });
     }, [user, navigate]);
 
@@ -189,6 +207,9 @@ const Settings = () => {
     const pregnancyWeek = formData.lmpDate ? calculatePregnancyWeek(formData.lmpDate) : 0;
     const dueDate = formData.lmpDate ? calculateDueDate(formData.lmpDate) : '';
 
+    const isPatient = user.userType === 'patient' || !user.userType;
+    const isAsha = user.userType === 'asha';
+
     if (!user) return null;
 
     return (
@@ -220,6 +241,9 @@ const Settings = () => {
                                 />
                             </div>
                             <h3>{user.name}</h3>
+                            <p className="user-role-badge">
+                                {isAsha ? content.roleAsha : content.rolePatient}
+                            </p>
                             <p>{user.mobile}</p>
                         </div>
 
@@ -327,28 +351,44 @@ const Settings = () => {
                                         </select>
                                     </div>
 
-                                    <div className="form-group">
-                                        <label>{content.lmpDate}</label>
-                                        <input
-                                            type="date"
-                                            value={formData.lmpDate}
-                                            onChange={(e) => setFormData({ ...formData, lmpDate: e.target.value })}
-                                            className="form-input"
-                                            max={formatDateForInput(new Date())}
-                                        />
-                                    </div>
-
-
-                                    <div className="pregnancy-info-card">
-                                        <div className="info-item">
-                                            <span className="label">{content.currentWeek}</span>
-                                            <span className="value">{pregnancyWeek} {content.weeks}</span>
+                                    {isPatient && (
+                                        <div className="form-group">
+                                            <label>{content.lmpDate}</label>
+                                            <input
+                                                type="date"
+                                                value={formData.lmpDate}
+                                                onChange={(e) => setFormData({ ...formData, lmpDate: e.target.value })}
+                                                className="form-input"
+                                                max={formatDateForInput(new Date())}
+                                            />
                                         </div>
-                                        <div className="info-item">
-                                            <span className="label">{content.dueDate}</span>
-                                            <span className="value">{dueDate}</span>
+                                    )}
+
+                                    {isAsha && (
+                                        <div className="form-group">
+                                            <label>{content.employeeId}</label>
+                                            <input
+                                                type="text"
+                                                value={formData.employeeId}
+                                                onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                                                className="form-input"
+                                                placeholder={content.employeeId}
+                                            />
                                         </div>
-                                    </div>
+                                    )}
+
+                                    {isPatient && (
+                                        <div className="pregnancy-info-card">
+                                            <div className="info-item">
+                                                <span className="label">{content.currentWeek}</span>
+                                                <span className="value">{pregnancyWeek} {content.weeks}</span>
+                                            </div>
+                                            <div className="info-item">
+                                                <span className="label">{content.dueDate}</span>
+                                                <span className="value">{dueDate}</span>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     <button type="submit" className="save-btn">{content.saveChanges}</button>
                                 </form>

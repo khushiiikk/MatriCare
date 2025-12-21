@@ -4,22 +4,22 @@
    ======================================== */
 
 :root {
-  /* Color Palette - Maternal Soft Tones */
-  --color-mauve: #9B7B7E;
-  --color-mauve-light: #B39598;
-  --color-mauve-dark: #7D6264;
+  /* Color Palette - New Warm Earthy Tones */
+  --color-mauve: #B77466;
+  --color-mauve-light: #C89286;
+  --color-mauve-dark: #9B6155;
 
-  --color-peach: #E5C4C0;
-  --color-peach-light: #F0D9D6;
-  --color-peach-dark: #D4ADA9;
+  --color-peach: #E2B59A;
+  --color-peach-light: #ECD2C4;
+  --color-peach-dark: #D49D7E;
 
-  --color-cream: #EDE8C8;
-  --color-cream-light: #F5F1DC;
-  --color-cream-dark: #DDD7B4;
+  --color-cream: #FFE1AF;
+  --color-cream-light: #FFF0D7;
+  --color-cream-dark: #FCD494;
 
-  --color-mint: #E8F0D7;
-  --color-mint-light: #F2F7E8;
-  --color-mint-dark: #D5E3C0;
+  --color-mint: #957C62;
+  --color-mint-light: #B29A84;
+  --color-mint-dark: #7D6752;
 
   /* Neutral Colors */
   --color-white: #FFFFFF;
