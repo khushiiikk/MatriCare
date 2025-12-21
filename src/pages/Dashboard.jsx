@@ -26,6 +26,11 @@ const Dashboard = () => {
             return;
         }
 
+        if (user?.userType === 'asha' || user?.role === 'asha') {
+            navigate('/asha-dashboard');
+            return;
+        }
+
         const storedWater = localStorage.getItem(`water_${new Date().toDateString()}`);
         if (storedWater) setWaterIntake(parseInt(storedWater));
 

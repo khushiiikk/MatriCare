@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 import FindCare from './pages/FindCare';
 import Analytics from './pages/Analytics';
 import Dashboard from './pages/Dashboard';
+import AshaDashboard from './pages/AshaDashboard';
 import './index.css';
 
 // Protected Route Component
@@ -70,6 +71,12 @@ const AppContent = () => {
                 <Route path="/dashboard" element={
                     <ProtectedRoute>
                         <Dashboard />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/asha-dashboard" element={
+                    <ProtectedRoute>
+                        <AshaDashboard />
                     </ProtectedRoute>
                 } />
 

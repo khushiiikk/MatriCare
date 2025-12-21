@@ -10,7 +10,7 @@ import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { loginWithPassword, signup, isAuthenticated } = useAuth();
+    const { loginWithPassword, signup, isAuthenticated, user } = useAuth();
     const { language } = useLanguage();
     const t = translations[language].login;
 
@@ -42,10 +42,14 @@ const Login = () => {
     const [robotMood, setRobotMood] = useState('happy'); // happy, thinking, success
 
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/dashboard');
+        if (isAuthenticated && user) {
+            if (user.userType === 'asha' || user.role === 'asha') {
+                navigate('/asha-dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, user, navigate]);
 
 
 
