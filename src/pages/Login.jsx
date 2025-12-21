@@ -7,7 +7,7 @@ import { validateMobile, validateName } from '../utils/validation';
 import { formatDateForInput } from '../utils/dateUtils';
 import Robot from '../components/Robot';
 import './Login.css';
-import plantIllustration from '../assets/login_illustration.png'; // Assuming it's in assets now
+import plantIllustration from '../assets/fetus.png'; // Fallback for missing illustration
 
 const Login = () => {
     const navigate = useNavigate();

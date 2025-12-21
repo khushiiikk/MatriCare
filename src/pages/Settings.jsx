@@ -168,7 +168,6 @@ const Settings = () => {
 
         setFormData({
             name: user.name || '',
-            age: user.age || '',
             state: user.state || '',
             district: user.district || '',
             village: user.village || '',
