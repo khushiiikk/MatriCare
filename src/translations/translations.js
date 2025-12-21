@@ -409,13 +409,23 @@ export const translations = {
 
         // Analytics Page
         analytics: {
-            title: 'Health Insights',
-            tabs: {
-                analytics: 'Analytics',
-                risk: 'Risk',
-                symptoms: 'Symptoms'
+            title: 'Health & Knowledge Hub',
+            subtitle: 'Comprehensive health tracking and information.',
+            analyzeCard: {
+                title: 'Analyze Your Report',
+                desc: 'Upload reports for AI insights.',
+                btn: 'Upload Medical Report'
             },
-            subtitle: 'Upload medical reports for AI-powered insights',
+            riskCard: {
+                title: 'Pregnancy Risk Guide',
+                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
+                btn: 'Read Risk Factors'
+            },
+            symptomCard: {
+                title: 'Symptom Dictionary',
+                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
+                btn: 'Browse Symptoms'
+            },
             uploadTitle: 'Upload Medical Report',
             uploadDesc: 'Drag & drop your report here, or click to browse',
             supportedFormats: 'Supported formats: PDF, JPG, PNG',
@@ -885,13 +895,23 @@ export const translations = {
 
         // Analytics Page
         analytics: {
-            title: 'स्वास्थ्य जानकारी',
-            tabs: {
-                analytics: 'विश्लेषण',
-                risk: 'जोखिम',
-                symptoms: 'लक्षण'
+            title: 'Health & Knowledge Hub',
+            subtitle: 'Comprehensive health tracking and information.',
+            analyzeCard: {
+                title: 'Analyze Your Report',
+                desc: 'Upload reports for AI insights.',
+                btn: 'Upload Medical Report'
             },
-            subtitle: 'AI-संचालित जानकारी के लिए अपनी मेडिकल रिपोर्ट अपलोड करें',
+            riskCard: {
+                title: 'Pregnancy Risk Guide',
+                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
+                btn: 'Read Risk Factors'
+            },
+            symptomCard: {
+                title: 'Symptom Dictionary',
+                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
+                btn: 'Browse Symptoms'
+            },
             uploadTitle: 'मेडिकल रिपोर्ट अपलोड करें',
             uploadDesc: 'अपनी रिपोर्ट यहाँ खींचें और छोड़ें, या ब्राउज़ करने के लिए क्लिक करें',
             supportedFormats: 'समर्थित प्रारूप: PDF, JPG, PNG',
@@ -1099,13 +1119,23 @@ export const translations = {
             }
         },
         analytics: {
-            title: 'आरोग्य अंतर्दृष्टी',
-            tabs: {
-                analytics: 'विश्लेषण',
-                risk: 'जोखीम',
-                symptoms: 'लक्षणे'
+            title: 'Health & Knowledge Hub',
+            subtitle: 'Comprehensive health tracking and information.',
+            analyzeCard: {
+                title: 'Analyze Your Report',
+                desc: 'Upload reports for AI insights.',
+                btn: 'Upload Medical Report'
             },
-            subtitle: 'AI-संचालित अंतर्दृष्टीसाठी तुमचे वैद्यकीय अहवाल अपलोड करा',
+            riskCard: {
+                title: 'Pregnancy Risk Guide',
+                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
+                btn: 'Read Risk Factors'
+            },
+            symptomCard: {
+                title: 'Symptom Dictionary',
+                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
+                btn: 'Browse Symptoms'
+            },
             uploadTitle: 'वैद्यकीय अहवाल अपलोड करा',
             uploadDesc: 'तुमचा अहवाल येथे ड्रॅग आणि ड्रॉप करा, किंवा ब्राउझ करण्यासाठी क्लिक करा',
             supportedFormats: 'समर्थित स्वरूप: PDF, JPG, PNG',
@@ -1432,11 +1462,22 @@ export const translations = {
             }
         },
         analytics: {
-            title: 'ஆரோக்கிய நுண்ணறிவு',
-            tabs: {
-                analytics: 'பகுப்பாய்வு',
-                risk: 'ஆபத்து',
-                symptoms: 'அறிகுறிகள்'
+            title: 'Health & Knowledge Hub',
+            subtitle: 'Comprehensive health tracking and information.',
+            analyzeCard: {
+                title: 'Analyze Your Report',
+                desc: 'Upload reports for AI insights.',
+                btn: 'Upload Medical Report'
+            },
+            riskCard: {
+                title: 'Pregnancy Risk Guide',
+                items: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
+                btn: 'Read Risk Factors'
+            },
+            symptomCard: {
+                title: 'Symptom Dictionary',
+                items: ['Morning Sickness', 'Fatigue', 'Swelling'],
+                btn: 'Browse Symptoms'
             },
             subtitle: 'AI-இயக்கப்படும் நுண்ணறிவுகளுக்கு உங்கள் மருத்துவ அறிக்கைகளைப் பதிவேற்றவும்',
             uploadTitle: 'மருத்துவ அறிக்கையைப் பதிவேற்றவும்',
