@@ -1,41 +1,82 @@
 /* MatriCare Professional Design System */
-/* Theme: Deep Mauve, Soft Rose, Cream, Pale Lime */
+/* Theme: Soft Pastel Pink, Salmon, & White (User Requested) */
+/* UPDATED: Darker Fonts for Readability & Accessibility + Restored Cute Pastels */
 
 :root {
-  /* 1. Core Brand Colors (extracted from user image) */
-  --color-mauve-deep: #8B6563;
-  /* Deep brownish-mauve (top bar) */
-  --color-rose-soft: #E6BDB5;
-  /* Soft rose/pink (2nd bar) */
-  --color-cream-warm: #EEE6CD;
-  /* Warm cream/beige (3rd bar) */
-  --color-lime-pale: #F3F8E4;
-  /* Very pale lime/white (bottom bar) */
+  /* 1. Core Brand Colors */
+  --color-pink-deep: #D48888;
+  /* Darker Salmon */
+  --color-pink-mid: #F8C8C8;
+  /* Pale Pink */
+  --color-pink-light: #FDE8E8;
+  /* Very Pale Pink */
+  --color-white-soft: #FFFAFA;
+  /* Snow White */
 
   /* 2. Semantic Mapping */
-  --color-primary: var(--color-mauve-deep);
-  --color-secondary: var(--color-rose-soft);
-  --color-background: var(--color-lime-pale);
+  --color-primary: #C62828;
+  /* Deep Red/Pink for high contrast primary actions */
+  --color-secondary: #F8C8C8;
+  /* Backgrounds/Secondary buttons */
+  --color-background: #FFFAFA;
+  /* Main page bg */
   --color-surface: #FFFFFF;
-  --color-accent: var(--color-cream-warm);
+  /* Cards */
+  --color-accent: #FFEBEE;
+  /* Highlights */
 
-  /* 3. Text Colors */
-  --text-primary: #4A3B3A;
-  /* Dark warm gray/brown for main text */
-  --text-secondary: #7D6361;
-  /* Muted mauve for subtitles */
-  --text-light: #FDFBF7;
-  /* Off-white text */
+  /* 3. Text Colors - High Contrast */
+  --text-primary: #3E2723;
+  /* Very Dark Brown (almost black) */
+  --text-secondary: #5D4037;
+  /* Dark Brown */
+  --text-light: #FFFFFF;
+  /* White text */
+  --color-black: #212121;
+  /* Pure black alternative */
 
-  /* 4. Shadows & Layers */
-  --shadow-sm: 0 4px 6px rgba(139, 101, 99, 0.05);
-  --shadow-md: 0 8px 16px rgba(139, 101, 99, 0.08);
-  --shadow-lg: 0 16px 32px rgba(139, 101, 99, 0.12);
+  /* 4. Navbar & Brand Specifics */
+  --color-mauve: #880E4F;
+  /* Deep Purple/Pink for branding text */
+  --color-mauve-deep: #880E4F;
+  --color-mauve-dark: #6A1B9A;
 
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: 1px solid rgba(230, 189, 181, 0.3);
+  /* 5. Restored Cute Pastels for Home Page (Cards & Hero) */
+  --color-mauve-light: #F8BBD0;
+  /* Soft Pink for Yoga Card */
 
-  /* 5. Spacing & Radius */
+  --color-peach: #FFCCBC;
+  /* Soft Peach for Hero Image Border */
+  --color-peach-light: #FFEBE5;
+  --color-peach-dark: #FFAB91;
+  /* Darker Peach for Chatbot Card */
+
+  --color-mint-dark: #B2DFDB;
+  /* Soft Mint for Analytics Card */
+  --color-mint-light: #E0F2F1;
+
+  --color-cream: #FFF3E0;
+  --color-cream-dark: #FFE0B2;
+  /* Dark Cream for Find Care Card */
+
+  --color-gray-dark: #455A64;
+  /* Slate Gray for secondary text */
+  --color-slate: #37474F;
+
+  --color-sage: #8D6E63;
+  /* Earthy tone mapping */
+  --color-cream-warm: #FFF8E1;
+  --color-lime-pale: #FFF3E0;
+  /* Warm tint */
+
+  /* 6. Shadows & Layers */
+  --shadow-sm: 0 4px 6px rgba(136, 14, 79, 0.1);
+  --shadow-md: 0 8px 16px rgba(136, 14, 79, 0.15);
+  --shadow-lg: 0 16px 32px rgba(136, 14, 79, 0.2);
+
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: 1px solid rgba(244, 143, 177, 0.3);
+
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
@@ -43,7 +84,6 @@
 
 body {
   background-color: var(--color-background);
-  /* Pale Lime/White base */
   color: var(--text-primary);
   font-family: 'Inter', 'Segoe UI', sans-serif;
   line-height: 1.6;
@@ -51,16 +91,40 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Merriweather', serif;
-  color: var(--color-mauve-deep);
+  color: var(--color-mauve);
+  /* High contrast header color */
   font-weight: 700;
+}
+
+p,
+span,
+div {
+  color: var(--text-primary);
+}
+
+/* Specific overrides for text visibility */
+.logo-hindi {
+  color: var(--color-mauve) !important;
+}
+
+.logo-english {
+  /* Fallback if gradient fails */
+  color: var(--color-gray-dark) !important;
+  background: linear-gradient(135deg, #880E4F 0%, #212121 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Button Styles */
 .btn-primary {
-  background: var(--color-mauve-deep);
-  color: white;
+  background: var(--color-mauve);
+  color: white !important;
   border: none;
   border-radius: var(--radius-xl);
   padding: 12px 28px;
@@ -70,19 +134,35 @@ h3 {
 }
 
 .btn-primary:hover {
-  background: #6E4D4B;
-  /* Darker shade of deep mauve */
+  background: #AD1457;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-  background: var(--color-rose-soft);
-  color: var(--text-primary);
-  border: none;
+  background: var(--color-secondary);
+  color: var(--color-mauve) !important;
+  /* Ensure text is readable on pale pink */
+  border: 1px solid var(--color-mauve);
   border-radius: var(--radius-xl);
   padding: 10px 24px;
   font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Navbar Link Colors */
+.navbar-link {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  color: var(--color-mauve) !important;
 }
 
 /* Scrollbar */
@@ -91,6 +171,6 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-rose-soft);
+  background: var(--color-mauve);
   border-radius: 4px;
 }
