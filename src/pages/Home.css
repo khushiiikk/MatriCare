@@ -36,18 +36,28 @@
 }
 
 .shape-1 {
-    width: 600px;
-    height: 600px;
-    top: -100px;
-    left: -100px;
+    width: 400px;
+    height: 400px;
+    top: 10%;
+    left: -5%;
+    background: #F2E3E8;
+    opacity: 0.6;
 }
 
 .shape-2 {
-    width: 400px;
-    height: 400px;
-    bottom: -50px;
-    right: -50px;
-    background: rgba(255, 171, 145, 0.05);
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    right: 5%;
+    background: #FFF0ED;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 10%;
+    background: #FFFAF5;
 }
 
 .hero-content {
@@ -60,11 +70,12 @@
 }
 
 .hero-title {
-    font-size: 2.8rem;
+    font-size: 3.8rem;
     line-height: 1.1;
-    color: #3E2723;
-    margin-bottom: 16px;
-    font-family: 'Merriweather', serif;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
 }
 
 .highlight-text {
@@ -80,19 +91,20 @@
 }
 
 .quote-box {
-    background: #FFF9F9;
-    padding: 25px 35px;
-    border-left: 5px solid var(--color-mauve-light);
-    border-radius: 4px 15px 15px 4px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-    max-width: 550px;
+    background: #FFF5F2;
+    padding: 12px 24px;
+    border-radius: 12px;
+    display: inline-block;
+    border: none;
+    box-shadow: none;
+    margin-top: 10px;
 }
 
 .quote-text {
     font-style: italic;
-    color: #5D4037;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    color: #AD8B80;
+    font-size: 1rem;
+    line-height: 1.4;
     margin: 0;
 }
 
@@ -102,13 +114,14 @@
 }
 
 .hero-image-circle {
-    width: 450px;
-    height: 450px;
+    width: 380px;
+    height: 380px;
     border-radius: 50%;
-    padding: 20px;
-    background: rgba(248, 187, 208, 0.2);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    animation: float 6s ease-in-out infinite;
+    padding: 15px;
+    background: white;
+    box-shadow: 0 20px 60px rgba(62, 39, 35, 0.1);
+    position: relative;
+    border: 15px solid #FFEDEA;
 }
 
 .hero-image-circle img {
@@ -139,8 +152,12 @@
 
 .section-title {
     font-size: 1.8rem;
-    color: var(--color-mauve);
+    color: #3E2723;
     margin-bottom: 40px;
+    font-family: 'Playfair Display', serif;
+    text-decoration: underline;
+    text-decoration-color: var(--color-peach);
+    text-underline-offset: 8px;
 }
 
 .text-center {

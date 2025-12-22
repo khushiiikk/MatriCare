@@ -62,21 +62,22 @@ const Home = () => {
                 <div className="hero-bg-shapes">
                     <div className="shape shape-1"></div>
                     <div className="shape shape-2"></div>
+                    <div className="shape shape-3"></div>
                 </div>
                 <div className="container">
                     <div className="hero-content">
                         <div className="hero-text">
                             <h1 className="hero-title">
-                                {t.hero.title} <br />
-                                <span className="highlight-text">{t.hero.titleHighlight}</span>
+                                Your Health,<br />
+                                <span className="highlight-text">Our Responsibility</span>
                             </h1>
                             <p className="hero-description">
-                                {t.hero.description}
+                                Support for your pregnancy journey. Health info, yoga, and expert care in your language.
                             </p>
 
                             <div className="quote-box">
                                 <p className="quote-text">
-                                    {t.hero.quotes[currentQuoteIndex]}
+                                    "{t.hero.quotes[currentQuoteIndex]}"
                                 </p>
                             </div>
                         </div>
