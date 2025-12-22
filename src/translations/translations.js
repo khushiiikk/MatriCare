@@ -321,6 +321,26 @@ export const translations = {
                         title: 'Deep Breathing (Pranayama)',
                         desc: 'Reduces stress and anxiety.',
                         steps: ['Find a quiet comfortable seat.', 'Close your eyes.', 'Inhale deeply through nose.', 'Exhale slowly through mouth.']
+                    },
+                    {
+                        title: 'Standing Side Stretch',
+                        desc: 'Stretches the side body and improves lung capacity.',
+                        steps: ['Stand with feet hip-width apart.', 'Inhale and reach right arm up.', 'Lean gently to the left.', 'Hold for 5 breaths and switch side.']
+                    },
+                    {
+                        title: 'Wrist and Finger Exercises',
+                        desc: 'Relieves stiffness and prevents carpal tunnel.',
+                        steps: ['Sit comfortably.', 'Stretch arms forward.', 'Rotate wrists in circles.', 'Open and close fists rapidly.']
+                    },
+                    {
+                        title: 'Eye Palming',
+                        desc: 'Relaxes eye muscles and reduces stress.',
+                        steps: ['Rub your palms together until warm.', 'Place them gently over closed eyes.', 'Breathe deeply for 30 seconds.', 'Focus on the darkness.']
+                    },
+                    {
+                        title: 'Seated Side Bend',
+                        desc: 'Opens the chest and side ribs.',
+                        steps: ['Sit cross-legged.', 'Place left hand on floor.', 'Reach right arm over ear.', 'Stay for 5 deep breaths.']
                     }
                 ]
             },
@@ -359,6 +379,26 @@ export const translations = {
                         title: 'Ankle Rotations',
                         desc: 'Reduces swelling in feet.',
                         steps: ['Sit with legs extended.', 'Rotate ankles clockwise.', 'Rotate counter-clockwise.', 'Point and flex toes.']
+                    },
+                    {
+                        title: 'Warrior Pose II (Virabhadrasana II)',
+                        desc: 'Strengthens legs and improves concentration.',
+                        steps: ['Exhale and step feet wide apart.', 'Turn right foot out 90 degrees.', 'Bend right knee over ankle.', 'Extend arms parallel to floor.']
+                    },
+                    {
+                        title: 'Goddess Pose (Utkata Konasana)',
+                        desc: 'Strengthens lower body and opens hips.',
+                        steps: ['Stand with feet wide, toes out.', 'Bend knees into a deep squat.', 'Keep back straight.', 'Hold arms in cactus shape.']
+                    },
+                    {
+                        title: 'Seated Torso Circles',
+                        desc: 'Improves digestion and hip mobility.',
+                        steps: ['Sit comfortably with crossed legs.', 'Rotate your upper body in large circles.', 'Move clockwise 10 times.', 'Repeat counter-clockwise.']
+                    },
+                    {
+                        title: 'Modified Forward Fold',
+                        desc: 'Stretches hamstrings and lower back.',
+                        steps: ['Sit with legs wide apart.', 'Keep spine long.', 'Lean forward from hips slightly.', 'Place hands on floor or shins.']
                     }
                 ]
             },
@@ -397,6 +437,26 @@ export const translations = {
                         title: 'Relaxation Breathing',
                         desc: 'Prepares for labor breathing.',
                         steps: ['Lie on your left side.', 'Place pillow between knees.', 'Breathe in for 4 counts.', 'Breathe out for 6 counts.']
+                    },
+                    {
+                        title: 'Malasana (Garland Pose)',
+                        desc: 'Opens hips and prepares for delivery.',
+                        steps: ['Squat with feet wide apart.', 'Bring elbows inside knees.', 'Press palms together at heart.', 'Keep spine upright.']
+                    },
+                    {
+                        title: 'Butterfly Pose (Baddha Konasana) - Seated',
+                        desc: 'Opens the inner thighs and groins.',
+                        steps: ['Sit with soles of feet together.', 'Gently flap your knees like a butterfly.', 'Keep back straight.', 'Breathe and relax.']
+                    },
+                    {
+                        title: 'Supported Side-Lying Shavasana',
+                        desc: 'Ultimate relaxation for late pregnancy.',
+                        steps: ['Lie on your left side.', 'Use pillows under head and between knees.', 'Close your eyes.', 'Focus on your breath.']
+                    },
+                    {
+                        title: 'Leg Lifts (Side-Lying)',
+                        desc: 'Strengthens hips and legs.',
+                        steps: ['Lie on your side.', 'Lift top leg slowly.', 'Lower without touching the ground.', 'Repeat 10 times each side.']
                     }
                 ]
             }
@@ -815,6 +875,26 @@ export const translations = {
                         title: 'गहरी सांस (प्राणायाम)',
                         desc: 'तनाव और चिंता को कम करता है।',
                         steps: ['शांत आरामदायक जगह खोजें।', 'अपनी आंखें बंद करें।', 'नाक से गहरी सांस लें।', 'मुंह से धीरे-धीरे सांस छोड़ें।']
+                    },
+                    {
+                        title: 'खड़े होकर साइड स्ट्रेच',
+                        desc: 'शरीर के किनारों को फैलाता है और फेफड़ों की क्षमता में सुधार करता है।',
+                        steps: ['पैरों को कूल्हे की चौड़ाई पर रखकर खड़े हों।', 'सांस लें और दाहिना हाथ ऊपर उठाएं।', 'धीरे से बाईं ओर झुकें।', '5 सांसों के लिए रुकें और दूसरी तरफ दोहराएं।']
+                    },
+                    {
+                        title: 'कलाई और उंगली के व्यायाम',
+                        desc: 'जकड़न से राहत देता है और कार्पल टनेल को रोकता है।',
+                        steps: ['आराम से बैठें।', 'बाजुओं को आगे की ओर फैलाएं।', 'कलाई को गोल घुमाएं।', 'मुट्ठी को तेजी से खोलें और बंद करें।']
+                    },
+                    {
+                        title: 'आंखों की पामिंग',
+                        desc: 'आंखों की मांसपेशियों को आराम देता है और तनाव कम करता है।',
+                        steps: ['हथेलियों को गर्म होने तक आपस में रगड़ें।', 'उन्हें धीरे से बंद आंखों पर रखें।', '30 सेकंड तक गहरी सांस लें।', 'अंधेरे पर ध्यान केंद्रित करें।']
+                    },
+                    {
+                        title: 'बैठकर साइड बेंड',
+                        desc: 'छाती और पसलियों को खोलता है।',
+                        steps: ['पालथी मारकर बैठें।', 'बायां हाथ फर्श पर रखें।', 'दाहिना हाथ कान के ऊपर पहुंचाएं।', '5 गहरी सांसों के लिए रुकें।']
                     }
                 ]
             },
@@ -853,6 +933,26 @@ export const translations = {
                         title: 'टखने का घुमाव',
                         desc: 'पैरों में सूजन कम करता है।',
                         steps: ['पैरों को फैलाकर बैठें।', 'टखनों को दक्षिणावर्त घुमाएं।', 'वामावर्त घुमाएं।', 'पैर की उंगलियों को इशारा करें और मोड़ें।']
+                    },
+                    {
+                        title: 'योद्धा मुद्रा II (वीरभद्रासन II)',
+                        desc: 'पैरों को मजबूत करता है और एकाग्रता में सुधार करता है।',
+                        steps: ['सांस छोड़ें और पैरों को चौड़ा करें।', 'दाहिने पैर को 90 डिग्री बाहर मोड़ें।', 'दाहिने घुटने को टखने के ऊपर मोड़ें।', 'हाथों को फर्श के समानांतर फैलाएं।']
+                    },
+                    {
+                        title: 'देवी मुद्रा (उत्कट कोणासन)',
+                        desc: 'निचले शरीर को मजबूत करता है और कूल्हों को खोलता है।',
+                        steps: ['पैरों को चौड़ा करके खड़े हों, उंगलियां बाहर।', 'घुटनों को मोड़कर गहरे स्क्वाट में आएं।', 'पीठ सीधी रखें।', 'हाथों को कैक्टस के आकार में रखें।']
+                    },
+                    {
+                        title: 'बैठकर धड़ का घुमाव',
+                        desc: 'पाचन और कूल्हे की गतिशीलता में सुधार करता है।',
+                        steps: ['क्रॉस पैरों के साथ आराम से बैठें।', 'उपरी शरीर को बड़े घेरों में घुमाएं।', 'दक्षिणावर्त 10 बार घुमाएं।', 'वामावर्त दोहराएं।']
+                    },
+                    {
+                        title: 'संशोधित फॉरवर्ड फोल्ड',
+                        desc: 'हैमस्ट्रिंग और पीठ के निचले हिस्से को फैलाता है।',
+                        steps: ['पैरों को चौड़ा करके बैठें।', 'रीढ़ को लंबा रखें।', 'कूल्हों से थोड़ा आगे झुकें।', 'हाथों को फर्श या पिंडलियों पर रखें।']
                     }
                 ]
             },
@@ -891,6 +991,26 @@ export const translations = {
                         title: 'विश्राम श्वास',
                         desc: 'प्रसव श्वास के लिए तैयार करता है।',
                         steps: ['अपनी बाईं ओर लेटें।', 'घुटनों के बीच तकिया रखें।', '4 गिनती के लिए सांस लें।', '6 गिनती के लिए सांस छोड़ें।']
+                    },
+                    {
+                        title: 'मलासन (गारलैंड पोज)',
+                        desc: 'कूल्हों को खोलता है और प्रसव की तैयारी करता है।',
+                        steps: ['पैरों को चौड़ा करके स्क्वाट करें।', 'कोहनियों को घुटनों के अंदर लाएं।', 'हथेलियों को हृदय पर एक साथ दबाएं।', 'रीढ़ को सीधा रखें।']
+                    },
+                    {
+                        title: 'तितली मुद्रा (बद्ध कोणासन) - बैठकर',
+                        desc: 'भीतरी जांघों और कमर को खोलता है।',
+                        steps: ['पैरों के तलवों को एक साथ रखकर बैठें।', 'घुटनों को तितली की तरह धीरे से फड़फड़ाएं।', 'पीठ सीधी रखें।', 'सांस लें और आराम करें।']
+                    },
+                    {
+                        title: 'समर्थित साइड-लाइंग शवासन',
+                        desc: 'देर से गर्भावस्था के लिए परम विश्राम।',
+                        steps: ['अपनी बाईं ओर लेटें।', 'सिर के नीचे और घुटनों के बीच तकिए का उपयोग करें।', 'अपनी आंखें बंद करें।', 'अपनी सांस पर ध्यान केंद्रित करें।']
+                    },
+                    {
+                        title: 'लेग लिफ्ट्स (साइड-लाइंग)',
+                        desc: 'कूल्हों और पैरों को मजबूत करता है।',
+                        steps: ['करवट लेकर लेटें।', 'ऊपरी पैर को धीरे से उठाएं।', 'जमीन को छुए बिना नीचे लाएं।', 'प्रत्येक तरफ 10 बार दोहराएं।']
                     }
                 ]
             }

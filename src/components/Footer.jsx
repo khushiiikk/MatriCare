@@ -31,7 +31,9 @@ const Footer = () => {
                             <span className="logo-hindi">मातृ</span>
                             <span className="logo-english">Care</span>
                         </div>
-                        <p className="footer-desc">{content.desc}</p>
+                        <p className="footer-desc">
+                            {content.desc}
+                        </p>
                     </div>
 
                     <div className="footer-nav">
@@ -40,19 +42,16 @@ const Footer = () => {
                             <li><a href="/">{content.home}</a></li>
                             <li><a href="/about">{content.about}</a></li>
                             <li><a href="/yoga">{content.yoga}</a></li>
-                            <li><a href="#reviews">{content.reviews}</a></li>
-                            <li><a href="#contact">{content.contact}</a></li>
-                            <li><a href="#feedback">{content.feedback}</a></li>
                         </ul>
                     </div>
 
                     <div className="footer-social">
                         <h3>{content.connect}</h3>
                         <div className="social-icons">
-                            <a href="#" className="social-icon">In</a>
-                            <a href="#" className="social-icon">Fb</a>
-                            <a href="#" className="social-icon">Tw</a>
-                            <a href="#" className="social-icon">Yt</a>
+                            <a href="#" className="social-icon">LinkedIn</a>
+                            <a href="#" className="social-icon">Facebook</a>
+                            <a href="#" className="social-icon">Twitter</a>
+                            <a href="#" className="social-icon">YouTube</a>
                         </div>
                     </div>
                 </div>

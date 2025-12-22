@@ -23,6 +23,22 @@ export const trimesterExercises = {
         {
             image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Deep+Breathing",
             video: "https://www.youtube.com/watch?v=vCl_WK2y7ik"
+        },
+        {
+            image: "https://placehold.co/600x400/E5C4C0/9B7B7E?text=Standing+Side+Stretch",
+            video: "https://www.youtube.com/watch?v=QLKJKTMp1iM"
+        },
+        {
+            image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Wrist+Stretches",
+            video: "https://www.youtube.com/watch?v=vCl_WK2y7ik"
+        },
+        {
+            image: "https://placehold.co/600x400/E8F0D7/9B7B7E?text=Eye+Palming",
+            video: "https://www.youtube.com/watch?v=vCl_WK2y7ik"
+        },
+        {
+            image: "https://placehold.co/600x400/EDE8C8/9B7B7E?text=Seated+Side+Bend",
+            video: "https://www.youtube.com/watch?v=8pZ1hTkGuzA"
         }
     ],
     trimester2: [
@@ -49,6 +65,22 @@ export const trimesterExercises = {
         {
             image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Ankle+Rotations",
             video: "https://www.youtube.com/watch?v=HSvWNEvd08c"
+        },
+        {
+            image: "https://placehold.co/600x400/E8F0D7/9B7B7E?text=Warrior+Pose+II",
+            video: "https://www.youtube.com/watch?v=QLKJKTMp1iM"
+        },
+        {
+            image: "https://placehold.co/600x400/E5C4C0/9B7B7E?text=Goddess+Pose",
+            video: "https://www.youtube.com/watch?v=QLKJKTMp1iM"
+        },
+        {
+            image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Torso+Circles",
+            video: "https://www.youtube.com/watch?v=aONwPDihTaA"
+        },
+        {
+            image: "https://placehold.co/600x400/EDE8C8/9B7B7E?text=Forward+Fold",
+            video: "https://www.youtube.com/watch?v=8pZ1hTkGuzA"
         }
     ],
     trimester3: [
@@ -75,6 +107,22 @@ export const trimesterExercises = {
         {
             image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Relaxation+Breathing",
             video: "https://www.youtube.com/watch?v=2FyYMUL62Y4"
+        },
+        {
+            image: "https://placehold.co/600x400/E5C4C0/9B7B7E?text=Malasana",
+            video: "https://www.youtube.com/watch?v=QLKJKTMp1iM"
+        },
+        {
+            image: "https://placehold.co/600x400/9B7B7E/E5C4C0?text=Butterfly+Pose",
+            video: "https://www.youtube.com/watch?v=8pZ1hTkGuzA"
+        },
+        {
+            image: "https://placehold.co/600x400/E8F0D7/9B7B7E?text=Side+Lying+Shavasana",
+            video: "https://www.youtube.com/watch?v=2FyYMUL62Y4"
+        },
+        {
+            image: "https://placehold.co/600x400/EDE8C8/9B7B7E?text=Leg+Lifts",
+            video: "https://www.youtube.com/watch?v=HSvWNEvd08c"
         }
     ]
 };

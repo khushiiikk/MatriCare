@@ -70,10 +70,10 @@
 }
 
 .hero-title {
-    font-size: 3.8rem;
-    line-height: 1.1;
+    font-size: 3.2rem;
+    line-height: 1.15;
     color: var(--text-primary);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-family: 'Playfair Display', serif;
     font-weight: 700;
 }
@@ -84,10 +84,10 @@
 }
 
 .hero-description {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #5D4037;
-    margin-bottom: 30px;
-    max-width: 450px;
+    margin-bottom: 25px;
+    max-width: 420px;
 }
 
 .quote-box {
@@ -114,14 +114,14 @@
 }
 
 .hero-image-circle {
-    width: 380px;
-    height: 380px;
+    width: 340px;
+    height: 340px;
     border-radius: 50%;
-    padding: 15px;
+    padding: 12px;
     background: white;
-    box-shadow: 0 20px 60px rgba(62, 39, 35, 0.1);
+    box-shadow: 0 15px 45px rgba(62, 39, 35, 0.08);
     position: relative;
-    border: 15px solid #FFEDEA;
+    border: 12px solid #FFEDEA;
 }
 
 .hero-image-circle img {

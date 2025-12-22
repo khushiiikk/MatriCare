@@ -24,127 +24,100 @@
     color: var(--color-text-light);
 }
 
-.trimester-grid {
+.yoga-illustrative-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-xl);
-    max-width: 1000px;
-    margin: 0 auto var(--spacing-2xl);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin: 60px auto;
+    max-width: 1200px;
 }
 
-.trimester-card {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: all var(--transition-base);
-    cursor: pointer;
-    position: relative;
-    border-radius: 20px;
+.yoga-card-illustrative {
     background: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    height: 100%;
-}
-
-.clickable-card {
-    background: var(--color-white);
-}
-
-.clickable-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.trimester-image-wrapper {
-    width: 100%;
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-off-white);
-    /* Very light cream background for all card images */
-    padding: var(--spacing-lg);
-    overflow: hidden;
-    position: relative;
-}
-
-.trimester-img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-    transition: transform var(--transition-base);
-}
-
-.clickable-card:hover .trimester-img {
-    transform: scale(1.05);
-}
-
-.trimester-info {
-    padding: 20px 15px;
+    padding: 50px 30px;
+    border-radius: 40px;
     text-align: center;
-    color: var(--color-text);
-    position: relative;
-    flex: 1;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(136, 14, 79, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    min-height: 100px;
-    transition: background var(--transition-base);
 }
 
-/* Consistent Shades for all cards */
-.gradient-mauve,
-.gradient-peach,
-.gradient-mint {
-    background: rgba(183, 116, 102, 0.08);
-    /* Very light mauve bg */
-    color: var(--color-text);
-    border-top: 1px solid rgba(183, 116, 102, 0.1);
+.yoga-card-illustrative:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(136, 14, 79, 0.1);
+    border-color: var(--color-mauve-light);
 }
 
-.clickable-card:hover .trimester-info {
-    background: rgba(183, 116, 102, 0.15);
-}
-
-.click-indicator {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 35px;
-    height: 35px;
-    background: rgba(255, 255, 255, 0.3);
+.card-icon-wrapper {
+    width: 120px;
+    height: 120px;
+    background: #FFFAF5;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-base);
-    top: auto;
-    transform: none;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
 }
 
-.gradient-mint .click-indicator {
-    background: rgba(0, 0, 0, 0.05);
-    color: #4A4A4A;
+.yoga-card-illustrative:hover .card-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
 }
 
-.clickable-card:hover .click-indicator {
-    background: rgba(255, 255, 255, 0.6);
-    transform: translateX(4px);
+.card-icon {
+    width: 65%;
+    height: 65%;
+    object-fit: contain;
 }
 
-.trimester-title {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    /* For Hindi text support */
+.card-title {
+    font-size: 1.5rem;
+    color: #3E2723;
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
 }
 
-.trimester-weeks {
+.card-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+    text-align: left;
+    width: 100%;
+}
+
+.card-bullets li {
     font-size: 0.95rem;
-    opacity: 0.9;
-    font-weight: 500;
+    color: #6D4C41;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.card-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-mauve);
+    font-weight: bold;
+}
+
+.card-link {
+    margin-top: auto;
+    font-weight: 700;
+    color: var(--color-mauve);
+    font-size: 0.9rem;
+    transition: gap 0.3s ease;
+}
+
+@media (max-width: 992px) {
+    .yoga-illustrative-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
 }
 
 .yoga-disclaimer {

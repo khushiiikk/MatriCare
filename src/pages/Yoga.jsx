@@ -24,77 +24,47 @@ const Yoga = () => {
                         </p>
                     </div>
 
-                    <div className="trimester-grid">
-                        {/* First Trimester */}
-                        <div
-                            className="trimester-card card hover-lift clickable-card"
-                            onClick={() => handleTrimesterClick(1)}
-                        >
-                            <div className="trimester-image-wrapper">
-                                <img
-                                    src="/trimester1.png"
-                                    alt={t.yoga.trimester1.title}
-                                    className="trimester-img"
-                                />
+                    <div className="yoga-illustrative-grid">
+                        {/* Pregnancy Care / Trimester 1 */}
+                        <div className="yoga-card-illustrative" onClick={() => handleTrimesterClick(1)}>
+                            <div className="card-icon-wrapper">
+                                <img src="/yoga-icon-1.png" alt="Pregnancy Care" className="card-icon" />
                             </div>
-                            <div className="trimester-info gradient-mauve">
-                                <h3 className="trimester-title">{t.yoga.trimester1.title}</h3>
-                                <p className="trimester-weeks">{t.yoga.trimester1.weeks}</p>
-                                <div className="click-indicator">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg>
-                                </div>
-                            </div>
+                            <h3 className="card-title">Pregnancy Care</h3>
+                            <ul className="card-bullets">
+                                <li>Gentle Morning Yoga</li>
+                                <li>Breathing Exercises</li>
+                                <li>Safe Stretching</li>
+                            </ul>
+                            <div className="card-link">Learn More &rarr;</div>
                         </div>
 
-                        {/* Second Trimester */}
-                        <div
-                            className="trimester-card card hover-lift clickable-card"
-                            onClick={() => handleTrimesterClick(2)}
-                        >
-                            <div className="trimester-image-wrapper">
-                                <img
-                                    src="/trimester2.png"
-                                    alt={t.yoga.trimester2.title}
-                                    className="trimester-img"
-                                />
+                        {/* Delivery / Trimester 2 */}
+                        <div className="yoga-card-illustrative" onClick={() => handleTrimesterClick(2)}>
+                            <div className="card-icon-wrapper">
+                                <img src="/yoga-icon-2.png" alt="Delivery" className="card-icon" />
                             </div>
-                            <div className="trimester-info gradient-peach">
-                                <h3 className="trimester-title">{t.yoga.trimester2.title}</h3>
-                                <p className="trimester-weeks">{t.yoga.trimester2.weeks}</p>
-                                <div className="click-indicator">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg>
-                                </div>
-                            </div>
+                            <h3 className="card-title">Delivery Preparation</h3>
+                            <ul className="card-bullets">
+                                <li>Pelvic Strength</li>
+                                <li>Labor Positions</li>
+                                <li>Focus & Calm</li>
+                            </ul>
+                            <div className="card-link">Learn More &rarr;</div>
                         </div>
 
-                        {/* Third Trimester */}
-                        <div
-                            className="trimester-card card hover-lift clickable-card"
-                            onClick={() => handleTrimesterClick(3)}
-                        >
-                            <div className="trimester-image-wrapper">
-                                <img
-                                    src="/trimester3.png"
-                                    alt={t.yoga.trimester3.title}
-                                    className="trimester-img"
-                                />
+                        {/* Post Delivery / Trimester 3 */}
+                        <div className="yoga-card-illustrative" onClick={() => handleTrimesterClick(3)}>
+                            <div className="card-icon-wrapper">
+                                <img src="/yoga-icon-3.png" alt="Post Delivery" className="card-icon" />
                             </div>
-                            <div className="trimester-info gradient-mint">
-                                <h3 className="trimester-title">{t.yoga.trimester3.title}</h3>
-                                <p className="trimester-weeks">{t.yoga.trimester3.weeks}</p>
-                                <div className="click-indicator">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg>
-                                </div>
-                            </div>
+                            <h3 className="card-title">Third Trimester</h3>
+                            <ul className="card-bullets">
+                                <li>Back Pain Relief</li>
+                                <li>Deep Relaxation</li>
+                                <li>Final Stretch</li>
+                            </ul>
+                            <div className="card-link">Learn More &rarr;</div>
                         </div>
                     </div>
 
