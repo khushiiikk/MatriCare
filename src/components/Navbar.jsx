@@ -52,79 +52,58 @@ const Navbar = () => {
                         <div className="college-logo-container">
                             <img src="/iit-delhi-logo.jpg" alt="IIT Delhi" className="college-logo iit-logo circle-logo" />
                         </div>
+                        <div className="brand-logo-container">
+                            <img src="/matricare-logo.png" alt="MatriCare Logo" className="brand-logo circle-logo" />
+                        </div>
 
-                        {/* MatriCare Logo */}
-                        <Link to="/" className="navbar-logo">
-                            <img src="/matricare-logo.png" alt="MatriCare Logo" className="logo-image" />
-                            <span className="logo-text">
-                                <span className="logo-hindi">मातृ</span>
-                                <span className="logo-english">Care</span>
-                            </span>
+                        <Link to="/" className="navbar-logo-text">
+                            <span className="logo-hindi">मातृ</span>
+                            <span className="logo-english">Care</span>
                         </Link>
                     </div>
 
-
-
                     {/* Desktop Navigation */}
                     <ul className="navbar-menu">
-                        {/* Static Links + Chatbot */}
-                        {!isAuthenticated && (
-                            <li>
-                                <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
-                                    {t.home}
-                                </Link>
-                            </li>
-                        )}
-                        {isAuthenticated && (
-                            <li>
-                                <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
-                                    Dashboard
-                                </Link>
-                            </li>
-                        )}
+                        <li>
+                            <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
+                                {t.home}
+                            </Link>
+                        </li>
                         <li>
                             <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
                                 {t.yoga}
                             </Link>
                         </li>
-
-
-
-                        {/* Find Care Link */}
                         <li>
                             <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
                                 {t.findCare}
-
                             </Link>
                         </li>
-
                         <li>
                             <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
                                 {t.health}
                             </Link>
                         </li>
-
                         <li>
                             <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
                                 {t.about}
                             </Link>
                         </li>
 
-
-
                         {!isAuthenticated && (
                             <li>
-                                <Link to="/login" className={`navbar-link ${isActive('/login') ? 'active' : ''}`}>
+                                <Link to="/login" className="navbar-link login-link">
                                     {t.login}
                                 </Link>
                             </li>
                         )}
 
+                        <li className="nav-divider"></li>
 
                         <li>
                             <LanguageSwitcher />
                         </li>
-                        {/* Profile Menu for Desktop */}
+
                         {isAuthenticated && (
                             <li>
                                 <ProfileMenu />
@@ -159,55 +138,52 @@ const Navbar = () => {
                         )}
 
                         {/* Mobile Links */}
-                        {!isAuthenticated && (
-                            <li>
-                                <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                    {t.home}
-                                </Link>
-                            </li>
-                        )}
-                        {isAuthenticated && (
-                            <li>
-                                <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                    Dashboard
-                                </Link>
-                            </li>
-                        )}
-                        <li>
-                            <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.yoga}
-                            </Link>
-                        </li>
-
-
-
-                        <li>
-                            <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.findCare}
-                            </Link>
-
-                        </li>
-
-
-                        <li>
-                            <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.health}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.about}
-                            </Link>
-                        </li>
-
-
-
-                        {!isAuthenticated && (
-                            <li>
-                                <Link to="/login" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                    {t.login}
-                                </Link>
-                            </li>
+                        {!isAuthenticated ? (
+                            <>
+                                <li>
+                                    <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.home}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/login" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.login}
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li>
+                                    <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        Dashboard
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.yoga}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.findCare}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.health}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t.about}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                        Chatbot
+                                    </Link>
+                                </li>
+                            </>
                         )}
 
                         <li className="mobile-lang-switcher" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>

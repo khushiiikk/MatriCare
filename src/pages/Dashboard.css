@@ -1,382 +1,270 @@
-/* Dashboard Professional Layout - Landscape Optimized */
+/* Dashboard Professional Layout - landscape optimized & Clean */
 
 .dashboard-page {
-    padding-top: 100px;
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 30px;
     min-height: 100vh;
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Decorative Background Blobs - matching Login format */
-.dashboard-page::before {
-    content: '';
-    position: absolute;
-    top: -5%;
-    left: -5%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(183, 116, 102, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(60px);
-    z-index: 0;
-}
-
-.dashboard-page::after {
-    content: '';
-    position: absolute;
-    bottom: -10%;
-    right: -5%;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(139, 101, 99, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: 0;
+    background: var(--color-background);
 }
 
 .dashboard-container {
-    width: 92%;
-    max-width: 1200px;
+    width: 94%;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
 }
 
-/* 1. Pregnancy Term Card (Banner) */
+/* Landscape Tablet & Desktop */
+@media (min-width: 900px) {
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 5.5fr 4.5fr;
+        gap: 24px;
+        align-items: start;
+    }
+}
+
+/* 1. Header Section (Capped at 40 weeks) */
 .pregnancy-term-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 32px;
-    padding: 30px 40px;
-    margin-bottom: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    border: 1px solid var(--color-rose-soft);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-.date-header {
-    font-size: 0.9rem;
-    color: var(--color-mauve);
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.pregnancy-term-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-mauve-deep), var(--color-rose-soft));
 }
 
 .term-info h2 {
-    font-size: 2rem;
-    color: var(--color-mauve-deep);
-    font-family: var(--font-display, 'Playfair Display', serif);
-    margin: 0 0 10px 0;
-}
-
-.term-info h3 {
-    font-size: 1.2rem;
-    color: #444;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
     font-weight: 500;
 }
 
-/* Progress Bar Styling */
-.progress-container {
-    margin: 25px 0 15px 0;
+.term-info h3 {
+    font-size: 1.4rem;
+    color: var(--color-mauve-deep);
+    margin-bottom: 6px;
+    font-weight: 700;
 }
 
 .progress-bar-bg {
-    height: 12px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-    overflow: hidden;
+    height: 6px;
+    background-color: var(--color-cream-warm);
+    border-radius: 6px;
+    margin-top: 8px;
 }
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-mauve) 0%, var(--color-rose-soft) 100%);
-    border-radius: 10px;
-    transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    background: var(--color-mauve-deep);
+    border-radius: 6px;
 }
 
 .days-left-text {
-    font-size: 0.95rem;
-    color: #666;
-    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    display: block;
 }
 
-/* 2. Main Professional Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 32px;
-}
-
-/* Baby Development Section */
+/* 2. Baby Hero Card */
 .baby-card-wrapper {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 32px;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
     height: 100%;
-    box-shadow: 0 25px 50px rgba(136, 14, 79, 0.08);
-    transition: transform 0.4s ease;
-}
-
-.baby-card-wrapper:hover {
-    transform: translateY(-8px);
+    border: 1px solid rgba(139, 101, 99, 0.08);
 }
 
 .baby-card-header {
-    background: linear-gradient(135deg, var(--color-mauve) 0%, var(--color-mauve-deep) 100%);
+    background: var(--color-mauve-deep);
     color: white;
-    padding: 15px 30px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    padding: 12px;
     text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
 }
 
 .baby-content {
-    padding: 35px;
-}
-
-.approxim-text {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 5px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .fruit-name {
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-family: 'Merriweather', serif;
     color: var(--color-mauve-deep);
-    margin-bottom: 30px;
-    font-family: var(--font-display, 'Playfair Display', serif);
-}
-
-.baby-visual-section {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    margin-bottom: 35px;
+    margin: 4px 0 16px 0;
 }
 
 .baby-illustration {
-    flex: 1;
-    max-width: 180px;
-    aspect-ratio: 1;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
+    border: 5px solid var(--color-cream-warm);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    border: 6px solid white;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     background: white;
-    position: relative;
-}
-
-.baby-illustration::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
 }
 
 .baby-illustration img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.baby-illustration:hover img {
-    transform: scale(1.1);
 }
 
 .stats-row {
-    flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.metric-box {
-    background: rgba(136, 14, 79, 0.04);
-    border-radius: 18px;
-    padding: 15px 20px;
-    border: 1px solid rgba(136, 14, 79, 0.1);
+    justify-content: space-around;
+    width: 100%;
+    padding: 12px 0;
+    border-top: 1px solid var(--color-cream-warm);
+    border-bottom: 1px solid var(--color-cream-warm);
+    margin-bottom: 16px;
 }
 
 .metric-box h4 {
-    font-size: 0.75rem;
-    color: var(--color-mauve);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .metric-box span {
     font-size: 1.1rem;
+    color: var(--color-mauve-deep);
     font-weight: 700;
-    color: #333;
 }
 
 .dev-info {
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 20px;
-    border-left: 5px solid var(--color-mauve-light);
+    background: var(--color-cream-warm);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    width: 100%;
+    border-left: 4px solid var(--color-mauve-deep);
+    font-size: 0.9rem;
+    color: var(--text-primary);
 }
 
-/* Right Section: Vitals & Tools */
-.actions-section-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
+/* 3. Vitals & Tools */
 .vitals-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
 .vital-item {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 24px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid transparent;
+    transition: all 0.3s;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .vital-item:hover {
-    transform: scale(1.05);
-    background: white;
-    box-shadow: 0 15px 30px rgba(136, 14, 79, 0.1);
+    transform: translateY(-2px);
+    border-color: var(--color-pink-mid);
+    box-shadow: var(--shadow-md);
 }
 
 .vital-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--color-mauve-light) 0%, var(--color-peach-light) 100%);
-    border-radius: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-cream);
+    color: var(--color-mauve-deep);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-}
-
-.vital-label {
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.4;
-}
-
-.vital-label strong {
     font-size: 1.2rem;
-    color: var(--color-mauve-deep);
+    margin: 0 auto 10px;
 }
 
-/* Vertical Tools Grid */
+.vital-item strong {
+    font-weight: 700;
+    color: var(--color-mauve-deep);
+    font-size: 1.1rem;
+    display: block;
+}
+
+.vital-item span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: block;
+}
+
 .tools-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 12px;
 }
 
 .tool-card {
-    background: rgba(136, 14, 79, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(136, 14, 79, 0.1);
-    border-radius: 24px;
-    padding: 25px;
-    text-align: center;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-cream-warm);
+    transition: all 0.2s;
     cursor: pointer;
 }
 
 .tool-card:hover {
-    background: var(--color-mauve);
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(136, 14, 79, 0.2);
-}
-
-.tool-card:hover .tool-name {
-    color: white;
-}
-
-.tool-card:hover .tool-icon-wrapper {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(10deg);
+    background: var(--color-pink-light);
+    transform: translateX(4px);
+    border-color: var(--color-pink-mid);
 }
 
 .tool-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    background: white;
-    border-radius: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--color-mauve-deep);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s stroke;
+    font-size: 1rem;
 }
 
 .tool-name {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-mauve);
-    transition: color 0.3s;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
 }
 
-/* Animations */
-.slide-up {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: slideUpFade 0.8s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@keyframes slideUpFade {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive */
-@media (max-width: 992px) {
+/* Mobile Tweaks */
+@media (max-width: 899px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
-    }
-
-    .pregnancy-term-card {
-        padding: 24px;
-    }
-}
-
-@media (max-width: 600px) {
-
-    .vitals-row,
-    .tools-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .baby-visual-section {
-        flex-direction: column;
-    }
-
-    .baby-illustration {
-        max-width: 150px;
     }
 }

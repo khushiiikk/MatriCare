@@ -5,7 +5,6 @@ import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import { validateMobile, validateName } from '../utils/validation';
 import './Login.css';
-import cuteMotherImg from '../assets/cute-mother.jpg';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,19 +18,26 @@ const Login = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [otpSent, setOtpSent] = useState(false);
+    const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
 
     // Form State
     const [mobile, setMobile] = useState('');
     const [password, setPassword] = useState('');
     const [otp, setOtp] = useState('');
-    const [userType, setUserType] = useState('patient'); // 'patient' or 'asha'
 
-    // Signup State
+    // Extended Signup State
     const [signupData, setSignupData] = useState({
         name: '',
         mobile: '',
         password: '',
-        userType: 'patient'
+        userType: 'patient',
+        dob: '',
+        state: '',
+        district: '',
+        village: '',
+        weight: '',
+        lmpDate: '',
+        employeeId: ''
     });
 
     useEffect(() => {
@@ -56,7 +62,6 @@ const Login = () => {
                 const result = await loginWithPassword(mobile, password);
                 if (!result.success) setError(result.error);
             } else {
-                // OTP Login
                 if (!otpSent) {
                     const result = await sendOTP(mobile);
                     if (result.success) {
@@ -89,6 +94,13 @@ const Login = () => {
         if (!validateMobile(signupData.mobile)) return setError(t.errors.invalidMobile);
         if (signupData.password.length < 6) return setError(t.errors.shortPassword);
 
+        // Additional validations
+        if (userType === 'patient') {
+            if (!signupData.lmpDate) return setError(t.errors.invalidLMP);
+        } else {
+            if (!signupData.employeeId) return setError(t.errors.employeeId);
+        }
+
         setLoading(true);
         try {
             const result = await signup({ ...signupData, userType });
@@ -106,6 +118,12 @@ const Login = () => {
         setOtpSent(false);
     };
 
+    // UI Configuration based on mode and user type
+    const welcomeTitle = isLoginMode ? t.welcomeBack : t.joinMatriCare;
+    const welcomeDesc = isLoginMode ? "Nice to see you naturally" : "Create an account. It's free";
+    const sideTitle = userType === 'patient' ? (isLoginMode ? "Hello Mom!" : "Welcome to MatriCare") : "ASHA Connect";
+    const sideDesc = userType === 'patient' ? t.loginDesc : "Empowering frontline health workers for a healthier community.";
+
     return (
         <div className="login-page">
             <div id="recaptcha-container"></div>
@@ -114,21 +132,21 @@ const Login = () => {
                     {/* Left Side: Form */}
                     <div className="login-form-pane">
                         <div className="form-inner-content">
-                            <h2 className="welcome-heading">{isLoginMode ? t.welcomeBack : t.joinMatriCare}</h2>
-                            <p className="welcome-sublabel">{isLoginMode ? "Nice to see you naturally" : t.signupDesc}</p>
+                            <h2 className="welcome-heading">{welcomeTitle}</h2>
+                            <p className="welcome-sublabel">{welcomeDesc}</p>
 
                             <div className="role-tabs">
                                 <button
                                     className={`role-tab ${userType === 'patient' ? 'active' : ''}`}
                                     onClick={() => setUserType('patient')}
                                 >
-                                    {t.rolePatient || 'Patient (Mother)'}
+                                    {t.rolePatient}
                                 </button>
                                 <button
                                     className={`role-tab ${userType === 'asha' ? 'active' : ''}`}
                                     onClick={() => setUserType('asha')}
                                 >
-                                    {t.roleAsha || 'ASHA Worker'}
+                                    {t.roleAsha}
                                 </button>
                             </div>
 
@@ -144,7 +162,7 @@ const Login = () => {
                                         className={`method-tab ${loginMethod === 'otp' ? 'active' : ''}`}
                                         onClick={() => setLoginMethod('otp')}
                                     >
-                                        {t.mobileOtp || 'Via OTP'}
+                                        {t.mobileOtp}
                                     </button>
                                 </div>
                             )}
@@ -190,31 +208,124 @@ const Login = () => {
                                             />
                                         </div>
                                     ) : (
-                                        otpSent && (
-                                            <div className="input-field-group">
-                                                <label>{t.enterOtp}</label>
+                                        <div className="input-field-group">
+                                            <label>{t.enterOtp}</label>
+                                            <div className="otp-row">
                                                 <input
                                                     type="text"
                                                     placeholder={t.otpPlaceholder}
                                                     value={otp}
                                                     onChange={(e) => setOtp(e.target.value)}
-                                                    required
+                                                    required={otpSent}
                                                     maxLength="6"
+                                                    disabled={!otpSent}
                                                 />
+                                                {!otpSent && (
+                                                    <button type="button" className="get-otp-btn" onClick={handleLoginSubmit}>
+                                                        {t.sendOtp}
+                                                    </button>
+                                                )}
                                             </div>
-                                        )
+                                            <p className="otp-hint">{t.otpHint}</p>
+                                        </div>
                                     )
                                 ) : (
-                                    <div className="input-field-group">
-                                        <label>{t.createPassword}</label>
-                                        <input
-                                            type="password"
-                                            placeholder={t.createPassPlaceholder}
-                                            value={signupData.password}
-                                            onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-                                            required
-                                        />
-                                    </div>
+                                    <>
+                                        {userType === 'asha' ? (
+                                            <div className="input-field-group">
+                                                <label>{t.employeeId}</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder={t.employeePlaceholder}
+                                                    value={signupData.employeeId}
+                                                    onChange={(e) => setSignupData({ ...signupData, employeeId: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="input-field-group">
+                                                <label>{t.dob}</label>
+                                                <input
+                                                    type="date"
+                                                    value={signupData.dob}
+                                                    onChange={(e) => setSignupData({ ...signupData, dob: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                        )}
+
+                                        <div className="input-field-group">
+                                            <label>{t.state}</label>
+                                            <input
+                                                type="text"
+                                                placeholder={t.state}
+                                                value={signupData.state}
+                                                onChange={(e) => setSignupData({ ...signupData, state: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="input-field-group">
+                                            <label>{t.district}</label>
+                                            <input
+                                                type="text"
+                                                placeholder={t.district}
+                                                value={signupData.district}
+                                                onChange={(e) => setSignupData({ ...signupData, district: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="input-field-group">
+                                            <label>{t.village}</label>
+                                            <select
+                                                value={signupData.village}
+                                                onChange={(e) => setSignupData({ ...signupData, village: e.target.value })}
+                                                required
+                                            >
+                                                <option value="">{t.villagePlaceholder}</option>
+                                                <option value="Village A">Village A</option>
+                                                <option value="Village B">Village B</option>
+                                                <option value="Village C">Village C</option>
+                                            </select>
+                                        </div>
+
+                                        {userType === 'patient' && (
+                                            <>
+                                                <div className="input-field-group">
+                                                    <label>{t.weight}</label>
+                                                    <input
+                                                        type="number"
+                                                        placeholder={t.weightPlaceholder}
+                                                        value={signupData.weight}
+                                                        onChange={(e) => setSignupData({ ...signupData, weight: e.target.value })}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="input-field-group">
+                                                    <label>{t.lmpDate}</label>
+                                                    <input
+                                                        type="date"
+                                                        value={signupData.lmpDate}
+                                                        onChange={(e) => setSignupData({ ...signupData, lmpDate: e.target.value })}
+                                                        required
+                                                    />
+                                                    <p className="otp-hint">{t.lmpHint}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                        <div className="input-field-group">
+                                            <label>{t.createPassword}</label>
+                                            <input
+                                                type="password"
+                                                placeholder={t.createPassPlaceholder}
+                                                value={signupData.password}
+                                                onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                    </>
                                 )}
 
                                 <button type="submit" className="login-submit-button" disabled={loading}>
@@ -235,15 +346,15 @@ const Login = () => {
                     <div className="login-welcome-pane">
                         <div className="welcome-content-wrapper">
                             <div className="welcome-avatar-circle">
-                                <img src={cuteMotherImg} alt="Mother" className="welcome-avatar-img" />
+                                <img src="/logo-icon.png" alt="Icon" className="welcome-avatar-img" />
                             </div>
-                            <h2 className="hello-mom-text">{t.helloMom || "Hello Mom!"}</h2>
-                            <p className="welcome-description-text">{t.loginDesc}</p>
+                            <h2 className="hello-mom-text">{sideTitle}</h2>
+                            <p className="welcome-description-text">{sideDesc}</p>
 
                             <div className="feature-badges">
-                                <div className="feature-badge">{t.badgeTracker}</div>
-                                <div className="feature-badge">{t.badgeAI}</div>
-                                <div className="feature-badge">{t.badgeYoga}</div>
+                                <div className="feature-badge">✨ {t.badgeTracker}</div>
+                                <div className="feature-badge">🤖 {t.badgeAI}</div>
+                                <div className="feature-badge">🧘‍♂️ {t.badgeYoga}</div>
                             </div>
                         </div>
                     </div>
@@ -254,4 +365,3 @@ const Login = () => {
 };
 
 export default Login;
-
