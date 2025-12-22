@@ -56,21 +56,13 @@ const AppContent = () => {
         <div className="App">
             <Navbar />
             <Routes>
-                <Route path="/" element={
-                    <PublicRoute>
-                        <Home />
-                    </PublicRoute>
-                } />
+                <Route path="/" element={<Home />} />
                 <Route path="/yoga" element={
                     <ProtectedRoute>
                         <Yoga />
                     </ProtectedRoute>
                 } />
-                <Route path="/about" element={
-                    <ProtectedRoute>
-                        <About />
-                    </ProtectedRoute>
-                } />
+                <Route path="/about" element={<About />} />
 
                 <Route path="/dashboard" element={
                     <ProtectedRoute>

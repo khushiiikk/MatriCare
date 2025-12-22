@@ -50,12 +50,14 @@ const Navbar = () => {
                     {/* Left Logos Group */}
                     <div className="logos-group">
                         <div className="college-logo-container">
-                            <img src="/iit-delhi-logo.jpg" alt="IIT Delhi" className="college-logo iit-logo circle-logo" />
+                            <img src="/iit-delhi-logo.png" alt="IIT Delhi" className="college-logo iit-logo circle-logo" />
+                        </div>
+                        <div className="college-logo-container">
+                            <img src="/thapar-university-logo.jpg" alt="Thapar University" className="college-logo thapar-logo circle-logo" />
                         </div>
                         <div className="brand-logo-container">
-                            <img src="/matricare-logo.png" alt="MatriCare Logo" className="brand-logo circle-logo" />
+                            <img src="/matricare-logo.png" alt="MatriCare Logo" className="brand-logo" />
                         </div>
-
                         <Link to="/" className="navbar-logo-text">
                             <span className="logo-hindi">मातृ</span>
                             <span className="logo-english">Care</span>
@@ -69,50 +71,42 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
+                                {t.yoga}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
+                                {t.findCare}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
+                                {t.health}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
+                                {t.about}
+                            </Link>
+                        </li>
 
-                        {isAuthenticated ? (
-                            <>
-                                <li>
-                                    <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
-                                        {t.yoga}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
-                                        {t.findCare}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
-                                        {t.health}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
-                                        Chatbot
-                                    </Link>
-                                </li>
-                            </>
-                        ) : (
+                        {isAuthenticated && (
                             <li>
-                                <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
-                                    {t.about}
+                                <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
+                                    Dashboard
                                 </Link>
                             </li>
                         )}
 
-                        {!isAuthenticated && (
+                        {!isAuthenticated ? (
                             <li>
                                 <Link to="/login" className="navbar-link login-link">
                                     {t.login}
                                 </Link>
                             </li>
-                        )}
+                        ) : null}
 
                         <li className="nav-divider"></li>
 
@@ -128,9 +122,7 @@ const Navbar = () => {
                     </ul>
 
                     {/* Thapar University Logo */}
-                    <div className="college-logo-container right">
-                        <img src="/thapar-university-logo.jpg" alt="Thapar University" className="college-logo thapar-logo circle-logo" />
-                    </div>
+                    {/* This logo is now part of the logos-group */}
 
 
                     {/* Mobile Menu Button */}
@@ -154,52 +146,43 @@ const Navbar = () => {
                         )}
 
                         {/* Mobile Links */}
-                        {!isAuthenticated ? (
-                            <>
-                                <li>
-                                    <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.home}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/login" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.login}
-                                    </Link>
-                                </li>
-                            </>
+                        <li>
+                            <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.home}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.yoga}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.findCare}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.health}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.about}
+                            </Link>
+                        </li>
+                        {isAuthenticated ? (
+                            <li>
+                                <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Dashboard
+                                </Link>
+                            </li>
                         ) : (
-                            <>
-                                <li>
-                                    <Link to="/dashboard" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/yoga" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.yoga}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/find-care" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.findCare}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/analytics" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.health}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/about" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        {t.about}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/chatbot" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                        Chatbot
-                                    </Link>
-                                </li>
-                            </>
+                            <li>
+                                <Link to="/login" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    {t.login}
+                                </Link>
+                            </li>
                         )}
 
                         <li className="mobile-lang-switcher" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>

@@ -108,7 +108,7 @@ const Dashboard = () => {
         <div className="dashboard-page">
             <div className="dashboard-container">
                 {/* 1. Header (LMP Based Data) */}
-                <div className="pregnancy-main-header slide-up">
+                <div className="pregnancy-main-header">
                     <div className="header-glass-card">
                         <div className="date-display">
                             <span>📅</span> {pregnancyData.dateString}
@@ -138,7 +138,7 @@ const Dashboard = () => {
 
                 <div className="dashboard-content-grid">
                     {/* Baby Dev Card */}
-                    <div className="dev-card slide-up" style={{ animationDelay: '0.1s' }}>
+                    <div className="dev-card">
                         <div className="card-header">
                             <span className="card-icon">👶</span>
                             <h4>{t.babySize || "Baby's Development"}</h4>
