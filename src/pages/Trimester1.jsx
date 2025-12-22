@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import { trimesterExercises } from '../utils/exerciseData';
+import './TrimesterPage.css';
 import './Home.css'; // Reusing styles
 
 const Trimester1 = () => {
@@ -36,9 +37,9 @@ const Trimester1 = () => {
                     <p className="subtitle">{t.trimesterPages.trimester1.subtitle}</p>
                 </header>
 
-                <div className="exercises-list">
+                <div className="exercises-grid">
                     {exercises.map((ex) => (
-                        <div key={ex.id} className="exercise-detail" style={{ borderLeftColor: ex.color }}>
+                        <div key={ex.id} className="exercise-card" style={{ borderLeftColor: ex.color }}>
                             {/* Exercise Image */}
                             <div className="exercise-image-container">
                                 <img
@@ -66,7 +67,7 @@ const Trimester1 = () => {
                             <p className="exercise-description">{ex.desc}</p>
 
                             <div className="exercise-instructions">
-                                <strong>{t.trimesterPages.howToDoIt}</strong>
+                                <h4>{t.trimesterPages.howToDoIt}</h4>
                                 <ol>
                                     {ex.steps.map((step, idx) => (
                                         <li key={idx}>{step}</li>

@@ -32,7 +32,7 @@ const Yoga = () => {
                         >
                             <div className="trimester-image-wrapper">
                                 <img
-                                    src="/trimester3.png"
+                                    src="/trimester1.png"
                                     alt={t.yoga.trimester1.title}
                                     className="trimester-img"
                                 />
@@ -80,7 +80,7 @@ const Yoga = () => {
                         >
                             <div className="trimester-image-wrapper">
                                 <img
-                                    src="/trimester1.png"
+                                    src="/trimester3.png"
                                     alt={t.yoga.trimester3.title}
                                     className="trimester-img"
                                 />
