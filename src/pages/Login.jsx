@@ -346,7 +346,7 @@ const Login = () => {
                     <div className="login-welcome-pane">
                         <div className="welcome-content-wrapper">
                             <div className="welcome-avatar-circle">
-                                <img src="/logo-icon.png" alt="Icon" className="welcome-avatar-img" />
+                                <img src="/pregnancy-mother.jpg" alt="Mother" className="welcome-avatar-img" />
                             </div>
                             <h2 className="hello-mom-text">{sideTitle}</h2>
                             <p className="welcome-description-text">{sideDesc}</p>
