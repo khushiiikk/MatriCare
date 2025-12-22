@@ -60,10 +60,10 @@
 }
 
 .hero-title {
-    font-size: 4rem;
+    font-size: 2.8rem;
     line-height: 1.1;
     color: #3E2723;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-family: 'Merriweather', serif;
 }
 
@@ -73,10 +73,10 @@
 }
 
 .hero-description {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #5D4037;
-    margin-bottom: 40px;
-    max-width: 500px;
+    margin-bottom: 30px;
+    max-width: 450px;
 }
 
 .quote-box {
@@ -138,9 +138,9 @@
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: var(--color-mauve);
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .text-center {
@@ -245,8 +245,8 @@
 
 .cta-title {
     color: white;
-    font-size: 3rem;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 15px;
 }
 
 .cta-subtitle {

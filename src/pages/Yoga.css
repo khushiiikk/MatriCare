@@ -20,7 +20,7 @@
 }
 
 .section-subtitle {
-    font-size: 1.125rem;
+    font-size: 0.95rem;
     color: var(--color-text-light);
 }
 
@@ -134,7 +134,7 @@
 }
 
 .trimester-title {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     margin-bottom: 5px;
     font-weight: 700;
     font-family: 'Noto Sans Devanagari', sans-serif;

@@ -56,7 +56,7 @@
 }
 
 .term-info h3 {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     color: var(--color-mauve-deep);
     margin-bottom: 6px;
     font-weight: 700;
@@ -111,10 +111,10 @@
 }
 
 .fruit-name {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-family: 'Merriweather', serif;
     color: var(--color-mauve-deep);
-    margin: 4px 0 16px 0;
+    margin: 4px 0 12px 0;
 }
 
 .baby-illustration {
@@ -152,7 +152,7 @@
 }
 
 .metric-box span {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--color-mauve-deep);
     font-weight: 700;
 }

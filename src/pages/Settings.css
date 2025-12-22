@@ -86,7 +86,7 @@
 .profile-summary h3 {
     margin: 0;
     color: #333;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .profile-summary p {
@@ -113,11 +113,11 @@
 }
 
 .nav-item {
-    padding: 12px 15px;
+    padding: 10px 15px;
     border: none;
     background: none;
     text-align: left;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #666;
     border-radius: 8px;
     cursor: pointer;
@@ -171,10 +171,10 @@
 
 .form-input {
     width: 100%;
-    padding: 12px 15px;
+    padding: 10px 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: border-color 0.3s;
 }
 
@@ -239,7 +239,7 @@
 
 .info-item .value {
     display: block;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #4A4A4A;
 }
