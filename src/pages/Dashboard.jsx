@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { translations, getTranslation } from '../translations/translations'; // Added getTranslation import for safety
+import { translations } from '../translations/translations';
 import './Dashboard.css';
-import fetusImage from '../assets/baby_illustration.jpg'; // Import the new illustration
+import babyIllustration from '../assets/baby_illustration.jpg';
 
 const Dashboard = () => {
     const { user, isAuthenticated } = useAuth();
     const { language } = useLanguage();
     const navigate = useNavigate();
 
-    // Fallback safely for translations
     const t = translations[language]?.dashboard || translations['en'].dashboard;
     const pregnancyWeeksData = translations[language]?.pregnancyWeeks || translations['en'].pregnancyWeeks;
 
-    // Trackers
     const [waterIntake, setWaterIntake] = useState(0);
-    const userWeight = user?.weight || 61;
+    const userWeight = user?.weight || 60;
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -36,7 +34,8 @@ const Dashboard = () => {
         if (user?.lmpDate) {
             calculatePregnancyProgress(user.lmpDate);
         } else {
-            calculatePregnancyProgress(new Date().setDate(new Date().getDate() - 105)); // Mock ~15 weeks
+            // Default to 15 weeks if no LMP registered
+            calculatePregnancyProgress(new Date(Date.now() - 105 * 24 * 60 * 60 * 1000).toISOString());
         }
     }, [user, isAuthenticated, navigate, language]);
 
@@ -46,9 +45,9 @@ const Dashboard = () => {
         daysLeft: 280,
         trimester: 1,
         progressPercent: 0,
-        babySize: "Avocado",
-        babyWeight: "100 g",
-        babyLength: "11.6 cm",
+        babySize: "...",
+        babyWeight: "...",
+        babyLength: "...",
         description: "",
         dateString: "",
         edd: ""
@@ -57,15 +56,14 @@ const Dashboard = () => {
     const calculatePregnancyProgress = (lmpDateStr) => {
         const lmp = new Date(lmpDateStr);
         const today = new Date();
-        const diffTime = today - lmp; // Not absolute, we want actual time passed
+        const diffTime = today - lmp;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        // Cap weeks at 40
         let weeks = Math.floor(diffDays / 7);
         let days = diffDays % 7;
 
-        let displayWeeks = weeks;
-        let displayDays = days;
+        let displayWeeks = Math.max(0, weeks);
+        let displayDays = Math.max(0, days);
         let daysLeft = 280 - diffDays;
 
         if (weeks > 40) {
@@ -74,16 +72,16 @@ const Dashboard = () => {
             daysLeft = 0;
         }
 
-        const progressPercent = Math.min(100, (diffDays / 280) * 100);
+        const progressPercent = Math.min(100, Math.max(0, (diffDays / 280) * 100));
 
         let trimester = 1;
         if (weeks >= 13 && weeks <= 26) trimester = 2;
         if (weeks >= 27) trimester = 3;
 
-        // Use data from translations file based on week number, clamped to 40
-        const searchWeek = Math.min(weeks, 40);
-        const dataPoint = pregnancyWeeksData.find(d => d.week === searchWeek) || pregnancyWeeksData[pregnancyWeeksData.length - 1];
-        const safeData = dataPoint || { size: "Pumpkin", weight: "3.5kg", length: "51cm", desc: "Your baby has arrived or is due any moment!" };
+        const searchWeek = Math.min(Math.max(1, weeks), 40);
+        const dataPoint = pregnancyWeeksData.find(d => d.week === searchWeek) || pregnancyWeeksData[0];
+
+        const eddDate = new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000);
 
         setPregnancyData({
             weeks: displayWeeks,
@@ -91,12 +89,12 @@ const Dashboard = () => {
             daysLeft: Math.max(0, daysLeft),
             trimester,
             progressPercent,
-            babySize: safeData.size,
-            babyWeight: safeData.weight,
-            babyLength: safeData.length,
-            description: safeData.desc,
+            babySize: dataPoint?.size || "Pumpkin",
+            babyWeight: dataPoint?.weight || "3.5kg",
+            babyLength: dataPoint?.length || "50cm",
+            description: dataPoint?.desc || "Keep monitoring your baby's growth!",
             dateString: today.toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-            edd: new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-GB')
+            edd: eddDate.toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-GB')
         });
     };
 
@@ -109,129 +107,126 @@ const Dashboard = () => {
     return (
         <div className="dashboard-page">
             <div className="dashboard-container">
-
-                {/* 1. Header (Full Width) */}
-                <div className="pregnancy-term-card slide-up">
-                    <div className="date-header">
-                        <span>📅</span> {pregnancyData.dateString}
-                    </div>
-
-                    <div className="term-info">
-                        <h2>{t?.myPregnancyTerm || 'My Pregnancy Term'}</h2>
-                        <h3>{t?.trimester || 'Trimester'} {pregnancyData.trimester}: {pregnancyData.weeks} {t?.weeks || 'weeks'}, {pregnancyData.days} {t?.days || 'days'}</h3>
-
-                        <div className="progress-container">
-                            <div className="progress-bar-bg">
-                                <div
-                                    className="progress-bar-fill"
-                                    style={{ width: `${pregnancyData.progressPercent}%` }}
-                                ></div>
+                {/* 1. Header (LMP Based Data) */}
+                <div className="pregnancy-main-header slide-up">
+                    <div className="header-glass-card">
+                        <div className="date-display">
+                            <span>📅</span> {pregnancyData.dateString}
+                        </div>
+                        <div className="term-info-row">
+                            <div className="term-text">
+                                <h1>{pregnancyData.weeks} {t.weeks || 'Weeks'} <span className="day-count">& {pregnancyData.days} {t.days || 'Days'}</span></h1>
+                                <h3>Trimester {pregnancyData.trimester} • {pregnancyData.daysLeft} Days to go!</h3>
+                            </div>
+                            <div className="edd-badge">
+                                <span>EDD</span>
+                                <strong>{pregnancyData.edd}</strong>
                             </div>
                         </div>
-
-                        <div className="days-left-text">
-                            {pregnancyData.daysLeft} {t?.daysLeft || 'days left'} ({t?.edd || 'EDD'} {pregnancyData.edd})
+                        <div className="progress-bar-wrapper">
+                            <div className="bar-bg">
+                                <div className="bar-fill" style={{ width: `${pregnancyData.progressPercent}%` }}></div>
+                            </div>
+                            <div className="bar-labels">
+                                <span>Day 1</span>
+                                <span>{Math.round(pregnancyData.progressPercent)}% Journey</span>
+                                <span>Day 280</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* 2. Main Professional Grid */}
-                <div className="dashboard-grid">
-
-                    {/* Left Column: Baby Hero Card */}
-                    <div className="baby-section-wrapper slide-up" style={{ animationDelay: '0.1s' }}>
-                        <div className="baby-card-wrapper">
-                            <div className="baby-card-header">
-                                BABY DEVELOPMENT
-                            </div>
-                            <div className="baby-content">
-                                <div className="approxim-text">{t?.babySize || "Baby's approximate size:"}</div>
-                                <div className="fruit-name">{pregnancyData.babySize}</div>
-
-                                <div className="baby-visual-section">
-                                    <div className="baby-illustration">
-                                        <img src={fetusImage} alt="Baby Development" />
-                                    </div>
-
-                                    <div className="stats-row">
-                                        <div className="metric-box">
-                                            <h4>{t?.weight || 'Weight'}</h4>
-                                            <span>{pregnancyData.babyWeight}</span>
-                                        </div>
-                                        <div className="metric-box">
-                                            <h4>{t?.length || 'Length'}</h4>
-                                            <span>{pregnancyData.babyLength}</span>
-                                        </div>
-                                    </div>
+                <div className="dashboard-content-grid">
+                    {/* Baby Dev Card */}
+                    <div className="dev-card slide-up" style={{ animationDelay: '0.1s' }}>
+                        <div className="card-header">
+                            <span className="card-icon">👶</span>
+                            <h4>{t.babySize || "Baby's Development"}</h4>
+                        </div>
+                        <div className="dev-body">
+                            <p className="size-intro">This week, your baby is as big as a:</p>
+                            <h2 className="fruit-name">{pregnancyData.babySize}</h2>
+                            <div className="baby-visual">
+                                <div className="baby-image-frame">
+                                    <img src={babyIllustration} alt="Baby dev" />
                                 </div>
-
-                                <div className="dev-info">
-                                    <h4 style={{ color: 'var(--color-mauve-deep)', marginBottom: '8px' }}>{t?.whatsGoingOn || "Description"}</h4>
-                                    <p style={{ fontSize: '0.95rem', color: '#555' }}>{pregnancyData.description}</p>
+                                <div className="mini-stats">
+                                    <div className="stat-pill"><strong>{pregnancyData.babyWeight}</strong> Weight</div>
+                                    <div className="stat-pill"><strong>{pregnancyData.babyLength}</strong> Length</div>
                                 </div>
                             </div>
+                            <p className="dev-desc">{pregnancyData.description}</p>
                         </div>
                     </div>
 
-                    {/* Right Column: Vitals & Tools List */}
-                    <div className="actions-section-wrapper slide-up" style={{ animationDelay: '0.2s' }}>
-
-                        {/* 2x2 Vitals Grid */}
-                        <div className="vitals-row">
-                            <div className="vital-item" onClick={handleWaterClick}>
-                                <div className="vital-icon">
-                                    💧
+                    {/* Vitals & Tools */}
+                    <div className="vitals-column">
+                        <div className="vitals-grid">
+                            <div className="vital-glass-card" onClick={handleWaterClick}>
+                                <div className="vital-top">
+                                    <span className="icon">💧</span>
+                                    <span className="value">{waterIntake} gls</span>
                                 </div>
-                                <span className="vital-label">{t?.water || 'Water'}<br /><strong>{waterIntake} gls</strong></span>
+                                <p>{t.water || 'Water Intake'}</p>
                             </div>
-
-                            <div className="vital-item">
-                                <div className="vital-icon">
-                                    ⚖️
+                            <div className="vital-glass-card">
+                                <div className="vital-top">
+                                    <span className="icon">⚖️</span>
+                                    <span className="value">{userWeight} kg</span>
                                 </div>
-                                <span className="vital-label">{t?.motherWeight || "Weight"}<br /><strong>{userWeight} kg</strong></span>
+                                <p>{t.motherWeight || "Your Weight"}</p>
                             </div>
-
-                            <div className="vital-item">
-                                <div className="vital-icon">
-                                    😊
+                            <div className="vital-glass-card" onClick={() => navigate('/analytics')}>
+                                <div className="vital-top">
+                                    <span className="icon">🏥</span>
+                                    <span className="value">Check</span>
                                 </div>
-                                <span className="vital-label">{t?.mood || 'Mood'}<br /><strong>Good</strong></span>
+                                <p>{t.symptoms || 'Symptoms'}</p>
                             </div>
-
-                            <div className="vital-item" onClick={() => navigate('/analytics')}>
-                                <div className="vital-icon">
-                                    ⚡
+                            <div className="vital-glass-card">
+                                <div className="vital-top">
+                                    <span className="icon">😊</span>
+                                    <span className="value">Today</span>
                                 </div>
-                                <span className="vital-label">{t?.symptoms || 'Symptoms'}<br /><strong>Check</strong></span>
+                                <p>{t.mood || 'Mood'}</p>
                             </div>
                         </div>
 
-                        {/* Vertical Tools List */}
-                        <div className="tools-grid">
-                            <div className="tool-card" onClick={() => navigate('/analytics')}>
-                                <div className="tool-icon-wrapper">📊</div>
-                                <span className="tool-name">{t?.healthHub || 'Health Reports'}</span>
+                        <div className="quick-nav-list">
+                            <div className="nav-item" onClick={() => navigate('/yoga')}>
+                                <div className="nav-icon mauve">🧘</div>
+                                <div className="nav-text">
+                                    <strong>{t.yoga || 'Yoga & Exercise'}</strong>
+                                    <span>Trimester-wise exercises</span>
+                                </div>
+                                <div className="nav-arrow">→</div>
                             </div>
-
-                            <div className="tool-card" onClick={() => navigate('/chatbot')}>
-                                <div className="tool-icon-wrapper">🤖</div>
-                                <span className="tool-name">{t?.aiChat || 'AI Assistant'}</span>
+                            <div className="nav-item" onClick={() => navigate('/chatbot')}>
+                                <div className="nav-icon peach">🤖</div>
+                                <div className="nav-text">
+                                    <strong>{t.aiChat || 'AI Assistant'}</strong>
+                                    <span>Help for any question</span>
+                                </div>
+                                <div className="nav-arrow">→</div>
                             </div>
-
-                            <div className="tool-card" onClick={() => navigate('/find-care')}>
-                                <div className="tool-icon-wrapper">🏥</div>
-                                <span className="tool-name">{t?.hospitals || 'Find Healthcare'}</span>
+                            <div className="nav-item" onClick={() => navigate('/analytics')}>
+                                <div className="nav-icon mint">📊</div>
+                                <div className="nav-text">
+                                    <strong>{t.healthHub || 'Health Reports'}</strong>
+                                    <span>Scan & Analyze lab reports</span>
+                                </div>
+                                <div className="nav-arrow">→</div>
                             </div>
-
-                            <div className="tool-card" onClick={() => navigate('/yoga')}>
-                                <div className="tool-icon-wrapper">🧘‍♀️</div>
-                                <span className="tool-name">{t?.yoga || 'Yoga & Exercise'}</span>
+                            <div className="nav-item" onClick={() => navigate('/find-care')}>
+                                <div className="nav-icon yellow">🏥</div>
+                                <div className="nav-text">
+                                    <strong>{t.hospitals || 'Nearby Facilities'}</strong>
+                                    <span>Hospitals & Ambulances</span>
+                                </div>
+                                <div className="nav-arrow">→</div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

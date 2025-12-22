@@ -3,86 +3,60 @@
 /* UPDATED: Darker Fonts for Readability & Accessibility + Restored Cute Pastels */
 
 :root {
-  /* 1. Core Brand Colors */
-  --color-pink-deep: #D48888;
-  /* Darker Salmon */
-  --color-pink-mid: #F8C8C8;
-  /* Pale Pink */
-  --color-pink-light: #FDE8E8;
-  /* Very Pale Pink */
-  --color-white-soft: #FFFAFA;
-  /* Snow White */
+  /* 1. Core Brand Colors (Peach & Chocolate Theme) */
+  --color-peach: #FFDAB9;
+  --color-peach-light: #FFF0E0;
+  --color-peach-dark: #FFB790;
+
+  --color-pink-warm: #F4C2C2;
+  --color-pink-soft: #FFEBEB;
+
+  --color-brown-deep: #3E2723;
+  --color-brown-light: #5D4037;
+  --color-brown-text: #4E342E;
 
   /* 2. Semantic Mapping */
-  --color-primary: #C62828;
-  /* Deep Red/Pink for high contrast primary actions */
-  --color-secondary: #F8C8C8;
-  /* Backgrounds/Secondary buttons */
-  --color-background: #FFFAFA;
-  /* Main page bg */
-  --color-surface: #FFFFFF;
-  /* Cards */
-  --color-accent: #FFEBEE;
-  /* Highlights */
+  --color-primary: #FFDAB9;
+  --color-primary-dark: #FFB790;
+  --color-secondary: #F4C2C2;
+  --color-background: #FFF8F5;
+  /* Very pale peach/white */
+  --color-surface: rgba(255, 255, 255, 0.85);
 
   /* 3. Text Colors - High Contrast */
   --text-primary: #3E2723;
-  /* Very Dark Brown (almost black) */
   --text-secondary: #5D4037;
-  /* Dark Brown */
   --text-light: #FFFFFF;
-  /* White text */
-  --color-black: #212121;
-  /* Pure black alternative */
+  --text-muted: #8D6E63;
 
   /* 4. Navbar & Brand Specifics */
-  --color-mauve: #880E4F;
-  /* Deep Purple/Pink for branding text */
-  --color-mauve-deep: #880E4F;
-  --color-mauve-dark: #6A1B9A;
+  --color-mauve: #3E2723;
+  /* Remapped to Brown for consistency */
+  --color-mauve-deep: #3E2723;
 
-  /* 5. Restored Cute Pastels for Home Page (Cards & Hero) */
-  --color-mauve-light: #F8BBD0;
-  /* Soft Pink for Yoga Card */
-
-  --color-peach: #FFCCBC;
-  /* Soft Peach for Hero Image Border */
-  --color-peach-light: #FFEBE5;
-  --color-peach-dark: #FFAB91;
-  /* Darker Peach for Chatbot Card */
-
-  --color-mint-dark: #B2DFDB;
-  /* Soft Mint for Analytics Card */
+  /* 5. Legacy/Functional Colors (Remapped) */
+  --color-white-soft: #FFFAFA;
   --color-mint-light: #E0F2F1;
-
-  --color-cream: #FFF3E0;
-  --color-cream-dark: #FFE0B2;
-  /* Dark Cream for Find Care Card */
-
-  --color-gray-dark: #455A64;
-  /* Slate Gray for secondary text */
-  --color-slate: #37474F;
-
-  --color-sage: #8D6E63;
-  /* Earthy tone mapping */
   --color-cream-warm: #FFF8E1;
-  --color-lime-pale: #FFF3E0;
-  /* Warm tint */
+  --color-gray-dark: #5D4037;
 
-  /* 6. Shadows & Layers */
-  --shadow-sm: 0 4px 6px rgba(136, 14, 79, 0.1);
-  --shadow-md: 0 8px 16px rgba(136, 14, 79, 0.15);
-  --shadow-lg: 0 16px 32px rgba(136, 14, 79, 0.2);
+  /* 6. Shadows & Glassmorphism */
+  --shadow-sm: 0 4px 6px rgba(62, 39, 35, 0.05);
+  --shadow-md: 0 8px 20px rgba(62, 39, 35, 0.08);
+  --shadow-lg: 0 15px 35px rgba(62, 39, 35, 0.12);
 
-  --glass-bg: rgba(255, 255, 255, 0.95);
-  --glass-border: 1px solid rgba(244, 143, 177, 0.3);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(12px);
 
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
 
   /* 7. Typography */
-  --font-display: 'Playfair Display', 'Merriweather', serif;
+  --font-display: 'Inter', sans-serif;
+  /* Cleaner simpler font per request */
+  --font-body: 'Inter', sans-serif;
 }
 
 body {

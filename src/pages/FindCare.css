@@ -1,7 +1,9 @@
+/* Glassmorphism Find Care Design */
 .find-care-page {
     padding-top: 80px;
     padding-bottom: 30px;
-    background: var(--color-off-white);
+    /* Soft Gradient Background */
+    background: linear-gradient(135deg, #FFF0F5 0%, #FFF8E1 100%);
     min-height: 100vh;
 }
 
@@ -11,13 +13,16 @@
 }
 
 .find-care-header h1 {
-    font-size: 1.5rem;
-    color: #2D3748;
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    /* Deep Brown */
     margin-bottom: 5px;
+    font-family: 'Playfair Display', serif;
 }
 
 .find-care-header p {
-    color: #718096;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 .find-care-main-content {
@@ -37,17 +42,18 @@
 }
 
 .map-container-wrapper {
-    flex: 1.5;
+    flex: 1.6;
     position: relative;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(62, 39, 35, 0.1);
+    overflow: hidden;
+    border: 4px solid white;
 }
 
 .map-container {
-    height: 500px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    position: relative;
-    border: 1px solid rgba(136, 14, 79, 0.1);
+    height: 600px;
+    width: 100%;
+    z-index: 1;
 }
 
 .searching-overlay {
@@ -55,27 +61,31 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px 25px;
-    border-radius: 30px;
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 16px 30px;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     font-weight: 600;
-    color: var(--color-mauve);
+    color: var(--color-brown-deep);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .spinner-sm {
     border: 3px solid #f3f3f3;
-    border-top: 3px solid var(--color-mauve);
+    border-top: 3px solid var(--color-peach-dark);
     border-radius: 50%;
     width: 20px;
     height: 20px;
     animation: spin 1s linear infinite;
 }
 
+/* Category Filter Bar */
 .care-categories {
     flex: 1;
     display: flex;
@@ -90,121 +100,176 @@
 }
 
 .category-card {
-    background: white;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 18px;
     border-radius: 16px;
     text-align: center;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 4px 15px rgba(62, 39, 35, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    border: 1px solid rgba(136, 14, 79, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-mauve-light);
+    transform: translateY(-4px);
+    background: white;
+    box-shadow: 0 8px 25px rgba(62, 39, 35, 0.1);
+    border-color: var(--color-peach);
 }
 
 .category-card.active {
-    background: var(--color-mauve);
-    color: white;
-    border-color: var(--color-mauve);
+    background: linear-gradient(135deg, #FFDAB9 0%, #F4C2C2 100%);
+    color: var(--text-primary);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(244, 194, 194, 0.4);
 }
 
-.category-card.active h3,
-.category-card.active .action-link {
-    color: white;
+.category-card h3 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: inherit;
 }
 
+.category-card p {
+    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.8;
+}
+
+/* Nearby List Glass Card */
 .nearby-list-container {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow-md);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(62, 39, 35, 0.05);
     margin-top: 10px;
-    max-height: 400px;
+    max-height: 450px;
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    flex-grow: 1;
 }
 
 .nearby-list-container h3 {
     font-size: 1.1rem;
-    color: var(--color-mauve);
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    color: var(--color-brown-deep);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(62, 39, 35, 0.08);
+    font-family: 'Playfair Display', serif;
 }
 
 .nearby-list {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    padding-right: 5px;
+}
+
+/* Custom Scrollbar */
+.nearby-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.nearby-list::-webkit-scrollbar-thumb {
+    background: #D7CCC8;
+    border-radius: 10px;
 }
 
 .nearby-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
-    border-radius: 10px;
-    background: #fcf8f9;
-    border: 1px solid #f3ebeb;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
 .nearby-item:hover {
-    background: #f8eef1;
+    background: white;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .nearby-item-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
 
 .nearby-item-info strong {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-primary);
 }
 
 .nearby-item-info span {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
 }
 
 .view-on-map-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: var(--color-mauve);
-    color: white;
+    padding: 8px 14px;
+    border-radius: 50px;
+    background: var(--color-peach);
+    color: var(--color-brown-deep);
     border: none;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
+    transition: background 0.2s;
 }
 
+.view-on-map-btn:hover {
+    background: var(--color-peach-dark);
+}
+
+/* Map Popups */
 .map-popup {
     text-align: center;
-    padding: 5px;
+    padding: 8px;
+    font-family: 'Inter', sans-serif;
 }
 
 .map-popup strong {
     display: block;
-    margin-bottom: 5px;
-    color: var(--color-mauve);
+    margin-bottom: 6px;
+    color: var(--color-brown-deep);
+    font-size: 0.95rem;
 }
 
 .popup-btn {
     margin-top: 8px;
-    padding: 4px 10px;
-    background: var(--color-mauve);
+    padding: 6px 14px;
+    background: var(--color-brown-deep);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 50px;
     font-size: 0.8rem;
     cursor: pointer;
+    font-weight: 600;
+}
+
+.popup-btn:hover {
+    background: #5D4037;
+}
+
+@media (max-width: 900px) {
+    .find-care-main-content {
+        gap: 20px;
+    }
+
+    .map-container {
+        height: 400px;
+    }
+
+    .category-card {
+        padding: 12px;
+    }
 }
 
 @media (max-width: 600px) {

@@ -69,26 +69,42 @@ const Navbar = () => {
                                 {t.home}
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
-                                {t.yoga}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
-                                {t.findCare}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
-                                {t.health}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
-                                {t.about}
-                            </Link>
-                        </li>
+
+                        {isAuthenticated ? (
+                            <>
+                                <li>
+                                    <Link to="/dashboard" className={`navbar-link ${isActive('/dashboard') ? 'active' : ''}`}>
+                                        Dashboard
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/yoga" className={`navbar-link ${isActive('/yoga') ? 'active' : ''}`}>
+                                        {t.yoga}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/find-care" className={`navbar-link ${isActive('/find-care') ? 'active' : ''}`}>
+                                        {t.findCare}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/analytics" className={`navbar-link ${isActive('/analytics') ? 'active' : ''}`}>
+                                        {t.health}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/chatbot" className={`navbar-link ${isActive('/chatbot') ? 'active' : ''}`}>
+                                        Chatbot
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            <li>
+                                <Link to="/about" className={`navbar-link ${isActive('/about') ? 'active' : ''}`}>
+                                    {t.about}
+                                </Link>
+                            </li>
+                        )}
 
                         {!isAuthenticated && (
                             <li>

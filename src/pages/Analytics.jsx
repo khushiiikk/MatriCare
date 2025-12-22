@@ -182,12 +182,19 @@ const Analytics = () => {
                                         <div className="status-badge status-success">{t('analytics.normal')}</div>
                                     </div>
 
-                                    <div className="metric-card">
+                                    <div className="metric-card risk-metric-card">
                                         <h4>{t('analytics.riskAssessment')}</h4>
-                                        <div className="metric-value-row">
-                                            <span className="value success-text">Low</span>
+                                        <div className="risk-meter">
+                                            <div className="risk-bar">
+                                                <div className="risk-segment low"></div>
+                                                <div className="risk-segment moderate"></div>
+                                                <div className="risk-segment high"></div>
+                                            </div>
+                                            <div className="risk-pointer" style={{ left: '15%' }}>
+                                                <div className="pointer-arrow">▼</div>
+                                                <div className="pointer-label">Low</div>
+                                            </div>
                                         </div>
-                                        <div className="status-badge status-success">{t('analytics.normal')}</div>
                                     </div>
                                 </div>
 
