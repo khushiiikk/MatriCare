@@ -51,12 +51,13 @@ const Analytics = () => {
     return (
         <div className="analytics-page">
             <div className="container">
-                <div className="trimester-header">
+                <div className="health-header">
                     <h1>{t('analytics.title')}</h1>
+                    <p className="health-subtitle">Comprehensive Maternal Health Assistant</p>
                 </div>
 
                 {view !== 'hub' && (
-                    <button onClick={goBack} className="back-btn" style={{ marginBottom: '20px' }}>
+                    <button onClick={goBack} className="back-btn">
                         ← Back to Hub
                     </button>
                 )}
@@ -66,63 +67,49 @@ const Analytics = () => {
                     <div className="health-hub-grid">
                         {/* Card 1: Analyze */}
                         <div className="hub-card">
-                            <div className="hub-card-header">
-                                <span className="hub-card-header-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                                </span>
+                            <div className="hub-card-header gradient-mauve">
+                                <span className="hub-card-icon">📄</span>
                                 <h2>{t('analytics.analyzeCard.title')}</h2>
                             </div>
                             <div className="hub-card-body">
-                                <div className="hub-upload-container" onClick={() => setView('analysis')}>
-                                    <div className="hub-upload-icon">
-                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                                    </div>
-                                    <p className="hub-upload-text">{t('analytics.uploadDesc')}</p>
-                                    <button className="hub-btn-primary">{t('analytics.analyzeCard.btn')}</button>
+                                <p className="hub-card-desc">{t('analytics.analyzeCard.desc')}</p>
+                                <div className="hub-action-area">
+                                    <button className="hub-btn-primary" onClick={() => setView('analysis')}>
+                                        {t('analytics.analyzeCard.btn')}
+                                    </button>
                                 </div>
-                                <p style={{ textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>
-                                    {t('analytics.analyzeCard.desc')}
-                                </p>
                             </div>
                         </div>
 
                         {/* Card 2: Risk Guide */}
                         <div className="hub-card">
-                            <div className="hub-card-header">
-                                <span className="hub-card-header-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                </span>
+                            <div className="hub-card-header gradient-peach">
+                                <span className="hub-card-icon">⚠️</span>
                                 <h2>{t('analytics.riskCard.title')}</h2>
                             </div>
                             <div className="hub-card-body">
-                                <ul className="hub-list">
-                                    {t('analytics.riskCard.items').map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                    ))}
-                                </ul>
-                                <button className="hub-btn-outline" onClick={() => setView('risk')}>
-                                    {t('analytics.riskCard.btn')}
-                                </button>
+                                <p className="hub-card-desc">Identify potential pregnancy complications and learn prevention.</p>
+                                <div className="hub-action-area">
+                                    <button className="hub-btn-outline" onClick={() => setView('risk')}>
+                                        {t('analytics.riskCard.btn')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         {/* Card 3: Symptom Dictionary */}
                         <div className="hub-card">
-                            <div className="hub-card-header">
-                                <span className="hub-card-header-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                                </span>
+                            <div className="hub-card-header gradient-mint">
+                                <span className="hub-card-icon">🩺</span>
                                 <h2>{t('analytics.symptomCard.title')}</h2>
                             </div>
                             <div className="hub-card-body">
-                                <ul className="hub-list">
-                                    {t('analytics.symptomCard.items').map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                    ))}
-                                </ul>
-                                <button className="hub-btn-outline" onClick={() => setView('symptoms')}>
-                                    {t('analytics.symptomCard.btn')}
-                                </button>
+                                <p className="hub-card-desc">Recognize warning signs that need immediate medical attention.</p>
+                                <div className="hub-action-area">
+                                    <button className="hub-btn-outline" onClick={() => setView('symptoms')}>
+                                        {t('analytics.symptomCard.btn')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -132,93 +119,109 @@ const Analytics = () => {
                 {view === 'analysis' && (
                     <div className="tab-view fade-in">
                         {!isAnalyzing && !showResults && (
-                            <div className="upload-section">
-                                <input
-                                    type="file"
-                                    className="file-input"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={handleFileUpload}
-                                />
-                                <div className="upload-content">
-                                    <div className="upload-icon">📄</div>
-                                    <h3 className="upload-title">{t('analytics.uploadTitle')}</h3>
-                                    <p className="upload-desc">{t('analytics.uploadDesc')}</p>
-                                    <small style={{ color: '#999', marginTop: '10px' }}>{t('analytics.supportedFormats')}</small>
+                            <div className="upload-container">
+                                <div className="upload-box">
+                                    <div className="upload-icon-large">📂</div>
+                                    <h3>{t('analytics.uploadTitle')}</h3>
+                                    <p>{t('analytics.uploadDesc')}</p>
+                                    <input
+                                        type="file"
+                                        id="file-upload"
+                                        className="file-input-hidden"
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        onChange={handleFileUpload}
+                                    />
+                                    <label htmlFor="file-upload" className="upload-btn">
+                                        Choose File
+                                    </label>
+                                    <small>{t('analytics.supportedFormats')}</small>
                                 </div>
                             </div>
                         )}
 
                         {isAnalyzing && (
-                            <div className="analyzing-container">
-                                <div className="loader"></div>
+                            <div className="analyzing-state">
+                                <div className="scanner-animation"></div>
                                 <h3>{t('analytics.analyzing')}</h3>
                                 <p>{t('analytics.pleaseWait')}</p>
                             </div>
                         )}
 
                         {showResults && (
-                            <div className="results-section">
+                            <div className="results-container">
                                 <div className="results-header">
                                     <h2>{t('analytics.resultsTitle')}</h2>
                                     <p>{t('analytics.resultsSubtitle')}: <strong>{file?.name}</strong></p>
-                                    <button className="back-btn" onClick={resetAnalysis} style={{ marginTop: '10px' }}>
-                                        ↺ Upload New Report
-                                    </button>
                                 </div>
 
-                                <div className="results-grid">
-                                    <div className="result-card">
+                                <div className="metrics-grid">
+                                    <div className="metric-card">
                                         <h4>{t('analytics.hemoglobin')}</h4>
-                                        <span className="metric-value">11.2 <small>g/dL</small></span>
-                                        <span className="metric-status status-attention">{t('analytics.attention')}</span>
+                                        <div className="metric-value-row">
+                                            <span className="value">11.2</span>
+                                            <span className="unit">g/dL</span>
+                                        </div>
+                                        <div className="status-badge status-warning">{t('analytics.attention')}</div>
                                     </div>
 
-                                    <div className="result-card">
+                                    <div className="metric-card">
                                         <h4>{t('analytics.bloodPressure')}</h4>
-                                        <span className="metric-value">110/70</span>
-                                        <span className="metric-status status-normal">{t('analytics.normal')}</span>
+                                        <div className="metric-value-row">
+                                            <span className="value">110/70</span>
+                                            <span className="unit">mmHg</span>
+                                        </div>
+                                        <div className="status-badge status-success">{t('analytics.normal')}</div>
                                     </div>
 
-                                    <div className="result-card">
+                                    <div className="metric-card">
                                         <h4>{t('analytics.glucose')}</h4>
-                                        <span className="metric-value">95 <small>mg/dL</small></span>
-                                        <span className="metric-status status-normal">{t('analytics.normal')}</span>
+                                        <div className="metric-value-row">
+                                            <span className="value">95</span>
+                                            <span className="unit">mg/dL</span>
+                                        </div>
+                                        <div className="status-badge status-success">{t('analytics.normal')}</div>
                                     </div>
 
-                                    <div className="result-card">
+                                    <div className="metric-card">
                                         <h4>{t('analytics.riskAssessment')}</h4>
-                                        <span className="metric-value" style={{ color: '#2e7d32' }}>Low</span>
-                                        <span className="metric-status status-normal">{t('analytics.normal')}</span>
+                                        <div className="metric-value-row">
+                                            <span className="value success-text">Low</span>
+                                        </div>
+                                        <div className="status-badge status-success">{t('analytics.normal')}</div>
                                     </div>
                                 </div>
 
-                                <div className="recommendations-box">
+                                <div className="recommendations-container">
                                     <h3>{t('analytics.recommendations')}</h3>
-                                    <ul className="rec-list">
-                                        <li>
-                                            <span className="rec-icon">•</span>
+                                    <div className="rec-list">
+                                        <div className="rec-item">
+                                            <span className="rec-bullet">🥗</span>
                                             <div>
                                                 <strong>Iron-Rich Diet:</strong> Increase intake of spinach, lentils, and fortified cereals to boost Hemoglobin.
                                             </div>
-                                        </li>
-                                        <li>
-                                            <span className="rec-icon">•</span>
+                                        </div>
+                                        <div className="rec-item">
+                                            <span className="rec-bullet">💧</span>
                                             <div>
                                                 <strong>Stay Hydrated:</strong> Drink 8-10 glasses of water daily to maintain amniotic fluid levels.
                                             </div>
-                                        </li>
-                                        <li>
-                                            <span className="rec-icon">•</span>
+                                        </div>
+                                        <div className="rec-item">
+                                            <span className="rec-bullet">🧘‍♀️</span>
                                             <div>
                                                 <strong>Daily Yoga:</strong> Continue with Trimester 2 yoga exercises to manage back pain.
                                             </div>
-                                        </li>
-                                    </ul>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="disclaimer-box">
+                                <div className="disclaimer-note">
                                     {t('analytics.consultDoctor')}
                                 </div>
+
+                                <button className="reset-btn" onClick={resetAnalysis}>
+                                    Analyze Another Report
+                                </button>
                             </div>
                         )}
                     </div>
@@ -227,35 +230,31 @@ const Analytics = () => {
                 {/* Risk View */}
                 {view === 'risk' && (
                     <div className="tab-view fade-in">
-                        <section className="health-info-section prevention-tips" style={{ marginTop: 0 }}>
-                            <div className="section-header">
-                                <h2 className="health-section-title">
-                                    <span className="icon">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                                    </span>
-                                    High-Risk Pregnancy Factors
-                                </h2>
-                                <p className="health-section-subtitle">
-                                    A high-risk pregnancy involves higher-than-average risks. Understanding these factors can help in early management.
-                                    <br /><em>Source: Cleveland Clinic</em>
-                                </p>
+                        <section className="info-section">
+                            <div className="section-intro">
+                                <h2>High-Risk Pregnancy Factors</h2>
+                                <p>A high-risk pregnancy involves higher-than-average risks. Understanding these factors can help in early management. <br /><small>Source: Cleveland Clinic</small></p>
                             </div>
 
-                            <div className="risk-categories-grid">
-                                <div className="risk-category-card">
-                                    <h3>Preexisting Conditions</h3>
+                            <div className="risk-grid">
+                                <div className="risk-card">
+                                    <div className="risk-card-header">
+                                        <h3>Preexisting Conditions</h3>
+                                    </div>
                                     <ul>
                                         <li>High blood pressure (Hypertension)</li>
-                                        <li>Diabetes</li>
+                                        <li>Diabetes (Type 1 or 2)</li>
                                         <li>Polycystic ovary syndrome (PCOS)</li>
                                         <li>Autoimmune diseases (Lupus, MS)</li>
                                         <li>Thyroid disease</li>
-                                        <li>Obesity</li>
+                                        <li>Obesity (BMI &gt; 30)</li>
                                         <li>HIV/AIDS</li>
                                     </ul>
                                 </div>
-                                <div className="risk-category-card">
-                                    <h3>Pregnancy-Related Conditions</h3>
+                                <div className="risk-card">
+                                    <div className="risk-card-header">
+                                        <h3>Pregnancy Conditions</h3>
+                                    </div>
                                     <ul>
                                         <li>Gestational Diabetes</li>
                                         <li>Preeclampsia & Eclampsia</li>
@@ -265,16 +264,28 @@ const Analytics = () => {
                                         <li>Low Birth Weight</li>
                                     </ul>
                                 </div>
-                                <div className="risk-category-card">
-                                    <h3>Lifestyle Factors</h3>
+                                <div className="risk-card">
+                                    <div className="risk-card-header">
+                                        <h3>Lifestyle Factors</h3>
+                                    </div>
                                     <ul>
-                                        <li>Smoking</li>
-                                        <li>Alcohol use</li>
+                                        <li>Smoking or Vaping</li>
+                                        <li>Alcohol consumption</li>
                                         <li>Substance use</li>
-                                        <li>Exposure to toxins</li>
-                                        <li>High stress</li>
+                                        <li>Exposure to environmental toxins</li>
+                                        <li>High stress levels</li>
                                     </ul>
                                 </div>
+                            </div>
+
+                            <div className="prevention-box">
+                                <h3>How to Reduce Risks</h3>
+                                <ul className="prevention-list">
+                                    <li>Pre-conception checkup to identify health risks early.</li>
+                                    <li>Maintain a healthy weight before and during pregnancy.</li>
+                                    <li>Manage preexisting conditions like diabetes or hypertension.</li>
+                                    <li>Avoid alcohol, tobacco, and non-prescribed drugs.</li>
+                                </ul>
                             </div>
                         </section>
                     </div>
@@ -283,59 +294,42 @@ const Analytics = () => {
                 {/* Symptoms View */}
                 {view === 'symptoms' && (
                     <div className="tab-view fade-in">
-                        <section className="health-info-section warning-signs" style={{ marginTop: 0 }}>
-                            <div className="section-header">
-                                <h2 className="health-section-title">
-                                    <span className="icon">⚠️</span>
-                                    Warning Signs & Symptoms
-                                </h2>
-                                <p className="health-section-subtitle">
-                                    Contact your healthcare provider <strong>immediately</strong> if you experience any of these symptoms.
-                                    <br /><em>Source: Cleveland Clinic</em>
-                                </p>
+                        <section className="info-section">
+                            <div className="section-intro">
+                                <h2>Warning Signs</h2>
+                                <p>Contact your healthcare provider <strong>immediately</strong> if you experience any of these symptoms. <br /><small>Source: Cleveland Clinic</small></p>
                             </div>
-                            <div className="health-info-list">
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Severe Physical Pain</h3>
-                                        <p>Abdominal pain that doesn’t go away, severe headaches that get worse, or chest pain.</p>
-                                    </div>
+
+                            <div className="symptoms-grid">
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">⚡</div>
+                                    <h3>Severe Pain</h3>
+                                    <p>Abdominal pain that doesn’t go away, severe headaches that get worse, or chest pain.</p>
                                 </div>
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Fluid & Discharge Issues</h3>
-                                        <p>Vaginal bleeding, increased discharge, or swelling/redness/pain in face or limbs.</p>
-                                    </div>
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">💧</div>
+                                    <h3>Fluid & Discharge</h3>
+                                    <p>Vaginal bleeding, increased discharge, or sudden swelling in face or limbs.</p>
                                 </div>
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Systemic Symptoms</h3>
-                                        <p>Dizziness, fainting, extreme fatigue, trouble breathing, or high fever.</p>
-                                    </div>
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">😵</div>
+                                    <h3>Systemic Issues</h3>
+                                    <p>Dizziness, fainting, extreme fatigue, trouble breathing, or high fever.</p>
                                 </div>
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Stomach & Digestion</h3>
-                                        <p>Nausea and vomiting that is worse than typical morning sickness.</p>
-                                    </div>
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">🤢</div>
+                                    <h3>Digestive Issues</h3>
+                                    <p>Nausea and vomiting that is much worse than typical morning sickness.</p>
                                 </div>
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Fetal Movement</h3>
-                                        <p>The fetus’s movement stopping or slowing significantly.</p>
-                                    </div>
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">👶</div>
+                                    <h3>Fetal Movement</h3>
+                                    <p>The baby's movement stopping or slowing down significantly.</p>
                                 </div>
-                                <div className="info-row warning-row">
-                                    <div className="info-row-marker"></div>
-                                    <div className="info-row-content">
-                                        <h3>Mental Health</h3>
-                                        <p>Thoughts about harming yourself or extreme anxiety.</p>
-                                    </div>
+                                <div className="symptom-card warning">
+                                    <div className="symptom-icon">🧠</div>
+                                    <h3>Mental Health</h3>
+                                    <p>Severe anxiety or thoughts about harming yourself.</p>
                                 </div>
                             </div>
                         </section>
