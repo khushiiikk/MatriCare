@@ -5,7 +5,7 @@ import './Footer.css';
 
 const Footer = () => {
     const { language } = useLanguage();
-    const t = translations[language].footer;
+    const t = translations[language]?.footer || { links: {} };
 
     return (
         <footer className="footer-slim">

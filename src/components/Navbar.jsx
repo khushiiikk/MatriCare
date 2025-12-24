@@ -10,7 +10,7 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
     const { language } = useLanguage();
-    const t = translations[language].navbar;
+    const t = translations[language]?.navbar || {};
 
     useEffect(() => {
         const handleScroll = () => {

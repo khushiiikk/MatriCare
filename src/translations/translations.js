@@ -32,6 +32,7 @@ export const translations = {
             confirmPassword: 'Confirm New Password'
         },
         home: {
+            welcome: 'Your Health, Our Responsibility',
             welcomeMain: 'Your Health,',
             welcomeAccent: 'Our Responsibility',
             subtitle: 'Support for your pregnancy journey. Health info, yoga, and expert care in your language.',
@@ -83,6 +84,14 @@ export const translations = {
                 title: 'Our Vision',
                 desc: 'A world where every pregnancy is safe, supported, and celebrated through innovation.'
             }
+        },
+        footer: {
+            copyright: '© 2024 MatriCare. All rights reserved.',
+            links: {
+                privacy: 'Privacy Policy',
+                terms: 'Terms of Service',
+                contact: 'Contact Us'
+            }
         }
     },
     hi: {
@@ -118,6 +127,7 @@ export const translations = {
             confirmPassword: 'नए पासवर्ड की पुष्टि करें'
         },
         home: {
+            welcome: 'आपका स्वास्थ्य, हमारी जिम्मेदारी',
             welcomeMain: 'आपका स्वास्थ्य,',
             welcomeAccent: 'हमारी जिम्मेदारी',
             subtitle: 'आपकी गर्भावस्था यात्रा के लिए समर्थन। स्वास्थ्य जानकारी, योग, और आपकी भाषा में विशेषज्ञ देखभाल।',
@@ -169,6 +179,14 @@ export const translations = {
                 title: 'हमारा दृष्टिकोण',
                 desc: 'एक ऐसी दुनिया जहां हर गर्भावस्था सुरक्षित, समर्थित और नवाचार के माध्यम से मनाई जाती है।'
             }
+        },
+        footer: {
+            copyright: '© 2024 मातृCare. सर्वाधिकार सुरक्षित।',
+            links: {
+                privacy: 'गोपनीयता नीति',
+                terms: 'सेवा की शर्तें',
+                contact: 'संपर्क करें'
+            }
         }
     },
     mr: {
@@ -204,6 +222,7 @@ export const translations = {
             confirmPassword: 'नवीन पासवर्डची पुष्टी करा'
         },
         home: {
+            welcome: 'तुमचे आरोग्य, आमची जबाबदारी',
             welcomeMain: 'तुमचे आरोग्य,',
             welcomeAccent: 'आमची जबाबदारी',
             subtitle: 'तुमच्या गर्भधारणेच्या प्रवासासाठी आधार. आरोग्य माहिती, योग आणि तुमच्या भाषेत तज्ञ काळजी.',
@@ -224,7 +243,7 @@ export const translations = {
                 care: { title: 'देखभाल शोधा', desc: 'जवळपासची केंद्रे आणि रुग्णालये.' },
                 support: { title: 'एआय सहाय्यक', desc: 'तात्काळ मदत 24/7.' }
             },
-            title: 'भविष्याचे पोषण',
+            title: 'भविष्यचे पोषण',
             description: 'मातृCare हा एक सर्वसमावेशक डिजिटल सोबती आहे जो गर्भधारणेच्या प्रत्येक टप्प्यावर मातांना आधार देण्यासाठी डिझाइन केला आहे. आम्ही मातृत्वामध्ये निरोगी आणि आनंदी संक्रमण सुनिश्चित करण्यासाठी वैयक्तिक काळजीसह वैद्यकीय अंतर्दृष्टी एकत्र करतो.'
         },
         features: {
@@ -254,6 +273,14 @@ export const translations = {
             vision: {
                 title: 'आमची दृष्टी',
                 desc: 'असे जग जिथे प्रत्येक गर्भधारणा सुरक्षित, समर्थित आणि नाविन्याद्वारे साजरी केली जाते.'
+            }
+        },
+        footer: {
+            copyright: '© 2024 मातृCare. सर्व हक्क राखीव.',
+            links: {
+                privacy: 'गोपनीयता धोरण',
+                terms: 'सेवा अटी',
+                contact: 'संपर्क साधा'
             }
         }
     },
@@ -290,6 +317,7 @@ export const translations = {
             confirmPassword: 'புதிய கடவுச்சொல்லை உறுதிப்படுத்தவும்'
         },
         home: {
+            welcome: 'உங்கள் ஆரோக்கியம், எங்கள் பொறுப்பு',
             welcomeMain: 'உங்கள் ஆரோக்கியம்,',
             welcomeAccent: 'எங்கள் பொறுப்பு',
             subtitle: 'உங்கள் கர்ப்ப கால பயணத்திற்கான ஆதரவு. உங்கள் மொழியில் சுகாதாரத் தகவல், யோகா மற்றும் நிபுணர் கவனிப்பு.',
@@ -341,14 +369,14 @@ export const translations = {
                 title: 'எங்கள் பார்வை',
                 desc: 'ஒவ்வொரு கர்ப்பமும் பாதுகாப்பானதாகவும், ஆதரவுடனும், புதுமையின் மூலம் கொண்டாடப்படும் ஒரு உலகம்.'
             }
-        }
-    },
-    footer: {
-        copyright: '© 2024 MatriCare. All rights reserved.',
-        links: {
-            privacy: 'Privacy Policy',
-            terms: 'Terms of Service',
-            contact: 'Contact Us'
+        },
+        footer: {
+            copyright: '© 2024 மாத்ரிCare. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
+            links: {
+                privacy: 'தனியுரிமைக் கொள்கை',
+                terms: 'சேவை விதிமுறைகள்',
+                contact: 'எங்களைத் தொடர்பு கொள்ளவும்'
+            }
         }
     }
 };

@@ -8,18 +8,19 @@ import './Home.css';
 const Home = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
-    const t = translations[language].home;
+    const t = translations[language]?.home || {};
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
     const [isSosOpen, setIsSosOpen] = useState(false);
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
     // Quote rotation every 3 seconds
     useEffect(() => {
+        if (!t.quotes || t.quotes.length === 0) return;
         const interval = setInterval(() => {
             setCurrentQuoteIndex((prev) => (prev + 1) % t.quotes.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, [t.quotes.length]);
+    }, [t.quotes?.length]);
 
     return (
         <div className="home-container">
