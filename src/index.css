@@ -41,6 +41,9 @@
   --color-gray-dark: #5D4037;
 
   /* 6. Shadows & Glassmorphism */
+  --btn-gradient: linear-gradient(135deg, var(--color-mauve) 0%, #a38b89 100%);
+  --shadow-glow: 0 0 20px rgba(130, 102, 100, 0.2);
+  --nav-height: 80px;
   --shadow-sm: 0 4px 6px rgba(62, 39, 35, 0.05);
   --shadow-md: 0 8px 20px rgba(62, 39, 35, 0.08);
   --shadow-lg: 0 15px 35px rgba(62, 39, 35, 0.12);

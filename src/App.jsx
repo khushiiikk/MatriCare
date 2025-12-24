@@ -7,17 +7,35 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Health from './pages/Health';
 import Settings from './pages/Settings';
+import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
 
 const AppContent = () => {
     return (
-        <div className="App">
+        <div className="app-container">
+            <div className="noise-overlay"></div>
             <Navbar />
-            <main>
+            <main className="main-content">
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/health" element={<Health />} />
-                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/health"
+                        element={
+                            <ProtectedRoute>
+                                <Health />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/settings"
+                        element={
+                            <ProtectedRoute>
+                                <Settings />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </main>
             <Footer />

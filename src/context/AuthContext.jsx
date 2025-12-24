@@ -208,8 +208,9 @@ export const AuthProvider = ({ children }) => {
             await setDoc(doc(db, "users", user.uid), updates, { merge: true });
 
             // Update State
-            setUser(updatedUser);
-            localStorage.setItem('matricare_user', JSON.stringify(updatedUser)); // Keep sync
+            const finalUser = { ...user, ...updates };
+            setUser(finalUser);
+            localStorage.setItem('matricare_user', JSON.stringify(finalUser)); // Keep sync
             return { success: true };
         } catch (e) {
             console.error("Update profile failed:", e);
