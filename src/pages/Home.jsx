@@ -22,7 +22,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="hero-image-wrapper">
-                        <img src="/pregnancy-saree.png" alt="Maternal Care" className="hero-featured-img" />
+                        <img src="/mother-illustration.png" alt="Maternal Care" className="hero-featured-img" />
                     </div>
                 </div>
             </section>
