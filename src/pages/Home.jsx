@@ -20,12 +20,12 @@ const Home = () => {
                 <Particles />
                 <div className="container hero-content">
                     <div className="hero-text-wrapper">
-                        <h1 className="hero-titleFadeIn">{t.home.welcome}</h1>
-                        <p className="hero-subtitleFadeIn">{t.home.subtitle}</p>
+                        <h1 className="hero-titleFadeIn">{t.welcome}</h1>
+                        <p className="hero-subtitleFadeIn">{t.subtitle}</p>
 
                         {/* Quote Box */}
                         <div className="hero-quote-box">
-                            <p className="hero-quote-text">{t.home.quote}</p>
+                            <p className="hero-quote-text">{t.quote}</p>
                         </div>
 
                         <div className="hero-cta">
