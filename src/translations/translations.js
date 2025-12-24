@@ -32,8 +32,9 @@ export const translations = {
             confirmPassword: 'Confirm New Password'
         },
         home: {
-            welcome: 'MatriCare',
-            subtitle: 'Empowering Motherhood through Technology and Care',
+            welcome: 'Your Health, Our Responsibility',
+            subtitle: 'Support for your pregnancy journey. Health info, yoga, and expert care in your language.',
+            quote: '"The moment a child is born, the mother is also born. You are reborn with your child."',
             intro: {
                 title: 'Nurturing the Future',
                 description: 'MatriCare is a comprehensive digital companion designed to support mothers through every step of their pregnancy journey. We combine medical insights with personalized care to ensure a healthy and happy transition into motherhood.'
@@ -110,8 +111,9 @@ export const translations = {
             confirmPassword: 'नए पासवर्ड की पुष्टि करें'
         },
         home: {
-            welcome: 'मातृCare',
-            subtitle: 'प्रौद्योगिकी और देखभाल के माध्यम से मातृत्व को सशक्त बनाना',
+            welcome: 'आपका स्वास्थ्य, हमारी जिम्मेदारी',
+            subtitle: 'आपकी गर्भावस्था यात्रा के लिए समर्थन। स्वास्थ्य जानकारी, योग, और आपकी भाषा में विशेषज्ञ देखभाल।',
+            quote: '"जिस क्षण एक बच्चा पैदा होता है, माँ भी पैदा होती है। आप अपने बच्चे के साथ पुनर्जन्म लेते हैं।"',
             intro: {
                 title: 'भविष्य का पोषण',
                 description: 'मातृCare एक व्यापक डिजिटल साथी है जिसे गर्भावस्था के हर कदम पर माताओं की सहायता के लिए डिज़ाइन किया गया है। हम मातृत्व में एक स्वस्थ और खुशहाल परिवर्तन सुनिश्चित करने के लिए व्यक्तिगत देखभाल के साथ चिकित्सा अंतर्दृष्टि को जोड़ते हैं।'
@@ -188,8 +190,9 @@ export const translations = {
             confirmPassword: 'नवीन पासवर्डची पुष्टी करा'
         },
         home: {
-            welcome: 'मातृCare',
-            subtitle: 'तंत्रज्ञान आणि काळजीद्वारे मातृत्व सक्षम करणे',
+            welcome: 'तुमचे आरोग्य, आमची जबाबदारी',
+            subtitle: 'तुमच्या गर्भधारणेच्या प्रवासासाठी आधार. आरोग्य माहिती, योग आणि तुमच्या भाषेत तज्ञ काळजी.',
+            quote: '"ज्या क्षणी मूल जन्माला येते, आईचाही जन्म होतो. तुम्ही तुमच्या मुलासोबत पुनर्जन्म घेता."',
             intro: {
                 title: 'भविष्याचे पोषण',
                 description: 'मातृCare हा एक सर्वसमावेशक डिजिटल सोबती आहे जो गर्भधारणेच्या प्रत्येक टप्प्यावर मातांना आधार देण्यासाठी डिझाइन केला आहे. आम्ही मातृत्वामध्ये निरोगी आणि आनंदी संक्रमण सुनिश्चित करण्यासाठी वैयक्तिक काळजीसह वैद्यकीय अंतर्दृष्टी एकत्र करतो.'
@@ -266,8 +269,9 @@ export const translations = {
             confirmPassword: 'புதிய கடவுச்சொல்லை உறுதிப்படுத்தவும்'
         },
         home: {
-            welcome: 'மாத்ரிCare',
-            subtitle: 'தொழில்நுட்பம் மற்றும் கவனிப்பு மூலம் தாய்மையை மேம்படுத்துதல்',
+            welcome: 'உங்கள் ஆரோக்கியம், எங்கள் பொறுப்பு',
+            subtitle: 'உங்கள் கர்ப்ப கால பயணத்திற்கான ஆதரவு. உங்கள் மொழியில் சுகாதாரத் தகவல், யோகா மற்றும் நிபுணர் கவனிப்பு.',
+            quote: '"ஒரு குழந்தை பிறக்கும் தருணத்தில், தாயும் பிறக்கிறாள். உங்கள் குழந்தையுடன் நீங்கள் மறுபிறவி எடுக்கிறீர்கள்."',
             intro: {
                 title: 'எதிர்காலத்தை வளர்ப்பது',
                 description: 'மாத்ரிCare என்பது கர்ப்ப காலத்தின் ஒவ்வொரு அடியிலும் தாய்மார்களுக்கு ஆதரவளிக்கும் வகையில் வடிவமைக்கப்பட்ட ஒரு விரிவான டிஜிட்டல் துணையாகும். ஆரோக்கியமான மற்றும் மகிழ்ச்சியான தாய்மை மாற்றத்தை உறுதிப்படுத்த மருத்துவ நுண்ணறிவுகளை தனிப்பயனாக்கப்பட்ட கவனிப்புடன் இணைக்கிறோம்.'

@@ -10,24 +10,46 @@ const Home = () => {
 
     return (
         <div className="home-container">
+            {/* Background Decorative Bubbles */}
+            <div className="bubble bubble-1"></div>
+            <div className="bubble bubble-2"></div>
+            <div className="bubble bubble-3"></div>
+
             {/* Section 1: Hero with Organic Curve */}
             <section className="hero-section">
                 <Particles />
                 <div className="container hero-content">
                     <div className="hero-text-wrapper">
-                        <div className="hero-tagline">WE ARE</div>
-                        <h1 className="hero-titleFadeIn">SUPPORTING<br />RURAL MOTHERS</h1>
-                        <p className="hero-subtitleFadeIn">
-                            Providing accessible healthcare and professional guidance to women in low-resource areas across India.
-                        </p>
+                        <h1 className="hero-titleFadeIn">{t.home.welcome}</h1>
+                        <p className="hero-subtitleFadeIn">{t.home.subtitle}</p>
+
+                        {/* Quote Box */}
+                        <div className="hero-quote-box">
+                            <p className="hero-quote-text">{t.home.quote}</p>
+                        </div>
+
                         <div className="hero-cta">
                             <button className="primary-btn">GET STARTED</button>
                             <button className="secondary-btn-outline">LEARN MORE</button>
                         </div>
                     </div>
+
                     <div className="hero-image-wrapper">
-                        <img src="/mother-illustration.png" alt="Maternal Care" className="hero-featured-img" />
+                        <div className="hero-img-circle-frame">
+                            <img src="/mother-illustration.png" alt="Maternal Care" className="hero-featured-img" />
+                        </div>
                     </div>
+                </div>
+
+                {/* Floating SOS Button */}
+                <div className="sos-fab">
+                    <span>SOS</span>
+                </div>
+
+                {/* AI Assistant Bubble */}
+                <div className="ai-assistant-fab">
+                    <img src="/matri-avatar.png" alt="AI Assistant" className="ai-avatar" />
+                    <span className="ai-label">Matri AI Assistant</span>
                 </div>
 
                 {/* Organic Curve Divider */}
@@ -62,30 +84,45 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Section 3: Features */}
+            {/* Section 3: What We Offer (Leaf Style) */}
             <section className="features-section">
                 <div className="container">
-                    <h2 className="section-title centered">{t.features.title}</h2>
+                    <h2 className="section-title centered">Our Features</h2>
                     <div className="features-grid">
-                        <div className="feature-card">
-                            <div className="feature-icon yoga-icon">🧘</div>
-                            <h3>{t.features.yoga.title}</h3>
-                            <p>{t.features.yoga.desc}</p>
+                        <div className="feature-card-leaf">
+                            <div className="feature-icon-wrapper">
+                                <img src="/yoga-icon.png" alt="Yoga" className="feature-image" />
+                            </div>
+                            <h3>Safe Yoga</h3>
+                            <p>Curated prenatal yoga sessions for every trimester.</p>
+                            <button className="feature-read-more">Read More</button>
                         </div>
-                        <div className="feature-card">
-                            <div className="feature-icon tracking-icon">📊</div>
-                            <h3>{t.features.tracking.title}</h3>
-                            <p>{t.features.tracking.desc}</p>
+
+                        <div className="feature-card-leaf">
+                            <div className="feature-icon-wrapper">
+                                <img src="/tracking-icon.png" alt="Tracking" className="feature-image" />
+                            </div>
+                            <h3>Health Tracker</h3>
+                            <p>Monitor your vitals and pregnancy progress daily.</p>
+                            <button className="feature-read-more">Read More</button>
                         </div>
-                        <div className="feature-card">
-                            <div className="feature-icon care-icon">🏥</div>
-                            <h3>{t.features.care.title}</h3>
-                            <p>{t.features.care.desc}</p>
+
+                        <div className="feature-card-leaf">
+                            <div className="feature-icon-wrapper">
+                                <img src="/care-icon.png" alt="Care" className="feature-image" />
+                            </div>
+                            <h3>Find Care</h3>
+                            <p>Locate the nearest ASHA centers and hospitals instantly.</p>
+                            <button className="feature-read-more">Read More</button>
                         </div>
-                        <div className="feature-card">
-                            <div className="feature-icon ai-icon">🤖</div>
-                            <h3>{t.features.assistant.title}</h3>
-                            <p>{t.features.assistant.desc}</p>
+
+                        <div className="feature-card-leaf">
+                            <div className="feature-icon-wrapper">
+                                <img src="/ai-icon.png" alt="AI Assistant" className="feature-image" />
+                            </div>
+                            <h3>AI Support</h3>
+                            <p>24/7 intelligent assistant for all your queries.</p>
+                            <button className="feature-read-more">Read More</button>
                         </div>
                     </div>
                 </div>
