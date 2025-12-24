@@ -139,7 +139,7 @@ const Home = () => {
                             </div>
                             <h3>{t.features.yoga.title}</h3>
                             <p>{t.features.yoga.desc}</p>
-                            <button className="read-more-btn">Read More</button>
+                            <button className="read-more-btn" onClick={() => navigate('/yoga')}>Read More</button>
                         </div>
 
                         <div className="feature-card-leaf">
@@ -148,7 +148,7 @@ const Home = () => {
                             </div>
                             <h3>{t.features.tracker.title}</h3>
                             <p>{t.features.tracker.desc}</p>
-                            <button className="read-more-btn">Read More</button>
+                            <button className="read-more-btn" onClick={() => navigate('/health')}>Read More</button>
                         </div>
 
                         <div className="feature-card-leaf">
@@ -157,7 +157,7 @@ const Home = () => {
                             </div>
                             <h3>{t.features.care.title}</h3>
                             <p>{t.features.care.desc}</p>
-                            <button className="read-more-btn">Read More</button>
+                            <button className="read-more-btn" onClick={() => navigate('/find-care')}>Read More</button>
                         </div>
 
                         <div className="feature-card-leaf">
@@ -166,7 +166,7 @@ const Home = () => {
                             </div>
                             <h3>{t.features.support.title}</h3>
                             <p>{t.features.support.desc}</p>
-                            <button className="read-more-btn">Read More</button>
+                            <button className="read-more-btn" onClick={() => setIsChatbotOpen(true)}>Read More</button>
                         </div>
                     </div>
                 </div>
