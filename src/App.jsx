@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Health from './pages/Health';
 import Settings from './pages/Settings';
+import FindCare from './pages/FindCare';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
@@ -33,6 +34,14 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <Settings />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/find-care"
+                        element={
+                            <ProtectedRoute>
+                                <FindCare />
                             </ProtectedRoute>
                         }
                     />
