@@ -25,17 +25,25 @@ const Navbar = () => {
         return location.pathname === path;
     };
 
+    const navLinks = [
+        { name: t.home, path: '/' },
+        { name: t.yoga, path: '/yoga' },
+        { name: t.analytics, path: '/analytics' },
+        { name: t.findCare, path: '/find-care' },
+        { name: t.about, path: '/about' },
+    ];
+
     return (
         <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
             <div className="container">
                 <div className="navbar-content">
-                    {/* Left Logos Group */}
+                    {/* Left: Logos Group */}
                     <div className="logos-group">
                         <div className="college-logo-container">
-                            <img src="/iit-delhi-logo.png" alt="IIT Delhi" className="college-logo iit-logo circle-logo" />
+                            <img src="/iit-delhi-logo.png" alt="IIT Delhi" className="college-logo circle-logo" />
                         </div>
                         <div className="college-logo-container">
-                            <img src="/thapar-university-logo.jpg" alt="Thapar University" className="college-logo thapar-logo circle-logo" />
+                            <img src="/thapar-university-logo.jpg" alt="Thapar University" className="college-logo circle-logo" />
                         </div>
                         <div className="brand-logo-container">
                             <img src="/matricare-logo.png" alt="MatriCare Logo" className="brand-logo" />
@@ -46,38 +54,60 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Desktop Navigation */}
-                    <ul className="navbar-menu">
-                        <li>
-                            <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
-                                {t.home}
-                            </Link>
-                        </li>
-                        <li className="nav-divider"></li>
-                        <li>
-                            <LanguageSwitcher />
-                        </li>
-                    </ul>
+                    {/* Center: Navigation Pill */}
+                    <div className="nav-pill-container">
+                        <ul className="nav-pill">
+                            {navLinks.map((link) => (
+                                <li key={link.path}>
+                                    <Link
+                                        to={link.path}
+                                        className={`nav-pill-link ${isActive(link.path) ? 'active' : ''}`}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="mobile-menu-btn"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}></span>
-                    </button>
+                    {/* Right: Actions */}
+                    <div className="nav-actions">
+                        <LanguageSwitcher />
+                        <Link to="/login" className="nav-action-link login-btn">
+                            {t.login}
+                        </Link>
+                        <Link to="/signup" className="nav-action-link signup-btn">
+                            {t.signUp}
+                        </Link>
+
+                        {/* Mobile Menu Button - inside actions for simplified mobile view */}
+                        <button
+                            className="mobile-menu-btn"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            aria-label="Toggle menu"
+                        >
+                            <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}></span>
+                        </button>
+                    </div>
                 </div>
 
+                {/* Mobile Menu Dropdown */}
                 <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
                     <ul className="mobile-menu-list">
-                        <li>
-                            <Link to="/" className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.home}
+                        {navLinks.map((link) => (
+                            <li key={link.path}>
+                                <Link to={link.path} className="mobile-menu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    {link.name}
+                                </Link>
+                            </li>
+                        ))}
+                        <li className="mobile-actions">
+                            <Link to="/login" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.login}
                             </Link>
-                        </li>
-                        <li className="mobile-lang-switcher">
-                            <LanguageSwitcher />
+                            <Link to="/signup" className="mobile-action-link signup-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                                {t.signUp}
+                            </Link>
                         </li>
                     </ul>
                 </div>

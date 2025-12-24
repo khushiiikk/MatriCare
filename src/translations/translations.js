@@ -1,7 +1,13 @@
 export const translations = {
     en: {
         navbar: {
-            home: 'Home'
+            home: 'Home',
+            yoga: 'Yoga',
+            findCare: 'Find Care',
+            analytics: 'Analytics',
+            about: 'About',
+            login: 'Log in',
+            signUp: 'Sign Up'
         },
         home: {
             welcome: 'Welcome to MatriCare (New)',
@@ -10,7 +16,13 @@ export const translations = {
     },
     hi: {
         navbar: {
-            home: 'होम'
+            home: 'होम',
+            yoga: 'योग',
+            findCare: 'केयर',
+            analytics: 'एनालिटिक्स',
+            about: 'बारे में',
+            login: 'लॉगिन',
+            signUp: 'साइन अप'
         },
         home: {
             welcome: 'मातृCare में आपका स्वागत है (नया)',
@@ -19,7 +31,13 @@ export const translations = {
     },
     mr: {
         navbar: {
-            home: 'होम'
+            home: 'होम',
+            yoga: 'योग',
+            findCare: 'केयर',
+            analytics: 'एनालिटिक्स',
+            about: 'बारे में',
+            login: 'लॉगिन',
+            signUp: 'साइन अप'
         },
         home: {
             welcome: 'मातृCare मध्ये आपले स्वागत आहे (नवीन)',
@@ -28,7 +46,13 @@ export const translations = {
     },
     ta: {
         navbar: {
-            home: 'முகப்பு'
+            home: 'முகப்பு',
+            yoga: 'யோகா',
+            findCare: 'பராமரிப்பு',
+            analytics: 'பகுப்பாய்வு',
+            about: 'பற்றி',
+            login: 'உள்நுழைக',
+            signUp: 'பதிவு செய்க'
         },
         home: {
             welcome: 'மாத்ரிCare வரவேற்கிறோம் (புதியது)',
