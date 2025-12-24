@@ -4,6 +4,8 @@ import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Health from './pages/Health';
+import Settings from './pages/Settings';
 import './index.css';
 
 const AppContent = () => {
@@ -13,6 +15,8 @@ const AppContent = () => {
             <main>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/health" element={<Health />} />
+                    <Route path="/settings" element={<Settings />} />
                 </Routes>
             </main>
         </div>

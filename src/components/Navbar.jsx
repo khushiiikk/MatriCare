@@ -27,10 +27,10 @@ const Navbar = () => {
 
     const navLinks = [
         { name: t.home, path: '/' },
+        { name: t.health, path: '/health' },
         { name: t.yoga, path: '/yoga' },
-        { name: t.analytics, path: '/analytics' },
         { name: t.findCare, path: '/find-care' },
-        { name: t.about, path: '/about' },
+        { name: t.settings, path: '/settings' },
     ];
 
     return (
@@ -57,7 +57,7 @@ const Navbar = () => {
                     {/* Center: Navigation Pill */}
                     <div className="nav-pill-container">
                         <ul className="nav-pill">
-                            {navLinks.map((link) => (
+                            {navLinks.slice(0, 4).map((link) => (
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
@@ -67,17 +67,24 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                             ))}
+                            <li className="nav-pill-item">
+                                <LanguageSwitcher />
+                            </li>
+                            <li>
+                                <Link
+                                    to="/settings"
+                                    className={`nav-pill-link ${isActive('/settings') ? 'active' : ''}`}
+                                >
+                                    {t.settings}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
                     {/* Right: Actions */}
                     <div className="nav-actions">
-                        <LanguageSwitcher />
                         <Link to="/login" className="nav-action-link login-btn">
                             {t.login}
-                        </Link>
-                        <Link to="/signup" className="nav-action-link signup-btn">
-                            {t.signUp}
                         </Link>
 
                         {/* Mobile Menu Button - inside actions for simplified mobile view */}
@@ -104,9 +111,6 @@ const Navbar = () => {
                         <li className="mobile-actions">
                             <Link to="/login" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                                 {t.login}
-                            </Link>
-                            <Link to="/signup" className="mobile-action-link signup-btn" onClick={() => setIsMobileMenuOpen(false)}>
-                                {t.signUp}
                             </Link>
                         </li>
                     </ul>

@@ -75,11 +75,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .brand-logo {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .navbar-logo-text {
@@ -139,6 +144,26 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
+.nav-pill-item {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.navbar .language-select {
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+}
+
+.navbar .language-select:hover {
+    color: var(--color-primary);
+}
+
 /* Right: Actions */
 .nav-actions {
     display: flex;
@@ -155,14 +180,6 @@
 }
 
 .login-btn {
-    color: #1a1a1a;
-}
-
-.login-btn:hover {
-    color: var(--color-primary);
-}
-
-.signup-btn {
     background: var(--btn-gradient);
     color: #ffffff;
     padding: 10px 24px;
@@ -171,10 +188,14 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.signup-btn:hover {
+.login-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+    color: #ffffff;
 }
+
+/* Removed separate signup-btn styles since they are consolidated */
+
 
 /* Mobile Controls */
 .mobile-menu-btn {
