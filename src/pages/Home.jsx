@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import Particles from '../components/Particles';
@@ -7,6 +7,17 @@ import './Home.css';
 const Home = () => {
     const { language } = useLanguage();
     const t = translations[language].home;
+    const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+    const [isSosOpen, setIsSosOpen] = useState(false);
+    const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
+    // Quote rotation every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentQuoteIndex((prev) => (prev + 1) % t.quotes.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [t.quotes.length]);
 
     return (
         <div className="home-container">
@@ -20,12 +31,15 @@ const Home = () => {
                 <Particles />
                 <div className="container hero-content">
                     <div className="hero-text-wrapper">
-                        <h1 className="hero-titleFadeIn">{t.welcome}</h1>
+                        {/* Use white-space: pre-line for \n support in welcome title */}
+                        <h1 className="hero-titleFadeIn" style={{ whiteSpace: 'pre-line' }}>{t.welcome}</h1>
                         <p className="hero-subtitleFadeIn">{t.subtitle}</p>
 
-                        {/* Quote Box */}
+                        {/* Dynamic Quote Box */}
                         <div className="hero-quote-box">
-                            <p className="hero-quote-text">{t.quote}</p>
+                            <p className="hero-quote-text keyframe-fade">
+                                {t.quotes[currentQuoteIndex]}
+                            </p>
                         </div>
 
                         <div className="hero-cta">
@@ -41,16 +55,41 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Floating SOS Button */}
-                <div className="sos-fab">
-                    <span>SOS</span>
+                {/* Floating SOS Button with Menu */}
+                <div className={`sos-fab-wrapper ${isSosOpen ? 'active' : ''}`}>
+                    <div className="sos-menu">
+                        <a href="tel:100" className="sos-menu-item">{t.helplines.police}</a>
+                        <a href="tel:102" className="sos-menu-item">{t.helplines.ambulance}</a>
+                        <a href="tel:181" className="sos-menu-item">{t.helplines.women}</a>
+                    </div>
+                    <div className="sos-fab" onClick={() => setIsSosOpen(!isSosOpen)}>
+                        <span>SOS</span>
+                    </div>
                 </div>
 
-                {/* AI Assistant Bubble */}
-                <div className="ai-assistant-fab">
-                    <img src="/matri-avatar.png" alt="AI Assistant" className="ai-avatar" />
+                {/* AI Assistant Bubble toggles Chatbot */}
+                <div className="ai-assistant-fab" onClick={() => setIsChatbotOpen(!isChatbotOpen)}>
+                    <img src="/chatbot-girl.jpg" alt="AI Assistant" className="ai-avatar circular-fill-img" />
                     <span className="ai-label">Matri AI Assistant</span>
                 </div>
+
+                {/* Simple Chatbot Overlay */}
+                {isChatbotOpen && (
+                    <div className="chatbot-overlay">
+                        <div className="chatbot-window">
+                            <div className="chatbot-header">
+                                <h3>Matri AI Assistant</h3>
+                                <button className="close-btn" onClick={() => setIsChatbotOpen(false)}>×</button>
+                            </div>
+                            <div className="chatbot-body">
+                                <p className="ai-msg">Hello! I am Matri AI. How can I help you with your pregnancy journey today?</p>
+                            </div>
+                            <div className="chatbot-footer">
+                                <input type="text" placeholder="Type your message..." />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Organic Curve Divider */}
                 <div className="curve-divider">
@@ -87,14 +126,14 @@ const Home = () => {
             {/* Section 3: What We Offer (Leaf Style) */}
             <section className="features-section">
                 <div className="container">
-                    <h2 className="section-title centered">Our Features</h2>
+                    <h2 className="section-title centered">{t.features.title}</h2>
                     <div className="features-grid">
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper">
                                 <img src="/yoga-icon.png" alt="Yoga" className="feature-image" />
                             </div>
-                            <h3>Safe Yoga</h3>
-                            <p>Curated prenatal yoga sessions for every trimester.</p>
+                            <h3>{t.features.yoga.title}</h3>
+                            <p>{t.features.yoga.desc}</p>
                             <button className="feature-read-more">Read More</button>
                         </div>
 
@@ -102,17 +141,17 @@ const Home = () => {
                             <div className="feature-icon-wrapper">
                                 <img src="/tracking-icon.png" alt="Tracking" className="feature-image" />
                             </div>
-                            <h3>Health Tracker</h3>
-                            <p>Monitor your vitals and pregnancy progress daily.</p>
+                            <h3>{t.features.tracking.title}</h3>
+                            <p>{t.features.tracking.desc}</p>
                             <button className="feature-read-more">Read More</button>
                         </div>
 
                         <div className="feature-card-leaf">
-                            <div className="feature-icon-wrapper">
-                                <img src="/care-icon.png" alt="Care" className="feature-image" />
+                            <div className="feature-icon-wrapper circular-fill">
+                                <img src="/find-care-logo.png" alt="Care" className="feature-image" />
                             </div>
-                            <h3>Find Care</h3>
-                            <p>Locate the nearest ASHA centers and hospitals instantly.</p>
+                            <h3>{t.features.care.title}</h3>
+                            <p>{t.features.care.desc}</p>
                             <button className="feature-read-more">Read More</button>
                         </div>
 
@@ -120,8 +159,8 @@ const Home = () => {
                             <div className="feature-icon-wrapper">
                                 <img src="/ai-icon.png" alt="AI Assistant" className="feature-image" />
                             </div>
-                            <h3>AI Support</h3>
-                            <p>24/7 intelligent assistant for all your queries.</p>
+                            <h3>{t.features.assistant.title}</h3>
+                            <p>{t.features.assistant.desc}</p>
                             <button className="feature-read-more">Read More</button>
                         </div>
                     </div>

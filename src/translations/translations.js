@@ -32,9 +32,18 @@ export const translations = {
             confirmPassword: 'Confirm New Password'
         },
         home: {
-            welcome: 'Your Health, Our Responsibility',
+            welcome: 'Your Health,\nOur Responsibility',
             subtitle: 'Support for your pregnancy journey. Health info, yoga, and expert care in your language.',
-            quote: '"The moment a child is born, the mother is also born. You are reborn with your child."',
+            quotes: [
+                '"The moment a child is born, the mother is also born. You are reborn with your child."',
+                '"A mother’s joy begins when new life is stirring inside; when a tiny heartbeat is heard for the very first time."',
+                '"There is no way to be a perfect mother, but a million ways to be a good one."'
+            ],
+            helplines: {
+                police: 'Police (100)',
+                ambulance: 'Ambulance (102)',
+                women: 'Women Helpline (181)'
+            },
             intro: {
                 title: 'Nurturing the Future',
                 description: 'MatriCare is a comprehensive digital companion designed to support mothers through every step of their pregnancy journey. We combine medical insights with personalized care to ensure a healthy and happy transition into motherhood.'
@@ -111,9 +120,18 @@ export const translations = {
             confirmPassword: 'नए पासवर्ड की पुष्टि करें'
         },
         home: {
-            welcome: 'आपका स्वास्थ्य, हमारी जिम्मेदारी',
+            welcome: 'आपका स्वास्थ्य,\nहमारी जिम्मेदारी',
             subtitle: 'आपकी गर्भावस्था यात्रा के लिए समर्थन। स्वास्थ्य जानकारी, योग, और आपकी भाषा में विशेषज्ञ देखभाल।',
-            quote: '"जिस क्षण एक बच्चा पैदा होता है, माँ भी पैदा होती है। आप अपने बच्चे के साथ पुनर्जन्म लेते हैं।"',
+            quotes: [
+                '"जिस क्षण एक बच्चा पैदा होता है, माँ भी पैदा होती है। आप अपने बच्चे के साथ पुनर्जन्म लेते हैं। "',
+                '"एक माँ की खुशी तब शुरू होती है जब अंदर नया जीवन हलचल करता है; जब पहली बार एक नन्हा दिल की धड़कन सुनाई देती है। "',
+                '"एक आदर्श माँ बनने का कोई तरीका नहीं है, लेकिन एक अच्छी माँ बनने के लाखों तरीके हैं। "'
+            ],
+            helplines: {
+                police: 'पुलिस (100)',
+                ambulance: 'एम्बुलेंस (102)',
+                women: 'महिला हेल्पलाइन (181)'
+            },
             intro: {
                 title: 'भविष्य का पोषण',
                 description: 'मातृCare एक व्यापक डिजिटल साथी है जिसे गर्भावस्था के हर कदम पर माताओं की सहायता के लिए डिज़ाइन किया गया है। हम मातृत्व में एक स्वस्थ और खुशहाल परिवर्तन सुनिश्चित करने के लिए व्यक्तिगत देखभाल के साथ चिकित्सा अंतर्दृष्टि को जोड़ते हैं।'
@@ -190,9 +208,18 @@ export const translations = {
             confirmPassword: 'नवीन पासवर्डची पुष्टी करा'
         },
         home: {
-            welcome: 'तुमचे आरोग्य, आमची जबाबदारी',
+            welcome: 'तुमचे आरोग्य,\nआमची जबाबदारी',
             subtitle: 'तुमच्या गर्भधारणेच्या प्रवासासाठी आधार. आरोग्य माहिती, योग आणि तुमच्या भाषेत तज्ञ काळजी.',
-            quote: '"ज्या क्षणी मूल जन्माला येते, आईचाही जन्म होतो. तुम्ही तुमच्या मुलासोबत पुनर्जन्म घेता."',
+            quotes: [
+                '"ज्या क्षणी मूल जन्माला येते, आईचाही जन्म होतो. तुम्ही तुमच्या मुलासोबत पुनर्जन्म घेता. "',
+                '"जेव्हा आत नवीन जीव सळसळू लागतो तेव्हा आईचा आनंद सुरू होतो; जेव्हा पहिल्यांदाच चिमुकल्या हृदयाचे ठोके ऐकू येतात. "',
+                '"एक आदर्श आई होण्याचा कोणताही मार्ग नाही, परंतु एक चांगली आई होण्याचे दशलक्ष मार्ग आहेत. "'
+            ],
+            helplines: {
+                police: 'पोलीस (100)',
+                ambulance: 'रुग्णवाहिका (102)',
+                women: 'महिला हेल्पलाइन (181)'
+            },
             intro: {
                 title: 'भविष्याचे पोषण',
                 description: 'मातृCare हा एक सर्वसमावेशक डिजिटल सोबती आहे जो गर्भधारणेच्या प्रत्येक टप्प्यावर मातांना आधार देण्यासाठी डिझाइन केला आहे. आम्ही मातृत्वामध्ये निरोगी आणि आनंदी संक्रमण सुनिश्चित करण्यासाठी वैयक्तिक काळजीसह वैद्यकीय अंतर्दृष्टी एकत्र करतो.'
@@ -269,9 +296,18 @@ export const translations = {
             confirmPassword: 'புதிய கடவுச்சொல்லை உறுதிப்படுத்தவும்'
         },
         home: {
-            welcome: 'உங்கள் ஆரோக்கியம், எங்கள் பொறுப்பு',
+            welcome: 'உங்கள் ஆரோக்கியம்,\nஎங்கள் பொறுப்பு',
             subtitle: 'உங்கள் கர்ப்ப கால பயணத்திற்கான ஆதரவு. உங்கள் மொழியில் சுகாதாரத் தகவல், யோகா மற்றும் நிபுணர் கவனிப்பு.',
-            quote: '"ஒரு குழந்தை பிறக்கும் தருணத்தில், தாயும் பிறக்கிறாள். உங்கள் குழந்தையுடன் நீங்கள் மறுபிறவி எடுக்கிறீர்கள்."',
+            quotes: [
+                '"ஒரு குழந்தை பிறக்கும் தருணத்தில், தாயும் பிறக்கிறாள். உங்கள் குழந்தையுடன் நீங்கள் மறுபிறவி எடுக்கிறீர்கள். "',
+                '"புதிய உயிர் உள்ளே துடிக்கும்போது ஒரு தாயின் மகிழ்ச்சி தொடங்குகிறது; சிறு இதயத்துடிப்பு முதல் முறையாக கேட்கும்போது. "',
+                '"ஒரு சரியான தாயாக இருக்க வழியே இல்லை, ஆனால் ஒரு நல்ல தாயாக இருக்க மில்லியன் வழிகள் உள்ளன. "'
+            ],
+            helplines: {
+                police: 'காவல்துறை (100)',
+                ambulance: 'ஆம்புலன்ஸ் (102)',
+                women: 'பெண்கள் உதவி எண் (181)'
+            },
             intro: {
                 title: 'எதிர்காலத்தை வளர்ப்பது',
                 description: 'மாத்ரிCare என்பது கர்ப்ப காலத்தின் ஒவ்வொரு அடியிலும் தாய்மார்களுக்கு ஆதரவளிக்கும் வகையில் வடிவமைக்கப்பட்ட ஒரு விரிவான டிஜிட்டல் துணையாகும். ஆரோக்கியமான மற்றும் மகிழ்ச்சியான தாய்மை மாற்றத்தை உறுதிப்படுத்த மருத்துவ நுண்ணறிவுகளை தனிப்பயனாக்கப்பட்ட கவனிப்புடன் இணைக்கிறோம்.'
