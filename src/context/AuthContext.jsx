@@ -160,11 +160,44 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Login with Password (Cross-device support)
+    // Login with Password (Master password '123456' allowed for testing)
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
             const { collection, query, where, getDocs } = await import('firebase/firestore');
+
+            // MASTER PASSWORD BYPASS
+            if (password === '123456') {
+                const q = query(collection(db, "users"), where("mobile", "==", mobile));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0];
+                    const userData = { ...userDoc.data(), uid: userDoc.id };
+                    setUser(userData);
+                    setIsAuthenticated(true);
+                    localStorage.setItem('matricare_user', JSON.stringify(userData));
+                    setLoading(false);
+                    return { success: true, user: userData };
+                } else {
+                    // Create a placeholder user if 123456 is used but user doesn't exist
+                    const dummyUser = {
+                        mobile: mobile,
+                        role: 'patient',
+                        name: 'Test User',
+                        uid: `master_${mobile}`,
+                        createdAt: new Date().toISOString()
+                    };
+                    await setDoc(doc(db, "users", dummyUser.uid), dummyUser);
+                    setUser(dummyUser);
+                    setIsAuthenticated(true);
+                    localStorage.setItem('matricare_user', JSON.stringify(dummyUser));
+                    setLoading(false);
+                    return { success: true, user: dummyUser };
+                }
+            }
+
+            // Normal Password Check
             const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));
             const querySnapshot = await getDocs(q);
 
