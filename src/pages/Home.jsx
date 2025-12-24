@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
+import Particles from '../components/Particles';
 import './Home.css';
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
         <div className="home-container">
             {/* Section 1: Hero */}
             <section className="hero-section">
+                <Particles />
                 <div className="hero-overlay"></div>
                 <div className="container hero-content">
                     <div className="hero-text-wrapper">
