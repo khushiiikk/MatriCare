@@ -1,0 +1,654 @@
+.pregnancy-dashboard {
+    min-height: 100vh;
+    padding: 100px 20px 40px;
+    background: linear-gradient(135deg, #FDF7F8 0%, #FAFAFA 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.pregnancy-dashboard::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.85);
+    /* Balance between readability and background visibility */
+    /* Even more subtle pattern */
+    z-index: 0;
+    pointer-events: none;
+}
+
+.dashboard-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-main-columns {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 30px;
+    align-items: start;
+    margin-bottom: 30px;
+}
+
+.dash-left-col,
+.dash-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-main-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .main-pregnancy-card {
+        height: auto !important;
+        margin-bottom: 20px !important;
+    }
+}
+
+/* Header */
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.user-greeting h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.user-greeting p {
+    margin: 3px 0 0;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.user-details-summary {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.detail-item {
+    font-size: 0.85rem;
+    color: #555;
+    position: relative;
+}
+
+.detail-item:not(:last-child)::after {
+    content: "|";
+    margin-left: 15px;
+    color: #ddd;
+    position: absolute;
+    right: -8px;
+}
+
+.detail-item strong {
+    color: #333;
+    font-weight: 600;
+}
+
+
+
+
+
+/* Main Pregnancy Card - Glassmorphism */
+.main-pregnancy-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    margin-bottom: 0px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.main-pregnancy-card::before {
+    content: "";
+    /* Removed moon emoji */
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2.5rem;
+    opacity: 0.1;
+}
+
+.pregnancy-circle-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.decorative-circle {
+    width: 160px;
+    height: 160px;
+    background: #ffffff;
+    border: 8px solid #FFF5F8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    position: relative;
+}
+
+
+
+.week-display {
+    text-align: center;
+    z-index: 1;
+}
+
+.week-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #333;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.week-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.day-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #AAA;
+    margin-top: 2px;
+}
+
+.pregnant-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+/* Trimester Progress */
+.trimester-progress {
+    margin: 30px 0;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 12px;
+    background: #F0F0F0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 2px 8px rgba(255, 140, 148, 0.3);
+}
+
+.trimester-label {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Weeks Remaining */
+.weeks-remaining {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.remaining-number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #FF8C94;
+}
+
+.remaining-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 3px;
+}
+
+/* Due Date */
+.due-date-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px;
+    background: #FDF7F8;
+    border: 1px solid #FFE4E1;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.due-date-icon {
+    font-size: 2.5rem;
+}
+
+.due-date-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.due-label {
+    font-size: 0.9rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.due-date {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #333;
+    margin-top: 2px;
+}
+
+/* Health Cards */
+.health-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.health-card {
+    background: #ffffff;
+    padding: 12px 15px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border: 1px solid #f0f2f5;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.health-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    border-color: #ffdce1;
+}
+
+.weight-card {
+    border-top: 3px solid #FFCC80;
+}
+
+.hemoglobin-card {
+    border-top: 3px solid #ffab91;
+}
+
+.bp-card {
+    border-top: 3px solid #a5d6a7;
+}
+
+.health-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.health-label {
+    font-size: 0.7rem;
+    color: #9e9e9e;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.health-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2D3436;
+    margin: 4px 0;
+}
+
+.health-badge {
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: inline-block;
+    width: fit-content;
+}
+
+.badge-\#81C784 {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-\#FFB74D {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.badge-\#FF6B6B {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.badge-\#E0E0E0 {
+    background: #f5f5f5;
+    color: #9e9e9e;
+}
+
+.badge-\#FF6B6B {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.badge-\#E0E0E0 {
+    background: #F5F5F5;
+    color: #999;
+}
+
+/* Upload Button */
+.upload-health-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF8C94 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 140, 148, 0.2);
+    transition: all 0.3s;
+    margin-bottom: 20px;
+}
+
+.upload-health-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 140, 148, 0.4);
+}
+
+/* Quick Actions */
+.quick-actions-section {
+    margin-bottom: 30px;
+}
+
+.quick-actions-section h3 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.action-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.action-card {
+    background: linear-gradient(145deg, #fffcfd 0%, #fdf5f6 40%, #f1e9e5 100%);
+    /* Pink to Brownish Shade */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(183, 116, 102, 0.15);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 4px 4px 10px rgba(183, 116, 102, 0.05), -2px -2px 10px rgba(255, 255, 255, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(145deg, #ffffff 0%, #fff1f4 40%, #ede2de 100%);
+    box-shadow: 6px 6px 15px rgba(183, 116, 102, 0.12);
+}
+
+.action-card span {
+    display: block;
+    font-size: 0.85rem;
+    /* Smaller font */
+    font-weight: 700;
+    color: #5d4037;
+    margin-top: 4px;
+}
+
+.action-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.action-icon-img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 182, 193, 0.3);
+    background: white;
+}
+
+.action-icon-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.action-card span {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+}
+
+/* ASHA Worker */
+.asha-worker-card {
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    padding: 15px 18px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    margin-bottom: 20px;
+}
+
+.asha-worker-card h3 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.asha-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.asha-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.asha-details {
+    flex: 1;
+}
+
+.asha-details h4 {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.asha-details p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.asha-call-btn {
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.asha-call-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Info Cards */
+.info-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tip-card-yoga-style {
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-align: left;
+    border: 1px solid #f0f0f0;
+    border-left: 3px solid var(--color-secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease;
+}
+
+.tip-card-yoga-style:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* tip-icon-sm removed */
+
+.tip-card-yoga-style h4 {
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.tip-card-yoga-style p {
+    margin: 0;
+    color: #666;
+    line-height: 1.4;
+    font-size: 0.8rem;
+}
+
+
+
+/* Emergency Bar */
+.emergency-bar {
+    background: #FFFDFD;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #FFCDD2;
+}
+
+.emergency-bar span {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #C62828;
+}
+
+.emergency-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.em-btn {
+    padding: 10px 20px;
+    background: #FF6B6B;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+}
+
+.em-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dash-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .decorative-circle {
+        width: 220px;
+        height: 220px;
+    }
+
+    .week-number {
+        font-size: 4.5rem;
+    }
+
+    .health-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .asha-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .emergency-bar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}

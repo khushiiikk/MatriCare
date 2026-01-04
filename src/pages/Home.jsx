@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { translations } from '../translations/translations';
 import Particles from '../components/Particles';
+import Dashboard from './Dashboard';
 import './Home.css';
+import './AshaVisuals.css';
 
 const Home = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
-    const t = translations[language]?.home || {};
+    const langT = translations[language] || translations.en;
+    const t = langT.home || {};
+    const aboutT = langT.about || {};
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
     const [isSosOpen, setIsSosOpen] = useState(false);
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
@@ -22,178 +27,194 @@ const Home = () => {
         return () => clearInterval(interval);
     }, [t.quotes?.length]);
 
+    const { isAuthenticated } = useAuth();
+
+    // If logged in, show Dashboard instead of Landing Page
+    if (isAuthenticated) {
+        return <Dashboard />;
+    }
+
     return (
         <div className="home-container">
-            {/* Background Decorative Bubbles */}
-            <div className="bubble bubble-1"></div>
-            <div className="bubble bubble-2"></div>
-            <div className="bubble bubble-3"></div>
 
-            {/* Section 1: Hero with Organic Curve */}
+
+            {/* Section 1: Hero */}
             <section className="hero-section">
-                <Particles />
-                <div className="container hero-content">
-                    <div className="hero-text-wrapper">
-                        <h1 className="hero-titleFadeIn">
-                            <span className="title-main">{t.welcomeMain}</span>
+                {/* Background Decorative Circles */}
+                <div className="home-bg-circles">
+                    <div className="circle circle-1"></div>
+                    <div className="circle circle-2"></div>
+                    <div className="circle circle-3"></div>
+                </div>
+
+                <div className="container hero-content-v2">
+                    <div className="hero-text-side">
+                        <h1 className="hero-main-title">
+                            <span className="title-top">{t.welcomeMain}</span>
                             <br />
-                            <span className="title-accent">{t.welcomeAccent}</span>
+                            <span className="title-bottom">{t.welcomeAccent}</span>
                         </h1>
-                        <p className="hero-subtitleFadeIn">{t.subtitle}</p>
+                        <p className="hero-description">{t.subtitle}</p>
 
-                        {/* Dynamic Quote Box */}
-                        <div className="hero-quote-box">
-                            <p className="hero-quote-text keyframe-fade">
-                                {t.quotes[currentQuoteIndex]}
-                            </p>
-                        </div>
-
-                        <div className="hero-cta">
-                            <button className="primary-pill">GET STARTED</button>
-                            <button className="secondary-pill-outline">LEARN MORE</button>
-                        </div>
+                        {/* Rotating Quote Banner */}
+                        {t.quotes && t.quotes.length > 0 && (
+                            <div className="home-quote-banner">
+                                <div className="quote-content">
+                                    <p className="quote-text">{t.quotes[currentQuoteIndex]}</p>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="hero-image-wrapper">
-                        <div className="hero-img-circle-frame">
-                            <img src="/mother-illustration.png" alt="Maternal Care" className="hero-featured-img" />
+                    <div className="hero-image-side">
+                        <div className="circular-frame-large pink-glow floating">
+                            <img src="/mother-final.jpg" alt="Maternal Care" className="hero-main-img" />
                         </div>
                     </div>
                 </div>
 
-                {/* Floating SOS Button with Menu */}
-                <div className={`sos-fab-wrapper ${isSosOpen ? 'active' : ''}`}>
-                    <div className="sos-menu">
-                        <a href="tel:100" className="sos-menu-item">{t.helplines.police}</a>
-                        <a href="tel:102" className="sos-menu-item">{t.helplines.ambulance}</a>
-                        <a href="tel:181" className="sos-menu-item">{t.helplines.women}</a>
+                {/* Floating SOS Button with Hover Menu */}
+                <div className="sos-hover-wrapper">
+                    <div className="sos-menu-v2">
+                        <a href="tel:100" className="sos-menu-item-v2">Police (100)</a>
+                        <a href="tel:102" className="sos-menu-item-v2">Ambulance (102)</a>
+                        <a href="tel:181" className="sos-menu-item-v2">Women (181)</a>
                     </div>
-                    <div className="sos-fab" onClick={() => setIsSosOpen(!isSosOpen)}>
+                    <div className="sos-fab-circular">
                         <span>SOS</span>
                     </div>
                 </div>
 
-                {/* AI Assistant Bubble toggles Chatbot */}
-                <div className="ai-assistant-fab" onClick={() => setIsChatbotOpen(!isChatbotOpen)}>
-                    <img src="/chatbot-girl.jpg" alt="AI Assistant" className="ai-avatar circular-fill-img" />
-                    <span className="ai-label">Matri AI Assistant</span>
-                </div>
-
-                {/* Simple Chatbot Overlay */}
-                {isChatbotOpen && (
-                    <div className="chatbot-overlay">
-                        <div className="chatbot-window">
-                            <div className="chatbot-header">
-                                <h3>Matri AI Assistant</h3>
-                                <button className="close-btn" onClick={() => setIsChatbotOpen(false)}>×</button>
-                            </div>
-                            <div className="chatbot-body">
-                                <p className="ai-msg">Hello! I am Matri AI. How can I help you with your pregnancy journey today?</p>
-                            </div>
-                            <div className="chatbot-footer">
-                                <input type="text" placeholder="Type your message..." />
-                            </div>
-                        </div>
+                <div className="ai-assistant-fab-v3" onClick={() => navigate('/chatbot')}>
+                    <div className="ai-fab-circle">
+                        <img src="/chatbot-new.jpg" alt="AI Assistant" className="ai-fab-img-new" />
                     </div>
-                )}
-
-                {/* Organic Curve Divider */}
-                <div className="curve-divider">
-                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
-                        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5V0Z" opacity=".5" className="shape-fill"></path>
-                        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.41,78.2,34.1,161.45,28.33,240.42,4.89,68.91-20.46,135-50.64,212.58-30.84V0Z" className="shape-fill"></path>
-                    </svg>
+                    <span className="ai-fab-label-v3">AI Assistant</span>
                 </div>
             </section>
 
-            {/* Section 2: Impact Stats */}
-            <section className="stats-section">
-                <div className="container">
-                    <div className="stats-grid">
-                        <div className="stat-item">
-                            <span className="stat-number">5.7k</span>
-                            <span className="stat-label">Safe Deliveries<br />Supported</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-number">68+</span>
-                            <span className="stat-label">ASHA Centers<br />Mapped</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-number">13</span>
-                            <span className="stat-label">States<br />Active</span>
-                        </div>
-                        <div className="stat-social">
-                            <i className="fab fa-facebook"></i>
-                            <i className="fab fa-twitter"></i>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Section 3: What We Offer (Leaf Style) */}
+            {/* Section 2: What We Offer */}
             <section className="features-section">
                 <div className="container">
                     <h2 className="section-title-centered">{t.featuresTitle}</h2>
                     <div className="features-grid">
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
-                                <img src="/yoga-icon.png" alt="Yoga" className="feature-image" />
+                                <img src="/yoga-home-icon-new.jpg" alt="Yoga" className="feature-image" />
                             </div>
-                            <h3>{t.features.yoga.title}</h3>
-                            <p>{t.features.yoga.desc}</p>
-                            <button className="read-more-btn" onClick={() => navigate('/yoga')}>Read More</button>
+                            <h3>{t.features?.yoga?.title || 'Yoga'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/yoga')}>Open</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
-                                <img src="/tracking-icon.png" alt="Tracker" className="feature-image" />
+                                <img src="/health-icon-new.jpg" alt="Tracker" className="feature-image" />
                             </div>
-                            <h3>{t.features.tracker.title}</h3>
-                            <p>{t.features.tracker.desc}</p>
-                            <button className="read-more-btn" onClick={() => navigate('/health')}>Read More</button>
+                            <h3>{t.features?.tracker?.title || 'Tracker'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/health')}>Open</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
-                                <img src="/find-care-logo.png" alt="Care" className="feature-image" />
+                                <img src="/care-icon-new.jpg" alt="Care" className="feature-image" />
                             </div>
-                            <h3>{t.features.care.title}</h3>
-                            <p>{t.features.care.desc}</p>
-                            <button className="read-more-btn" onClick={() => navigate('/find-care')}>Read More</button>
+                            <h3>{t.features?.care?.title || 'Care'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/find-care')}>Open</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
-                                <img src="/chatbot-girl.jpg" alt="AI Support" className="feature-image" />
+                                <img src="/chatbot-new.jpg" alt="AI Support" className="feature-image" />
                             </div>
-                            <h3>{t.features.support.title}</h3>
-                            <p>{t.features.support.desc}</p>
-                            <button className="read-more-btn" onClick={() => setIsChatbotOpen(true)}>Read More</button>
+                            <h3>AI Assistant</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/chatbot')}>Open</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Section 4: Mission & Vision */}
-            <section className="mission-vision-section">
+            {/* Daily Tips Section */}
+            <section className="daily-tips-section">
                 <div className="container">
-                    <div className="mv-grid">
-                        <div className="mv-item">
-                            <div className="mv-content">
-                                <h2 className="section-title">{t.about.mission.title}</h2>
-                                <p className="section-desc">{t.about.mission.desc}</p>
-                            </div>
-                        </div>
-                        <div className="mv-item">
-                            <div className="mv-content">
-                                <h2 className="section-title">{t.about.vision.title}</h2>
-                                <p className="section-desc">{t.about.vision.desc}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <DailyTips user={useAuth().user} />
                 </div>
             </section>
+
+
+        </div>
+    );
+};
+
+// Internal Daily Tips Component
+const DailyTips = ({ user }) => {
+    const [tip, setTip] = useState(null);
+
+    // Mock tips data (can be moved to a separate file later)
+    const tipsByWeek = {
+        default: { week: 'General', text: "Stay hydrated and eat balanced meals for a healthy pregnancy!" },
+        4: { week: 4, text: "Take your prenatal vitamins daily, especially folic acid." },
+        8: { week: 8, text: "Morning sickness? Try eating small, frequent meals." },
+        12: { week: 12, text: "Time for your 12-week scan! seeing your baby is magical." },
+        16: { week: 16, text: "You might start feeling 'flutters' or baby movements soon." },
+        20: { week: 20, text: "Halfway there! Keep active with gentle exercises like yoga." },
+        24: { week: 24, text: "Screening for gestational diabetes usually happens around now." },
+        28: { week: 28, text: "Start counting kicks! Track your baby's movements daily." },
+        32: { week: 32, text: "Pack your hospital bag so you're ready to go!" },
+        36: { week: 36, text: "Rest as much as you can. Your body is doing hard work." },
+        40: { week: 40, text: "Your due date is here! Relax and wait for labor signs." }
+    };
+
+    useEffect(() => {
+        if (user && user.lmpDate) {
+            const lmp = new Date(user.lmpDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - lmp);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const currentWeek = Math.floor(diffDays / 7);
+
+            // Find closest tip or specific week tip
+            // For demo, just showing a tip based on 4-week intervals or default
+            let closeWeek = Object.keys(tipsByWeek)
+                .filter(w => w !== 'default')
+                .reduce((prev, curr) =>
+                    Math.abs(curr - currentWeek) < Math.abs(prev - currentWeek) ? curr : prev
+                );
+
+            setTip(tipsByWeek[closeWeek] || tipsByWeek.default);
+        } else {
+            setTip(tipsByWeek.default);
+        }
+    }, [user]);
+
+    if (!tip) return null;
+
+    const healthTips = [
+        "Include mixed nuts and seeds in your diet for essential fats.",
+        "Stay active by walking for 20 minutes every morning.",
+        "Drink at least 3 liters of water to stay well-hydrated.",
+        "Listen to calm music to help reduce any pregnancy anxiety."
+    ];
+    const generalTip = healthTips[new Date().getDay() % healthTips.length];
+
+    if (!tip) return null;
+
+    return (
+        <div className="tips-grid-yoga-style">
+            <div className="daily-tip-card-yoga fade-in-up">
+                <div className="tip-content-v2">
+                    <h3 className="tip-title-v2">
+                        {user && user.lmpDate ? `Week ${tip.week} Tip` : 'Daily Tip'}
+                    </h3>
+                    <p className="tip-text-v2">"{tip.text}"</p>
+                </div>
+            </div>
+
+            <div className="daily-tip-card-yoga fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <div className="tip-content-v2">
+                    <h3 className="tip-title-v2">Health Tip</h3>
+                    <p className="tip-text-v2">{generalTip}</p>
+                </div>
+            </div>
         </div>
     );
 };

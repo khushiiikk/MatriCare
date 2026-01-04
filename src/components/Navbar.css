@@ -1,11 +1,11 @@
 :root {
-    --color-primary: #ff4d6d;
-    --color-primary-dark: #c9184a;
-    --color-text: #2d2d2d;
-    --color-bg: #ffffff;
+    --color-primary: var(--color-primary);
+    --color-primary-dark: var(--color-primary-dark);
+    --color-text: var(--text-primary);
+    --color-bg: var(--color-white);
     --nav-height: 80px;
-    --nav-pill-bg: #f8f9fa;
-    --btn-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    --nav-pill-bg: var(--color-background);
+    --btn-gradient: var(--btn-gradient);
 }
 
 .navbar {
@@ -89,7 +89,7 @@
 
 .navbar-logo-text {
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 800;
     letter-spacing: -0.5px;
     display: flex;
@@ -98,7 +98,7 @@
 
 .logo-hindi {
     color: var(--color-primary);
-    font-family: 'Merriweather', serif;
+    font-family: var(--font-main);
 }
 
 .logo-english {
@@ -128,7 +128,7 @@
     color: #666;
     padding: 8px 18px;
     border-radius: 100px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     transition: all 0.3s ease;
 }
@@ -139,8 +139,8 @@
 }
 
 .nav-pill-link.active {
-    background: #ffffff;
-    color: #1a1a1a;
+    background: var(--color-white);
+    color: var(--color-primary);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -174,7 +174,7 @@
 
 .nav-action-link {
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
 }
@@ -190,12 +190,167 @@
 
 .login-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+    box-shadow: var(--shadow-md);
     color: #ffffff;
 }
 
 /* Removed separate signup-btn styles since they are consolidated */
 
+.nav-profile-link {
+    display: block;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #AD1457;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.nav-profile-link:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(173, 20, 87, 0.3);
+}
+
+.nav-user-pfp {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-logout-btn {
+    background: white;
+    border: 1px solid #FFCDD2;
+    color: #D32F2F;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-logout-btn:hover {
+    background: #FFEBEE;
+    transform: scale(1.05);
+}
+
+.logout-btn-mobile {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #FFCDD2;
+}
+
+/* Profile Dropdown Styles */
+.profile-menu-container {
+    position: relative;
+}
+
+.nav-profile-btn {
+    display: block;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #AD1457;
+    transition: transform 0.2s;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+}
+
+.nav-profile-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(173, 20, 87, 0.3);
+}
+
+.profile-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    z-index: 1000;
+    overflow: hidden;
+    animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-header {
+    padding: 15px;
+    background: linear-gradient(135deg, #F8BBD0 0%, #FCE4EC 100%);
+    border-bottom: 1px solid #F8BBD0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dropdown-user-name {
+    font-weight: 700;
+    color: #880E4F;
+    font-size: 1rem;
+}
+
+.dropdown-user-role {
+    font-size: 0.75rem;
+    color: #AD1457;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+    background: #F5F5F5;
+}
+
+.dropdown-icon {
+    font-size: 1.1rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #E0E0E0;
+    margin: 5px 0;
+}
+
+.logout-item {
+    color: #D32F2F;
+}
+
+.logout-item:hover {
+    background: #FFEBEE;
+}
 
 /* Mobile Controls */
 .mobile-menu-btn {

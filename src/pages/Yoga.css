@@ -1,0 +1,11 @@
+.yoga-container {
+    padding: 120px 0 60px;
+    background-color: var(--color-background);
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .yoga-container {
+        padding: 100px 0 40px;
+    }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Risk Analysis Result</title>
+</head>
+<body>
+    <h2>Pregnancy Risk Assessment</h2>
+
+    <p><strong>Beta-HCG Value:</strong> {{ hcg }} mIU/mL</p>
+    <p><strong>Risk Level:</strong> {{ level }}</p>
+
+    <h3>Risk Visualization</h3>
+    <img src="{{ url_for('static', filename='risk_bar.png') }}" alt="Risk Visualization">
+
+
+    <h3>Explanation</h3>
+    <p>{{ explanation }}</p>
+
+    <h3>Advice</h3>
+    <ul>
+        {% for item in advice %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="/">Analyze another report</a>
+</body>
+</html>

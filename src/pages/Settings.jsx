@@ -8,21 +8,25 @@ import './Settings.css';
 const Settings = () => {
     const { language } = useLanguage();
     const { currentUser } = useAuth();
-    const t = translations[language];
-    const pt = t.profile;
-    const st = t.security;
+    const langT = translations[language] || translations.en;
+    const pt = langT.profile || {};
+    const st = langT.security || {};
 
     const [activeTab, setActiveTab] = useState('profile');
 
-    // Mock user data - in a real app, this would come from AuthContext or Firestore
     const [userData, setUserData] = useState({
         name: currentUser?.displayName || 'User Name',
         village: 'Kalyanpur',
         state: 'Uttar Pradesh',
         address: 'House No. 12, Main Road',
         age: 26,
-        lmpDate: '2024-10-15', // Example LMP date
+        lmpDate: '2024-10-15',
         weight: 62,
+        height: 158,
+        bloodGroup: 'O+',
+        conditions: 'None',
+        gravida: 1,
+        para: 0,
         phone: currentUser?.phoneNumber || '+91 9876543210'
     });
 
@@ -71,35 +75,55 @@ const Settings = () => {
                             </div>
 
                             <form className="settings-form">
-                                <div className="form-grid">
+                                <div className="form-group">
+                                    <label>{pt.village}</label>
+                                    <input type="text" name="village" value={userData.village} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.state}</label>
+                                    <input type="text" name="state" value={userData.state} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.address}</label>
+                                    <textarea name="address" value={userData.address} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.age}</label>
+                                    <input type="number" name="age" value={userData.age} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.weight} (kg)</label>
+                                    <input type="number" name="weight" value={userData.weight} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Height (cm)</label>
+                                    <input type="number" name="height" value={userData.height} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Blood Group</label>
+                                    <input type="text" name="bloodGroup" value={userData.bloodGroup} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Chronic Conditions</label>
+                                    <input type="text" name="conditions" value={userData.conditions} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-grid-inner">
                                     <div className="form-group">
-                                        <label>{pt.village}</label>
-                                        <input type="text" name="village" value={userData.village} onChange={handleInputChange} />
+                                        <label>Gravida (Pregnancies)</label>
+                                        <input type="number" name="gravida" value={userData.gravida} onChange={handleInputChange} />
                                     </div>
                                     <div className="form-group">
-                                        <label>{pt.state}</label>
-                                        <input type="text" name="state" value={userData.state} onChange={handleInputChange} />
+                                        <label>Para (Live Births)</label>
+                                        <input type="number" name="para" value={userData.para} onChange={handleInputChange} />
                                     </div>
-                                    <div className="form-group full-width">
-                                        <label>{pt.address}</label>
-                                        <textarea name="address" value={userData.address} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{pt.age}</label>
-                                        <input type="number" name="age" value={userData.age} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{pt.weight} (kg)</label>
-                                        <input type="number" name="weight" value={userData.weight} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{pt.edd}</label>
-                                        <div className="static-value">{edd}</div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{pt.currentWeek}</label>
-                                        <div className="static-value">{pregnancyWeek} Weeks</div>
-                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.edd}</label>
+                                    <div className="static-value">{edd}</div>
+                                </div>
+                                <div className="form-group">
+                                    <label>{pt.currentWeek}</label>
+                                    <div className="static-value">{pregnancyWeek} Weeks</div>
                                 </div>
                                 <button type="button" className="save-btn">{pt.save}</button>
                             </form>

@@ -1,0 +1,223 @@
+.medical-analysis-tool {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+}
+
+.analysis-header h3 {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+    color: #444;
+    font-weight: 700;
+}
+
+.analysis-header p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.compact-upload-zone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 10px;
+    border: 1px dashed #ddd;
+}
+
+.mini-upload-btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #880E4F;
+    cursor: pointer;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #880E4F;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.mini-upload-btn:hover {
+    background: #FFF5F7;
+}
+
+.mini-analyze-btn {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    background: #880E4F;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mini-analyze-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.metrics-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.mini-metric-card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.m-name {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.m-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #333;
+}
+
+.m-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.m-badge.normal {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.m-badge.low,
+.m-badge.high {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.insight-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #F3E5F5;
+    border-radius: 12px;
+    border-left: 4px solid #880E4F;
+}
+
+.insight-section h4 {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: #4A148C;
+}
+
+.insight-text {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #444;
+    line-height: 1.5;
+}
+
+.analysis-grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.risk-box h4,
+.tips-box h4 {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.risk-item {
+    margin-bottom: 15px;
+}
+
+.risk-level {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.risk-level.low {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.risk-level.high {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.risk-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #444;
+}
+
+.risk-detail {
+    margin: 5px 0 0;
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.tips-box ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.tips-box li {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .analysis-grid-two {
+        grid-template-columns: 1fr;
+    }
+}

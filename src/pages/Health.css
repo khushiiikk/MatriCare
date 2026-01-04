@@ -1,0 +1,1163 @@
+.health-container {
+    padding: 100px 0 60px;
+    background-color: var(--color-background);
+    min-height: 100vh;
+}
+
+/* Dashboard Grid Styles (Matching Yoga Page) */
+.health-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* Creative Health Cards with Images */
+.health-option-card-creative {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.health-option-card-creative:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(173, 20, 87, 0.2);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, #FFF5F8 0%, #F0F4FF 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
+    top: -25%;
+    left: -25%;
+}
+
+.card-illustration {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 182, 193, 0.2);
+}
+
+.health-option-card-creative:hover .card-illustration {
+    transform: scale(1.05);
+}
+
+.card-content-creative {
+    padding: 30px;
+    text-align: center;
+}
+
+.card-content-creative h2 {
+    font-family: var(--font-main);
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0 0 15px;
+}
+
+.card-content-creative p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+.health-card-btn-creative {
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF8C94 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 140, 148, 0.3);
+}
+
+.health-card-btn-creative:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 140, 148, 0.4);
+}
+
+/* Keep old styles for backward compatibility */
+.health-option-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Soft shadow like Yoga */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.health-option-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(173, 20, 87, 0.15);
+    /* Pinkish shadow */
+    border-color: #AD1457;
+}
+
+.health-card-icon-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 25px;
+    background: #FFF0F5;
+    /* Light pink bg */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #AD1457;
+    border: 3px solid rgba(173, 20, 87, 0.1);
+    transition: all 0.3s ease;
+}
+
+.health-option-card:hover .health-card-icon-circle {
+    background: #AD1457;
+    color: white;
+    transform: scale(1.1);
+}
+
+.health-option-card h2 {
+    font-family: var(--font-main);
+    font-size: 1.5rem;
+    color: #4A3A2C;
+    margin-bottom: 12px;
+}
+
+.health-option-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+.health-card-btn {
+    background: transparent;
+    color: #AD1457;
+    border: 2px solid #AD1457;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.health-option-card:hover .health-card-btn {
+    background: #AD1457;
+    color: white;
+}
+
+/* Detail View Header */
+.detail-view-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.back-btn-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn-circle:hover {
+    background: #AD1457;
+    color: white;
+    border-color: #AD1457;
+    transform: translateX(-3px);
+}
+
+.health-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.health-header h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    margin-bottom: 10px;
+}
+
+.health-header p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* Tab Navigation */
+.health-tabs {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: white;
+    border: 2px solid var(--color-secondary);
+    color: var(--color-primary);
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(226, 181, 154, 0.3);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #d4a59a 100%);
+    color: white;
+    border-color: var(--color-secondary);
+}
+
+/* Tab Content */
+.tab-content {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Health Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.metric-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(226, 181, 154, 0.2);
+    border-color: var(--color-secondary);
+}
+
+.metric-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.metric-card h3 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.normal {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+/* Health Chart */
+.health-chart-placeholder {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.health-chart-placeholder h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+}
+
+.chart-visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 200px;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.chart-bar {
+    flex: 1;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #d4a59a 100%);
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+    opacity: 0.8;
+    transform: scaleY(1.05);
+}
+
+.chart-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Milestones Timeline */
+.milestones-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.milestone-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--color-secondary);
+}
+
+.milestone-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 10px 30px rgba(226, 181, 154, 0.2);
+}
+
+.milestone-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.milestone-content {
+    flex: 1;
+}
+
+.milestone-week {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #d4a59a 100%);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.milestone-card h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.milestone-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Appointments List */
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.appointment-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.appointment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(226, 181, 154, 0.2);
+}
+
+.apt-date {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 25px;
+    border-right: 2px solid #f0f0f0;
+}
+
+.date-icon {
+    font-size: 2.5rem;
+}
+
+.apt-day {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.apt-time {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.apt-details {
+    flex: 1;
+}
+
+.apt-details h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.apt-details p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.apt-btn {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #d4a59a 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.apt-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(226, 181, 154, 0.4);
+}
+
+/* Pregnancy Risks Section */
+.risks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.risk-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    border-left: 4px solid #FFA726;
+}
+
+.risk-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 167, 38, 0.2);
+}
+
+.severity-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.severity-badge.low {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.severity-badge.moderate {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+
+.severity-badge.high {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.risk-card h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    font-weight: 700;
+    padding-right: 100px;
+}
+
+.risk-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.prevention-section {
+    background: #F5F5F5;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.prevention-section strong {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.prevention-section p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Risk Symptoms Section */
+.symptoms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.symptom-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid #E91E63;
+}
+
+.symptom-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+}
+
+.symptom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 15px;
+}
+
+.symptom-card h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0;
+}
+
+.urgency-badge {
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.urgency-badge.critical {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+.urgency-badge.high {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+
+.urgency-badge.moderate {
+    background: #FFF9C4;
+    color: #F57F17;
+}
+
+.symptom-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.action-box {
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 3px solid #F57C00;
+}
+
+.action-box strong {
+    color: #E65100;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.action-box p {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --- Professional Upload UI v2 --- */
+.section-title-clean {
+    font-family: var(--font-main);
+    font-size: 1.3rem;
+    /* Smaller, professional font */
+    color: #4A3A2C;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.section-subtitle-clean {
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.upload-dropzone-v2 {
+    border: 2px dashed #E0E0E0;
+    border-radius: 12px;
+    background: #FFFCFA;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    max-width: 500px;
+    /* Reduced width */
+    margin: 0 auto 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-dropzone-v2:hover {
+    border-color: #AD1457;
+    background: #FFF5F7;
+}
+
+.upload-dropzone-v2.has-file {
+    border-style: solid;
+    border-color: #4CAF50;
+    background: #F1F8E9;
+}
+
+.upload-label-v2 {
+    display: block;
+    padding: 30px;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.state-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.upload-icon-clean {
+    font-size: 2rem;
+    color: #AD1457;
+    margin-bottom: 5px;
+}
+
+.upload-main-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #555;
+    margin: 0;
+}
+
+.upload-sub-text {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+/* File Uploaded State */
+.file-icon-clean {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.file-name-clean {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.file-action-clean {
+    font-size: 0.75rem;
+    color: #4CAF50;
+}
+
+/* Spinner */
+.spinner-v2 {
+    width: 25px;
+    height: 25px;
+    border: 3px solid rgba(173, 20, 87, 0.1);
+    border-top: 3px solid #AD1457;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+.state-text {
+    font-size: 0.9rem;
+    color: #AD1457;
+    font-weight: 500;
+}
+
+/* Old PDF Upload Section (removed to avoid clutter) */
+/*
+.upload-section {
+    margin-bottom: 40px;
+}
+
+.upload-section h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.upload-dropzone {
+    border: 3px dashed var(--color-secondary);
+    border-radius: 20px;
+    padding: 40px;
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    transition: all 0.3s ease;
+}
+
+.upload-dropzone:hover {
+    border-color: #d4a59a;
+    background: linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%);
+}
+
+.upload-label {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+}
+
+.upload-prompt,
+.file-uploaded,
+.analyzing-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-icon,
+.file-icon {
+    font-size: 4rem;
+}
+
+.upload-prompt p,
+.file-uploaded p {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin: 0;
+}
+
+.upload-prompt small,
+.file-uploaded small {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+*/
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--color-secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.analyzing-state p {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* AI Summary Card */
+.ai-summary-card {
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    border-left: 4px solid #2196F3;
+}
+
+.ai-summary-card h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.summary-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.risk-level-badge {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.risk-level-badge.low {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.risk-level-badge.moderate {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+
+.risk-level-badge.high {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+/* Extracted Metrics */
+.extracted-metrics {
+    margin-bottom: 30px;
+}
+
+.extracted-metrics h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.metrics-grid-analytics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.metric-box {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.3s ease;
+}
+
+.metric-box:hover {
+    transform: translateY(-3px);
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.metric-val {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.normal-range {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Trend Chart Section */
+.trend-chart-section {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.trend-chart-section h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+/* Suggestions Section */
+.suggestions-section {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.suggestions-section h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suggestion-item {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 15px;
+    background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+    border-radius: 12px;
+}
+
+.suggestion-number {
+    background: var(--color-secondary);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.suggestion-item p {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Report History Section */
+.report-history-section {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.report-history-section h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #F9F9F9;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--color-secondary);
+}
+
+.history-item:hover {
+    background: #F0F0F0;
+    transform: translateX(5px);
+}
+
+.history-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 140px;
+}
+
+.date-icon {
+    font-size: 1.5rem;
+}
+
+.history-date span:last-child {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.history-details {
+    flex: 1;
+}
+
+.history-details h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.history-details p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.history-risk-badge {
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.history-risk-badge.low {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.history-risk-badge.moderate {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+
+@media (max-width: 768px) {
+    .health-header h1 {
+        font-size: 2rem;
+    }
+
+    .health-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .appointment-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .apt-date {
+        border-right: none;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 15px;
+        padding-right: 0;
+    }
+}

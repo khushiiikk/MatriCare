@@ -1,0 +1,213 @@
+/* ASHA Worker Patient List Styles - Ultra Compact Sidebar */
+.asha-patients-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    height: 100%;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.asha-patients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.asha-patients-header h3 {
+    margin: 0;
+    font-size: 0.85rem;
+    /* Reduced */
+    color: #444;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.sort-select {
+    padding: 3px 6px;
+    border-radius: 4px;
+    border: 1px solid #d0d0d0;
+    font-size: 0.65rem;
+    /* Reduced */
+    color: #555;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.patients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.patient-card {
+    background: #ffffff;
+    border: 1px solid #eef0f2;
+    border-radius: 6px;
+    padding: 8px 10px;
+    /* Reduced vertical padding */
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.patient-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    border-color: #FFB6C1;
+}
+
+.patient-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* Aligns name top with badge top */
+    margin-bottom: 6px;
+}
+
+.patient-basic-info h4 {
+    margin: 0;
+    font-size: 0.8rem;
+    /* Reduced */
+    color: #2c3e50;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.patient-age-week {
+    font-size: 0.65rem;
+    /* Reduced */
+    color: #888;
+    display: block;
+    margin-top: 1px;
+}
+
+.risk-badge {
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: white;
+    font-size: 0.55rem;
+    /* Very small */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1;
+}
+
+.patient-health-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
+    padding: 5px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #f1f3f5;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 0.55rem;
+    /* Reduced */
+    color: #adb5bd;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+.metric-value {
+    font-size: 0.75rem;
+    /* Significantly reduced from image appearance */
+    font-weight: 600;
+    color: #495057;
+    line-height: 1.1;
+}
+
+.metric-status {
+    font-size: 0.55rem;
+    font-weight: 600;
+    margin-top: 1px;
+}
+
+.patient-location-info {
+    margin-bottom: 6px;
+    padding: 0;
+    /* Removed container padding/bg to clean up look */
+}
+
+.location-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.address-text {
+    font-size: 0.65rem;
+    color: #666;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.distance-text {
+    font-size: 0.6rem;
+    color: #999;
+}
+
+.patient-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.action-btn {
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    /* Reduced */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.call-btn {
+    background: #ffffff;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.call-btn:hover {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+}
+
+.map-btn {
+    background: #ffffff;
+    color: #1565c0;
+    border: 1px solid #bbdefb;
+}
+
+.map-btn:hover {
+    background: #e3f2fd;
+    border-color: #90caf9;
+}
+
+@media (max-width: 1200px) {
+    .patient-health-metrics {
+        grid-template-columns: repeat(3, 1fr);
+        /* Keep 3 cols even on medium screens for compactness */
+    }
+}

@@ -59,30 +59,26 @@ const FindCare = () => {
         {
             id: 'asha',
             name: 'ASHA Center',
-            icon: '👩‍⚕️',
             query: 'ASHA center',
-            img: '/care-icon.png'
+            img: '/asha-logo.jpg'
         },
         {
             id: 'hospital',
             name: 'Govt Hospital',
-            icon: '🏥',
             query: 'government hospital',
-            img: '/care-icon.png'
+            img: '/hospital-icon.jpg'
         },
         {
             id: 'ambulance',
             name: 'Ambulance',
-            icon: '🚑',
             query: 'ambulance service',
-            img: '/care-icon.png' // Use generated care icon for now
+            img: '/ambulance-icon.jpg'
         },
         {
             id: 'pharmacy',
             name: 'Pharmacy',
-            icon: '💊',
             query: 'pharmacy',
-            img: '/pharmacy-icon.png' // Placeholder, will use generated icons later
+            img: '/pharmacy-icon.jpg'
         }
     ];
 
@@ -96,20 +92,21 @@ const FindCare = () => {
             <div className="container">
                 <div className="find-care-header">
                     <h1>Find Healthcare</h1>
-                    <p>Locate nearby ASHA centers and Hospitals instantly</p>
+                    <p>Locate nearby ASHA centers and Hospitals</p>
                 </div>
 
+                {/* Side-by-side layout: Map left, Options right */}
                 <div className="find-care-layout">
-                    {/* Map Section */}
-                    <div className="map-section">
+                    {/* Map Section - Left side */}
+                    <div className="map-section-left">
                         {loading ? (
                             <div className="map-loader">
                                 <div className="loader"></div>
                                 <p>Finding your location...</p>
                             </div>
                         ) : (
-                            <div className="map-wrapper">
-                                <MapContainer center={[location.lat, location.lng]} zoom={15} className="leaflet-map">
+                            <div className="map-card-wrapper">
+                                <MapContainer center={[location.lat, location.lng]} zoom={15} className="leaflet-map-large">
                                     <TileLayer
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -124,24 +121,21 @@ const FindCare = () => {
                         {error && <p className="location-error">{error}</p>}
                     </div>
 
-                    {/* Vertical Sidebar Section */}
-                    <div className="categories-sidebar">
-                        <h2 className="sidebar-title">Emergency Categories</h2>
-                        <div className="categories-vertical-grid">
+                    {/* Emergency Categories Section - Right side, vertical */}
+                    <div className="emergency-section-right">
+                        <h2 className="section-title-right">Emergency Categories</h2>
+                        <div className="emergency-grid-vertical">
                             {categories.map((cat) => (
-                                <div
-                                    key={cat.id}
-                                    className="care-category-card"
-                                    onClick={() => openMapsSearch(cat.query)}
-                                >
-                                    <div className="cat-card-img-wrapper">
-                                        <img src={cat.img} alt={cat.name} className="cat-card-img" />
+                                <div key={cat.id} className="emergency-card-vertical floating-subtle" onClick={() => openMapsSearch(cat.query)}>
+                                    <div className="emergency-icon-box">
+                                        <img src={cat.img} alt={cat.name} className="emergency-img" />
                                     </div>
-                                    <div className="cat-card-info">
+                                    <div className="emergency-card-content">
                                         <h3>{cat.name}</h3>
-                                        <p>Find nearby {cat.name.toLowerCase()} services</p>
+                                        <div className="open-maps-link">
+                                            Open in Maps →
+                                        </div>
                                     </div>
-                                    <div className="cat-card-arrow">→</div>
                                 </div>
                             ))}
                         </div>

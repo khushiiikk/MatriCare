@@ -94,9 +94,9 @@
     color: #666;
 }
 
-.settings-form .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.settings-form {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
@@ -106,9 +106,13 @@
     gap: 8px;
 }
 
-.form-group.full-width {
-    grid-column: span 2;
+.form-grid-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
+
+
 
 .form-group label {
     font-size: 0.85rem;

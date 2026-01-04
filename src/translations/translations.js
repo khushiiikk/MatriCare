@@ -35,12 +35,7 @@ export const translations = {
             welcome: 'Your Health, Our Responsibility',
             welcomeMain: 'Your Health,',
             welcomeAccent: 'Our Responsibility',
-            subtitle: 'Support for your pregnancy journey. Health info, yoga, and expert care in your language.',
-            quotes: [
-                '"The moment a child is born, the mother is also born. You are reborn with your child."',
-                '"A mother’s joy begins when new life is stirring inside; when a tiny heartbeat is heard for the very first time."',
-                '"There is no way to be a perfect mother, but a million ways to be a good one."'
-            ],
+            subtitle: 'Tracker, Yoga, and AI support in your language.',
             helplines: {
                 police: 'Police (100)',
                 ambulance: 'Ambulance (102)',
@@ -53,37 +48,67 @@ export const translations = {
                 care: { title: 'Find Care', desc: 'Nearby centers & hospitals.' },
                 support: { title: 'AI Assistant', desc: 'Instant support 24/7.' }
             },
-            title: 'Nurturing the Future',
-            description: 'MatriCare is a comprehensive digital companion designed to support mothers through every step of their pregnancy journey. We combine medical insights with personalized care to ensure a healthy and happy transition into motherhood.'
+            description: 'MatriCare: Your digital companion for a safe pregnancy.',
+            quotes: [
+                'Every mother deserves care, compassion, and support.',
+                'Your health is our priority, every step of the way.',
+                'Together, we ensure safe pregnancies and healthy babies.',
+                'Empowering mothers with knowledge and care.',
+                'A healthy mother means a healthy baby.'
+            ]
         },
         features: {
-            title: 'What We Offer',
-            yoga: {
-                title: 'Specialized Yoga',
-                desc: 'Curated exercises for every trimester to keep you fit and relaxed.'
-            },
-            tracking: {
-                title: 'Health Tracking',
-                desc: 'Monitor your progress with our intelligent analytics and checkups.'
-            },
-            care: {
-                title: 'Find Care',
-                desc: 'Quick access to hospitals, ambulances, and ASHA centers near you.'
-            },
-            assistant: {
-                title: 'AI Assistant',
-                desc: '24/7 support for your queries using our intelligent chatbot.'
-            }
+            title: 'Our Features',
+            yoga: { title: 'Safe Yoga', desc: 'Trimester-specific plans.' },
+            tracking: { title: 'Health Tracking', desc: 'Monitor your vitals.' },
+            care: { title: 'Find Care', desc: 'Hospitals & ASHA centers.' },
+            assistant: { title: 'AI Assistant', desc: '24/7 instant support.' }
         },
         about: {
             mission: {
                 title: 'Our Mission',
-                desc: 'To provide accessible, high-quality maternal health support to every mother, regardless of location.'
+                desc: 'High-quality health support for every mother.'
             },
             vision: {
                 title: 'Our Vision',
-                desc: 'A world where every pregnancy is safe, supported, and celebrated through innovation.'
+                desc: 'Safe and celebrated pregnancy through innovation.'
             }
+        },
+        healthHub: {
+            title: 'Health & Knowledge Hub',
+            analyzeCard: {
+                title: 'Analyze Your Report',
+                dragText: 'Drag & drop your report here, or click to browse',
+                button: 'Upload Medical Report',
+                footer: 'Upload reports for AI insights.'
+            },
+            riskCard: {
+                title: 'Pregnancy Risk Guide',
+                risks: ['Preeclampsia', 'Gestational Diabetes', 'Anemia'],
+                button: 'Read Risk Factors'
+            },
+            symptomCard: {
+                title: 'Symptom Dictionary',
+                symptoms: ['Morning Sickness', 'Fatigue', 'Swelling'],
+                button: 'Browse Symptoms'
+            }
+        },
+        chatbot: {
+            title: 'Matri AI Assistant',
+            onlineStatus: 'Online',
+            welcomeMessage: 'Hello! I am Matri AI. How can I help you with your pregnancy journey today?',
+            placeholder: 'Ask me anything...',
+            devResponse: "I'm Matri, your AI assistant. You can ask me about yoga, medical reports, finding care, or pregnancy risks!"
+        },
+        yoga: {
+            pageTitle: 'Pregnancy Yoga',
+            pageSubtitle: 'Select your trimester',
+            trimester1: '1st Trimester',
+            trimester2: '2nd Trimester',
+            trimester3: '3rd Trimester',
+            trimester1Desc: 'Gentle exercises for early pregnancy.',
+            trimester2Desc: 'Strength and focus for mid-pregnancy.',
+            trimester3Desc: 'Breath and body prep for delivery.'
         },
         footer: {
             copyright: '© 2024 MatriCare. All rights reserved.',
@@ -130,12 +155,7 @@ export const translations = {
             welcome: 'आपका स्वास्थ्य, हमारी जिम्मेदारी',
             welcomeMain: 'आपका स्वास्थ्य,',
             welcomeAccent: 'हमारी जिम्मेदारी',
-            subtitle: 'आपकी गर्भावस्था यात्रा के लिए समर्थन। स्वास्थ्य जानकारी, योग, और आपकी भाषा में विशेषज्ञ देखभाल।',
-            quotes: [
-                '"जिस क्षण एक बच्चा पैदा होता है, माँ भी पैदा होती है। आप अपने बच्चे के साथ पुनर्जन्म लेते हैं। "',
-                '"एक माँ की खुशी तब शुरू होती है जब अंदर नया जीवन हलचल करता है; जब पहली बार एक नन्हा दिल की धड़कन सुनाई देती है। "',
-                '"एक आदर्श माँ बनने का कोई तरीका नहीं है, लेकिन एक अच्छी माँ बनने के लाखों तरीके हैं। "'
-            ],
+            subtitle: 'ट्रैकर, योग और एआई सहायता। आपकी भाषा में।',
             helplines: {
                 police: 'पुलिस (100)',
                 ambulance: 'एम्बुलेंस (102)',
@@ -148,37 +168,54 @@ export const translations = {
                 care: { title: 'देखभाल खोजें', desc: 'पास के केंद्र और अस्पताल।' },
                 support: { title: 'एआई सहायक', desc: 'त्वरित सहायता 24/7।' }
             },
-            title: 'भविष्य का पोषण',
-            description: 'मातृCare एक व्यापक डिजिटल साथी है जिसे गर्भावस्था के हर कदम पर माताओं की सहायता के लिए डिज़ाइन किया गया है। हम मातृत्व में एक स्वस्थ और खुशहाल परिवर्तन सुनिश्चित करने के लिए व्यक्तिगत देखभाल के साथ चिकित्सा अंतर्दृष्टि को जोड़ते हैं।'
+            description: 'मातृCare: सुरक्षित गर्भावस्था के लिए आपका डिजिटल साथी।'
         },
         features: {
-            title: 'हमारी सेवाएँ',
-            yoga: {
-                title: 'विशेष योग',
-                desc: 'आपको फिट और तनावमुक्त रखने के लिए हर तिमाही के लिए चुनिंदा व्यायाम।'
+            title: 'हमारी विशेषताएं',
+            yoga: { title: 'सुरक्षित योग', desc: 'हर तिमाही की योजना।' },
+            tracking: { title: 'स्वास्थ्य ट्रैकिंग', desc: 'विटल्स मॉनिटर करें।' },
+            care: { title: 'देखभाल खोजें', desc: 'हॉस्पिटल और आशा।' },
+            assistant: { title: 'एआई सहायक', desc: '24/7 सहायता।' }
+        },
+        healthHub: {
+            title: 'स्वास्थ्य और ज्ञान केंद्र',
+            analyzeCard: {
+                title: 'अपनी रिपोर्ट का विश्लेषण करें',
+                dragText: 'अपनी रिपोर्ट यहां ड्रैग एंड ड्रॉप करें, या ब्राउज़ करने के लिए क्लिक करें',
+                button: 'मेडिकल रिपोर्ट अपलोड करें',
+                footer: 'एआई अंतर्दृष्टि के लिए रिपोर्ट अपलोड करें।'
             },
-            tracking: {
-                title: 'स्वास्थ्य ट्रैकिंग',
-                desc: 'हमारे बुद्धिमान विश्लेषण और चेकअप के साथ अपनी प्रगति की निगरानी करें।'
+            riskCard: {
+                title: 'गर्भावस्था जोखिम गाइड',
+                risks: ['प्री-एक्लेम्पसिया', 'गर्भकालीन मधुमेह', 'एनीमिया'],
+                button: 'जोखिम कारक पढ़ें'
             },
-            care: {
-                title: 'देखभाल खोजें',
-                desc: 'अपने पास के अस्पतालों, एम्बुलेंस और आशा केंद्रों तक त्वरित पहुँच।'
-            },
-            assistant: {
-                title: 'एआई सहायक',
-                desc: 'हमारे बुद्धिमान चैटबॉट का उपयोग करके आपके प्रश्नों के लिए 24/7 सहायता।'
+            symptomCard: {
+                title: 'लक्षण शब्दकोश',
+                symptoms: ['मॉर्निंग सिकनेस', 'थकान', 'सूजन'],
+                button: 'लक्षण ब्राउज़ करें'
             }
         },
         about: {
-            mission: {
-                title: 'हमारा मिशन',
-                desc: 'स्थान की परवाह किए बिना हर माँ को सुलभ, उच्च गुणवत्ता वाली मातृ स्वास्थ्य सहायता प्रदान करना।'
-            },
-            vision: {
-                title: 'हमारा दृष्टिकोण',
-                desc: 'एक ऐसी दुनिया जहां हर गर्भावस्था सुरक्षित, समर्थित और नवाचार के माध्यम से मनाई जाती है।'
-            }
+            mission: { title: 'हमारा मिशन', desc: 'हर माँ को उच्च गुणवत्ता वाली मातृ स्वास्थ्य सहायता।' },
+            vision: { title: 'हमारा दृष्टिकोण', desc: 'सुरक्षित गर्भावस्था, नवाचार के माध्यम से।' }
+        },
+        chatbot: {
+            title: 'मातृ एआई सहायक',
+            onlineStatus: 'ऑनलाइन',
+            welcomeMessage: 'नमस्ते! मैं मातृ एआई हूं। मैं आपकी गर्भावस्था यात्रा में कैसे मदद कर सकती हूं?',
+            placeholder: 'मुझसे कुछ भी पूछें...',
+            devResponse: 'मैं मातृ हूं, आपकी एआई सहायक। आप मुझसे योग, मेडिकल रिपोर्ट, देखभाल खोजने या गर्भावस्था के जोखिमों के बारे में पूछ सकती हैं!'
+        },
+        yoga: {
+            pageTitle: 'गर्भावस्था योग',
+            pageSubtitle: 'तिमाही चुनें',
+            trimester1: 'पहली तिमाही',
+            trimester2: 'दूसरी तिमाही',
+            trimester3: 'तीसरी तिमाही',
+            trimester1Desc: 'शुरुआती गर्भावस्था के लिए हल्के व्यायाम।',
+            trimester2Desc: 'मध्य गर्भावस्था के लिए मजबूती।',
+            trimester3Desc: 'प्रसव की तैयारी।'
         },
         footer: {
             copyright: '© 2024 मातृCare. सर्वाधिकार सुरक्षित।',
@@ -225,12 +262,7 @@ export const translations = {
             welcome: 'तुमचे आरोग्य, आमची जबाबदारी',
             welcomeMain: 'तुमचे आरोग्य,',
             welcomeAccent: 'आमची जबाबदारी',
-            subtitle: 'तुमच्या गर्भधारणेच्या प्रवासासाठी आधार. आरोग्य माहिती, योग आणि तुमच्या भाषेत तज्ञ काळजी.',
-            quotes: [
-                '"ज्या क्षणी मूल जन्माला येते, आईचाही जन्म होतो. तुम्ही तुमच्या मुलासोबत पुनर्जन्म घेता. "',
-                '"जेव्हा आत नवीन जीव सळसळू लागतो तेव्हा आईचा आनंद सुरू होतो; जेव्हा पहिल्यांदाच चिमुकल्या हृदयाचे ठोके ऐकू येतात. "',
-                '"एक आदर्श आई होण्याचा कोणताही मार्ग नाही, परंतु एक चांगली आई होण्याचे दशलक्ष मार्ग आहेत. "'
-            ],
+            subtitle: 'ट्रॅकर, योग आणि एआई मदत। तुमच्या भाषेत।',
             helplines: {
                 police: 'पोलीस (100)',
                 ambulance: 'रुग्णवाहिका (102)',
@@ -243,37 +275,35 @@ export const translations = {
                 care: { title: 'देखभाल शोधा', desc: 'जवळपासची केंद्रे आणि रुग्णालये.' },
                 support: { title: 'एआय सहाय्यक', desc: 'तात्काळ मदत 24/7.' }
             },
-            title: 'भविष्यचे पोषण',
-            description: 'मातृCare हा एक सर्वसमावेशक डिजिटल सोबती आहे जो गर्भधारणेच्या प्रत्येक टप्प्यावर मातांना आधार देण्यासाठी डिझाइन केला आहे. आम्ही मातृत्वामध्ये निरोगी आणि आनंदी संक्रमण सुनिश्चित करण्यासाठी वैयक्तिक काळजीसह वैद्यकीय अंतर्दृष्टी एकत्र करतो.'
+            description: 'मातृCare: सुरक्षित गर्भधारणेसाठी तुमचा डिजिटल सोबती.'
         },
         features: {
-            title: 'आम्ही काय ऑफर करतो',
-            yoga: {
-                title: 'विशेष योग',
-                desc: 'तुम्हाला फिट आणि तणावमुक्त ठेवण्यासाठी प्रत्येक त्रैमासिकासाठी निवडक व्यायाम.'
-            },
-            tracking: {
-                title: 'आरोग्य ट्रॅकिंग',
-                desc: 'आमच्या बुद्धिमान विश्लेषण आणि तपासणीसह तुमच्या प्रगतीवर लक्ष ठेवा.'
-            },
-            care: {
-                title: 'काळजी शोधा',
-                desc: 'तुमच्या जवळची रुग्णालये, रुग्णवाहिका आणि आशा केंद्रांपर्यंत जलद पोहोच.'
-            },
-            assistant: {
-                title: 'एआय सहाय्यक',
-                desc: 'आमच्या बुद्धिमान चॅटबॉटचा वापर करून तुमच्या प्रश्नांसाठी 24/7 मदत.'
-            }
+            title: 'आमची वैशिष्ट्ये',
+            yoga: { title: 'सुरक्षित योग', desc: 'प्रत्येक त्रैमासिकासाठी.' },
+            tracking: { title: 'आरोग्य ट्रॅकिंग', desc: 'विटल्स मॉनिटर करा.' },
+            care: { title: 'काळजी शोधा', desc: 'रुग्णालय आणि आशा.' },
+            assistant: { title: 'एआय सहाय्यक', desc: '24/7 मदत.' }
         },
         about: {
-            mission: {
-                title: 'आमचे ध्येय',
-                desc: 'स्थानाची पर्वा न करता प्रत्येक मातेला सुलभ, उच्च-गुणवत्तेचे मातृ आरोग्य समर्थन प्रदान करणे.'
-            },
-            vision: {
-                title: 'आमची दृष्टी',
-                desc: 'असे जग जिथे प्रत्येक गर्भधारणा सुरक्षित, समर्थित आणि नाविन्याद्वारे साजरी केली जाते.'
-            }
+            mission: { title: 'आमचे ध्येय', desc: 'प्रत्येक मातेला उच्च-गुणवत्तेचे आरोग्य समर्थन.' },
+            vision: { title: 'आमची दृष्टी', desc: 'सुरक्षित गर्भधारणा, नाविन्याद्वारे.' }
+        },
+        chatbot: {
+            title: 'मातृ एआय सहाय्यक',
+            onlineStatus: 'ऑनलाइन',
+            welcomeMessage: 'नमस्कार! मी मातृ एआय आहे. तुमच्या गर्भधारणेच्या प्रवासात मी तुम्हाला कशी मदत करू शकते?',
+            placeholder: 'मला काहीही विचारा...',
+            devResponse: 'मी मातृ आहे, तुमची एआई सहाय्यक. तुम्ही मला योग, मेडिकल रिपोर्ट, काळजी शोधणे किंवा गर्भधारणेच्या जोखमींबद्दल विचारू शकता!'
+        },
+        yoga: {
+            pageTitle: 'गर्भधारणा योग',
+            pageSubtitle: 'तुमची तिमाही निवडा',
+            trimester1: 'पहिली तिमाही',
+            trimester2: 'दुसरी तिमाही',
+            trimester3: 'तिसरी तिमाही',
+            trimester1Desc: 'सुरुवातीच्या गर्भधारणेसाठी सौम्य व्यायाम',
+            trimester2Desc: 'मध्य गर्भधारणेसाठी मजबूती',
+            trimester3Desc: 'प्रसवाची तयारी'
         },
         footer: {
             copyright: '© 2024 मातृCare. सर्व हक्क राखीव.',
@@ -320,12 +350,7 @@ export const translations = {
             welcome: 'உங்கள் ஆரோக்கியம், எங்கள் பொறுப்பு',
             welcomeMain: 'உங்கள் ஆரோக்கியம்,',
             welcomeAccent: 'எங்கள் பொறுப்பு',
-            subtitle: 'உங்கள் கர்ப்ப கால பயணத்திற்கான ஆதரவு. உங்கள் மொழியில் சுகாதாரத் தகவல், யோகா மற்றும் நிபுணர் கவனிப்பு.',
-            quotes: [
-                '"ஒரு குழந்தை பிறக்கும் தருணத்தில், தாயும் பிறக்கிறாள். உங்கள் குழந்தையுடன் நீங்கள் மறுபிறவி எடுக்கிறீர்கள். "',
-                '"புதிய உயிர் உள்ளே துடிக்கும்போது ஒரு தாயின் மகிழ்ச்சி தொடங்குகிறது; சிறு இதயத்துடிப்பு முதல் முறையாக கேட்கும்போது. "',
-                '"ஒரு சரியான தாயாக இருக்க வழியே இல்லை, ஆனால் ஒரு நல்ல தாயாக இருக்க மில்லியன் வழிகள் உள்ளன. "'
-            ],
+            subtitle: 'டிராக்கர், யோகா மற்றும் AI உதவி. உங்கள் மொழியில்.',
             helplines: {
                 police: 'காவல்துறை (100)',
                 ambulance: 'ஆம்புலன்ஸ் (102)',
@@ -339,36 +364,35 @@ export const translations = {
                 support: { title: 'AI உதவியாளர்', desc: 'உடனடி ஆதரவு 24/7.' }
             },
             title: 'எதிர்காலத்தை வளர்ப்பது',
-            description: 'மாத்ரிCare என்பது கர்ப்ப காலத்தின் ஒவ்வொரு அடியிலும் தாய்மார்களுக்கு ஆதரவளிக்கும் வகையில் வடிவமைக்கப்பட்ட ஒரு விரிவான டிஜிட்டல் துணையாகும். ஆரோக்கியமான மற்றும் மகிழ்ச்சியான தாய்மை மாற்றத்தை உறுதிப்படுத்த மருத்துவ நுண்ணறிவுகளை தனிப்பயனாக்கப்பட்ட கவனிப்புடன் இணைக்கிறோம்.'
+            description: 'மாத்ரிCare: பாதுகாப்பான கர்ப்பத்திற்கான டிஜிட்டல் துணை.'
         },
         features: {
             title: 'நாங்கள் வழங்குபவை',
-            yoga: {
-                title: 'சிறப்பு யோகா',
-                desc: 'ஒவ்வொரு காலாண்டிற்கும் உங்களை ஆரோக்கியமாகவும் நிம்மதியாகவும் வைத்திருக்க தேர்ந்தெடுக்கப்பட்ட பயிற்சிகள்.'
-            },
-            tracking: {
-                title: 'ஆரோக்கிய கண்காணிப்பு',
-                desc: 'எங்கள் அறிவார்ந்த பகுப்பாய்வு மற்றும் பரிசோதனைகள் மூலம் உங்கள் முன்னேற்றத்தைக் கண்காணிக்கவும்.'
-            },
-            care: {
-                title: 'பராமரிப்பைத் தேடுங்கள்',
-                desc: 'உங்களுக்கு அருகிலுள்ள மருத்துவமனைகள், ஆம்புலன்ஸ்கள் மற்றும் ஆஷா மையங்களை விரைவாக அணுகலாம்.'
-            },
-            assistant: {
-                title: 'AI உதவியாளர்',
-                desc: 'எங்கள் அறிவார்ந்த சாட்போட்டைப் பயன்படுத்தி உங்கள் கேள்விகளுக்கு 24/7 ஆதரவு.'
-            }
+            yoga: { title: 'சிறப்பு யோகா', desc: 'ஒவ்வொரு காலாண்டிற்கும் பயிற்சிகள்.' },
+            tracking: { title: 'ஆரோக்கிய கண்காணிப்பு', desc: 'உடல்நலத்தைக் கண்காணிக்கவும்.' },
+            care: { title: 'பராமரிப்பு', desc: 'மருத்துவமனைகளைத் தேடுங்கள்.' },
+            assistant: { title: 'AI உதவியாளர்', desc: '24/7 AI ஆதரவு.' }
         },
         about: {
-            mission: {
-                title: 'எங்கள் பணி',
-                desc: 'இடம் எதுவாக இருந்தாலும் ஒவ்வொரு தாய்க்கும் அணுகக்கூடிய, உயர்தர மகப்பேறு ஆரோக்கிய ஆதரவை வழங்குதல்.'
-            },
-            vision: {
-                title: 'எங்கள் பார்வை',
-                desc: 'ஒவ்வொரு கர்ப்பமும் பாதுகாப்பானதாகவும், ஆதரவுடனும், புதுமையின் மூலம் கொண்டாடப்படும் ஒரு உலகம்.'
-            }
+            mission: { title: 'எங்கள் பணி', desc: 'ஒவ்வொரு தாய்க்கும் உயர்தர ஆதரவு.' },
+            vision: { title: 'எங்கள் பார்வை', desc: 'பாதுகாப்பான கர்ப்பம், புதுமையின் மூலம்.' }
+        },
+        chatbot: {
+            title: 'மாத்ரி AI உதவியாளர்',
+            onlineStatus: 'ஆன்லைன்',
+            welcomeMessage: 'வணக்கம்! நான் மாத்ரி AI. உங்கள் கர்ப்ப கால பயணத்தில் நான் உங்களுக்கு எப்படி உதவ முடியும்?',
+            placeholder: 'என்னிடம் எதையும் கேளுங்கள்...',
+            devResponse: 'நான் மாத்ரி, உங்கள் AI உதவியாளர். யோகா, மருத்துவ அறிக்கைகள், கவனிப்பைக் கண்டறிதல் அல்லது கர்ப்பகால அபாயங்கள் பற்றி என்னிடம் கேட்கலாம்!'
+        },
+        yoga: {
+            pageTitle: 'கர்ப்பகால யோகா',
+            pageSubtitle: 'மூன்று மாதத்தைத் தேர்வு செய்யவும்',
+            trimester1: 'முதல் 3 மாதம்',
+            trimester2: 'இரண்டாம் 3 மாதம்',
+            trimester3: 'மூன்றாம் 3 மாதம்',
+            trimester1Desc: 'மென்மையான பயிற்சிகள்.',
+            trimester2Desc: 'வலுவூட்டும் பயிற்சிகள்.',
+            trimester3Desc: 'பிரசவத் தயாரிப்பு.'
         },
         footer: {
             copyright: '© 2024 மாத்ரிCare. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
