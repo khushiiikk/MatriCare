@@ -102,14 +102,14 @@
 
 /* Main Pregnancy Card (Restored) */
 .main-pregnancy-card {
-    background: linear-gradient(145deg, #ffffff 0%, #eae0cf 100%);
+    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
     border-radius: 30px;
     padding: 30px;
     box-shadow:
-        0 10px 30px -5px rgba(33, 52, 72, 0.1),
-        0 8px 10px -6px rgba(33, 52, 72, 0.05),
+        0 10px 30px -5px rgba(0, 0, 0, 0.05),
+        0 8px 10px -6px rgba(0, 0, 0, 0.05),
         inset 0 0 20px rgba(0, 0, 0, 0.01);
-    border: 1px solid rgba(148, 180, 193, 0.3);
+    border: 1px solid rgba(229, 231, 235, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -118,8 +118,8 @@
 }
 
 .main-pregnancy-card:hover {
-    background: linear-gradient(145deg, #f4f7f9 0%, #94b4c1 100%);
-    box-shadow: 0 20px 40px -10px rgba(33, 52, 72, 0.2);
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
 }
 
 .pregnancy-circle-section {
@@ -135,7 +135,7 @@
 
 .circle-bg {
     fill: none;
-    stroke: #eae0cf;
+    stroke: #fdf2f4;
     stroke-width: 2.8;
 }
 
@@ -164,7 +164,7 @@
 .week-label {
     font-size: 0.8rem;
     font-weight: 800;
-    color: #547792;
+    color: #FF8BA0;
     letter-spacing: 1.5px;
 }
 
@@ -230,12 +230,12 @@
 }
 
 .health-card-modern {
-    background: linear-gradient(145deg, #ffffff 0%, #eae0cf 100%);
+    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
     padding: 20px;
     border-radius: 24px;
-    border: 1px solid rgba(148, 180, 193, 0.3);
+    border: 1px solid rgba(229, 231, 235, 0.5);
     box-shadow:
-        0 10px 20px -5px rgba(33, 52, 72, 0.05),
+        0 10px 20px -5px rgba(0, 0, 0, 0.03),
         inset 0 0 15px rgba(0, 0, 0, 0.01);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -243,8 +243,8 @@
 
 .health-card-modern:hover {
     transform: translateY(-5px);
-    background: linear-gradient(145deg, #f4f7f9 0%, #94b4c1 100%);
-    box-shadow: 0 15px 30px -10px rgba(33, 52, 72, 0.15);
+    background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
 .h-label {
@@ -317,25 +317,25 @@
 }
 
 .premium-compact-card {
-    background: linear-gradient(145deg, #ffffff 0%, #eae0cf 100%);
+    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
     padding: 15px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     gap: 12px;
     box-shadow:
-        0 4px 12px rgba(84, 119, 146, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.03),
         inset 0 0 10px rgba(0, 0, 0, 0.01);
-    border: 1px solid rgba(148, 180, 193, 0.4);
+    border: 1px solid rgba(248, 249, 250, 0.8);
     cursor: pointer;
     transition: all 0.4s ease;
 }
 
 .premium-compact-card:hover {
-    background: linear-gradient(145deg, #f4f7f9 0%, #94b4c1 100%);
-    border-color: #94b4c1;
+    background: linear-gradient(145deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-color: #e5e7eb;
     transform: scale(1.03) translateY(-2px);
-    box-shadow: 0 10px 20px rgba(84, 119, 146, 0.12);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
 .c-icon {
@@ -371,19 +371,19 @@
 }
 
 .asha-worker-card-premium {
-    background: linear-gradient(145deg, #ffffff 0%, #eae0cf 100%);
+    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
     border-radius: 24px;
     padding: 20px;
-    border: 1px solid rgba(148, 180, 193, 0.4);
+    border: 1px solid rgba(240, 240, 240, 0.8);
     box-shadow:
-        0 10px 25px -5px rgba(84, 119, 146, 0.08),
+        0 10px 25px -5px rgba(0, 0, 0, 0.03),
         inset 0 0 15px rgba(0, 0, 0, 0.01);
     transition: all 0.4s ease;
 }
 
 .asha-worker-card-premium:hover {
-    background: linear-gradient(145deg, #f4f7f9 0%, #94b4c1 100%);
-    box-shadow: 0 15px 35px -10px rgba(84, 119, 146, 0.15);
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08);
 }
 
 .asha-header {
