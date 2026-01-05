@@ -135,21 +135,21 @@ const Dashboard = () => {
     return (
         <div className="pregnancy-dashboard">
             <div className="dashboard-content">
-                {/* Header */}
-                <div className="dash-header">
-                    <div className="user-greeting">
-                        <h2>Hello, {user?.name || user?.fullName || 'User'}!</h2>
-                        <p>{user?.role === 'asha' ? 'ASHA Worker' : 'Location'}: {user?.village || 'Unknown Village'}, {user?.district || 'Unknown District'}</p>
+                {/* Refined Header */}
+                <div className="dash-premium-header">
+                    <div className="profile-pill">
+                        <div className="profile-icon">👤</div>
+                        <div className="welcome-text">
+                            <h3>Hello, {user?.name || user?.fullName || 'User'}!</h3>
+                            <p>Week {pregnancyData.currentWeek} • {getTrimesterName()}</p>
+                        </div>
                     </div>
-                    <div className="user-details-summary">
-                        <span className="detail-item"><strong>Phone:</strong> {user?.mobile || user?.phoneNumber || user?.phone || 'N/A'}</span>
-                        {user?.role === 'patient' && user?.dob && <span className="detail-item"><strong>Age:</strong> {new Date().getFullYear() - new Date(user.dob).getFullYear()} yrs</span>}
-                        <span className="detail-item"><strong>Role:</strong> {user?.role === 'asha' ? 'Health Worker' : 'Expectant Mother'}</span>
+                    <div className="header-actions">
                     </div>
                 </div>
 
                 <div className="dashboard-main-columns">
-                    {/* Left Column: Metrics for Patient / Worker Overview for ASHA */}
+                    {/* Left Column: Pregnancy Progress (Restored) */}
                     <div className="dash-left-col">
                         {user?.role === 'patient' ? (
                             <div className="main-pregnancy-card">
@@ -161,17 +161,11 @@ const Dashboard = () => {
                                                 <stop offset="100%" stopColor="#4CAF50" />
                                             </linearGradient>
                                         </defs>
-                                        <path className="circle-bg"
-                                            d="M18 2.0845
-                                               a 15.9155 15.9155 0 0 1 0 31.831
-                                               a 15.9155 15.9155 0 0 1 0 -31.831"
-                                        />
+                                        <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                                         <path className="circle"
-                                            strokeDasharray={`${(pregnancyData.currentWeek / 36) * 100}, 100`}
-                                            stroke={pregnancyData.currentWeek > 36 ? "#FF5252" : "url(#greenGradient)"}
-                                            d="M18 2.0845
-                                               a 15.9155 15.9155 0 0 1 0 31.831
-                                               a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            strokeDasharray={`${(pregnancyData.currentWeek / 40) * 100}, 100`}
+                                            stroke="url(#greenGradient)"
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                     </svg>
                                     <div className="circle-content">
@@ -179,32 +173,18 @@ const Dashboard = () => {
                                             <span className="week-number">{pregnancyData.currentWeek}</span>
                                             <span className="week-label">WEEKS</span>
                                             <span className="day-label">& {pregnancyData.currentDay} DAY</span>
-                                            <span className="pregnant-label">PREGNANT</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="trimester-progress">
-                                    <div className="progress-bar-container">
-                                        <div
-                                            className="progress-bar-fill"
-                                            style={{
-                                                width: `${pregnancyData.progressPercent}%`,
-                                                background: getTrimesterColor()
-                                            }}
-                                        ></div>
-                                    </div>
                                     <p className="trimester-label">{getTrimesterName()}</p>
                                 </div>
 
-                                <div className="weeks-remaining">
-                                    <span className="remaining-number">{pregnancyData.weeksRemaining} weeks remaining</span>
-                                </div>
-
                                 <div className="due-date-section">
-                                    <div className="due-date-icon"></div>
                                     <div className="due-date-info">
-                                        <span className="due-date">Due: {formatDate(pregnancyData.dueDate)}</span>
+                                        <span className="due-label">Expected Due Date</span>
+                                        <span className="due-date">{formatDate(pregnancyData.dueDate)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -213,187 +193,151 @@ const Dashboard = () => {
                         )}
                     </div>
 
-                    {/* Right Column: Metrics & Actions */}
+                    {/* Right Column: Health Vitals (Restored) & New Features */}
                     <div className="dash-right-col">
                         {user?.role === 'patient' && (
                             <>
                                 <div className="health-cards-grid">
                                     {/* Weight Card */}
-                                    <div className="health-card weight-card" onClick={() => setEditingField('weight')}>
-                                        <div className="health-info">
-                                            <span className="health-label">Weight</span>
-                                            {editingField === 'weight' ? (
-                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
-                                                    <input
-                                                        type="number"
-                                                        className="health-input"
-                                                        value={healthData.weight || ''}
-                                                        onChange={(e) => setHealthData({ ...healthData, weight: e.target.value })}
-                                                        autoFocus
-                                                    />
-                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('weight', healthData.weight); }}>💾</span>
-                                                </div>
-                                            ) : (
-                                                <span className="health-value">
-                                                    {healthData.weight ? `${healthData.weight} kg` : '--'}
-                                                    <span className="edit-icon">✎</span>
+                                    <div className="health-card-modern weight" onClick={() => setEditingField('weight')}>
+                                        <span className="h-label">Weight</span>
+                                        {editingField === 'weight' ? (
+                                            <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
+                                                <input
+                                                    type="number"
+                                                    className="h-input"
+                                                    value={healthData.weight || ''}
+                                                    onChange={(e) => setHealthData({ ...healthData, weight: e.target.value })}
+                                                    autoFocus
+                                                />
+                                                <span className="h-save" onClick={(e) => { e.stopPropagation(); saveHealthData('weight', healthData.weight); }}>💾</span>
+                                            </div>
+                                        ) : (
+                                            <div className="h-value-row">
+                                                <span className="h-val">{healthData.weight ? `${healthData.weight} kg` : '--'}</span>
+                                                <span className="h-status" style={{ color: getHealthStatus('weight', healthData.weight).color }}>
+                                                    {getHealthStatus('weight', healthData.weight).status}
                                                 </span>
-                                            )}
-                                            <span className={`health-badge badge-${getHealthStatus('weight', healthData.weight).color}`}>
-                                                {getHealthStatus('weight', healthData.weight).icon} {getHealthStatus('weight', healthData.weight).status}
-                                            </span>
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Hemoglobin Card */}
-                                    <div className="health-card hemoglobin-card" onClick={() => setEditingField('hemoglobin')}>
-                                        <div className="health-info">
-                                            <span className="health-label">Hemoglobin</span>
-                                            {editingField === 'hemoglobin' ? (
-                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
-                                                    <input
-                                                        type="number"
-                                                        step="0.1"
-                                                        className="health-input"
-                                                        value={healthData.hemoglobin || ''}
-                                                        onChange={(e) => setHealthData({ ...healthData, hemoglobin: e.target.value })}
-                                                        autoFocus
-                                                    />
-                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('hemoglobin', healthData.hemoglobin); }}>💾</span>
-                                                </div>
-                                            ) : (
-                                                <span className="health-value">
-                                                    {healthData.hemoglobin ? `${healthData.hemoglobin} g/dL` : '--'}
-                                                    <span className="edit-icon">✎</span>
+                                    <div className="health-card-modern hemoglobin" onClick={() => setEditingField('hemoglobin')}>
+                                        <span className="h-label">Hemoglobin</span>
+                                        {editingField === 'hemoglobin' ? (
+                                            <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
+                                                <input
+                                                    type="number"
+                                                    step="0.1"
+                                                    className="h-input"
+                                                    value={healthData.hemoglobin || ''}
+                                                    onChange={(e) => setHealthData({ ...healthData, hemoglobin: e.target.value })}
+                                                    autoFocus
+                                                />
+                                                <span className="h-save" onClick={(e) => { e.stopPropagation(); saveHealthData('hemoglobin', healthData.hemoglobin); }}>💾</span>
+                                            </div>
+                                        ) : (
+                                            <div className="h-value-row">
+                                                <span className="h-val">{healthData.hemoglobin ? `${healthData.hemoglobin} g/dL` : '--'}</span>
+                                                <span className="h-status" style={{ color: getHealthStatus('hemoglobin', healthData.hemoglobin).color }}>
+                                                    {getHealthStatus('hemoglobin', healthData.hemoglobin).status}
                                                 </span>
-                                            )}
-                                            <span className={`health-badge badge-${getHealthStatus('hemoglobin', healthData.hemoglobin).color}`}>
-                                                {getHealthStatus('hemoglobin', healthData.hemoglobin).icon} {getHealthStatus('hemoglobin', healthData.hemoglobin).status}
-                                            </span>
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Blood Group Card */}
-                                    <div className="health-card bp-card" onClick={() => setEditingField('bloodGroup')}>
-                                        <div className="health-info">
-                                            <span className="health-label">Blood Group</span>
-                                            {editingField === 'bloodGroup' ? (
-                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
-                                                    <select
-                                                        className="health-input"
-                                                        value={healthData.bloodGroup || ''}
-                                                        onChange={(e) => setHealthData({ ...healthData, bloodGroup: e.target.value })}
-                                                        autoFocus
-                                                        style={{ width: '100px' }}
-                                                    >
-                                                        <option value="">Select</option>
-                                                        <option value="A+">A+</option>
-                                                        <option value="A-">A-</option>
-                                                        <option value="B+">B+</option>
-                                                        <option value="B-">B-</option>
-                                                        <option value="O+">O+</option>
-                                                        <option value="O-">O-</option>
-                                                        <option value="AB+">AB+</option>
-                                                        <option value="AB-">AB-</option>
-                                                    </select>
-                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('bloodGroup', healthData.bloodGroup); }}>💾</span>
-                                                </div>
-                                            ) : (
-                                                <span className="health-value">
-                                                    {healthData.bloodGroup || '--'}
-                                                    <span className="edit-icon">✎</span>
-                                                </span>
-                                            )}
-                                            <span className="health-badge badge-#E0E0E0">
-                                                Click to edit
-                                            </span>
-                                        </div>
+                                    <div className="health-card-modern bgroup" onClick={() => setEditingField('bloodGroup')}>
+                                        <span className="h-label">Blood Group</span>
+                                        {editingField === 'bloodGroup' ? (
+                                            <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
+                                                <select
+                                                    className="h-input"
+                                                    value={healthData.bloodGroup || ''}
+                                                    onChange={(e) => setHealthData({ ...healthData, bloodGroup: e.target.value })}
+                                                    autoFocus
+                                                >
+                                                    <option value="">Select</option>
+                                                    <option value="A+">A+</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="O+">O+</option>
+                                                    <option value="O-">O-</option>
+                                                    <option value="AB+">AB+</option>
+                                                    <option value="AB-">AB-</option>
+                                                </select>
+                                                <span className="h-save" onClick={(e) => { e.stopPropagation(); saveHealthData('bloodGroup', healthData.bloodGroup); }}>💾</span>
+                                            </div>
+                                        ) : (
+                                            <div className="h-value-row">
+                                                <span className="h-val">{healthData.bloodGroup || '--'}</span>
+                                                <span className="h-status">Verified</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
-                                <button className="upload-health-btn" onClick={() => navigate('/health')}>
-                                    Upload Health Report
-                                </button>
-                            </>
-                        )}
-
-                        {/* Quick Actions - Only for patients */}
-                        {user?.role === 'patient' && (
-                            <div className="quick-actions-section">
-                                <h3>Quick Actions</h3>
-                                <div className="action-cards">
-                                    <div className="action-card" onClick={() => navigate('/yoga')}>
-                                        <div className="action-icon-img">
-                                            <img src="/yoga-home-icon-new.jpg" alt="Yoga" />
-                                        </div>
+                                {/* New Quick Actions (Premium Style) */}
+                                <div className="action-row-grid">
+                                    <div className="premium-compact-card guide" onClick={() => navigate('/maternal-guide')}>
+                                        <div className="c-icon">📖</div>
+                                        <span>Maternal Guide</span>
+                                    </div>
+                                    <div className="premium-compact-card report" onClick={() => navigate('/report-history')}>
+                                        <div className="c-icon">📊</div>
+                                        <span>Report History</span>
+                                    </div>
+                                    <div className="premium-compact-card diet" onClick={() => navigate('/diet-plan')}>
+                                        <div className="c-icon">🍴</div>
+                                        <span>Diet Plan</span>
+                                    </div>
+                                    <div className="premium-compact-card yoga" onClick={() => navigate('/yoga')}>
+                                        <div className="c-icon">🧘</div>
                                         <span>Yoga</span>
                                     </div>
-                                    <div className="action-card" onClick={() => navigate('/chatbot')}>
-                                        <div className="action-icon-img">
-                                            <img src="/chatbot-new.jpg" alt="AI Assistant" />
-                                        </div>
+                                    <div className="premium-compact-card chat" onClick={() => navigate('/chatbot')}>
+                                        <div className="c-icon">🤖</div>
                                         <span>AI Assistant</span>
                                     </div>
-                                    <div className="action-card" onClick={() => navigate('/find-care')}>
-                                        <div className="action-icon-img">
-                                            <img src="/care-icon-new.jpg" alt="Find Care" />
-                                        </div>
-                                        <span>Find Care</span>
-                                    </div>
-                                    <div className="action-card" onClick={() => navigate('/health')}>
-                                        <div className="action-icon-img">
-                                            <img src="/health-icon-new.jpg" alt="Analytics" />
-                                        </div>
+                                    <div className="premium-compact-card health" onClick={() => navigate('/health')}>
+                                        <div className="c-icon">🏥</div>
                                         <span>Analytics</span>
                                     </div>
                                 </div>
-                            </div>
+                            </>
                         )}
 
-                        {/* ASHA Worker - Patient List in Right Column */}
-                        {user?.role === 'asha' && (
-                            <AshaWorkerPatientList />
-                        )}
-
-                        {/* ASHA Worker - Only show for patients */}
-                        {user?.role === 'patient' && (
-                            <div className="asha-worker-card">
-                                <h3>Your ASHA Worker</h3>
-                                <div className="asha-content">
-                                    <div className="asha-avatar">PHC</div>
-                                    <div className="asha-details">
-                                        <h4>Smt. Radha Devi</h4>
-                                        <p>Location: 2.3 km away</p>
-                                    </div>
-                                    <div className="asha-actions">
-                                        <a href="tel:+919876543210" className="asha-call-btn">Call Worker</a>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        {user?.role === 'asha' && <AshaWorkerPatientList />}
                     </div>
                 </div>
 
-                {/* Tips & Info - Only for patients */}
+                {/* Patient-only additional info */}
                 {user?.role === 'patient' && (
-                    <div className="info-cards-grid">
-                        <div className="info-card tip-card-yoga-style">
-                            <h4>Nutrition Tip</h4>
-                            <p>Eat iron-rich foods like spinach and pomegranate for energy.</p>
-                        </div>
-                        <div className="info-card tip-card-yoga-style">
-                            <h4>Wellness Tip</h4>
-                            <p>Practice deep breathing for 5 minutes daily to stay calm.</p>
+                    <div className="bottom-dashboard-grid">
+                        <div className="asha-worker-card-premium">
+                            <div className="asha-header">
+                                <h3>Your ASHA Worker</h3>
+                                <a href="tel:+919876543210" className="asha-call-btn">Call</a>
+                            </div>
+                            <div className="asha-body">
+                                <div className="asha-pfp">RD</div>
+                                <div>
+                                    <h4>Smt. Radha Devi</h4>
+                                    <p>Village Rampur • 2.3 km away</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
 
-                {/* Emergency */}
-                <div className="emergency-bar">
-                    <span>Emergency?</span>
-                    <div className="emergency-btns">
-                        <a href="tel:102" className="em-btn">Ambulance 102</a>
-                        <a href="tel:108" className="em-btn">Ambulance 108</a>
+                {/* Emergency Section */}
+                <div className="emergency-minimal-bar">
+                    <p>Emergency? Quick access to help</p>
+                    <div className="em-links">
+                        <a href="tel:102">Ambulance 102</a>
+                        <a href="tel:108">Ambulance 108</a>
                     </div>
                 </div>
             </div>

@@ -52,6 +52,69 @@ const MedicalAnalysis = () => {
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
 
+    const getMetricLevel = (id) => {
+        const val = parseFloat(formData[id]);
+        const range = ranges[id];
+        if (isNaN(val)) return { pct: 0, color: 'gray', text: 'No Data' };
+
+        if (id === 'hemoglobin') {
+            if (val < 10) return { pct: 90, color: 'red', text: 'Severe Anemia' };
+            if (val < 11) return { pct: 70, color: 'orange', text: 'Mild Anemia' };
+            if (val > 16) return { pct: 85, color: 'red', text: 'High' };
+            return { pct: 50, color: 'green', text: 'Normal' };
+        }
+
+        if (id === 'bloodGlucose') {
+            if (val > 200) return { pct: 95, color: 'red', text: 'Very High' };
+            if (val > 140) return { pct: 80, color: 'red', text: 'High' };
+            if (val < 70) return { pct: 85, color: 'red', text: 'Low' };
+            return { pct: 50, color: 'green', text: 'Normal' };
+        }
+
+        if (val < range.min) return { pct: 30, color: 'red', text: 'Low' };
+        if (val > range.max) return { pct: 90, color: 'red', text: 'High' };
+        return { pct: 50, color: 'green', text: 'Normal' };
+    };
+
+    const calculateOverallRisk = () => {
+        let score = 0;
+        let factors = [];
+
+        // Vitals Analysis
+        if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push("High Blood Sugar"); }
+        if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push("Anemia Detection"); }
+        if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push("HbA1c Elevation"); }
+        if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push("High Heart Rate"); }
+        if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push("Fever"); }
+
+        // History Analysis
+        if (parseInt(formData.abortions) >= 2) { score += 4; factors.push("History of Miscarriages"); }
+        if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push("High Obstetric Risk"); }
+        if (parseInt(formData.gravida) > 5) { score += 3; factors.push("Grand Multiparity"); }
+
+        let risk = { level: 'Low Risk', color: 'green', confidence: 85, advice: 'Continue regular prenatal checkups and maintain a healthy diet.', factors };
+
+        if (score >= 7) {
+            risk = {
+                level: 'High Risk',
+                color: 'red',
+                confidence: Math.min(95, 60 + score * 3),
+                advice: 'Immediate medical attention recommended. High probability of complications detected. Please consult your obstetrician urgently.',
+                factors
+            };
+        } else if (score >= 3) {
+            risk = {
+                level: 'Moderate Risk',
+                color: 'orange',
+                confidence: Math.min(88, 50 + score * 5),
+                advice: 'Closer monitoring required. Schedule a follow-up appointment soon to discuss these metrics with your healthcare provider.',
+                factors
+            };
+        }
+
+        return risk;
+    };
+
     const runAnalysis = () => {
         setAnalyzing(true);
         setTimeout(() => {
@@ -164,68 +227,6 @@ const MedicalAnalysis = () => {
     );
 
     const renderResults = () => {
-        // Advanced logic for status percentages and colors
-        const getMetricLevel = (id) => {
-            const val = parseFloat(formData[id]);
-            const range = ranges[id];
-            if (isNaN(val)) return { pct: 0, color: 'gray', text: 'No Data' };
-
-            if (id === 'hemoglobin') {
-                if (val < 10) return { pct: 90, color: 'red', text: 'Severe Anemia' };
-                if (val < 11) return { pct: 70, color: 'orange', text: 'Mild Anemia' };
-                if (val > 16) return { pct: 85, color: 'red', text: 'High' };
-                return { pct: 50, color: 'green', text: 'Normal' };
-            }
-
-            if (id === 'bloodGlucose') {
-                if (val > 200) return { pct: 95, color: 'red', text: 'Very High' };
-                if (val > 140) return { pct: 80, color: 'red', text: 'High' };
-                if (val < 70) return { pct: 85, color: 'red', text: 'Low' };
-                return { pct: 50, color: 'green', text: 'Normal' };
-            }
-
-            if (val < range.min) return { pct: 30, color: 'red', text: 'Low' };
-            if (val > range.max) return { pct: 90, color: 'red', text: 'High' };
-            return { pct: 50, color: 'green', text: 'Normal' };
-        };
-
-        const calculateOverallRisk = () => {
-            let score = 0;
-            let factors = [];
-
-            // Vitals Analysis
-            if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push("High Blood Sugar"); }
-            if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push("Anemia Detection"); }
-            if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push("HbA1c Elevation"); }
-            if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push("High Heart Rate"); }
-            if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push("Fever"); }
-
-            // History Analysis
-            if (parseInt(formData.abortions) >= 2) { score += 4; factors.push("History of Miscarriages"); }
-            if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push("High Obstetric Risk"); }
-            if (parseInt(formData.gravida) > 5) { score += 3; factors.push("Grand Multiparity"); }
-
-            let risk = { level: 'Low Risk', color: 'green', confidence: 85, advice: 'Continue regular prenatal checkups and maintain a healthy diet.' };
-
-            if (score >= 7) {
-                risk = {
-                    level: 'High Risk',
-                    color: 'red',
-                    confidence: Math.min(95, 60 + score * 3),
-                    advice: 'Immediate medical attention recommended. High probability of complications detected. Please consult your obstetrician urgently.'
-                };
-            } else if (score >= 3) {
-                risk = {
-                    level: 'Moderate Risk',
-                    color: 'orange',
-                    confidence: Math.min(88, 50 + score * 5),
-                    advice: 'Closer monitoring required. Schedule a follow-up appointment soon to discuss these metrics with your healthcare provider.'
-                };
-            }
-
-            return risk;
-        };
-
         const riskAssessment = calculateOverallRisk();
 
         return (
@@ -282,6 +283,15 @@ const MedicalAnalysis = () => {
                         <div className="risk-alert-icon">{riskAssessment.level === 'High Risk' ? '!' : riskAssessment.level === 'Moderate Risk' ? '⚠' : '✓'}</div>
                         <h2 className="risk-status-heading">{riskAssessment.level}</h2>
                         <p className="risk-confidence-sub">Confidence: {riskAssessment.confidence}%</p>
+
+                        {riskAssessment.factors && riskAssessment.factors.length > 0 && (
+                            <div className="risk-factors-list">
+                                {riskAssessment.factors.map((f, i) => (
+                                    <span key={i} className="risk-factor-tag">{f}</span>
+                                ))}
+                            </div>
+                        )}
+
                         <p className="risk-advice-text">
                             {riskAssessment.advice}
                         </p>

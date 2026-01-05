@@ -3,45 +3,35 @@
 /* UPDATED: Darker Fonts for Readability & Accessibility + Restored Cute Pastels */
 
 :root {
-  /* Palette Updated to White focused */
-  --color-primary: #7D5F5F;
-  /* Top: Muted Dark Plum/Brown */
-  --color-secondary: #E2C1BC;
-  /* 2nd: Dusty Rose/Pink */
-  --color-background: #FFFFFF;
-  /* High contrast white */
+  /* New Professional Palette */
+  --color-primary: #213448;
+  /* Dark Navy */
+  --color-secondary: #547792;
+  /* Steel Blue */
+  --color-accent: #94B4C1;
+  /* Light Blue/Teal */
+  --color-base: #EAE0CF;
+  /* Beige/Cream */
   --color-white: #FFFFFF;
-  /* Bottom: Pale Ivory/White */
 
-  --color-primary-dark: #5D4343;
-  /* Derived darker tone for hover */
-  --color-bg-ivory: #F5F5E9;
-  /* Old white to be used sparingly */
-
-  /* Semantic Mapping */
-  --color-peach: var(--color-secondary);
-  --color-peach-light: var(--color-background);
-  --color-peach-dark: var(--color-primary);
-
-  --color-mauve: var(--color-primary);
-  --color-mauve-deep: var(--color-primary-dark);
+  --color-primary-dark: #162432;
+  --color-bg-soft: #F4F7F9;
 
   /* Text Colors */
-  --text-primary: #4A3A2C;
-  /* Deep Brown for readability */
-  --text-secondary: #6D5B4B;
+  --text-primary: #213448;
+  --text-secondary: #547792;
   --text-light: #FFFFFF;
-  --text-muted: #957C62;
+  --text-muted: #8AA7B5;
 
   /* Shadows & UI Elements */
-  --btn-gradient: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  --shadow-sm: 0 4px 6px rgba(74, 58, 44, 0.05);
-  --shadow-md: 0 8px 20px rgba(74, 58, 44, 0.08);
-  --shadow-lg: 0 15px 35px rgba(74, 58, 44, 0.12);
+  --btn-gradient: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --shadow-sm: 0 4px 6px rgba(33, 52, 72, 0.05);
+  --shadow-md: 0 8px 20px rgba(33, 52, 72, 0.08);
+  --shadow-lg: 0 15px 35px rgba(33, 52, 72, 0.12);
 
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 30px;
 
   --nav-height: 80px;
   --font-main: 'Inter', 'Segoe UI', sans-serif;
@@ -100,12 +90,12 @@ div {
 
 /* Specific overrides for text visibility */
 .logo-hindi {
-  color: var(--color-mauve) !important;
+  color: var(--color-primary) !important;
 }
 
 .logo-english {
   color: var(--color-primary-dark) !important;
-  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #212121 100%);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-secondary) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -113,7 +103,7 @@ div {
 
 /* Button Styles */
 .btn-primary {
-  background: var(--color-mauve);
+  background: var(--color-primary);
   color: white !important;
   border: none;
   border-radius: var(--radius-xl);
@@ -124,23 +114,22 @@ div {
 }
 
 .btn-primary:hover {
-  background: #AD1457;
+  background: var(--color-primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-  background: var(--color-secondary);
-  color: var(--color-mauve) !important;
-  /* Ensure text is readable on pale pink */
-  border: 1px solid var(--color-mauve);
+  background: var(--color-white);
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-accent);
   border-radius: var(--radius-xl);
   padding: 10px 24px;
   font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background: white;
+  background: var(--color-bg-soft);
   box-shadow: var(--shadow-sm);
 }
 
@@ -211,8 +200,8 @@ div {
 
 .professional-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
-  border-color: var(--color-secondary);
+  box-shadow: 0 16px 40px rgba(33, 52, 72, 0.1);
+  border-color: var(--color-accent);
 }
 
 .professional-card-image-wrapper {
@@ -260,7 +249,7 @@ div {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(226, 181, 154, 0.3);
+  box-shadow: 0 4px 12px rgba(84, 119, 146, 0.3);
   text-decoration: none;
   margin-top: auto;
 }
@@ -268,7 +257,7 @@ div {
 .professional-card-btn:hover {
   background: var(--color-primary);
   transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(226, 181, 154, 0.4);
+  box-shadow: 0 6px 15px rgba(33, 52, 72, 0.4);
 }
 
 /* Floating Animations */

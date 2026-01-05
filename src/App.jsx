@@ -15,6 +15,9 @@ import Yoga from './pages/Yoga';
 import TrimesterPage from './pages/TrimesterPage';
 import PregnancyRisks from './pages/PregnancyRisks';
 import PregnancySymptoms from './pages/PregnancySymptoms';
+import ReportHistory from './pages/ReportHistory';
+import DietPlan from './pages/DietPlan';
+import MaternalGuide from './pages/MaternalGuide';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
 
@@ -89,6 +92,30 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <PregnancySymptoms />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/report-history"
+                        element={
+                            <ProtectedRoute>
+                                <ReportHistory />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/diet-plan"
+                        element={
+                            <ProtectedRoute>
+                                <DietPlan />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/maternal-guide"
+                        element={
+                            <ProtectedRoute>
+                                <MaternalGuide />
                             </ProtectedRoute>
                         }
                     />
