@@ -48,28 +48,56 @@ const TrimesterPage = () => {
     const firstTrimesterYoga = [
         {
             name: "Constructive Rest",
-            description: "Lie on back with knees bent, feet wide. Inhale arms into T, exhale hug chest. 20 breaths.",
-            image: null
+            steps: [
+                "Lie on your back with knees bent and feet flat.",
+                "Place feet wider than hips.",
+                "Let knees lean against each other.",
+                "Rest arms by your sides.",
+                "Breathe deeply for 20 counts."
+            ],
+            image: "/yoga_constructive_rest.png"
         },
         {
             name: "Child’s Pose (Balasana)",
-            description: "On knees, big toes together. Use a pillow. Widen knees for comfort and baby. Rest forehead on block.",
+            steps: [
+                "Kneel on the floor, big toes touching.",
+                "Widen knees to make room for your belly.",
+                "Sit back on your heels.",
+                "Fold forward, resting your forehead on a block or pillow."
+            ],
             image: "/yoga_childs_pose.png"
         },
         {
             name: "Downward Facing Dog",
-            description: "Hands ahead of shoulders. Lift knees, press legs straight or keep bent. Hold for 10 breaths.",
-            image: null
+            steps: [
+                "Start on hands and knees.",
+                "Hands slightly ahead of shoulders.",
+                "Lift knees, pressing hips high into an inverted V.",
+                "Keep knees slightly bent if needed.",
+                "Hold for 10 breaths."
+            ],
+            image: "/yoga_downward_dog.png"
         },
         {
             name: "Side Angle (Parsvakonasana)",
-            description: "Wide feet, bend right knee over ankle. Right forearm on thigh, reach left arm over ear. 15 breaths.",
-            image: null
+            steps: [
+                "Stand with feet wide apart.",
+                "Turn right foot out and bend right knee over ankle.",
+                "Place right forearm on right thigh.",
+                "Reach left arm over your ear.",
+                "Hold for 15 breaths."
+            ],
+            image: "/yoga_side_angle_pose.png"
         },
         {
             name: "Goddess Pose (Utkata Konasana)",
-            description: "Feet wide, toes out 45 deg. Bend knees deeply, thighs parallel to floor. 10 breaths.",
-            image: "/yoga_malasana.png"
+            steps: [
+                "Stand with feet wide, toes pointed out at 45 degrees.",
+                "Bend knees deeply, aiming for thighs parallel to the floor.",
+                "Bring arms to goalpost shape (90 degrees).",
+                "Hold for 10 breaths."
+            ],
+            image: "/yoga_goddess_pose.png"
         }
     ];
 
@@ -105,27 +133,53 @@ const TrimesterPage = () => {
     const secondTrimesterYoga = [
         {
             name: "Tree Pose (Vrksasana)",
-            description: "Bend left knee, place foot above/below right knee. Hands in prayer then reach overhead. 10 breaths.",
+            steps: [
+                "Stand tall and find your balance.",
+                "Bend one knee and place the foot on your inner thigh or calf (avoid the knee).",
+                "Bring hands to prayer position or reach overhead.",
+                "Focus on a point and breathe for 10 counts."
+            ],
             image: "/yoga_tree.png"
         },
         {
             name: "Side Plank (Vasisthasana)",
-            description: "Start on all fours, extend right leg. Place left hand under shoulder. Reach right arm up. 10 breaths.",
-            image: null
+            steps: [
+                "Start on all fours (Tabletop position).",
+                "Extend your right leg behind you, resting the toes on the floor.",
+                "Reach your right arm up towards the ceiling.",
+                "Keep your left hand and knee grounded for support.",
+                "Hold for 10 breaths."
+            ],
+            image: "/yoga_side_plank.png"
         },
         {
             name: "Supported Fish (Matsyasana)",
-            description: "Blocks under shoulders/head. Lower back onto blocks. Arms out, palms up. Hold for 25 breaths.",
-            image: null
+            steps: [
+                "Place a bolster or pillow behind you.",
+                "Slowly lie back over the support, keeping knees bent or legs extended.",
+                "Let your arms fall to the sides, palms facing up.",
+                "Open your chest and breathe deeply for 25 breaths."
+            ],
+            image: "/yoga_supported_fish.png"
         },
         {
             name: "Wide Straddle",
-            description: "Seated, legs wide. Use blocks/bolster for pillow. Fold forward, rest on bolster. 30 breaths.",
-            image: null
+            steps: [
+                "Sit with your legs spread wide in a comfortable V-shape.",
+                "Place a bolster or cushion in front of you.",
+                "Gently fold forward, resting your chest and forehead on the support.",
+                "Breathe into your hips for 30 counts."
+            ],
+            image: "/butterfly-pose.png"
         },
         {
             name: "Warrior Pose (Virabhadrasana)",
-            description: "Feet wide, bend right knee over ankle. Arms at shoulder height, gaze over right hand. 10 breaths.",
+            steps: [
+                "Stand with feet wide apart.",
+                "Turn your right foot out and bend your right knee.",
+                "Reach your arms out to the sides at shoulder height.",
+                "Gaze over your right hand and hold for 10 breaths."
+            ],
             image: "/yoga_warrior.png"
         }
     ];
@@ -162,28 +216,53 @@ const TrimesterPage = () => {
     const thirdTrimesterYoga = [
         {
             name: "Easy Pose (Sukhasana)",
-            description: "Seated, cross legs. Reach arms out, roll wrists in circles (5 breaths each side). Total 20 breaths.",
+            steps: [
+                "Sit comfortably with legs crossed.",
+                "Keep your spine straight and shoulders relaxed.",
+                "Reach arms out and roll your wrists slowly.",
+                "Breathe deeply for 20 counts."
+            ],
             image: "/yoga_kegels.png"
         },
         {
             name: "Wide Chair Pose (Utkatasana)",
-            description: "Feet hip-width, reach arms up. Bend knees, shift hips back like sitting. Hold for 25 breaths.",
-            image: null
+            steps: [
+                "Stand with feet slightly wider than hip-width.",
+                "Reach arms up towards the ceiling.",
+                "Bend your knees and shift hips back as if sitting in a chair.",
+                "Hold for 25 breaths."
+            ],
+            image: "/yoga_home-icon-new.jpg"
         },
         {
             name: "Dynamic Goddess (Utkata Konasana)",
-            description: "Feet wide, bend knees deeply. arms at 90 deg. Repeat 5x, on 5th hold for 10 breaths.",
-            image: null
+            steps: [
+                "Stand with feet wide, toes pointed out.",
+                "Bend knees deeply and bring arms to 90 degrees.",
+                "Inhale to stand back up, exhale to squat.",
+                "Repeat 5 times, then hold for 10 breaths."
+            ],
+            image: "/yoga_malasana.png"
         },
         {
             name: "Tabletop Hammock Rocks",
-            description: "On hands/knees. Shift forward on inhale, back on exhale. Rock baby with breath for 20 breaths.",
+            steps: [
+                "Start on hands and knees (Tabletop).",
+                "Shift your weight forward on the inhale.",
+                "Gently rock back on the exhale.",
+                "Repeat for 20 breaths to gently rock the baby."
+            ],
             image: "/yoga_cat_cow.png"
         },
         {
             name: "Upper Back Opener",
-            description: "Kneel before chair, elbows on seat. Fingertips up, head between arms, chest to ground. 20 breaths.",
-            image: null
+            steps: [
+                "Kneel in front of a chair, placing elbows on the seat.",
+                "Bring palms together, fingertips pointing up.",
+                "Gently lower your chest towards the floor.",
+                "Hold for 20 breaths."
+            ],
+            image: "/yoga_childs_pose.png"
         }
     ];
 
@@ -262,7 +341,17 @@ const TrimesterPage = () => {
                                                 </div>
                                                 <div className="flip-card-back">
                                                     <h3>{yoga.name}</h3>
-                                                    <p>{yoga.description}</p>
+                                                    {yoga.steps ? (
+                                                        <ul className="step-list">
+                                                            {yoga.steps.map((step, sIndex) => (
+                                                                <li key={sIndex}>
+                                                                    <span className="step-num">Step {sIndex + 1}:</span> {step}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : (
+                                                        <p>{yoga.description}</p>
+                                                    )}
                                                     <p className="click-hint">Click to flip back</p>
                                                 </div>
                                             </div>
@@ -326,7 +415,17 @@ const TrimesterPage = () => {
                                                 </div>
                                                 <div className="flip-card-back">
                                                     <h3>{yoga.name}</h3>
-                                                    <p>{yoga.description}</p>
+                                                    {yoga.steps ? (
+                                                        <ul className="step-list">
+                                                            {yoga.steps.map((step, sIndex) => (
+                                                                <li key={sIndex}>
+                                                                    <span className="step-num">Step {sIndex + 1}:</span> {step}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : (
+                                                        <p>{yoga.description}</p>
+                                                    )}
                                                     <p className="click-hint">Click to flip back</p>
                                                 </div>
                                             </div>
@@ -390,7 +489,17 @@ const TrimesterPage = () => {
                                                 </div>
                                                 <div className="flip-card-back">
                                                     <h3>{yoga.name}</h3>
-                                                    <p>{yoga.description}</p>
+                                                    {yoga.steps ? (
+                                                        <ul className="step-list">
+                                                            {yoga.steps.map((step, sIndex) => (
+                                                                <li key={sIndex}>
+                                                                    <span className="step-num">Step {sIndex + 1}:</span> {step}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    ) : (
+                                                        <p>{yoga.description}</p>
+                                                    )}
                                                     <p className="click-hint">Click to flip back</p>
                                                 </div>
                                             </div>

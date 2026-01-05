@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import { useAuth } from '../context/AuthContext';
-import { calculatePregnancyWeek, calculateDueDate } from '../utils/dateUtils';
+import { calculatePregnancyWeek, calculateDueDate, calculateAge } from '../utils/dateUtils';
 import './Settings.css';
 
 const Settings = () => {
     const { language } = useLanguage();
-    const { currentUser } = useAuth();
+    const { user: currentUser, updateProfile } = useAuth();
     const langT = translations[language] || translations.en;
     const pt = langT.profile || {};
     const st = langT.security || {};
@@ -15,19 +15,20 @@ const Settings = () => {
     const [activeTab, setActiveTab] = useState('profile');
 
     const [userData, setUserData] = useState({
-        name: currentUser?.displayName || 'User Name',
-        village: 'Kalyanpur',
-        state: 'Uttar Pradesh',
-        address: 'House No. 12, Main Road',
-        age: 26,
-        lmpDate: '2024-10-15',
-        weight: 62,
-        height: 158,
-        bloodGroup: 'O+',
-        conditions: 'None',
-        gravida: 1,
-        para: 0,
-        phone: currentUser?.phoneNumber || '+91 9876543210'
+        name: currentUser?.displayName || currentUser?.fullName || currentUser?.name || '',
+        village: currentUser?.village || '',
+        state: currentUser?.state || '',
+        district: currentUser?.district || '',
+        address: currentUser?.address || '',
+        age: currentUser?.dob ? calculateAge(currentUser.dob) : (currentUser?.age || ''),
+        lmpDate: currentUser?.lmpDate || '',
+        weight: currentUser?.weight || '',
+        height: currentUser?.height || '',
+        bloodGroup: currentUser?.bloodGroup || '',
+        conditions: currentUser?.conditions || '',
+        gravida: currentUser?.gravida || '',
+        para: currentUser?.para || '',
+        phone: currentUser?.phoneNumber || currentUser?.mobile || ''
     });
 
     const pregnancyWeek = calculatePregnancyWeek(userData.lmpDate);
@@ -40,6 +41,15 @@ const Settings = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = async () => {
+        const result = await updateProfile(userData);
+        if (result.success) {
+            alert('Profile updated successfully!');
+        } else {
+            alert('Failed to update profile: ' + result.error);
+        }
     };
 
     return (
@@ -70,7 +80,7 @@ const Settings = () => {
                                 </div>
                                 <div className="profile-info-summary">
                                     <h2>{userData.name}</h2>
-                                    <p>{userData.village}, {userData.state}</p>
+                                    <p>{userData.village}, {userData.district}, {userData.state}</p>
                                 </div>
                             </div>
 
@@ -82,6 +92,10 @@ const Settings = () => {
                                 <div className="form-group">
                                     <label>{pt.state}</label>
                                     <input type="text" name="state" value={userData.state} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>District</label>
+                                    <input type="text" name="district" value={userData.district} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>{pt.address}</label>
@@ -125,7 +139,7 @@ const Settings = () => {
                                     <label>{pt.currentWeek}</label>
                                     <div className="static-value">{pregnancyWeek} Weeks</div>
                                 </div>
-                                <button type="button" className="save-btn">{pt.save}</button>
+                                <button type="button" className="save-btn" onClick={handleSave}>{pt.save}</button>
                             </form>
                         </div>
                     ) : (
@@ -136,7 +150,7 @@ const Settings = () => {
                                     <label>{st.newPhone}</label>
                                     <input type="tel" name="phone" placeholder={userData.phone} />
                                 </div>
-                                <button type="button" className="save-btn">{pt.save}</button>
+                                <button type="button" className="save-btn" onClick={handleSave}>{pt.save}</button>
                             </form>
 
                             <hr className="divider" />

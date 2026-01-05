@@ -135,22 +135,50 @@
 }
 
 .pregnancy-circle-section {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.decorative-circle {
-    width: 160px;
-    height: 160px;
-    background: #ffffff;
-    border: 8px solid #FFF5F8;
-    border-radius: 50%;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-    position: relative;
+}
+
+.circular-chart {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 250px;
+    transform: rotate(-90deg);
+    /* Start from top */
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #FFF5F8;
+    stroke-width: 2.5;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    /* Stroke color set inline or via class */
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+.circle-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+
+.week-display {
+    text-align: center;
+    z-index: 1;
 }
 
 
@@ -339,6 +367,46 @@
     font-weight: 700;
     color: #2D3436;
     margin: 4px 0;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.health-input {
+    width: 80px;
+    padding: 4px 8px;
+    border: 1px solid #FFB6C1;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    outline: none;
+    background: #FFF5F8;
+}
+
+.health-input:focus {
+    border-color: #FF8C94;
+    box-shadow: 0 0 0 2px rgba(255, 140, 148, 0.2);
+}
+
+.edit-icon {
+    font-size: 0.8rem;
+    color: #AAA;
+    margin-left: 8px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.health-card:hover .edit-icon {
+    opacity: 1;
+}
+
+.save-icon {
+    font-size: 0.9rem;
+    color: #4CAF50;
+    margin-left: 8px;
+    cursor: pointer;
 }
 
 .health-badge {

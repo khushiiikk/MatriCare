@@ -6,9 +6,10 @@ import './AshaPatients.css';
 import './AshaMap.css';
 
 const Dashboard = () => {
-    const { user, updateProfilePicture, logout } = useAuth();
+    const { user, updateProfile, logout } = useAuth();
     const navigate = useNavigate();
     const [uploading, setUploading] = useState(false);
+    const [editingField, setEditingField] = useState(null);
     const [pregnancyData, setPregnancyData] = useState({
         currentWeek: 0,
         currentDay: 0,
@@ -21,7 +22,7 @@ const Dashboard = () => {
     });
     const [healthData, setHealthData] = useState({
         hemoglobin: null,
-        bloodPressure: null,
+        bloodGroup: null,
         weight: null,
         lastReport: null
     });
@@ -74,17 +75,26 @@ const Dashboard = () => {
         if (reports.length > 0) {
             const latest = reports[reports.length - 1];
             setHealthData({
-                hemoglobin: latest.hemoglobin || null,
-                bloodPressure: latest.bloodPressure || null,
+                hemoglobin: latest.hemoglobin || user?.hemoglobin || null,
+                bloodGroup: user?.bloodGroup || null,
                 weight: latest.weight || user?.weight || null,
                 lastReport: latest.date || null
             });
         } else {
             setHealthData({
-                ...healthData,
-                weight: user?.weight || null
+                hemoglobin: user?.hemoglobin || null,
+                bloodGroup: user?.bloodGroup || null,
+                weight: user?.weight || null,
+                lastReport: null
             });
         }
+    };
+
+    const saveHealthData = async (field, value) => {
+        setEditingField(null);
+        const updates = {};
+        updates[field] = value;
+        await updateProfile(updates);
     };
 
 
@@ -144,7 +154,27 @@ const Dashboard = () => {
                         {user?.role === 'patient' ? (
                             <div className="main-pregnancy-card">
                                 <div className="pregnancy-circle-section">
-                                    <div className="decorative-circle">
+                                    <svg viewBox="0 0 36 36" className="circular-chart">
+                                        <defs>
+                                            <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#81C784" />
+                                                <stop offset="100%" stopColor="#4CAF50" />
+                                            </linearGradient>
+                                        </defs>
+                                        <path className="circle-bg"
+                                            d="M18 2.0845
+                                               a 15.9155 15.9155 0 0 1 0 31.831
+                                               a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        />
+                                        <path className="circle"
+                                            strokeDasharray={`${(pregnancyData.currentWeek / 36) * 100}, 100`}
+                                            stroke={pregnancyData.currentWeek > 36 ? "#FF5252" : "url(#greenGradient)"}
+                                            d="M18 2.0845
+                                               a 15.9155 15.9155 0 0 1 0 31.831
+                                               a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        />
+                                    </svg>
+                                    <div className="circle-content">
                                         <div className="week-display">
                                             <span className="week-number">{pregnancyData.currentWeek}</span>
                                             <span className="week-label">WEEKS</span>
@@ -188,32 +218,94 @@ const Dashboard = () => {
                         {user?.role === 'patient' && (
                             <>
                                 <div className="health-cards-grid">
-                                    <div className="health-card weight-card">
+                                    {/* Weight Card */}
+                                    <div className="health-card weight-card" onClick={() => setEditingField('weight')}>
                                         <div className="health-info">
                                             <span className="health-label">Weight</span>
-                                            <span className="health-value">{healthData.weight ? `${healthData.weight} kg` : '--'}</span>
+                                            {editingField === 'weight' ? (
+                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
+                                                    <input
+                                                        type="number"
+                                                        className="health-input"
+                                                        value={healthData.weight || ''}
+                                                        onChange={(e) => setHealthData({ ...healthData, weight: e.target.value })}
+                                                        autoFocus
+                                                    />
+                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('weight', healthData.weight); }}>💾</span>
+                                                </div>
+                                            ) : (
+                                                <span className="health-value">
+                                                    {healthData.weight ? `${healthData.weight} kg` : '--'}
+                                                    <span className="edit-icon">✎</span>
+                                                </span>
+                                            )}
                                             <span className={`health-badge badge-${getHealthStatus('weight', healthData.weight).color}`}>
                                                 {getHealthStatus('weight', healthData.weight).icon} {getHealthStatus('weight', healthData.weight).status}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="health-card hemoglobin-card">
+                                    {/* Hemoglobin Card */}
+                                    <div className="health-card hemoglobin-card" onClick={() => setEditingField('hemoglobin')}>
                                         <div className="health-info">
                                             <span className="health-label">Hemoglobin</span>
-                                            <span className="health-value">{healthData.hemoglobin ? `${healthData.hemoglobin} g/dL` : '--'}</span>
+                                            {editingField === 'hemoglobin' ? (
+                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        className="health-input"
+                                                        value={healthData.hemoglobin || ''}
+                                                        onChange={(e) => setHealthData({ ...healthData, hemoglobin: e.target.value })}
+                                                        autoFocus
+                                                    />
+                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('hemoglobin', healthData.hemoglobin); }}>💾</span>
+                                                </div>
+                                            ) : (
+                                                <span className="health-value">
+                                                    {healthData.hemoglobin ? `${healthData.hemoglobin} g/dL` : '--'}
+                                                    <span className="edit-icon">✎</span>
+                                                </span>
+                                            )}
                                             <span className={`health-badge badge-${getHealthStatus('hemoglobin', healthData.hemoglobin).color}`}>
                                                 {getHealthStatus('hemoglobin', healthData.hemoglobin).icon} {getHealthStatus('hemoglobin', healthData.hemoglobin).status}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="health-card bp-card">
+                                    {/* Blood Group Card */}
+                                    <div className="health-card bp-card" onClick={() => setEditingField('bloodGroup')}>
                                         <div className="health-info">
-                                            <span className="health-label">Blood Pressure</span>
-                                            <span className="health-value">{healthData.bloodPressure || '--'}</span>
-                                            <span className="health-badge badge-#81C784">
-                                                {healthData.bloodPressure ? '✓ Normal' : 'Not tested'}
+                                            <span className="health-label">Blood Group</span>
+                                            {editingField === 'bloodGroup' ? (
+                                                <div className="health-value" onClick={(e) => e.stopPropagation()}>
+                                                    <select
+                                                        className="health-input"
+                                                        value={healthData.bloodGroup || ''}
+                                                        onChange={(e) => setHealthData({ ...healthData, bloodGroup: e.target.value })}
+                                                        autoFocus
+                                                        style={{ width: '100px' }}
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="A+">A+</option>
+                                                        <option value="A-">A-</option>
+                                                        <option value="B+">B+</option>
+                                                        <option value="B-">B-</option>
+                                                        <option value="O+">O+</option>
+                                                        <option value="O-">O-</option>
+                                                        <option value="AB+">AB+</option>
+                                                        <option value="AB-">AB-</option>
+                                                    </select>
+                                                    <span className="save-icon" onClick={(e) => { e.stopPropagation(); saveHealthData('bloodGroup', healthData.bloodGroup); }}>💾</span>
+                                                </div>
+                                            ) : (
+                                                <span className="health-value">
+                                                    {healthData.bloodGroup || '--'}
+                                                    <span className="edit-icon">✎</span>
+                                                </span>
+                                            )}
+                                            <span className="health-badge badge-#E0E0E0">
+                                                Click to edit
                                             </span>
                                         </div>
                                     </div>
@@ -230,7 +322,12 @@ const Dashboard = () => {
                             <div className="quick-actions-section">
                                 <h3>Quick Actions</h3>
                                 <div className="action-cards">
-
+                                    <div className="action-card" onClick={() => navigate('/yoga')}>
+                                        <div className="action-icon-img">
+                                            <img src="/yoga-home-icon-new.jpg" alt="Yoga" />
+                                        </div>
+                                        <span>Yoga</span>
+                                    </div>
                                     <div className="action-card" onClick={() => navigate('/chatbot')}>
                                         <div className="action-icon-img">
                                             <img src="/chatbot-new.jpg" alt="AI Assistant" />

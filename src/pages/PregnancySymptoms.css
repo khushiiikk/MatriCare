@@ -1,6 +1,5 @@
-.pregnancy-risks-page-container {
+.pregnancy-symptoms-page-container {
     padding: 60px 0 80px;
-    /* Increased top padding for content */
     background-color: #f8f9fa;
     min-height: 100vh;
     position: relative;
@@ -16,7 +15,6 @@
     padding: 8px 16px;
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    /* Subtle shadow for visibility */
     border: 1px solid #eceff1;
     display: flex;
     align-items: center;
@@ -24,6 +22,7 @@
     text-decoration: none;
     transition: all 0.2s;
     z-index: 10;
+    cursor: pointer;
 }
 
 .back-btn-absolute:hover {
@@ -32,7 +31,7 @@
     color: #E91E63;
 }
 
-.risks-main-content {
+.symptoms-main-content {
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
@@ -42,7 +41,6 @@
     background: white;
     border-radius: 12px;
     padding: 30px;
-    /* Reduced padding */
     margin-bottom: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.03);
@@ -50,7 +48,6 @@
 
 .section-title-clean {
     font-size: 1.35rem;
-    /* Reduced from 1.5rem */
     color: #2c3e50;
     margin-bottom: 16px;
     font-weight: 700;
@@ -71,21 +68,19 @@
 
 .section-text-clean {
     font-size: 0.95rem;
-    /* Reduced from 1.05rem */
     color: #546e7a;
     line-height: 1.6;
     margin-bottom: 16px;
 }
 
-.subsection-title {
-    font-size: 1.1rem;
-    /* Reduced */
-    color: #37474f;
-    margin: 24px 0 16px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.info-box-highlight {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #2196f3;
+    color: #1976d2;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 /* Link Tags / Chips */
@@ -100,10 +95,8 @@
     background: #fff;
     color: #555;
     padding: 8px 16px;
-    /* Slightly smaller padding */
     border-radius: 50px;
     font-size: 0.85rem;
-    /* Smaller font */
     font-weight: 500;
     text-decoration: none;
     border: 1px solid #e0e0e0;
@@ -117,42 +110,6 @@
     border-color: #E91E63;
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(233, 30, 99, 0.25);
-}
-
-/* Bullet List styling */
-.risk-list-styled {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-.risk-list-styled li {
-    position: relative;
-    padding-left: 30px;
-    margin-bottom: 15px;
-    color: #546e7a;
-    line-height: 1.6;
-}
-
-.risk-list-styled li::before {
-    content: "•";
-    color: #E91E63;
-    font-weight: bold;
-    font-size: 1.5rem;
-    position: absolute;
-    left: 5px;
-    top: -5px;
-}
-
-.risk-list-styled a {
-    color: #D81B60;
-    text-decoration: none;
-    border-bottom: 1px dotted #D81B60;
-    transition: all 0.2s;
-}
-
-.risk-list-styled a:hover {
-    background: rgba(233, 30, 99, 0.05);
 }
 
 /* Emergency Card */
@@ -197,6 +154,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
 }
 
 .alert-item::before {
@@ -214,23 +173,22 @@
     flex-shrink: 0;
 }
 
-/* Management List */
-.management-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+.alert-item.link-hover:hover {
+    border-color: #d32f2f;
+    background: #fff5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.1);
 }
 
-.management-list li {
+.management-note {
     background: #f1f8e9;
     padding: 20px;
     border-radius: 12px;
     color: #33691e;
     font-weight: 500;
     border: 1px solid #dcedc8;
+    margin-top: 24px;
+    line-height: 1.6;
 }
 
 /* Citation */

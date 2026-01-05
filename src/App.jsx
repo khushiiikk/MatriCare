@@ -14,6 +14,7 @@ import Chatbot from './pages/Chatbot';
 import Yoga from './pages/Yoga';
 import TrimesterPage from './pages/TrimesterPage';
 import PregnancyRisks from './pages/PregnancyRisks';
+import PregnancySymptoms from './pages/PregnancySymptoms';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
 
@@ -80,6 +81,14 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <PregnancyRisks />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/pregnancy-symptoms"
+                        element={
+                            <ProtectedRoute>
+                                <PregnancySymptoms />
                             </ProtectedRoute>
                         }
                     />
