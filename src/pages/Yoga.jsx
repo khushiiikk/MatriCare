@@ -41,23 +41,21 @@ const Yoga = () => {
                     <p>Gentle exercises for your pregnancy journey.</p>
                 </div>
 
-                <div className="page-grid-container">
+                <div className="yoga-menu-grid fade-in-up">
                     {trimesters.map((trimester) => (
                         <div
                             key={trimester.id}
-                            className="professional-card floating-subtle"
+                            className="yoga-menu-card"
                             onClick={() => navigate(`/yoga/trimester/${trimester.id}`)}
                         >
-                            <div className="professional-card-image-wrapper">
+                            <div className="yoga-illustration-circle">
                                 <img src={trimester.image} alt={trimester.title} />
                             </div>
-                            <div className="professional-card-content">
-                                <h2 className="professional-card-title">{trimester.title}</h2>
-                                <p className="professional-card-text">{trimester.description}</p>
-                                <button className="professional-card-btn">
-                                    Explore →
-                                </button>
-                            </div>
+                            <h2 className="yoga-card-title">{trimester.title}</h2>
+                            <p className="yoga-card-text">{trimester.description}</p>
+                            <button className="yoga-card-btn">
+                                Explore →
+                            </button>
                         </div>
                     ))}
                 </div>

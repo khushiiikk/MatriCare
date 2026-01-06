@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import MedicalAnalysis from '../components/MedicalAnalysis';
@@ -11,7 +11,16 @@ const Health = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
     const t = translations[language] || translations.en;
+    const location = useLocation();
     const [activeView, setActiveView] = useState('menu'); // 'menu', 'analysis', 'risks', 'symptoms'
+
+    useEffect(() => {
+        if (location.state?.view) {
+            setActiveView(location.state.view);
+            // Clear state to avoid reopening on refresh
+            window.history.replaceState({}, document.title);
+        }
+    }, [location]);
 
     const renderMenu = () => (
         <div className="health-menu-grid fade-in-up">

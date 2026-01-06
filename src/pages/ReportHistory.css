@@ -3,6 +3,7 @@
     max-width: 1000px;
     margin: 0 auto;
     min-height: 100vh;
+    background: linear-gradient(135deg, #fff5f8 0%, #fffcfd 100%);
 }
 
 .history-header {
@@ -27,37 +28,43 @@
 }
 
 .back-btn:hover {
-    background: #fdf7f8;
-    border-color: #ffb6c1;
-    color: #ff8c94;
+    background: #fce4ec;
+    border-color: #f8bbd0;
+    color: #ad1457;
 }
 
 .history-header h1 {
+    font-family: 'Playfair Display', serif;
     font-size: 2rem;
-    color: #333;
+    color: #880e4f;
     margin-bottom: 8px;
+    font-weight: 800;
 }
 
 .history-header p {
-    color: #666;
+    color: #ad1457;
+    font-weight: 500;
 }
 
 .history-chart-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 24px;
     padding: 30px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 40px rgba(233, 30, 99, 0.05);
     margin-bottom: 40px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #fce4ec;
 }
 
 .history-chart-card h3 {
+    font-family: 'Playfair Display', serif;
     margin-bottom: 25px;
-    color: #333;
-    font-size: 1.2rem;
+    color: #880e4f;
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     gap: 10px;
+    font-weight: 700;
 }
 
 .history-chart-card h3::before {
@@ -87,12 +94,13 @@
 }
 
 .report-item-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 20px 25px;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-    transition: transform 0.3s;
+    border: 1px solid #fce4ec;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.02);
+    transition: all 0.4s ease;
 }
 
 .report-item-card:hover {
@@ -109,7 +117,7 @@
 
 .report-date {
     font-weight: 700;
-    color: #333;
+    color: #880e4f;
     font-size: 0.95rem;
 }
 
@@ -141,7 +149,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
-    background: #fdf7f8;
+    background: #fff5f8;
     padding: 12px 20px;
     border-radius: 15px;
     margin-bottom: 15px;
@@ -164,7 +172,7 @@
 .mini-metric span {
     font-family: 'DM Sans', sans-serif;
     font-weight: 800;
-    color: #333;
+    color: #880e4f;
     font-size: 1.1rem;
 }
 
@@ -202,13 +210,14 @@
 
 .analyze-now-btn {
     padding: 15px 40px;
-    background: linear-gradient(135deg, #FFB6C1 0%, #FF8C94 100%);
+    background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: 50px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(255, 140, 148, 0.3);
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
+    transition: all 0.3s ease;
 }
 
 @media (max-width: 600px) {

@@ -26,6 +26,24 @@ const Dashboard = () => {
         weight: null,
         lastReport: null
     });
+    const [dailyTip, setDailyTip] = useState({
+        title: "Kesar Milk (Saffron)",
+        content: "Traditionally believed to improve baby's health. Add 2-3 strands to warm milk at night.",
+        icon: "🥛"
+    });
+
+    const indianTips = [
+        { title: "Kesar Milk (Saffron)", content: "Traditionally believed to improve baby's health. Add 2-3 strands to warm milk at night.", icon: "🥛" },
+        { title: "Coconut Water", content: "Stay hydrated and prevent UTIs with fresh coconut water daily.", icon: "🥥" },
+        { title: "Garbh Sanskar", content: "Communicate with your baby through music and positive thoughts.", icon: "✨" },
+        { title: "Soaked Almonds", icon: "🥜", content: "Soak 5-7 almonds overnight for brain development power." },
+        { title: "Morning Walk", icon: "🚶‍♀️", content: "A gentle 20-min walk in fresh air helps circulation and mood." }
+    ];
+
+    useEffect(() => {
+        const randomTip = indianTips[Math.floor(Math.random() * indianTips.length)];
+        setDailyTip(randomTip);
+    }, []);
 
     useEffect(() => {
         if (user?.role === 'patient' && user?.lmpDate) {
@@ -110,8 +128,8 @@ const Dashboard = () => {
     };
 
     const getTrimesterColor = () => {
-        const colors = ['#FFB6C1', '#FFA07A', '#FF8C94'];
-        return colors[pregnancyData.trimester - 1] || '#FFB6C1';
+        const colors = ['#fce4ec', '#f8bbd0', '#f48fb1'];
+        return colors[pregnancyData.trimester - 1] || '#fce4ec';
     };
 
     const getHealthStatus = (type, value) => {
@@ -120,16 +138,16 @@ const Dashboard = () => {
         if (type === 'hemoglobin') {
             if (value < 11) return { status: 'Low', color: '#FF6B6B', icon: '' };
             if (value < 12) return { status: 'Monitor', color: '#FFB74D', icon: '' };
-            return { status: 'Normal', color: '#81C784', icon: '' };
+            return { status: 'Normal', color: '#E91E63', icon: '' };
         }
 
         if (type === 'weight') {
             if (value < 45) return { status: 'Low', color: '#FF6B6B', icon: '' };
             if (value > 80) return { status: 'High', color: '#FFB74D', icon: '' };
-            return { status: 'Normal', color: '#81C784', icon: '' };
+            return { status: 'Normal', color: '#E91E63', icon: '' };
         }
 
-        return { status: 'Normal', color: '#81C784', icon: '' };
+        return { status: 'Normal', color: '#E91E63', icon: '' };
     };
 
     return (
@@ -156,15 +174,15 @@ const Dashboard = () => {
                                 <div className="pregnancy-circle-section">
                                     <svg viewBox="0 0 36 36" className="circular-chart">
                                         <defs>
-                                            <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                <stop offset="0%" stopColor="#81C784" />
-                                                <stop offset="100%" stopColor="#4CAF50" />
+                                            <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#E91E63" />
+                                                <stop offset="100%" stopColor="#C2185B" />
                                             </linearGradient>
                                         </defs>
                                         <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                                         <path className="circle"
                                             strokeDasharray={`${(pregnancyData.currentWeek / 40) * 100}, 100`}
-                                            stroke="url(#greenGradient)"
+                                            stroke="url(#pinkGradient)"
                                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                         />
                                     </svg>
@@ -282,8 +300,8 @@ const Dashboard = () => {
                                 {/* New Quick Actions (Premium Style) */}
                                 <div className="action-row-grid">
                                     <div className="premium-compact-card guide" onClick={() => navigate('/maternal-guide')}>
-                                        <div className="c-icon">📖</div>
-                                        <span>Maternal Guide</span>
+                                        <div className="c-icon">🏮</div>
+                                        <span>Indian Tips</span>
                                     </div>
                                     <div className="premium-compact-card report" onClick={() => navigate('/report-history')}>
                                         <div className="c-icon">📊</div>
@@ -301,7 +319,7 @@ const Dashboard = () => {
                                         <div className="c-icon">🤖</div>
                                         <span>AI Assistant</span>
                                     </div>
-                                    <div className="premium-compact-card health" onClick={() => navigate('/health')}>
+                                    <div className="premium-compact-card health" onClick={() => navigate('/health', { state: { view: 'analysis' } })}>
                                         <div className="c-icon">🏥</div>
                                         <span>Analytics</span>
                                     </div>
@@ -326,6 +344,22 @@ const Dashboard = () => {
                                 <div>
                                     <h4>Smt. Radha Devi</h4>
                                     <p>Village Rampur • 2.3 km away</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Interactive Tip of The Day */}
+                        <div className="tip-of-day-interactive" onClick={() => navigate('/maternal-guide')}>
+                            <div className="tip-card-inner">
+                                <div className="tip-front">
+                                    <div className="tip-badge">TIP OF THE DAY</div>
+                                    <div className="tip-icon-large">{dailyTip.icon}</div>
+                                    <h4>{dailyTip.title}</h4>
+                                    <p>Click to reveal wisdom</p>
+                                </div>
+                                <div className="tip-back">
+                                    <p>{dailyTip.content}</p>
+                                    <span className="read-more">Learn more in Indian Tips →</span>
                                 </div>
                             </div>
                         </div>
@@ -506,13 +540,13 @@ const AshaWorkerPatientList = () => {
     ];
 
     const getRiskColor = (risk) => {
-        return risk === 'High' ? '#FF6B6B' : '#81C784';
+        return risk === 'High' ? '#FF6B6B' : '#E91E63';
     };
 
     const getHemoglobinStatus = (hb) => {
         if (hb < 11) return { status: 'Low', color: '#FF6B6B' };
         if (hb < 12) return { status: 'Monitor', color: '#FFB74D' };
-        return { status: 'Normal', color: '#81C784' };
+        return { status: 'Normal', color: '#E91E63' };
     };
 
     const openMaps = (location, address) => {

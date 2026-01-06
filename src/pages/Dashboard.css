@@ -1,8 +1,7 @@
-/* Premium Dashboard Redesign */
 .pregnancy-dashboard {
     min-height: 100vh;
     padding: 100px 20px 40px;
-    background: #FAFBFC;
+    background: linear-gradient(135deg, #fff5f8 0%, #fffcfd 100%);
 }
 
 .dashboard-content {
@@ -27,27 +26,30 @@
 .profile-icon {
     width: 60px;
     height: 60px;
-    background: #FFF5F7;
+    background: #f8f9fa;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: #FF8BA0;
-    border: 1px solid #FFE4E1;
+    color: #444;
+    border: 1px solid #eee;
 }
 
 .welcome-text h3 {
     margin: 0;
-    font-size: 1.5rem;
-    color: #333;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #880e4f;
     font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .welcome-text p {
     margin: 0;
-    font-size: 0.9rem;
-    color: #888;
+    font-size: 0.8rem;
+    color: #ad1457;
+    font-weight: 600;
 }
 
 .header-actions {
@@ -72,8 +74,8 @@
 }
 
 .h-icon-btn.info {
-    background: #FFF5F7;
-    color: #FF4D6D;
+    background: #f0f0f5;
+    color: #444;
 }
 
 .h-icon-btn.settings {
@@ -102,14 +104,12 @@
 
 /* Main Pregnancy Card (Restored) */
 .main-pregnancy-card {
-    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 30px;
     padding: 30px;
-    box-shadow:
-        0 10px 30px -5px rgba(0, 0, 0, 0.05),
-        0 8px 10px -6px rgba(0, 0, 0, 0.05),
-        inset 0 0 20px rgba(0, 0, 0, 0.01);
-    border: 1px solid rgba(229, 231, 235, 0.5);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.05);
+    border: 1px solid #fce4ec;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -118,8 +118,8 @@
 }
 
 .main-pregnancy-card:hover {
-    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(233, 30, 99, 0.1);
 }
 
 .pregnancy-circle-section {
@@ -135,7 +135,7 @@
 
 .circle-bg {
     fill: none;
-    stroke: #fdf2f4;
+    stroke: #f2f2f7;
     stroke-width: 2.8;
 }
 
@@ -155,23 +155,26 @@
 
 .week-number {
     display: block;
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: #333;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #880e4f;
     line-height: 1;
+    letter-spacing: -0.04em;
 }
 
 .week-label {
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: #FF8BA0;
-    letter-spacing: 1.5px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #999;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .day-label {
-    font-size: 0.75rem;
-    color: #AAA;
+    font-size: 0.7rem;
+    color: #BBB;
     display: block;
+    font-weight: 500;
 }
 
 .trimester-progress {
@@ -179,32 +182,20 @@
     margin-bottom: 20px;
 }
 
-.progress-bar-container {
-    height: 10px;
-    background: #f0f0f0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 0.5s;
-}
-
 .trimester-label {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: #777;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #888;
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 .due-date-section {
-    background: #FDF7F8;
+    background: rgba(255, 255, 255, 0.7);
     padding: 15px 25px;
     border-radius: 15px;
-    border: 1px solid #FFE4E1;
+    border: 1px solid #fce4ec;
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.02);
 }
 
 .due-label {
@@ -216,8 +207,8 @@
 }
 
 .due-date {
-    font-size: 1rem;
-    font-weight: 800;
+    font-size: 0.9rem;
+    font-weight: 700;
     color: #333;
 }
 
@@ -230,28 +221,29 @@
 }
 
 .health-card-modern {
-    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 24px;
-    border: 1px solid rgba(229, 231, 235, 0.5);
-    box-shadow:
-        0 10px 20px -5px rgba(0, 0, 0, 0.03),
-        inset 0 0 15px rgba(0, 0, 0, 0.01);
+    border: 1px solid #fce4ec;
+    box-shadow: 0 10px 20px rgba(233, 30, 99, 0.02);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .health-card-modern:hover {
     transform: translateY(-5px);
-    background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
-    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #fffcfd 0%, #fce4ec 100%);
+    box-shadow: 0 15px 30px rgba(233, 30, 99, 0.1);
 }
 
 .h-label {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 800;
-    color: #999;
+    color: #ad1457;
+    /* Magenta pink */
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .h-value-row {
@@ -261,9 +253,11 @@
 }
 
 .h-val {
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: #333;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #880e4f;
+    /* Maroon */
+    letter-spacing: -0.01em;
 }
 
 .h-edit-row {
@@ -276,12 +270,12 @@
 .h-input {
     width: 80px;
     padding: 6px 10px;
-    border: 1px solid #FFE4E1;
+    border: 1px solid #ddd;
     border-radius: 12px;
     font-size: 1rem;
     font-weight: 800;
     color: #333;
-    background: #FFF5F7;
+    background: #fff;
     outline: none;
     transition: all 0.3s;
 }
@@ -317,25 +311,24 @@
 }
 
 .premium-compact-card {
-    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
     padding: 15px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.03),
-        inset 0 0 10px rgba(0, 0, 0, 0.01);
-    border: 1px solid rgba(248, 249, 250, 0.8);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.03);
+    border: 1px solid #fce4ec;
     cursor: pointer;
     transition: all 0.4s ease;
 }
 
 .premium-compact-card:hover {
-    background: linear-gradient(145deg, #f3f4f6 0%, #e5e7eb 100%);
-    border-color: #e5e7eb;
-    transform: scale(1.03) translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(145deg, #fffcfd 0%, #fce4ec 100%);
+    border-color: #f8bbd0;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(233, 30, 99, 0.08);
 }
 
 .c-icon {
@@ -351,9 +344,10 @@
 }
 
 .premium-compact-card span {
-    font-weight: 800;
+    font-weight: 700;
     color: #444;
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    letter-spacing: -0.01em;
 }
 
 /* Bottom Grid */
@@ -364,26 +358,111 @@
     margin-bottom: 30px;
 }
 
-@media (max-width: 768px) {
-    .bottom-dashboard-grid {
-        grid-template-columns: 1fr;
-    }
+.tip-of-day-interactive {
+    height: 125px;
+    /* Further reduced height */
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.tip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.tip-of-day-interactive:hover .tip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.tip-front,
+.tip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    /* Slightly smaller radius */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    /* Reduced padding from 25px */
+}
+
+.tip-front {
+    background: linear-gradient(135deg, #FFF5F7 0%, #FCE4EC 100%);
+    border: 1px solid #F8BBD0;
+    color: #880E4F;
+}
+
+.tip-back {
+    background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.tip-badge {
+    font-size: 0.5rem;
+    font-weight: 900;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 50px;
+    margin-bottom: 6px;
+    color: #E91E63;
+    border: 1px solid #F8BBD0;
+}
+
+.tip-icon-large {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.tip-front h4 {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.tip-front p {
+    font-size: 0.65rem;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.tip-back p {
+    font-size: 0.82rem;
+    /* Consistent body size */
+    line-height: 1.4;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.read-more {
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-decoration: underline;
+    opacity: 0.9;
 }
 
 .asha-worker-card-premium {
-    background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 24px;
     padding: 20px;
-    border: 1px solid rgba(240, 240, 240, 0.8);
-    box-shadow:
-        0 10px 25px -5px rgba(0, 0, 0, 0.03),
-        inset 0 0 15px rgba(0, 0, 0, 0.01);
+    border: 1px solid #fce4ec;
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.05);
     transition: all 0.4s ease;
 }
 
 .asha-worker-card-premium:hover {
-    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(233, 30, 99, 0.1);
 }
 
 .asha-header {
@@ -402,12 +481,19 @@
 
 .asha-call-btn {
     padding: 6px 15px;
-    background: #ecfdf5;
-    color: #10b981;
+    background: #fff5f8;
+    color: #ad1457;
+    border: 1px solid #fce4ec;
     border-radius: 50px;
     font-weight: 800;
     font-size: 0.8rem;
     text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.asha-call-btn:hover {
+    background: #ad1457;
+    color: white;
 }
 
 .asha-body {
@@ -419,13 +505,14 @@
 .asha-pfp {
     width: 45px;
     height: 45px;
-    background: #FDF2F4;
+    background: #fff5f8;
+    border: 1px solid #fce4ec;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    color: #FF8BA0;
+    color: #ad1457;
 }
 
 .asha-body h4 {
@@ -438,40 +525,6 @@
     margin: 0;
     font-size: 0.8rem;
     color: #999;
-}
-
-/* Tip Banner */
-.tip-banner-premium {
-    background: #FFF0F2;
-    padding: 20px 25px;
-    border-radius: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tip-tag {
-    display: inline-block;
-    padding: 4px 10px;
-    background: white;
-    color: #FF8BA0;
-    border-radius: 8px;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}
-
-.tip-banner-premium h4 {
-    margin: 0;
-    font-size: 1rem;
-    color: #5D4037;
-    line-height: 1.4;
-    font-weight: 700;
-}
-
-.tip-illustration {
-    font-size: 2.5rem;
 }
 
 /* Emergency Bar */
@@ -499,6 +552,12 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    .bottom-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 500px) {
     .action-row-grid {
         grid-template-columns: 1fr;

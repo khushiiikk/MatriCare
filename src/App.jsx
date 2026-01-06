@@ -17,7 +17,7 @@ import PregnancyRisks from './pages/PregnancyRisks';
 import PregnancySymptoms from './pages/PregnancySymptoms';
 import ReportHistory from './pages/ReportHistory';
 import DietPlan from './pages/DietPlan';
-import MaternalGuide from './pages/MaternalGuide';
+import IndianTips from './pages/IndianTips';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
 
@@ -115,7 +115,7 @@ const AppContent = () => {
                         path="/maternal-guide"
                         element={
                             <ProtectedRoute>
-                                <MaternalGuide />
+                                <IndianTips />
                             </ProtectedRoute>
                         }
                     />
