@@ -321,6 +321,48 @@
     letter-spacing: 0.5px;
 }
 
+.asha-profile-summary {
+    background: #fff5f8;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #fce4ec;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.summary-item .label {
+    font-weight: 500;
+}
+
+.summary-item .value {
+    color: #333;
+    font-weight: 600;
+}
+
+.assigned-box {
+    margin-top: 5px;
+    padding-top: 8px;
+    border-top: 1px dashed #fce4ec;
+}
+
+.highlighting {
+    color: #ad1457 !important;
+    font-size: 0.85rem;
+}
+
+.profile-dropdown-menu .dropdown-item {
+    padding: 10px 16px;
+}
+
 .dropdown-item {
     display: flex;
     align-items: center;

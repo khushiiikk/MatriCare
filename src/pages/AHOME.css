@@ -1,0 +1,163 @@
+/* AHOME.css - ASHA Home Page Styles */
+.ahome-container {
+    background: #fff;
+}
+
+.ahome-hero {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #880e4f 0%, #ad1457 100%);
+    color: white;
+    padding: 0 20px;
+}
+
+.ahome-hero-content h1 {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+}
+
+.ahome-hero-content h1 span {
+    color: #fce4ec;
+}
+
+.ahome-hero-content p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    opacity: 0.9;
+}
+
+.ahome-cta-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.ahome-primary-btn {
+    padding: 12px 30px;
+    background: #fff;
+    color: #880e4f;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ahome-secondary-btn {
+    padding: 12px 30px;
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ahome-primary-btn:hover {
+    background: #fce4ec;
+    transform: translateY(-2px);
+}
+
+.ahome-secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.ahome-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    background: white;
+    margin-top: -50px;
+    width: 80%;
+    margin-left: 10%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.stat-num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #880e4f;
+    font-family: 'Playfair Display', serif;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ahome-features {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.ahome-features h2 {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    padding: 30px;
+    background: #fdf2f2;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    background: #fce4ec;
+}
+
+.feat-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    color: #880e4f;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    color: #555;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ahome-hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .ahome-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

@@ -26,11 +26,12 @@ const Home = () => {
         return () => clearInterval(interval);
     }, [t.quotes?.length]);
 
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
 
-    // If logged in, redirect to Dashboard
+    // If logged in, redirect based on role
     if (isAuthenticated) {
-        return <Navigate to="/dashboard" replace />;
+        const redirectPath = user?.role === 'asha' ? '/Adash' : '/dashboard';
+        return <Navigate to={redirectPath} replace />;
     }
 
     return (

@@ -85,6 +85,12 @@ const Settings = () => {
                             </div>
 
                             <form className="settings-form">
+                                {currentUser?.role === 'asha' && (
+                                    <div className="form-group">
+                                        <label>Employee ID</label>
+                                        <div className="static-value">{currentUser?.employeeId || 'N/A'}</div>
+                                    </div>
+                                )}
                                 <div className="form-group">
                                     <label>{pt.village}</label>
                                     <input type="text" name="village" value={userData.village} onChange={handleInputChange} />
@@ -101,44 +107,49 @@ const Settings = () => {
                                     <label>{pt.address}</label>
                                     <textarea name="address" value={userData.address} onChange={handleInputChange} />
                                 </div>
-                                <div className="form-group">
-                                    <label>{pt.age}</label>
-                                    <input type="number" name="age" value={userData.age} onChange={handleInputChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label>{pt.weight} (kg)</label>
-                                    <input type="number" name="weight" value={userData.weight} onChange={handleInputChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Height (cm)</label>
-                                    <input type="number" name="height" value={userData.height} onChange={handleInputChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Blood Group</label>
-                                    <input type="text" name="bloodGroup" value={userData.bloodGroup} onChange={handleInputChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Chronic Conditions</label>
-                                    <input type="text" name="conditions" value={userData.conditions} onChange={handleInputChange} />
-                                </div>
-                                <div className="form-grid-inner">
-                                    <div className="form-group">
-                                        <label>Gravida (Pregnancies)</label>
-                                        <input type="number" name="gravida" value={userData.gravida} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Para (Live Births)</label>
-                                        <input type="number" name="para" value={userData.para} onChange={handleInputChange} />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>{pt.edd}</label>
-                                    <div className="static-value">{edd}</div>
-                                </div>
-                                <div className="form-group">
-                                    <label>{pt.currentWeek}</label>
-                                    <div className="static-value">{pregnancyWeek} Weeks</div>
-                                </div>
+
+                                {currentUser?.role !== 'asha' && (
+                                    <>
+                                        <div className="form-group">
+                                            <label>{pt.age}</label>
+                                            <input type="number" name="age" value={userData.age} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{pt.weight} (kg)</label>
+                                            <input type="number" name="weight" value={userData.weight} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Height (cm)</label>
+                                            <input type="number" name="height" value={userData.height} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Blood Group</label>
+                                            <input type="text" name="bloodGroup" value={userData.bloodGroup} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Chronic Conditions</label>
+                                            <input type="text" name="conditions" value={userData.conditions} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-grid-inner">
+                                            <div className="form-group">
+                                                <label>Gravida (Pregnancies)</label>
+                                                <input type="number" name="gravida" value={userData.gravida} onChange={handleInputChange} />
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Para (Live Births)</label>
+                                                <input type="number" name="para" value={userData.para} onChange={handleInputChange} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{pt.edd}</label>
+                                            <div className="static-value">{edd}</div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{pt.currentWeek}</label>
+                                            <div className="static-value">{pregnancyWeek} Weeks</div>
+                                        </div>
+                                    </>
+                                )}
                                 <button type="button" className="save-btn" onClick={handleSave}>{pt.save}</button>
                             </form>
                         </div>

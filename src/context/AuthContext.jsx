@@ -201,6 +201,25 @@ export const AuthProvider = ({ children }) => {
                 return { success: true, user: dummyUser };
             }
 
+            if (mobile === '54321' && password === '54321') {
+                const ashaUser = {
+                    mobile: mobile,
+                    role: 'asha',
+                    name: 'Demo ASHA Worker',
+                    uid: `asha_test_${Date.now()}`,
+                    employeeId: 'ASHA-2024-8821',
+                    village: 'Village Rampur',
+                    registrationDate: '2024-03-12',
+                    assignedPatients: 14,
+                    createdAt: new Date().toISOString()
+                };
+                setUser(ashaUser);
+                setIsAuthenticated(true);
+                localStorage.setItem('matricare_user', JSON.stringify(ashaUser));
+                setLoading(false);
+                return { success: true, user: ashaUser };
+            }
+
             // 3. TRY FIREBASE (SLOWER, BUT COMPREHENSIVE)
             const { collection, query, where, getDocs } = await import('firebase/firestore');
             const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));

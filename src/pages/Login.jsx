@@ -58,7 +58,9 @@ const Login = () => {
         }
         setLoading(false);
         if (result.success) {
-            navigate(from, { replace: true });
+            const userRole = result.user?.role || role;
+            const redirectPath = userRole === 'asha' ? '/Adash' : '/dashboard';
+            navigate(redirectPath, { replace: true });
         } else {
             setError(result.error || 'Login failed');
         }
@@ -83,7 +85,8 @@ const Login = () => {
         const result = await signup(signupData);
         setLoading(false);
         if (result.success) {
-            navigate(from, { replace: true });
+            const redirectPath = role === 'asha' ? '/Adash' : '/dashboard';
+            navigate(redirectPath, { replace: true });
         } else {
             setError(result.error || 'Signup failed');
         }

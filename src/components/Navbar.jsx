@@ -39,15 +39,15 @@ const Navbar = () => {
         return location.pathname === path;
     };
 
-    const navLinks = [
+    const navLinks = user?.role === 'asha' ? [
+        { name: t.dashboard || 'Dashboard', path: '/Adash' },
+        { name: t.findCare, path: '/find-care' },
+    ] : [
         { name: t.home, path: '/' },
         { name: t.health, path: '/health' },
         { name: t.yoga, path: '/yoga' },
         { name: t.findCare, path: '/find-care' },
-    ].filter(link => {
-        if (user?.role === 'asha' && link.path === '/yoga') return false;
-        return true;
-    });
+    ];
 
     return (
         <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
@@ -111,9 +111,26 @@ const Navbar = () => {
                                             <span className="dropdown-user-name">{user?.name || 'User'}</span>
                                             <span className="dropdown-user-role">{user?.role === 'asha' ? 'ASHA Worker' : 'Expectant Mother'}</span>
                                         </div>
-                                        <Link to="/dashboard" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
-                                            Dashboard
-                                        </Link>
+                                        {user?.role === 'asha' && (
+                                            <div className="asha-profile-summary">
+                                                <div className="summary-item">
+                                                    <span className="label">Employee ID:</span>
+                                                    <span className="value">{user?.employeeId || 'N/A'}</span>
+                                                </div>
+                                                <div className="summary-item">
+                                                    <span className="label">Village:</span>
+                                                    <span className="value">{user?.village || 'N/A'}</span>
+                                                </div>
+                                                <div className="summary-item">
+                                                    <span className="label">Registered:</span>
+                                                    <span className="value">{user?.registrationDate || 'N/A'}</span>
+                                                </div>
+                                                <div className="summary-item assigned-box">
+                                                    <span className="label">Patients Managed:</span>
+                                                    <span className="value highlighting">{user?.assignedPatients || '0'}</span>
+                                                </div>
+                                            </div>
+                                        )}
                                         <Link to="/settings" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
                                             {t.settings || 'Settings'}
                                         </Link>
@@ -160,7 +177,7 @@ const Navbar = () => {
                         <li className="mobile-actions">
                             {isAuthenticated ? (
                                 <>
-                                    <Link to="/dashboard" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Link to={user?.role === 'asha' ? '/Adash' : '/dashboard'} className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                                         My Dashboard
                                     </Link>
                                     <Link to="/settings" className="mobile-action-link" onClick={() => setIsMobileMenuOpen(false)}>

@@ -11,6 +11,9 @@ import Settings from './pages/Settings';
 import FindCare from './pages/FindCare';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import AHOME from './pages/AHOME';
+import Adash from './pages/Adash';
+import Ayoga from './pages/Ayoga';
 import Chatbot from './pages/Chatbot';
 import Yoga from './pages/Yoga';
 import TrimesterPage from './pages/TrimesterPage';
@@ -45,6 +48,30 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/Adash"
+                        element={
+                            <ProtectedRoute>
+                                <Adash />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/AHOME"
+                        element={
+                            <ProtectedRoute>
+                                <AHOME />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/Ayoga"
+                        element={
+                            <ProtectedRoute>
+                                <Ayoga />
                             </ProtectedRoute>
                         }
                     />
