@@ -10,6 +10,7 @@ import Health from './pages/Health';
 import Settings from './pages/Settings';
 import FindCare from './pages/FindCare';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import Chatbot from './pages/Chatbot';
 import Yoga from './pages/Yoga';
 import TrimesterPage from './pages/TrimesterPage';
@@ -36,6 +37,14 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <Chatbot />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
                             </ProtectedRoute>
                         }
                     />

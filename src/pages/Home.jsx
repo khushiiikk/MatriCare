@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { translations } from '../translations/translations';
 import Particles from '../components/Particles';
-import Dashboard from './Dashboard';
 import './Home.css';
 import './AshaVisuals.css';
 
@@ -29,9 +28,9 @@ const Home = () => {
 
     const { isAuthenticated } = useAuth();
 
-    // If logged in, show Dashboard instead of Landing Page
+    // If logged in, redirect to Dashboard
     if (isAuthenticated) {
-        return <Dashboard />;
+        return <Navigate to="/dashboard" replace />;
     }
 
     return (

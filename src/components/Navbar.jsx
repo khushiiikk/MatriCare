@@ -111,7 +111,7 @@ const Navbar = () => {
                                             <span className="dropdown-user-name">{user?.name || 'User'}</span>
                                             <span className="dropdown-user-role">{user?.role === 'asha' ? 'ASHA Worker' : 'Expectant Mother'}</span>
                                         </div>
-                                        <Link to="/" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
+                                        <Link to="/dashboard" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
                                             Dashboard
                                         </Link>
                                         <Link to="/settings" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
@@ -160,7 +160,7 @@ const Navbar = () => {
                         <li className="mobile-actions">
                             {isAuthenticated ? (
                                 <>
-                                    <Link to="/" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Link to="/dashboard" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                                         My Dashboard
                                     </Link>
                                     <Link to="/settings" className="mobile-action-link" onClick={() => setIsMobileMenuOpen(false)}>

@@ -180,11 +180,11 @@ export const AuthProvider = ({ children }) => {
             }
 
             // 2. SPECIAL TEST CREDENTIAL (QUICK DEMO MODE)
-            if (password === '123456' || password === 'admin') {
+            if (password === '123456' || password === 'admin' || (mobile === '12345' && password === '12345')) {
                 const dummyUser = {
                     mobile: mobile,
                     role: 'patient',
-                    name: 'Test User',
+                    name: mobile === '12345' ? 'Demo Patient' : 'Test User',
                     uid: `test_${Date.now()}`,
                     createdAt: new Date().toISOString()
                 };

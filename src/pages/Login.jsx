@@ -31,7 +31,7 @@ const Login = () => {
     const { language } = useLanguage();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/dashboard";
 
     const handleSendOTP = async (e) => {
         e.preventDefault();
