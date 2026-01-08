@@ -343,6 +343,20 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
+.c-icon.image-mode {
+    padding: 0;
+    background: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #fce4ec;
+}
+
+.masi-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .premium-compact-card span {
     font-weight: 700;
     color: #444;

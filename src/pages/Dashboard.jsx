@@ -292,19 +292,27 @@ const Dashboard = () => {
                         {/* Quick Actions */}
                         <div className="action-row-grid">
                             <div className="premium-compact-card guide" onClick={() => navigate('/maternal-guide')}>
-                                <div className="c-icon">🏮</div>
+                                <div className="c-icon image-mode">
+                                    <img src="/masi-logo.jpg" alt="Advice" className="masi-icon" />
+                                </div>
                                 <span>Indian Tips</span>
                             </div>
                             <div className="premium-compact-card report" onClick={() => navigate('/report-history')}>
-                                <div className="c-icon">📊</div>
+                                <div className="c-icon image-mode">
+                                    <img src="/report-icon-new.jpg" alt="Report" className="masi-icon" />
+                                </div>
                                 <span>Report History</span>
                             </div>
                             <div className="premium-compact-card diet" onClick={() => navigate('/diet-plan')}>
-                                <div className="c-icon">🍴</div>
+                                <div className="c-icon image-mode">
+                                    <img src="/diet-icon-new.jpg" alt="Diet" className="masi-icon" />
+                                </div>
                                 <span>Diet Plan</span>
                             </div>
                             <div className="premium-compact-card yoga" onClick={() => navigate('/yoga')}>
-                                <div className="c-icon">🧘</div>
+                                <div className="c-icon image-mode">
+                                    <img src="/yoga-icon-new.jpg" alt="Yoga" className="masi-icon" />
+                                </div>
                                 <span>Yoga</span>
                             </div>
                             <div className="premium-compact-card chat" onClick={() => navigate('/chatbot')}>
@@ -312,7 +320,9 @@ const Dashboard = () => {
                                 <span>AI Assistant</span>
                             </div>
                             <div className="premium-compact-card health" onClick={() => navigate('/health', { state: { view: 'analysis' } })}>
-                                <div className="c-icon">🏥</div>
+                                <div className="c-icon image-mode">
+                                    <img src="/analytics-icon-new.jpg" alt="Analytics" className="masi-icon" />
+                                </div>
                                 <span>Analytics</span>
                             </div>
                         </div>
