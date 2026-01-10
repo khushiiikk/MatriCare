@@ -1,0 +1,104 @@
+{
+    "steps": {
+        "step1Title": "Personal Information",
+        "step2Title": "Pregnancy History",
+        "step3Title": "AI Risk Analysis"
+    },
+    "buttons": {
+        "continue": "Continue",
+        "analyze": "Continue to Risk Analysis",
+        "analyzing": "Analyzing Metrics...",
+        "back": "←"
+    },
+    "vitals": {
+        "bloodGlucose": {
+            "label": "Random Blood Sugar (RBS)",
+            "range": "70-140 mg/dL"
+        },
+        "bodyTemp": {
+            "label": "Body Temperature",
+            "range": "97-99°F"
+        },
+        "heartRate": {
+            "label": "Heart Rate (HR)",
+            "range": "60-100 BPM"
+        },
+        "hemoglobin": {
+            "label": "Hemoglobin Level (Hb)",
+            "range": "11-16 g/dL"
+        },
+        "hba1c": {
+            "label": "HBA1C Level",
+            "range": "4-6%"
+        },
+        "respirationRate": {
+            "label": "Respiration Rate (RR)",
+            "range": "12-20 per minute"
+        }
+    },
+    "history": {
+        "gravida": {
+            "label": "Gravida (G)",
+            "range": "0-10"
+        },
+        "para": {
+            "label": "Para (P)",
+            "range": "0-10"
+        },
+        "liveBirths": {
+            "label": "Live Births (L)",
+            "range": "0-10"
+        },
+        "abortions": {
+            "label": "Abortions (A)",
+            "range": "0-5"
+        },
+        "childDeaths": {
+            "label": "Child Deaths (D)",
+            "range": "0-5"
+        }
+    },
+    "results": {
+        "detailedAnalysis": "Detailed Analysis",
+        "aiRiskAssessment": "AI Risk Assessment",
+        "normalRange": "Normal Range",
+        "confidence": "Confidence",
+        "aiIntelligence": "AI Intelligence",
+        "autoSave": "Report automatically saved to your encrypted records"
+    },
+    "sidebar": {
+        "title": "Medical Analysis",
+        "description": "Track your vitals and pregnancy history for AI-driven risk assessment.",
+        "currentProgress": "Current Progress",
+        "stepOf": "Step",
+        "encryption": "Encryption",
+        "endToEnd": "End-to-End Secure"
+    },
+    "riskLevels": {
+        "severeAnemia": "Severe Anemia",
+        "mildAnemia": "Mild Anemia",
+        "high": "High",
+        "veryHigh": "Very High",
+        "low": "Low",
+        "normal": "Normal",
+        "noData": "No Data",
+        "lowRisk": "Low Risk",
+        "moderateRisk": "Moderate Risk",
+        "highRisk": "High Risk"
+    },
+    "riskFactors": {
+        "highBloodSugar": "High Blood Sugar",
+        "anemiaDetection": "Anemia Detection",
+        "hba1cElevation": "HbA1c Elevation",
+        "highHeartRate": "High Heart Rate",
+        "fever": "Fever",
+        "historyMiscarriages": "History of Miscarriages",
+        "highObstetricRisk": "High Obstetric Risk",
+        "grandMultiparity": "Grand Multiparity"
+    },
+    "advice": {
+        "lowRisk": "Continue regular prenatal checkups and maintain a healthy diet.",
+        "moderateRisk": "Closer monitoring required. Schedule a follow-up appointment soon to discuss these metrics with your healthcare provider.",
+        "highRisk": "Immediate medical attention recommended. High probability of complications detected. Please consult your obstetrician urgently."
+    }
+}

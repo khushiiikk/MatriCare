@@ -1,0 +1,56 @@
+{
+    "greeting": "नमस्ते",
+    "week": "सप्ताह",
+    "weeks": "सप्ताह",
+    "day": "दिन",
+    "trimester1": "पहली तिमाही",
+    "trimester2": "दूसरी तिमाही",
+    "trimester3": "तीसरी तिमाही",
+    "edd": "प्रसव की अनुमानित तिथि",
+    "weight": "वजन",
+    "hemoglobin": "हीमोग्लोबिन",
+    "bloodGroup": "रक्त समूह",
+    "cards": {
+        "indianTips": "घरेलू नुस्खे",
+        "reportHistory": "रिपोर्ट इतिहास",
+        "dietPlan": "आहार योजना",
+        "yoga": "योग",
+        "aiAssistant": "एआई सहायक",
+        "analytics": "एनालिटिक्स"
+    },
+    "asha": {
+        "title": "आपकी आशा कार्यकर्ता",
+        "call": "कॉल करें",
+        "village": "गाँव",
+        "away": "दूर"
+    },
+    "tip": {
+        "badge": "आज का सुझाव",
+        "reveal": "ज्ञान देखने के लिए क्लिक करें",
+        "more": "देसी नुस्खे में और जानें"
+    },
+    "emergency": {
+        "prompt": "आपातकालीन? मदद के लिए त्वरित संपर्क",
+        "ambulance": "एम्बुलेंस"
+    },
+    "profile": {
+        "title": "प्रोफ़ाइल",
+        "security": "सुरक्षा",
+        "village": "गांव",
+        "state": "राज्य",
+        "address": "पता",
+        "age": "आयु",
+        "edd": "प्रसव की अनुमानित तिथि",
+        "currentWeek": "वर्तमान सप्ताह",
+        "weight": "वजन",
+        "save": "बदलाव सहेजें"
+    },
+    "security": {
+        "changePhone": "फ़ोन नंबर बदलें",
+        "updatePassword": "पासवर्ड अपडेट करें",
+        "newPhone": "नया फ़ोन नंबर",
+        "currentPassword": "वर्तमान पासवर्ड",
+        "newPassword": "नया पासवर्ड",
+        "confirmPassword": "नए पासवर्ड की पुष्टि करें"
+    }
+}

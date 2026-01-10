@@ -1,0 +1,169 @@
+{
+    "home": {
+        "welcome": "Your Health, Our Responsibility",
+        "welcomeMain": "Your Health,",
+        "welcomeAccent": "Our Responsibility",
+        "subtitle": "Tracker, Yoga, and AI support in your language.",
+        "description": "MatriCare: Your digital companion for a safe pregnancy.",
+        "featuresTitle": "Our Features",
+        "features": {
+            "yoga": {
+                "title": "Safe Yoga",
+                "desc": "Plans for each trimester."
+            },
+            "tracker": {
+                "title": "Health Tracker",
+                "desc": "Daily vitals monitoring."
+            },
+            "care": {
+                "title": "Find Care",
+                "desc": "Nearby centers & hospitals."
+            },
+            "support": {
+                "title": "AI Assistant",
+                "desc": "Instant support 24/7."
+            }
+        },
+        "quotes": [
+            "Every mother deserves care, compassion, and support.",
+            "Your health is our priority, every step of the way.",
+            "Together, we ensure safe pregnancies and healthy babies.",
+            "Empowering mothers with knowledge and care.",
+            "A healthy mother means a healthy baby."
+        ]
+    },
+    "about": {
+        "mission": {
+            "title": "Our Mission",
+            "desc": "High-quality health support for every mother."
+        },
+        "vision": {
+            "title": "Our Vision",
+            "desc": "Safe and celebrated pregnancy through innovation."
+        }
+    },
+    "login": {
+        "welcomeTo": "Welcome to",
+        "appName": "MatriCare",
+        "tagline": "Track health, stay happy.",
+        "featureTags": [
+            "Tracker",
+            "AI Assistant",
+            "Yoga"
+        ],
+        "joinTitle": "Join MatriCare",
+        "welcomeBack": "Welcome back!",
+        "createAccount": "Create a free account",
+        "rolePatient": "Patient (Mother)",
+        "roleAsha": "ASHA Worker",
+        "otpLogin": "OTP Login",
+        "passwordLogin": "Password Login",
+        "mobileLabel": "Mobile Number",
+        "mobilePlaceholder": "Enter 10-digit mobile",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "Enter password",
+        "otpLabel": "Enter OTP",
+        "otpPlaceholder": "6-digit code",
+        "sendOtp": "Send OTP",
+        "verifyOtp": "Verify OTP",
+        "loginBtn": "Login",
+        "signupBtn": "Sign Up",
+        "switchToSignup": "Don't have an account? Sign Up",
+        "switchToLogin": "Already have an account? Login",
+        "fullNameLabel": "Full Name",
+        "fullNamePlaceholder": "Enter your name",
+        "employeeIdLabel": "Employee ID",
+        "employeeIdPlaceholder": "Enter ASHA ID",
+        "dobLabel": "Date of Birth",
+        "weightLabel": "Weight (kg)",
+        "weightPlaceholder": "Enter weight",
+        "stateLabel": "State",
+        "statePlaceholder": "Select state",
+        "districtLabel": "District",
+        "districtPlaceholder": "Select district",
+        "villageLabel": "Village/Town",
+        "villagePlaceholder": "Enter village",
+        "lmpLabel": "Last Menstrual Period (LMP)",
+        "lmpPlaceholder": "Select LMP date"
+    },
+    "findCare": {
+        "pageTitle": "Find Care",
+        "pageSubtitle": "Locate nearby healthcare facilities",
+        "categories": {
+            "asha": "ASHA Center",
+            "hospital": "Govt Hospital",
+            "ambulance": "Ambulance",
+            "pharmacy": "Pharmacy"
+        },
+        "mapLoading": "Loading map...",
+        "locationError": "Unable to get your location"
+    },
+    "settings": {
+        "pageTitle": "Settings",
+        "profileSection": "Profile Information",
+        "nameLabel": "Name",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "languageSection": "Language Preferences",
+        "selectLanguage": "Select Language",
+        "notificationsSection": "Notifications",
+        "enableNotifications": "Enable Notifications",
+        "emailNotifications": "Email Notifications",
+        "smsNotifications": "SMS Notifications",
+        "privacySection": "Privacy & Security",
+        "changePassword": "Change Password",
+        "dataPrivacy": "Data Privacy Settings",
+        "saveBtn": "Save Changes",
+        "cancelBtn": "Cancel"
+    },
+    "reportHistory": {
+        "pageTitle": "Report History",
+        "pageSubtitle": "View your medical reports",
+        "noReports": "No reports available",
+        "uploadNew": "Upload New Report",
+        "dateLabel": "Date",
+        "typeLabel": "Type",
+        "statusLabel": "Status",
+        "viewBtn": "View",
+        "downloadBtn": "Download"
+    },
+    "chatbot": {
+        "title": "Matri AI Assistant",
+        "onlineStatus": "Online",
+        "headerTitle": "Matri AI",
+        "welcomeTitle": "Hi, I'm Matri",
+        "welcomeSubtitle": "Your personal pregnancy companion. How can I help you today?",
+        "welcomeMessage": "Hello! I am Matri AI. How can I help you with your pregnancy journey today?",
+        "placeholder": "Ask me anything...",
+        "devResponse": "I'm Matri, your AI assistant. You can ask me about yoga, medical reports, finding care, or pregnancy risks!",
+        "quickHelp": {
+            "yoga": "Yoga Guide",
+            "health": "Health Analysis",
+            "findCare": "Find Care",
+            "risks": "Pregnancy Risks"
+        },
+        "orText": "or just ask me a question below",
+        "suggestions": [
+            "What should I eat?",
+            "Is back pain normal?",
+            "Yoga for trimester 2",
+            "Signs of labor"
+        ]
+    },
+    "asha": {
+        "hello": "Hello",
+        "mapTitle": "Patient Locations",
+        "selectPatient": "Select Patient for Route",
+        "distance": "Distance",
+        "estTime": "Est. Time",
+        "getDirections": "Get Directions",
+        "medicalHistory": "Medical History",
+        "visitHistory": "Visit History",
+        "recentReports": "Recent Reports",
+        "nearestPatients": "Nearest Patients",
+        "risk": "Risk",
+        "back": "Back to Dashboard",
+        "view": "View",
+        "map": "Map"
+    }
+}

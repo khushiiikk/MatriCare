@@ -15,6 +15,7 @@
     right: 0;
     height: var(--nav-height);
     background: rgba(255, 255, 255, 0.6);
+    /* Soft pink background */
     backdrop-filter: blur(20px);
     z-index: 1000;
     display: flex;
@@ -24,12 +25,14 @@
 
 .navbar:hover {
     background: rgba(255, 255, 255, 0.95);
+    /* Opaque pink on hover */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
 .navbar-scrolled {
     height: 70px;
     background: rgba(255, 255, 255, 0.95);
+    /* Opaque pink on scroll */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
 }
 
@@ -101,13 +104,13 @@
     align-items: center;
 }
 
-.logo-hindi {
-    color: var(--color-primary);
+.logo-main {
+    color: #AD1457;
     font-family: var(--font-main);
 }
 
-.logo-english {
-    color: #1a1a1a;
+.logo-accent {
+    color: #4A148C;
     font-family: 'Inter', sans-serif;
 }
 
@@ -118,19 +121,21 @@
 }
 
 .nav-pill {
-    background: var(--nav-pill-bg);
+    background: #AD1457;
+    /* Matches dashboard weight text color */
     padding: 6px;
     border-radius: 100px;
     display: flex;
     list-style: none;
     gap: 4px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 15px rgba(173, 20, 87, 0.2);
+    border: none;
 }
 
 .nav-pill-link {
     text-decoration: none;
-    color: #666;
+    color: rgba(255, 255, 255, 0.85);
+    /* Light text on dark pink */
     padding: 8px 18px;
     border-radius: 100px;
     font-size: 0.85rem;
@@ -139,15 +144,15 @@
 }
 
 .nav-pill-link:hover {
-    color: var(--color-primary);
-    background: rgba(255, 77, 109, 0.1);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
 }
 
 .nav-pill-link.active {
-    background: var(--color-white);
-    color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.15);
+    background: #ffffff;
+    color: #AD1457;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
 }
 

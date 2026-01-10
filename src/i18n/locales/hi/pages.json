@@ -1,0 +1,169 @@
+{
+    "home": {
+        "welcome": "आपका स्वास्थ्य, हमारी जिम्मेदारी",
+        "welcomeMain": "आपका स्वास्थ्य,",
+        "welcomeAccent": "हमारी जिम्मेदारी",
+        "subtitle": "ट्रैकर, योग और एआई सहायता। आपकी भाषा में।",
+        "description": "मातृCare: सुरक्षित गर्भावस्था के लिए आपका डिजिटल साथी।",
+        "featuresTitle": "हमारी विशेषताएं",
+        "features": {
+            "yoga": {
+                "title": "सुरक्षित योग",
+                "desc": "प्रत्येक तिमाही के लिए योजनाएं।"
+            },
+            "tracker": {
+                "title": "स्वास्थ्य ट्रैकर",
+                "desc": "दैनिक स्वास्थ्य की निगरानी।"
+            },
+            "care": {
+                "title": "देखभाल खोजें",
+                "desc": "पास के केंद्र और अस्पताल।"
+            },
+            "support": {
+                "title": "एआई सहायक",
+                "desc": "त्वरित सहायता 24/7।"
+            }
+        },
+        "quotes": [
+            "हर माँ को देखभाल, करुणा और समर्थन मिलना चाहिए।",
+            "आपका स्वास्थ्य हमारी प्राथमिकता है, हर कदम पर।",
+            "साथ मिलकर, हम सुरक्षित गर्भावस्था और स्वस्थ बच्चों को सुनिश्चित करते हैं।",
+            "ज्ञान और देखभाल के साथ माताओं को सशक्त बनाना।",
+            "एक स्वस्थ माँ का मतलब है एक स्वस्थ बच्चा।"
+        ]
+    },
+    "about": {
+        "mission": {
+            "title": "हमारा मिशन",
+            "desc": "हर माँ को उच्च गुणवत्ता वाली मातृ स्वास्थ्य सहायता।"
+        },
+        "vision": {
+            "title": "हमारा दृष्टिकोण",
+            "desc": "सुरक्षित गर्भावस्था, नवाचार के माध्यम से।"
+        }
+    },
+    "login": {
+        "welcomeTo": "स्वागत है",
+        "appName": "मैट्रीकेयर",
+        "tagline": "स्वास्थ्य ट्रैक करें, खुश रहें।",
+        "featureTags": [
+            "ट्रैकर",
+            "एआई सहायक",
+            "योग"
+        ],
+        "joinTitle": "मैट्रीकेयर में शामिल हों",
+        "welcomeBack": "वापसी पर स्वागत है!",
+        "createAccount": "मुफ्त खाता बनाएं",
+        "rolePatient": "रोगी (माता)",
+        "roleAsha": "आशा कार्यकर्ता",
+        "otpLogin": "ओटीपी लॉगिन",
+        "passwordLogin": "पासवर्ड लॉगिन",
+        "mobileLabel": "मोबाइल नंबर",
+        "mobilePlaceholder": "10 अंकों का मोबाइल दर्ज करें",
+        "passwordLabel": "पासवर्ड",
+        "passwordPlaceholder": "पासवर्ड दर्ज करें",
+        "otpLabel": "ओटीपी दर्ज करें",
+        "otpPlaceholder": "6 अंकों का कोड",
+        "sendOtp": "ओटीपी भेजें",
+        "verifyOtp": "ओटीपी सत्यापित करें",
+        "loginBtn": "लॉगिन",
+        "signupBtn": "साइन अप",
+        "switchToSignup": "खाता नहीं है? साइन अप करें",
+        "switchToLogin": "पहले से खाता है? लॉगिन करें",
+        "fullNameLabel": "पूरा नाम",
+        "fullNamePlaceholder": "अपना नाम दर्ज करें",
+        "employeeIdLabel": "कर्मचारी आईडी",
+        "employeeIdPlaceholder": "आशा आईडी दर्ज करें",
+        "dobLabel": "जन्म तिथि",
+        "weightLabel": "वजन (किलो)",
+        "weightPlaceholder": "वजन दर्ज करें",
+        "stateLabel": "राज्य",
+        "statePlaceholder": "राज्य चुनें",
+        "districtLabel": "जिला",
+        "districtPlaceholder": "जिला चुनें",
+        "villageLabel": "गांव/शहर",
+        "villagePlaceholder": "गांव दर्ज करें",
+        "lmpLabel": "अंतिम मासिक धर्म (एलएमपी)",
+        "lmpPlaceholder": "एलएमपी तिथि चुनें"
+    },
+    "findCare": {
+        "pageTitle": "देखभाल खोजें",
+        "pageSubtitle": "नजदीकी स्वास्थ्य सुविधाएं खोजें",
+        "categories": {
+            "asha": "आशा केंद्र",
+            "hospital": "सरकारी अस्पताल",
+            "ambulance": "एम्बुलेंस",
+            "pharmacy": "फार्मेसी"
+        },
+        "mapLoading": "मानचित्र लोड हो रहा है...",
+        "locationError": "आपका स्थान प्राप्त करने में असमर्थ"
+    },
+    "settings": {
+        "pageTitle": "सेटिंग्स",
+        "profileSection": "प्रोफ़ाइल जानकारी",
+        "nameLabel": "नाम",
+        "emailLabel": "ईमेल",
+        "phoneLabel": "फोन",
+        "languageSection": "भाषा प्राथमिकताएं",
+        "selectLanguage": "भाषा चुनें",
+        "notificationsSection": "सूचनाएं",
+        "enableNotifications": "सूचनाएं सक्षम करें",
+        "emailNotifications": "ईमेल सूचनाएं",
+        "smsNotifications": "एसएमएस सूचनाएं",
+        "privacySection": "गोपनीयता और सुरक्षा",
+        "changePassword": "पासवर्ड बदलें",
+        "dataPrivacy": "डेटा गोपनीयता सेटिंग्स",
+        "saveBtn": "परिवर्तन सहेजें",
+        "cancelBtn": "रद्द करें"
+    },
+    "reportHistory": {
+        "pageTitle": "रिपोर्ट इतिहास",
+        "pageSubtitle": "अपनी मेडिकल रिपोर्ट देखें",
+        "noReports": "कोई रिपोर्ट उपलब्ध नहीं",
+        "uploadNew": "नई रिपोर्ट अपलोड करें",
+        "dateLabel": "तिथि",
+        "typeLabel": "प्रकार",
+        "statusLabel": "स्थिति",
+        "viewBtn": "देखें",
+        "downloadBtn": "डाउनलोड करें"
+    },
+    "chatbot": {
+        "title": "मातृ एआई सहायक",
+        "onlineStatus": "ऑनलाइन",
+        "headerTitle": "मातृ एआई",
+        "welcomeTitle": "नमस्ते, मैं मातृ हूं",
+        "welcomeSubtitle": "आपकी व्यक्तिगत गर्भावस्था साथी। आज मैं आपकी कैसे मदद कर सकती हूं?",
+        "welcomeMessage": "नमस्ते! मैं मातृ एआई हूं। मैं आपकी गर्भावस्था यात्रा में कैसे मदद कर सकती हूं?",
+        "placeholder": "मुझसे कुछ भी पूछें...",
+        "devResponse": "मैं मातृ हूं, आपकी एआई सहायक। आप मुझसे योग, मेडिकल रिपोर्ट, देखभाल खोजने या गर्भावस्था के जोखिमों के बारे में पूछ सकती हैं!",
+        "quickHelp": {
+            "yoga": "योग गाइड",
+            "health": "स्वास्थ्य विश्लेषण",
+            "findCare": "देखभाल खोजें",
+            "risks": "गर्भावस्था जोखिम"
+        },
+        "orText": "या नीचे मुझसे कोई प्रश्न पूछें",
+        "suggestions": [
+            "मुझे क्या खाना चाहिए?",
+            "क्या पीठ दर्द सामान्य है?",
+            "दूसरी तिमाही के लिए योग",
+            "प्रसव के संकेत"
+        ]
+    },
+    "asha": {
+        "hello": "नमस्ते",
+        "mapTitle": "रोगी के स्थान",
+        "selectPatient": "रूट के लिए रोगी चुनें",
+        "distance": "दूरी",
+        "estTime": "अनुमानित समय",
+        "getDirections": "दिशा-निर्देश प्राप्त करें",
+        "medicalHistory": "चिकित्सा इतिहास",
+        "visitHistory": "विज़िट इतिहास",
+        "recentReports": "हालिया रिपोर्ट",
+        "nearestPatients": "निकटतम रोगी",
+        "risk": "जोखिम",
+        "back": "डैशबोर्ड पर वापस जाएं",
+        "view": "देखें",
+        "map": "मैप"
+    }
+}

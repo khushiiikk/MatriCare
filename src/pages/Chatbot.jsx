@@ -1,26 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
+import { pagesContent } from '../data/pagesContent';
 import './Chatbot.css';
 
 const Chatbot = () => {
     const { language } = useLanguage();
     const navigate = useNavigate();
-    const t = translations[language]?.chatbot || translations.en.chatbot;
-    const commonT = translations[language] || translations.en;
+    const content = pagesContent[language]?.chatbot || pagesContent.en.chatbot;
 
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
-
-    const suggestions = [
-        "What should I eat?",
-        "Is back pain normal?",
-        "Yoga for trimester 2",
-        "Signs of labor"
-    ];
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -33,7 +25,7 @@ const Chatbot = () => {
     const findIntent = (text) => {
         const lowerText = text.toLowerCase();
 
-        if (lowerText.includes('yoga') || lowerText.includes('exercise') || lowerText.includes('trimester')) {
+        if (lowerText.includes('yoga') || lowerText.includes('exercise') || lowerText.includes('trimester') || lowerText.includes('योग')) {
             return {
                 text: language === 'hi' ? 'मैं आपको योग अभ्यासों के बारे में दिखा सकती हूं। क्या आप वहां जाना चाहती हैं?' :
                     language === 'mr' ? 'मी तुम्हाला योगासनांबद्दल माहिती देऊ शकते. तुम्हाला तिथे जायचे आहे का?' :
@@ -44,7 +36,7 @@ const Chatbot = () => {
             };
         }
 
-        if (lowerText.includes('report') || lowerText.includes('analysis') || lowerText.includes('upload') || lowerText.includes('blood') || lowerText.includes('hemoglobin')) {
+        if (lowerText.includes('report') || lowerText.includes('analysis') || lowerText.includes('upload') || lowerText.includes('blood') || lowerText.includes('hemoglobin') || lowerText.includes('रिपोर्ट')) {
             return {
                 text: language === 'hi' ? 'आप अपनी मेडिकल रिपोर्ट यहां अपलोड कर सकती हैं।' :
                     language === 'mr' ? 'तुम्ही तुमचे मेडिकल रिपोर्ट येथे अपलोड करू शकता.' :
@@ -55,7 +47,7 @@ const Chatbot = () => {
             };
         }
 
-        if (lowerText.includes('hospital') || lowerText.includes('care') || lowerText.includes('find') || lowerText.includes('asha') || lowerText.includes('doctor')) {
+        if (lowerText.includes('hospital') || lowerText.includes('care') || lowerText.includes('find') || lowerText.includes('asha') || lowerText.includes('doctor') || lowerText.includes('अस्पताल') || lowerText.includes('देखभाल')) {
             return {
                 text: language === 'hi' ? 'मैं आपको नजदीकी अस्पताल या स्वास्थ्य केंद्र खोजने में मदद कर सकती हूं।' :
                     language === 'mr' ? 'मी तुम्हाला जवळचे रुग्णालय किंवा आरोग्य केंद्र शोधण्यात मदत करू शकते.' :
@@ -66,7 +58,7 @@ const Chatbot = () => {
             };
         }
 
-        if (lowerText.includes('risk') || lowerText.includes('danger') || lowerText.includes('symptom') || lowerText.includes('pain')) {
+        if (lowerText.includes('risk') || lowerText.includes('danger') || lowerText.includes('symptom') || lowerText.includes('pain') || lowerText.includes('जोखिम') || lowerText.includes('लक्षण')) {
             return {
                 text: language === 'hi' ? 'गर्भावस्था के जोखिमों और लक्षणों के बारे में अधिक जानें।' :
                     language === 'mr' ? 'गर्भधारणेचे धोके आणि लक्षणांबद्दल अधिक जाणून घ्या.' :
@@ -74,6 +66,15 @@ const Chatbot = () => {
                             "Learn more about pregnancy risks and critical symptoms to watch out for.",
                 action: () => navigate('/pregnancy-risks'),
                 btnText: language === 'hi' ? 'जोखिम देखें' : language === 'mr' ? 'धोके पहा' : language === 'ta' ? 'அபாயங்களைக் காண்க' : "View Risks"
+            };
+        }
+
+        if (lowerText.includes('diet') || lowerText.includes('food') || lowerText.includes('eat') || lowerText.includes('खाना') || lowerText.includes('आहार')) {
+            return {
+                text: language === 'hi' ? 'मैं आपको गर्भावस्था आहार योजना दिखा सकती हूं।' :
+                    "I can show you the pregnancy diet plan.",
+                action: () => navigate('/diet-plan'),
+                btnText: language === 'hi' ? 'आहार योजना देखें' : "View Diet Plan"
             };
         }
 
@@ -90,7 +91,7 @@ const Chatbot = () => {
 
         setTimeout(() => {
             const intent = findIntent(text);
-            let responseText = t.devResponse || "I'm here to help you!";
+            let responseText = language === 'hi' ? "मैं आपकी मदद के लिए यहां हूं!" : "I'm here to help you!";
             let actionBtn = null;
 
             if (intent) {
@@ -122,7 +123,7 @@ const Chatbot = () => {
                 {/* Header Actions */}
                 <div className="cici-header">
                     <button className="icon-btn">✕</button>
-                    <span className="header-title">Matri AI</span>
+                    <span className="header-title">{content.headerTitle}</span>
                     <button className="icon-btn">⋯</button>
                 </div>
 
@@ -135,25 +136,25 @@ const Chatbot = () => {
                                 <img src="/chatbot-new.jpg" alt="AI" className="cici-avatar-large floating" />
                                 <div className="cici-status-indicator"></div>
                             </div>
-                            <h1 className="cici-welcome-title">Hi, I'm Matri</h1>
-                            <p className="cici-welcome-subtitle">Your personal pregnancy companion. How can I help you today?</p>
+                            <h1 className="cici-welcome-title">{content.welcomeTitle}</h1>
+                            <p className="cici-welcome-subtitle">{content.welcomeSubtitle}</p>
 
                             <div className="cici-quick-help-grid">
                                 <button className="quick-help-btn" onClick={() => navigate('/yoga')}>
-                                    <span className="btn-label">Yoga Guide</span>
+                                    <span className="btn-label">{content.quickHelp.yoga}</span>
                                 </button>
                                 <button className="quick-help-btn" onClick={() => navigate('/health')}>
-                                    <span className="btn-label">Health Analysis</span>
+                                    <span className="btn-label">{content.quickHelp.health}</span>
                                 </button>
                                 <button className="quick-help-btn" onClick={() => navigate('/find-care')}>
-                                    <span className="btn-label">Find Care</span>
+                                    <span className="btn-label">{content.quickHelp.findCare}</span>
                                 </button>
                                 <button className="quick-help-btn" onClick={() => navigate('/pregnancy-risks')}>
-                                    <span className="btn-label">Pregnancy Risks</span>
+                                    <span className="btn-label">{content.quickHelp.risks}</span>
                                 </button>
                             </div>
 
-                            <p className="cici-or-text">or just ask me a question below</p>
+                            <p className="cici-or-text">{content.orText}</p>
                         </div>
                     ) : (
                         <div className="cici-messages-list">
@@ -197,7 +198,7 @@ const Chatbot = () => {
                     <button type="button" className="cici-input-icon">AI</button>
                     <input
                         type="text"
-                        placeholder="Ask me anything..."
+                        placeholder={content.placeholder}
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         disabled={isLoading}

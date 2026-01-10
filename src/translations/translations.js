@@ -9,7 +9,52 @@ export const translations = {
             about: 'About',
             settings: 'Setting',
             login: 'Log in',
+            login: 'Log in',
             signUp: 'Sign Up'
+        },
+        dashboard: {
+            hello: 'Hello',
+            week: 'Week',
+            weeks: 'WEEKS',
+            day: 'DAY',
+            trimester1: '1ST TRIMESTER',
+            trimester2: '2ND TRIMESTER',
+            trimester3: '3RD TRIMESTER',
+            edd: 'Expected Due Date',
+            weight: 'Weight',
+            hemoglobin: 'Hemoglobin',
+            bloodGroup: 'Blood Group',
+            status: {
+                notTested: 'Not tested',
+                low: 'Low',
+                monitor: 'Monitor',
+                normal: 'Normal',
+                high: 'High',
+                verified: 'Verified'
+            },
+            cards: {
+                indianTips: 'Indian Tips',
+                reportHistory: 'Report History',
+                dietPlan: 'Diet Plan',
+                yoga: 'Yoga',
+                aiAssistant: 'AI Assistant',
+                analytics: 'Analytics'
+            },
+            asha: {
+                title: 'Your ASHA Worker',
+                call: 'Call',
+                village: 'Village',
+                away: 'away'
+            },
+            tip: {
+                badge: 'TIP OF THE DAY',
+                reveal: 'Click to reveal wisdom',
+                more: 'Learn more in Indian Tips'
+            },
+            emergency: {
+                prompt: 'Emergency? Quick access to help',
+                ambulance: 'Ambulance'
+            }
         },
         profile: {
             title: 'Profile',
@@ -117,6 +162,22 @@ export const translations = {
                 terms: 'Terms of Service',
                 contact: 'Contact Us'
             }
+        },
+        asha: {
+            hello: 'Hello',
+            mapTitle: 'Patient Locations',
+            selectPatient: 'Select Patient for Route',
+            distance: 'Distance',
+            estTime: 'Est. Time',
+            getDirections: 'Get Directions',
+            medicalHistory: 'Medical History',
+            visitHistory: 'Visit History',
+            recentReports: 'Recent Reports',
+            nearestPatients: 'Nearest Patients',
+            risk: 'Risk',
+            back: 'Back to Dashboard',
+            view: 'View',
+            map: 'Map'
         }
     },
     hi: {
@@ -130,6 +191,120 @@ export const translations = {
             settings: 'सेटिंग',
             login: 'लॉगिन',
             signUp: 'साइन अप'
+        },
+        dashboard: {
+            hello: 'नमस्ते',
+            week: 'सप्ताह',
+            weeks: 'सप्ताह',
+            day: 'दिन',
+            trimester1: 'पहली तिमाही',
+            trimester2: 'दूसरी तिमाही',
+            trimester3: 'तीसरी तिमाही',
+            edd: 'प्रसव की अनुमानित तिथि',
+            weight: 'वजन',
+            hemoglobin: 'हीमोग्लोबिन',
+            bloodGroup: 'रक्त समूह',
+            status: {
+                notTested: 'जांच नहीं हुई',
+                low: 'कम',
+                monitor: 'निगरानी रखें',
+                normal: 'सामान्य',
+                high: 'अधिक',
+                verified: 'सत्यापित'
+            },
+            cards: {
+                indianTips: 'घरेलू नुस्खे',
+                reportHistory: 'रिपोर्ट इतिहास',
+                dietPlan: 'आहार योजना',
+                yoga: 'योग',
+                aiAssistant: 'एआई सहायक',
+                analytics: 'एनालिटिक्स'
+            },
+            asha: {
+                title: 'आपकी आशा कार्यकर्ता',
+                call: 'कॉल करें',
+                village: 'गाँव',
+                away: 'दूर'
+            },
+            tip: {
+                badge: 'आज का सुझाव',
+                reveal: 'ज्ञान देखने के लिए क्लिक करें',
+                more: 'देसी नुस्खे में और जानें'
+            },
+            emergency: {
+                prompt: 'आपातकालीन? मदद के लिए त्वरित संपर्क',
+                ambulance: 'एम्बुलेंस'
+            }
+        },
+        indianTips: {
+            pageTitle: 'पारंपरिक कल्याण',
+            subtitle: 'आपकी गर्भावस्था यात्रा के लिए प्रामाणिक भारतीय ज्ञान',
+            back: 'वापस',
+            focus: 'फोकस:',
+            disclaimer: 'नोट: ये पारंपरिक जानकारी सामान्य कल्याण के लिए है। कोई भी नया आहार शुरू करने से पहले हमेशा अपने डॉक्टर से सलाह लें।',
+            sections: [
+                {
+                    title: "पारंपरिक आहार ज्ञान",
+                    category: "पोषण",
+                    icon: "🥛",
+                    tips: [
+                        {
+                            title: "केसर दूध",
+                            content: "जीवन शक्ति के लिए एक कालातीत परंपरा। बेहतर नींद और पाचन के लिए रात में गर्म दूध में शुद्ध केसर के 2 धागे मिलाएं।",
+                            benefit: "आराम और पाचन"
+                        },
+                        {
+                            title: "नारियल पानी",
+                            content: "प्रकृति का इलेक्ट्रोलाइट। आवश्यक खनिज प्रदान करते हुए दिन भर ठंडा और हाइड्रेटेड रहने के लिए उत्तम।",
+                            benefit: "पीएच संतुलन"
+                        },
+                        {
+                            title: "भीगे हुए बादाम",
+                            content: "पहले से भीगे हुए बादाम पचाने में आसान होते हैं और बच्चे के मानसिक विकास के लिए डीएचए प्रदान करते हैं।",
+                            benefit: "मस्तिष्क शक्ति"
+                        }
+                    ]
+                },
+                {
+                    title: "मन और आत्मा",
+                    category: "कल्याण",
+                    icon: "✨",
+                    tips: [
+                        {
+                            title: "गर्भ संस्कार",
+                            content: "गर्भ में बच्चे को शिक्षित करने की कला। सकारात्मक पढ़ने, शांत मंत्रों और संगीत में संलग्न रहें।",
+                            benefit: "गहरा बंधन"
+                        },
+                        {
+                            title: "सूर्यदर्शन",
+                            content: "प्राकृतिक विटामिन डी को अवशोषित करने के लिए सुबह की कोमल धूप (7 बजे - 8 बजे) में समय बिताएं।",
+                            benefit: "हड्डी स्वास्थ्य"
+                        },
+                        {
+                            title: "घी का ज्ञान",
+                            content: "शुद्ध देसी घी की एक चम्मच जोड़ों के लचीलेपन को बनाए रखने और तंत्रिका तंत्र का समर्थन करने में मदद करती है।",
+                            benefit: "शक्ति"
+                        }
+                    ]
+                },
+                {
+                    title: "प्राकृतिक उपचार",
+                    category: "घरेलू देखभाल",
+                    icon: "🌿",
+                    tips: [
+                        {
+                            title: "अदरक-नींबू पानी",
+                            content: "शहद और नींबू के साथ ताजे अदरक का रस सुबह की मतली के लिए सबसे प्रभावी प्राकृतिक इलाज है।",
+                            benefit: "मतली राहत"
+                        },
+                        {
+                            title: "सौंफ",
+                            content: "मुख्य भोजन के बाद भुनी हुई सौंफ चबाने से बेहतर पोषक तत्व अवशोषण में मदद मिलती है और सूजन को रोकती है।",
+                            benefit: "चयापचय"
+                        }
+                    ]
+                }
+            ]
         },
         profile: {
             title: 'प्रोफ़ाइल',
@@ -224,6 +399,22 @@ export const translations = {
                 terms: 'सेवा की शर्तें',
                 contact: 'संपर्क करें'
             }
+        },
+        asha: {
+            hello: 'नमस्ते',
+            mapTitle: 'रोगी के स्थान',
+            selectPatient: 'रूट के लिए रोगी चुनें',
+            distance: 'दूरी',
+            estTime: 'अनुमानित समय',
+            getDirections: 'दिशा-निर्देश प्राप्त करें',
+            medicalHistory: 'चिकित्सा इतिहास',
+            visitHistory: 'विज़िट इतिहास',
+            recentReports: 'हालिया रिपोर्ट',
+            nearestPatients: 'निकटतम रोगी',
+            risk: 'जोखिम',
+            back: 'डैशबोर्ड पर वापस जाएं',
+            view: 'देखें',
+            map: 'मैप'
         }
     },
     mr: {
@@ -237,6 +428,50 @@ export const translations = {
             settings: 'सेटिंग',
             login: 'लॉगिन',
             signUp: 'साइन अप'
+        },
+        dashboard: {
+            hello: 'नमस्ते', // Using Hindi as fallback
+            week: 'Week',
+            weeks: 'WEEKS',
+            day: 'DAY',
+            trimester1: '1ST TRIMESTER',
+            trimester2: '2ND TRIMESTER',
+            trimester3: '3RD TRIMESTER',
+            edd: 'Expected Due Date',
+            weight: 'Weight',
+            hemoglobin: 'Hemoglobin',
+            bloodGroup: 'Blood Group',
+            status: {
+                notTested: 'Not tested',
+                low: 'Low',
+                monitor: 'Monitor',
+                normal: 'Normal',
+                high: 'High',
+                verified: 'Verified'
+            },
+            cards: {
+                indianTips: 'Indian Tips',
+                reportHistory: 'Report History',
+                dietPlan: 'Diet Plan',
+                yoga: 'Yoga',
+                aiAssistant: 'AI Assistant',
+                analytics: 'Analytics'
+            },
+            asha: {
+                title: 'Your ASHA Worker',
+                call: 'Call',
+                village: 'Village',
+                away: 'away'
+            },
+            tip: {
+                badge: 'TIP OF THE DAY',
+                reveal: 'Click to reveal wisdom',
+                more: 'Learn more in Indian Tips'
+            },
+            emergency: {
+                prompt: 'Emergency? Quick access to help',
+                ambulance: 'Ambulance'
+            }
         },
         profile: {
             title: 'प्रोफाइल',
@@ -312,6 +547,22 @@ export const translations = {
                 terms: 'सेवा अटी',
                 contact: 'संपर्क साधा'
             }
+        },
+        asha: {
+            hello: 'Hello',
+            mapTitle: 'Patient Locations',
+            selectPatient: 'Select Patient for Route',
+            distance: 'Distance',
+            estTime: 'Est. Time',
+            getDirections: 'Get Directions',
+            medicalHistory: 'Medical History',
+            visitHistory: 'Visit History',
+            recentReports: 'Recent Reports',
+            nearestPatients: 'Nearest Patients',
+            risk: 'Risk',
+            back: 'Back to Dashboard',
+            view: 'View',
+            map: 'Map'
         }
     },
     ta: {
@@ -325,6 +576,50 @@ export const translations = {
             settings: 'அமைப்பு',
             login: 'உள்நுழைக',
             signUp: 'பதிவு செய்க'
+        },
+        dashboard: {
+            hello: 'Hello',
+            week: 'Week',
+            weeks: 'WEEKS',
+            day: 'DAY',
+            trimester1: '1ST TRIMESTER',
+            trimester2: '2ND TRIMESTER',
+            trimester3: '3RD TRIMESTER',
+            edd: 'Expected Due Date',
+            weight: 'Weight',
+            hemoglobin: 'Hemoglobin',
+            bloodGroup: 'Blood Group',
+            status: {
+                notTested: 'Not tested',
+                low: 'Low',
+                monitor: 'Monitor',
+                normal: 'Normal',
+                high: 'High',
+                verified: 'Verified'
+            },
+            cards: {
+                indianTips: 'Indian Tips',
+                reportHistory: 'Report History',
+                dietPlan: 'Diet Plan',
+                yoga: 'Yoga',
+                aiAssistant: 'AI Assistant',
+                analytics: 'Analytics'
+            },
+            asha: {
+                title: 'Your ASHA Worker',
+                call: 'Call',
+                village: 'Village',
+                away: 'away'
+            },
+            tip: {
+                badge: 'TIP OF THE DAY',
+                reveal: 'Click to reveal wisdom',
+                more: 'Learn more in Indian Tips'
+            },
+            emergency: {
+                prompt: 'Emergency? Quick access to help',
+                ambulance: 'Ambulance'
+            }
         },
         profile: {
             title: 'சுயவிவரம்',
@@ -401,6 +696,22 @@ export const translations = {
                 terms: 'சேவை விதிமுறைகள்',
                 contact: 'எங்களைத் தொடர்பு கொள்ளவும்'
             }
+        },
+        asha: {
+            hello: 'Hello',
+            mapTitle: 'Patient Locations',
+            selectPatient: 'Select Patient for Route',
+            distance: 'Distance',
+            estTime: 'Est. Time',
+            getDirections: 'Get Directions',
+            medicalHistory: 'Medical History',
+            visitHistory: 'Visit History',
+            recentReports: 'Recent Reports',
+            nearestPatients: 'Nearest Patients',
+            risk: 'Risk',
+            back: 'Back to Dashboard',
+            view: 'View',
+            map: 'Map'
         }
     }
 };

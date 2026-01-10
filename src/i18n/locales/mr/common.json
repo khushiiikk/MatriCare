@@ -1,0 +1,43 @@
+{
+    "navbar": {
+        "home": "होम",
+        "health": "आरोग्य",
+        "yoga": "योग",
+        "findCare": "केअर",
+        "analytics": "एनालिटिक्स",
+        "about": "बद्दल",
+        "settings": "सेटिंग्ज",
+        "login": "लॉगिन",
+        "signUp": "साइन अप"
+    },
+    "footer": {
+        "copyright": "© 2024 MatriCare. सर्व हक्क राखीव.",
+        "privacy": "गोपनीयता धोरण",
+        "terms": "सेवा अटी",
+        "contact": "संपर्क साधा"
+    },
+    "buttons": {
+        "save": "बदल जतन करा",
+        "cancel": "रद्द करा",
+        "continue": "सुरू ठेवा",
+        "back": "मागे",
+        "upload": "अपलोड करा",
+        "download": "डाउनलोड करा",
+        "view": "पहा",
+        "analyze": "विश्लेषण करा",
+        "send": "पाठवा"
+    },
+    "status": {
+        "notTested": "चाचणी झाली नाही",
+        "low": "कमी",
+        "monitor": "निरीक्षण करा",
+        "normal": "सामान्य",
+        "high": "जास्त",
+        "verified": "सत्यापित"
+    },
+    "helplines": {
+        "police": "पोलीस (100)",
+        "ambulance": "रुग्णवाहिका (102)",
+        "women": "महिला हेल्पलाइन (181)"
+    }
+}

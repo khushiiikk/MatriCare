@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
 import './Login.css';
 
 const Login = () => {
+    const { t } = useTranslation('pages');
     const [isLogin, setIsLogin] = useState(true);
     const [role, setRole] = useState('patient'); // 'patient' or 'asha'
     const [method, setMethod] = useState('otp'); // 'otp' or 'password'
@@ -101,13 +102,15 @@ const Login = () => {
                         <div className="login-avatar-wrapper">
                             <img src="/login-logo.jpg" alt="MatriCare Logo" className="login-main-logo" />
                         </div>
-                        <h2 className="welcome-heading">Welcome to<br />MatriCare</h2>
-                        <p className="welcome-subtext">Track health, stay happy.</p>
+                        <h2 className="welcome-heading">
+                            {t('login.welcomeTo')}<br />{t('login.appName')}
+                        </h2>
+                        <p className="welcome-subtext">{t('login.tagline')}</p>
 
                         <div className="login-feature-tags">
-                            <span className="feature-tag">Tracker</span>
-                            <span className="feature-tag">AI Assistant</span>
-                            <span className="feature-tag">Yoga</span>
+                            {t('login.featureTags', { returnObjects: true }).map((tag, i) => (
+                                <span key={i} className="feature-tag">{tag}</span>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -115,8 +118,8 @@ const Login = () => {
                 {/* Right Side: Form */}
                 <div className="login-form-side">
                     <div className="form-box-v2">
-                        <h1 className="join-title">Join MatriCare</h1>
-                        <p className="join-sub">{isLogin ? 'Welcome back!' : "Create a free account"}</p>
+                        <h1 className="join-title">{t('login.joinTitle')}</h1>
+                        <p className="join-sub">{isLogin ? t('login.welcomeBack') : t('login.createAccount')}</p>
 
                         {/* Role Toggle */}
                         <div className="role-toggle-v2">
@@ -124,13 +127,13 @@ const Login = () => {
                                 className={`role-btn-v2 ${role === 'patient' ? 'active' : ''}`}
                                 onClick={() => setRole('patient')}
                             >
-                                Patient (Mother)
+                                {t('login.rolePatient')}
                             </button>
                             <button
                                 className={`role-btn-v2 ${role === 'asha' ? 'active' : ''}`}
                                 onClick={() => setRole('asha')}
                             >
-                                ASHA Worker
+                                {t('login.roleAsha')}
                             </button>
                         </div>
 
@@ -141,13 +144,13 @@ const Login = () => {
                                     className={`method-btn-v2 ${method === 'otp' ? 'active' : ''}`}
                                     onClick={() => { setMethod('otp'); setStep(1); }}
                                 >
-                                    OTP Login
+                                    {t('login.otpLogin')}
                                 </button>
                                 <button
                                     className={`method-btn-v2 ${method === 'password' ? 'active' : ''}`}
                                     onClick={() => setMethod('password')}
                                 >
-                                    Password Login
+                                    {t('login.passwordLogin')}
                                 </button>
                             </div>
                         )}
@@ -155,36 +158,36 @@ const Login = () => {
                         <form className="main-form-v2" onSubmit={isLogin ? (method === 'otp' && step === 1 ? handleSendOTP : handleLogin) : handleSignup}>
                             {!isLogin && (
                                 <div className="input-group-v2">
-                                    <label>Full Name</label>
-                                    <input type="text" placeholder="Your Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                                    <label>{t('login.fullNameLabel')}</label>
+                                    <input type="text" placeholder={t('login.fullNamePlaceholder')} value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                                 </div>
                             )}
 
                             <div className="input-group-v2">
-                                <label>Mobile</label>
-                                <input type="tel" placeholder="Mobile Number" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
+                                <label>{t('login.mobileLabel')}</label>
+                                <input type="tel" placeholder={t('login.mobilePlaceholder')} value={mobile} onChange={(e) => setMobile(e.target.value)} required />
                             </div>
 
                             {/* Signup Specific Fields */}
                             {!isLogin && (
                                 <>
                                     <div className="input-group-v2">
-                                        <label>Date of Birth</label>
+                                        <label>{t('login.dobLabel')}</label>
                                         <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} required />
                                     </div>
                                     <div className="input-group-v2">
-                                        <label>State</label>
-                                        <input type="text" placeholder="State" value={stateName} onChange={(e) => setStateName(e.target.value)} required />
+                                        <label>{t('login.stateLabel')}</label>
+                                        <input type="text" placeholder={t('login.statePlaceholder')} value={stateName} onChange={(e) => setStateName(e.target.value)} required />
                                     </div>
 
                                     <div className="input-group-v2">
-                                        <label>District</label>
-                                        <input type="text" placeholder="District" value={district} onChange={(e) => setDistrict(e.target.value)} required />
+                                        <label>{t('login.districtLabel')}</label>
+                                        <input type="text" placeholder={t('login.districtPlaceholder')} value={district} onChange={(e) => setDistrict(e.target.value)} required />
                                     </div>
                                     <div className="input-group-v2">
-                                        <label>Village</label>
+                                        <label>{t('login.villageLabel')}</label>
                                         <select value={village} onChange={(e) => setVillage(e.target.value)} required>
-                                            <option value="">Select Village</option>
+                                            <option value="">{t('login.villagePlaceholder')}</option>
                                             <option value="v1">Village 1</option>
                                             <option value="v2">Village 2</option>
                                         </select>
@@ -192,30 +195,30 @@ const Login = () => {
 
                                     {role === 'patient' && (
                                         <div className="input-group-v2">
-                                            <label>Weight (kg)</label>
+                                            <label>{t('login.weightLabel')}</label>
                                             <input
                                                 type="number"
-                                                placeholder="Enter weight in kg"
+                                                placeholder={t('login.weightPlaceholder')}
                                                 value={weight}
                                                 onChange={(e) => setWeight(e.target.value)}
                                                 min="30"
                                                 max="150"
                                                 required
                                             />
-                                            <span className="input-hint">Current weight for health tracking</span>
+                                            <span className="input-hint">{t('login.weightPlaceholder')}</span>
                                         </div>
                                     )}
 
                                     {role === 'patient' ? (
                                         <div className="input-group-v2">
-                                            <label>LMP Date (Last Period)</label>
+                                            <label>{t('login.lmpLabel')}</label>
                                             <input type="date" value={lmpDate} onChange={(e) => setLmpDate(e.target.value)} required />
-                                            <span className="input-hint">Used to calculate pregnancy week</span>
+                                            <span className="input-hint">{t('login.lmpPlaceholder')}</span>
                                         </div>
                                     ) : (
                                         <div className="input-group-v2">
-                                            <label>ASHA Worker ID</label>
-                                            <input type="text" placeholder="Enter your ID" value={employeeId} onChange={(e) => setEmployeeId(e.target.value)} required />
+                                            <label>{t('login.employeeIdLabel')}</label>
+                                            <input type="text" placeholder={t('login.employeeIdPlaceholder')} value={employeeId} onChange={(e) => setEmployeeId(e.target.value)} required />
                                         </div>
                                     )}
                                 </>
@@ -224,8 +227,8 @@ const Login = () => {
                             {/* Login Password Field */}
                             {isLogin && method === 'password' && (
                                 <div className="input-group-v2">
-                                    <label>Password</label>
-                                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                    <label>{t('login.passwordLabel')}</label>
+                                    <input type="password" placeholder={t('login.passwordPlaceholder')} value={password} onChange={(e) => setPassword(e.target.value)} required />
                                 </div>
                             )}
 
@@ -240,26 +243,27 @@ const Login = () => {
                             {/* OTP Field */}
                             {isLogin && method === 'otp' && step === 2 && (
                                 <div className="input-group-v2">
-                                    <label>Enter OTP</label>
-                                    <input type="text" placeholder="6-digit code" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+                                    <label>{t('login.otpLabel')}</label>
+                                    <input type="text" placeholder={t('login.otpPlaceholder')} value={otp} onChange={(e) => setOtp(e.target.value)} required />
                                 </div>
                             )}
 
                             {error && <p className="form-error">{error}</p>}
 
                             <button type="submit" className="submit-btn-v2" disabled={loading}>
-                                {loading ? 'Processing...' : (isLogin ? (method === 'otp' && step === 1 ? 'Send OTP' : 'Login') : 'Create Account')}
+                                {loading ? 'Processing...' : (isLogin ? (method === 'otp' && step === 1 ? t('login.sendOtp') : t('login.loginBtn')) : t('login.signupBtn'))}
                             </button>
                         </form>
 
                         <div className="form-footer-v2">
                             <p>
-                                {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
-                                <span className="toggle-link" onClick={() => { setIsLogin(!isLogin); setStep(1); setError(''); }}>
-                                    {isLogin ? 'Sign Up' : 'Login'}
+                                {isLogin ? t('login.switchToSignup') : t('login.switchToLogin')}
+                                <span onClick={() => setIsLogin(!isLogin)} className="toggle-link">
+                                    {isLogin ? " Sign Up" : " Login"}
                                 </span>
                             </p>
                         </div>
+                        <div id="recaptcha-container"></div>
                     </div>
                 </div>
             </div>

@@ -31,6 +31,31 @@ const Settings = () => {
         phone: currentUser?.phoneNumber || currentUser?.mobile || ''
     });
 
+    const [uploading, setUploading] = useState(false);
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Size check (max 1MB for Firestore storage)
+        if (file.size > 1024 * 1024) {
+            alert('Image too large. Please select an image under 1MB.');
+            return;
+        }
+
+        setUploading(true);
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64String = reader.result;
+            const result = await updateProfile({ profilePicture: base64String });
+            setUploading(false);
+            if (!result.success) {
+                alert('Upload failed: ' + result.error);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
     const pregnancyWeek = calculatePregnancyWeek(userData.lmpDate);
     const edd = calculateDueDate(userData.lmpDate);
 
@@ -75,8 +100,22 @@ const Settings = () => {
                         <div className="profile-section">
                             <div className="profile-header">
                                 <div className="profile-pic-container">
-                                    <img src="/default-avatar.png" alt="Profile" className="profile-pic" />
-                                    <button className="change-pic-btn">Edit</button>
+                                    <img
+                                        src={currentUser?.profilePicture || "/default-avatar.png"}
+                                        alt="Profile"
+                                        className="profile-pic"
+                                    />
+                                    <label htmlFor="pfp-upload" className={`change-pic-btn ${uploading ? 'uploading' : ''}`}>
+                                        {uploading ? '...' : 'Edit'}
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="pfp-upload"
+                                        hidden
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        disabled={uploading}
+                                    />
                                 </div>
                                 <div className="profile-info-summary">
                                     <h2>{userData.name}</h2>

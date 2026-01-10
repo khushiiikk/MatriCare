@@ -314,3 +314,99 @@
     color: #1565c0;
     border-color: #e3f2fd;
 }
+
+/* Visit Logging Styles */
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.log-visit-toggle {
+    background: #ad1457;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.log-visit-toggle:hover {
+    background: #880e4f;
+    transform: scale(1.05);
+}
+
+.log-visit-form {
+    background: #fff0f5;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #f8bbd0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #ad1457;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f48fb1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.submit-visit-btn {
+    width: 100%;
+    background: #ad1457;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-visit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.mini-loader, .no-history {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    font-style: italic;
+}
+
+.live-location-tag {
+    color: #2e7d32;
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}

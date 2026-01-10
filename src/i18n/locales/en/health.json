@@ -1,0 +1,37 @@
+{
+    "hub": {
+        "title": "Health & Knowledge Hub",
+        "analyzeCard": {
+            "title": "Analyze Your Report",
+            "dragText": "Drag & drop your report here, or click to browse",
+            "button": "Upload Medical Report",
+            "footer": "Upload reports for AI insights."
+        },
+        "riskCard": {
+            "title": "Pregnancy Risk Guide",
+            "risks": [
+                "Preeclampsia",
+                "Gestational Diabetes",
+                "Anemia"
+            ],
+            "button": "Read Risk Factors"
+        },
+        "symptomCard": {
+            "title": "Symptom Dictionary",
+            "symptoms": [
+                "Morning Sickness",
+                "Fatigue",
+                "Swelling"
+            ],
+            "button": "Browse Symptoms"
+        }
+    },
+    "page": {
+        "title": "Health Dashboard",
+        "vitalsSection": "Vital Signs",
+        "uploadReport": "Upload Medical Report",
+        "analyzeBtn": "Analyze Report",
+        "viewRisks": "View Pregnancy Risks",
+        "viewSymptoms": "View Symptoms Guide"
+    }
+}

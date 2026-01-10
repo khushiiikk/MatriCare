@@ -8,6 +8,7 @@ const Yoga = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
     const t = translations[language]?.yoga || translations.en.yoga;
+    const exploreText = language === 'hi' ? 'देखें →' : 'Explore →';
 
     const trimesters = [
         {
@@ -38,7 +39,7 @@ const Yoga = () => {
             <div className="container">
                 <div className="page-header-standard">
                     <h1>{t.pageTitle}</h1>
-                    <p>Gentle exercises for your pregnancy journey.</p>
+                    <p>{t.pageSubtitle}</p>
                 </div>
 
                 <div className="yoga-menu-grid fade-in-up">
@@ -54,7 +55,7 @@ const Yoga = () => {
                             <h2 className="yoga-card-title">{trimester.title}</h2>
                             <p className="yoga-card-text">{trimester.description}</p>
                             <button className="yoga-card-btn">
-                                Explore →
+                                {exploreText}
                             </button>
                         </div>
                     ))}

@@ -76,12 +76,27 @@
     background: var(--color-primary);
     color: white;
     border: none;
-    padding: 4px 10px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(255, 77, 109, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 77, 109, 0.3);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.change-pic-btn:hover {
+    background: #FF2D55;
+    transform: scale(1.05);
+}
+
+.change-pic-btn.uploading {
+    background: #999;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .profile-info-summary h2 {

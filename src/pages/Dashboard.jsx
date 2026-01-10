@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { db } from '../firebase';
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../translations/translations';
 import './Dashboard.css';
 import './AshaPatients.css';
 import './AshaMap.css';
 
 const Dashboard = () => {
     const { user, updateProfile, logout } = useAuth();
+    const { language } = useLanguage();
+    const t = translations[language]?.dashboard || translations['en'].dashboard;
     const navigate = useNavigate();
     const [uploading, setUploading] = useState(false);
     const [editingField, setEditingField] = useState(null);
@@ -88,23 +94,49 @@ const Dashboard = () => {
         });
     };
 
-    const loadHealthData = () => {
-        const reports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-        if (reports.length > 0) {
-            const latest = reports[reports.length - 1];
-            setHealthData({
-                hemoglobin: latest.hemoglobin || user?.hemoglobin || null,
-                bloodGroup: user?.bloodGroup || null,
-                weight: latest.weight || user?.weight || null,
-                lastReport: latest.date || null
-            });
-        } else {
-            setHealthData({
-                hemoglobin: user?.hemoglobin || null,
-                bloodGroup: user?.bloodGroup || null,
-                weight: user?.weight || null,
-                lastReport: null
-            });
+    const loadHealthData = async () => {
+        if (!user?.uid) return;
+
+        try {
+            const q = query(
+                collection(db, "health_reports"),
+                where("userId", "==", user.uid),
+                orderBy("createdAt", "desc"),
+                limit(1)
+            );
+
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const latest = querySnapshot.docs[0].data();
+                setHealthData({
+                    hemoglobin: latest.vitals.hemoglobin || user?.hemoglobin || null,
+                    bloodGroup: user?.bloodGroup || null,
+                    weight: latest.vitals.weight || user?.weight || null,
+                    lastReport: latest.date || null
+                });
+            } else {
+                // Check local storage for backward compatibility during migration
+                const reports = JSON.parse(localStorage.getItem('health_reports') || '[]');
+                if (reports.length > 0) {
+                    const latest = reports[reports.length - 1];
+                    setHealthData({
+                        hemoglobin: latest.hemoglobin || latest.vitals?.hemoglobin || user?.hemoglobin || null,
+                        bloodGroup: user?.bloodGroup || null,
+                        weight: latest.weight || latest.vitals?.weight || user?.weight || null,
+                        lastReport: latest.date || null
+                    });
+                } else {
+                    setHealthData({
+                        hemoglobin: user?.hemoglobin || null,
+                        bloodGroup: user?.bloodGroup || null,
+                        weight: user?.weight || null,
+                        lastReport: null
+                    });
+                }
+            }
+        } catch (error) {
+            console.error("Error loading health data from Firestore:", error);
         }
     };
 
@@ -123,8 +155,8 @@ const Dashboard = () => {
     };
 
     const getTrimesterName = () => {
-        const names = ['1ST TRIMESTER', '2ND TRIMESTER', '3RD TRIMESTER'];
-        return names[pregnancyData.trimester - 1] || '1ST TRIMESTER';
+        const names = [t.trimester1, t.trimester2, t.trimester3];
+        return names[pregnancyData.trimester - 1] || t.trimester1;
     };
 
     const getTrimesterColor = () => {
@@ -133,21 +165,21 @@ const Dashboard = () => {
     };
 
     const getHealthStatus = (type, value) => {
-        if (!value) return { status: 'Not tested', color: '#E0E0E0', icon: '' };
+        if (!value) return { status: t.status.notTested, color: '#E0E0E0', icon: '' };
 
         if (type === 'hemoglobin') {
-            if (value < 11) return { status: 'Low', color: '#FF6B6B', icon: '' };
-            if (value < 12) return { status: 'Monitor', color: '#FFB74D', icon: '' };
-            return { status: 'Normal', color: '#E91E63', icon: '' };
+            if (value < 11) return { status: t.status.low, color: '#FF6B6B', icon: '' };
+            if (value < 12) return { status: t.status.monitor, color: '#FFB74D', icon: '' };
+            return { status: t.status.normal, color: '#E91E63', icon: '' };
         }
 
         if (type === 'weight') {
-            if (value < 45) return { status: 'Low', color: '#FF6B6B', icon: '' };
-            if (value > 80) return { status: 'High', color: '#FFB74D', icon: '' };
-            return { status: 'Normal', color: '#E91E63', icon: '' };
+            if (value < 45) return { status: t.status.low, color: '#FF6B6B', icon: '' };
+            if (value > 80) return { status: t.status.high, color: '#FFB74D', icon: '' };
+            return { status: t.status.normal, color: '#E91E63', icon: '' };
         }
 
-        return { status: 'Normal', color: '#E91E63', icon: '' };
+        return { status: t.status.normal, color: '#E91E63', icon: '' };
     };
 
     return (
@@ -158,8 +190,8 @@ const Dashboard = () => {
                     <div className="profile-pill">
                         <div className="profile-icon">👤</div>
                         <div className="welcome-text">
-                            <h3>Hello, {user?.name || user?.fullName || 'User'}!</h3>
-                            <p>Week {pregnancyData.currentWeek} • {getTrimesterName()}</p>
+                            <h3>{t.hello}, {user?.name || user?.fullName || 'User'}!</h3>
+                            <p>{t.week} {pregnancyData.currentWeek} • {getTrimesterName()}</p>
                         </div>
                     </div>
                 </div>
@@ -186,8 +218,8 @@ const Dashboard = () => {
                                 <div className="circle-content">
                                     <div className="week-display">
                                         <span className="week-number">{pregnancyData.currentWeek}</span>
-                                        <span className="week-label">WEEKS</span>
-                                        <span className="day-label">& {pregnancyData.currentDay} DAY</span>
+                                        <span className="week-label">{t.weeks}</span>
+                                        <span className="day-label">& {pregnancyData.currentDay} {t.day}</span>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +230,7 @@ const Dashboard = () => {
 
                             <div className="due-date-section">
                                 <div className="due-date-info">
-                                    <span className="due-label">Expected Due Date</span>
+                                    <span className="due-label">{t.edd}</span>
                                     <span className="due-date">{formatDate(pregnancyData.dueDate)}</span>
                                 </div>
                             </div>
@@ -210,7 +242,7 @@ const Dashboard = () => {
                         <div className="health-cards-grid">
                             {/* Weight Card */}
                             <div className="health-card-modern weight" onClick={() => setEditingField('weight')}>
-                                <span className="h-label">Weight</span>
+                                <span className="h-label">{t.weight}</span>
                                 {editingField === 'weight' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
                                         <input
@@ -234,7 +266,7 @@ const Dashboard = () => {
 
                             {/* Hemoglobin Card */}
                             <div className="health-card-modern hemoglobin" onClick={() => setEditingField('hemoglobin')}>
-                                <span className="h-label">Hemoglobin</span>
+                                <span className="h-label">{t.hemoglobin}</span>
                                 {editingField === 'hemoglobin' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
                                         <input
@@ -259,7 +291,7 @@ const Dashboard = () => {
 
                             {/* Blood Group Card */}
                             <div className="health-card-modern bgroup" onClick={() => setEditingField('bloodGroup')}>
-                                <span className="h-label">Blood Group</span>
+                                <span className="h-label">{t.bloodGroup}</span>
                                 {editingField === 'bloodGroup' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
                                         <select
@@ -283,7 +315,7 @@ const Dashboard = () => {
                                 ) : (
                                     <div className="h-value-row">
                                         <span className="h-val">{healthData.bloodGroup || '--'}</span>
-                                        <span className="h-status">Verified</span>
+                                        <span className="h-status">{t.status.verified}</span>
                                     </div>
                                 )}
                             </div>
@@ -295,35 +327,35 @@ const Dashboard = () => {
                                 <div className="c-icon image-mode">
                                     <img src="/masi-logo.jpg" alt="Advice" className="masi-icon" />
                                 </div>
-                                <span>Indian Tips</span>
+                                <span>{t.cards.indianTips}</span>
                             </div>
                             <div className="premium-compact-card report" onClick={() => navigate('/report-history')}>
                                 <div className="c-icon image-mode">
                                     <img src="/report-icon-new.jpg" alt="Report" className="masi-icon" />
                                 </div>
-                                <span>Report History</span>
+                                <span>{t.cards.reportHistory}</span>
                             </div>
                             <div className="premium-compact-card diet" onClick={() => navigate('/diet-plan')}>
                                 <div className="c-icon image-mode">
                                     <img src="/diet-icon-new.jpg" alt="Diet" className="masi-icon" />
                                 </div>
-                                <span>Diet Plan</span>
+                                <span>{t.cards.dietPlan}</span>
                             </div>
                             <div className="premium-compact-card yoga" onClick={() => navigate('/yoga')}>
                                 <div className="c-icon image-mode">
                                     <img src="/yoga-icon-new.jpg" alt="Yoga" className="masi-icon" />
                                 </div>
-                                <span>Yoga</span>
+                                <span>{t.cards.yoga}</span>
                             </div>
                             <div className="premium-compact-card chat" onClick={() => navigate('/chatbot')}>
                                 <div className="c-icon">🤖</div>
-                                <span>AI Assistant</span>
+                                <span>{t.cards.aiAssistant}</span>
                             </div>
                             <div className="premium-compact-card health" onClick={() => navigate('/health', { state: { view: 'analysis' } })}>
                                 <div className="c-icon image-mode">
                                     <img src="/analytics-icon-new.jpg" alt="Analytics" className="masi-icon" />
                                 </div>
-                                <span>Analytics</span>
+                                <span>{t.cards.analytics}</span>
                             </div>
                         </div>
                     </div>
@@ -332,14 +364,14 @@ const Dashboard = () => {
                 <div className="bottom-dashboard-grid">
                     <div className="asha-worker-card-premium">
                         <div className="asha-header">
-                            <h3>Your ASHA Worker</h3>
-                            <a href="tel:+919876543210" className="asha-call-btn">Call</a>
+                            <h3>{t.asha.title}</h3>
+                            <a href="tel:+919876543210" className="asha-call-btn">{t.asha.call}</a>
                         </div>
                         <div className="asha-body">
                             <div className="asha-pfp">RD</div>
                             <div>
                                 <h4>Smt. Radha Devi</h4>
-                                <p>Village Rampur • 2.3 km away</p>
+                                <p>{t.asha.village} Rampur • 2.3 km {t.asha.away}</p>
                             </div>
                         </div>
                     </div>
@@ -348,14 +380,14 @@ const Dashboard = () => {
                     <div className="tip-of-day-interactive" onClick={() => navigate('/maternal-guide')}>
                         <div className="tip-card-inner">
                             <div className="tip-front">
-                                <div className="tip-badge">TIP OF THE DAY</div>
+                                <div className="tip-badge">{t.tip.badge}</div>
                                 <div className="tip-icon-large">{dailyTip.icon}</div>
                                 <h4>{dailyTip.title}</h4>
-                                <p>Click to reveal wisdom</p>
+                                <p>{t.tip.reveal}</p>
                             </div>
                             <div className="tip-back">
                                 <p>{dailyTip.content}</p>
-                                <span className="read-more">Learn more in Indian Tips →</span>
+                                <span className="read-more">{t.tip.more} →</span>
                             </div>
                         </div>
                     </div>
@@ -363,10 +395,10 @@ const Dashboard = () => {
 
                 {/* Emergency Section */}
                 <div className="emergency-minimal-bar">
-                    <p>Emergency? Quick access to help</p>
+                    <p>{t.emergency.prompt}</p>
                     <div className="em-links">
-                        <a href="tel:102">Ambulance 102</a>
-                        <a href="tel:108">Ambulance 108</a>
+                        <a href="tel:102">{t.emergency.ambulance} 102</a>
+                        <a href="tel:108">{t.emergency.ambulance} 108</a>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
+import { pagesContent } from '../data/pagesContent';
 import MedicalAnalysis from '../components/MedicalAnalysis';
 import PregnancyRisks from './PregnancyRisks';
 import PregnancySymptoms from './PregnancySymptoms';
@@ -10,7 +10,7 @@ import './Health.css';
 const Health = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
-    const t = translations[language] || translations.en;
+    const content = pagesContent[language]?.health || pagesContent.en.health;
     const location = useLocation();
     const [activeView, setActiveView] = useState('menu'); // 'menu', 'analysis', 'risks', 'symptoms'
 
@@ -29,10 +29,10 @@ const Health = () => {
                 <div className="card-illustration-placeholder">
                     <img src="/analysis.jpg" alt="Medical Analytics" />
                 </div>
-                <h2>Medical Analytics</h2>
-                <p>Instant AI report analysis.</p>
+                <h2>{content.uploadReport}</h2>
+                <p>{language === 'hi' ? 'तत्काल एआई रिपोर्ट विश्लेषण।' : 'Instant AI report analysis.'}</p>
                 <button className="menu-card-btn" onClick={() => setActiveView('analysis')}>
-                    Analyze Report →
+                    {content.analyzeBtn} →
                 </button>
             </div>
 
@@ -41,10 +41,10 @@ const Health = () => {
                 <div className="card-illustration-placeholder">
                     <img src="/risks.jpg" alt="Pregnancy Risks" />
                 </div>
-                <h2>Pregnancy Risks</h2>
-                <p>Stay safe & avoid risks.</p>
+                <h2>{language === 'hi' ? 'गर्भावस्था जोखिम' : 'Pregnancy Risks'}</h2>
+                <p>{language === 'hi' ? 'सुरक्षित रहें और जोखिमों से बचें।' : 'Stay safe & avoid risks.'}</p>
                 <button className="menu-card-btn" onClick={() => setActiveView('risks')}>
-                    View Risks →
+                    {content.viewRisks} →
                 </button>
             </div>
 
@@ -53,10 +53,10 @@ const Health = () => {
                 <div className="card-illustration-placeholder">
                     <img src="/symptoms.jpg" alt="Risk Symptoms" />
                 </div>
-                <h2>Risk Symptoms</h2>
-                <p>Critical signs to watch.</p>
+                <h2>{language === 'hi' ? 'जोखिम लक्षण' : 'Risk Symptoms'}</h2>
+                <p>{language === 'hi' ? 'देखने के लिए महत्वपूर्ण संकेत।' : 'Critical signs to watch.'}</p>
                 <button className="menu-card-btn" onClick={() => setActiveView('symptoms')}>
-                    Check Symptoms →
+                    {content.viewSymptoms} →
                 </button>
             </div>
         </div>
@@ -68,8 +68,8 @@ const Health = () => {
                 {/* Header (Only show in Menu view or as smaller header in sub-views) */}
                 {activeView === 'menu' && (
                     <div className="page-header-standard fade-in-up">
-                        <h1>Maternal Health Hub</h1>
-                        <p>Comprehensive tools and guide for your pregnancy journey.</p>
+                        <h1>{content.pageTitle}</h1>
+                        <p>{language === 'hi' ? 'आपकी गर्भावस्था यात्रा के लिए व्यापक उपकरण और मार्गदर्शिका।' : 'Comprehensive tools and guide for your pregnancy journey.'}</p>
                     </div>
                 )}
 
@@ -77,11 +77,11 @@ const Health = () => {
                 {activeView !== 'menu' && activeView !== 'risks' && (
                     <div className="sub-page-header fade-in-up">
                         <button className="back-to-menu-btn" onClick={() => setActiveView('menu')}>
-                            ← Back to Health Menu
+                            ← {language === 'hi' ? 'स्वास्थ्य मेनू पर वापस जाएं' : 'Back to Health Menu'}
                         </button>
                         <h2>
-                            {activeView === 'analysis' && 'Medical Analytics'}
-                            {activeView === 'symptoms' && 'Risk Symptoms'}
+                            {activeView === 'analysis' && (language === 'hi' ? 'मेडिकल एनालिटिक्स' : 'Medical Analytics')}
+                            {activeView === 'symptoms' && (language === 'hi' ? 'जोखिम लक्षण' : 'Risk Symptoms')}
                         </h2>
                     </div>
                 )}

@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
+import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 import './Navbar.css';
 
 const Navbar = () => {
+    const { t } = useTranslation(['common', 'pages']);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const location = useLocation();
     const { user, isAuthenticated, logout } = useAuth();
-    const { language } = useLanguage();
-    const t = translations[language]?.navbar || {};
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -40,13 +39,13 @@ const Navbar = () => {
     };
 
     const navLinks = user?.role === 'asha' ? [
-        { name: t.dashboard || 'Dashboard', path: '/Adash' },
-        { name: t.findCare, path: '/find-care' },
+        { name: t('common:navbar.analytics') || 'Dashboard', path: '/Adash' },
+        { name: t('common:navbar.findCare'), path: '/find-care' },
     ] : [
-        { name: t.home, path: '/' },
-        { name: t.health, path: '/health' },
-        { name: t.yoga, path: '/yoga' },
-        { name: t.findCare, path: '/find-care' },
+        { name: t('common:navbar.home'), path: '/' },
+        { name: t('common:navbar.health'), path: '/health' },
+        { name: t('common:navbar.yoga'), path: '/yoga' },
+        { name: t('common:navbar.findCare'), path: '/find-care' },
     ];
 
     return (
@@ -65,8 +64,8 @@ const Navbar = () => {
                             <img src="/matricare-logo.png" alt="MatriCare Logo" className="brand-logo" />
                         </div>
                         <Link to="/" className="navbar-logo-text">
-                            <span className="logo-hindi">मातृ</span>
-                            <span className="logo-english">Care</span>
+                            <span className="logo-main">Matri</span>
+                            <span className="logo-accent">Care</span>
                         </Link>
                     </div>
 
@@ -132,7 +131,7 @@ const Navbar = () => {
                                             </div>
                                         )}
                                         <Link to="/settings" className="dropdown-item" onClick={() => setShowProfileDropdown(false)}>
-                                            {t.settings || 'Settings'}
+                                            {t('common:navbar.settings') || 'Settings'}
                                         </Link>
                                         <div className="dropdown-divider"></div>
                                         <button
@@ -142,14 +141,14 @@ const Navbar = () => {
                                                 setShowProfileDropdown(false);
                                             }}
                                         >
-                                            Logout
+                                            {t('common:buttons.logout') || 'Logout'}
                                         </button>
                                     </div>
                                 )}
                             </div>
                         ) : (
                             <Link to="/login" className="nav-action-link login-btn">
-                                {t.login}
+                                {t('common:navbar.login')}
                             </Link>
                         )}
 
@@ -195,7 +194,7 @@ const Navbar = () => {
                                 </>
                             ) : (
                                 <Link to="/login" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
-                                    {t.login}
+                                    {t('common:navbar.login')}
                                 </Link>
                             )}
                         </li>

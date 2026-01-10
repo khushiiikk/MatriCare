@@ -1,21 +1,18 @@
-import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
-import { translations } from '../translations/translations';
+import { useTranslation } from 'react-i18next';
 import './Footer.css';
 
 const Footer = () => {
-    const { language } = useLanguage();
-    const t = translations[language]?.footer || { links: {} };
+    const { t } = useTranslation('common');
 
     return (
         <footer className="footer-slim">
             <div className="container">
                 <div className="footer-content">
-                    <p className="copyright">{t.copyright || '© 2024 MatriCare'}</p>
+                    <p className="copyright">{t('footer.copyright') || '© 2024 MatriCare'}</p>
                     <ul className="footer-links">
-                        <li><a href="#privacy">{t.links?.privacy || 'Privacy'}</a></li>
-                        <li><a href="#terms">{t.links?.terms || 'Terms'}</a></li>
-                        <li><a href="#contact">{t.links?.contact || 'Contact'}</a></li>
+                        <li><a href="#privacy">{t('footer.privacy') || 'Privacy'}</a></li>
+                        <li><a href="#terms">{t('footer.terms') || 'Terms'}</a></li>
+                        <li><a href="#contact">{t('footer.contact') || 'Contact'}</a></li>
                     </ul>
                 </div>
             </div>

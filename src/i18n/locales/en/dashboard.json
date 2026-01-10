@@ -1,0 +1,56 @@
+{
+    "greeting": "Hello",
+    "week": "Week",
+    "weeks": "WEEKS",
+    "day": "DAY",
+    "trimester1": "1ST TRIMESTER",
+    "trimester2": "2ND TRIMESTER",
+    "trimester3": "3RD TRIMESTER",
+    "edd": "Expected Due Date",
+    "weight": "Weight",
+    "hemoglobin": "Hemoglobin",
+    "bloodGroup": "Blood Group",
+    "cards": {
+        "indianTips": "Indian Tips",
+        "reportHistory": "Report History",
+        "dietPlan": "Diet Plan",
+        "yoga": "Yoga",
+        "aiAssistant": "AI Assistant",
+        "analytics": "Analytics"
+    },
+    "asha": {
+        "title": "Your ASHA Worker",
+        "call": "Call",
+        "village": "Village",
+        "away": "away"
+    },
+    "tip": {
+        "badge": "TIP OF THE DAY",
+        "reveal": "Click to reveal wisdom",
+        "more": "Learn more in Indian Tips"
+    },
+    "emergency": {
+        "prompt": "Emergency? Quick access to help",
+        "ambulance": "Ambulance"
+    },
+    "profile": {
+        "title": "Profile",
+        "security": "Security",
+        "village": "Village",
+        "state": "State",
+        "address": "Address",
+        "age": "Age",
+        "edd": "Expected Delivery Date",
+        "currentWeek": "Current Week",
+        "weight": "Weight",
+        "save": "Save Changes"
+    },
+    "security": {
+        "changePhone": "Change Phone Number",
+        "updatePassword": "Update Password",
+        "newPhone": "New Phone Number",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password"
+    }
+}

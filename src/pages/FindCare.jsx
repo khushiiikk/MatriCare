@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { useLanguage } from '../context/LanguageContext';
+import { pagesContent } from '../data/pagesContent';
 import './FindCare.css';
 
 // Fix Leaflet marker icon issue
@@ -29,13 +31,16 @@ const RecenterMap = ({ coords }) => {
 };
 
 const FindCare = () => {
+    const { language } = useLanguage();
+    const content = pagesContent[language]?.findCare || pagesContent.en.findCare;
+
     const [location, setLocation] = useState({ lat: 28.6139, lng: 77.2090 }); // Default: Delhi
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!navigator.geolocation) {
-            setError("Geolocation is not supported by your browser");
+            setError(content.locationError);
             setLoading(false);
             return;
         }
@@ -49,34 +54,34 @@ const FindCare = () => {
                 setLoading(false);
             },
             (err) => {
-                setError("Unable to retrieve your location. Showing default.");
+                setError(content.locationError);
                 setLoading(false);
             }
         );
-    }, []);
+    }, [content.locationError]);
 
     const categories = [
         {
             id: 'asha',
-            name: 'ASHA Center',
+            name: content.categories.asha,
             query: 'ASHA center',
             img: '/asha-logo.jpg'
         },
         {
             id: 'hospital',
-            name: 'Govt Hospital',
+            name: content.categories.hospital,
             query: 'government hospital',
             img: '/hospital-icon.jpg'
         },
         {
             id: 'ambulance',
-            name: 'Ambulance',
+            name: content.categories.ambulance,
             query: 'ambulance service',
             img: '/ambulance-icon.jpg'
         },
         {
             id: 'pharmacy',
-            name: 'Pharmacy',
+            name: content.categories.pharmacy,
             query: 'pharmacy',
             img: '/pharmacy-icon.jpg'
         }
@@ -91,8 +96,8 @@ const FindCare = () => {
         <div className="find-care-container">
             <div className="container">
                 <div className="find-care-header">
-                    <h1>Find Healthcare</h1>
-                    <p>Locate nearby ASHA centers and Hospitals</p>
+                    <h1>{content.pageTitle}</h1>
+                    <p>{content.pageSubtitle}</p>
                 </div>
 
                 {/* Side-by-side layout: Map left, Options right */}
@@ -102,7 +107,7 @@ const FindCare = () => {
                         {loading ? (
                             <div className="map-loader">
                                 <div className="loader"></div>
-                                <p>Finding your location...</p>
+                                <p>{content.mapLoading}</p>
                             </div>
                         ) : (
                             <div className="map-card-wrapper">
@@ -123,7 +128,7 @@ const FindCare = () => {
 
                     {/* Emergency Categories Section - Right side, vertical */}
                     <div className="emergency-section-right">
-                        <h2 className="section-title-right">Emergency Categories</h2>
+                        <h2 className="section-title-right">{content.pageTitle}</h2>
                         <div className="emergency-grid-vertical">
                             {categories.map((cat) => (
                                 <div key={cat.id} className="emergency-card-vertical floating-subtle" onClick={() => openMapsSearch(cat.query)}>

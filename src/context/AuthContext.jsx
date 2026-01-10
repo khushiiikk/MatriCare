@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Sign up new user - OPTIMIZED FOR SPEED
+    // Sign up new user - Production Ready
     const signup = async (userData) => {
         try {
             const uid = userData.uid || `user_${userData.mobile}_${Date.now()}`;
@@ -146,15 +146,12 @@ export const AuthProvider = ({ children }) => {
                 }
             };
 
-            // IMMEDIATELY set state and persist locally (FAST)
+            // Save to Firebase FIRST to ensure data persistence
+            await setDoc(doc(db, "users", uid), newUser);
+
             setUser(newUser);
             setIsAuthenticated(true);
             localStorage.setItem('matricare_user', JSON.stringify(newUser));
-
-            // Save to Firebase in background (don't wait for it)
-            setDoc(doc(db, "users", uid), newUser).catch(err => {
-                console.warn("Firebase save failed, but user is logged in locally:", err);
-            });
 
             return { success: true, user: newUser };
         } catch (error) {
@@ -163,64 +160,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Login with Password - OPTIMIZED FOR SPEED
+    // Login with Password - Production Ready
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
-            // 1. CHECK LOCAL STORAGE FIRST (FASTEST)
-            const mockUsers = JSON.parse(localStorage.getItem('mock_users') || '[]');
-            const localUser = mockUsers.find(u => u.mobile === mobile && u.password === password);
-
-            if (localUser) {
-                setUser(localUser);
-                setIsAuthenticated(true);
-                localStorage.setItem('matricare_user', JSON.stringify(localUser));
-                setLoading(false);
-                return { success: true, user: localUser };
-            }
-
-            // 2. SPECIAL TEST CREDENTIAL (QUICK DEMO MODE)
-            if (password === '123456' || password === 'admin' || (mobile === '12345' && password === '12345')) {
-                const dummyUser = {
-                    mobile: mobile,
-                    role: 'patient',
-                    name: mobile === '12345' ? 'Demo Patient' : 'Test User',
-                    uid: `test_${Date.now()}`,
-                    createdAt: new Date().toISOString()
-                };
-                setUser(dummyUser);
-                setIsAuthenticated(true);
-                localStorage.setItem('matricare_user', JSON.stringify(dummyUser));
-
-                // Save to mock db for next time
-                const currentMockUsers = JSON.parse(localStorage.getItem('mock_users') || '[]');
-                currentMockUsers.push({ ...dummyUser, password: password });
-                localStorage.setItem('mock_users', JSON.stringify(currentMockUsers));
-
-                setLoading(false);
-                return { success: true, user: dummyUser };
-            }
-
-            if (mobile === '54321' && password === '54321') {
-                const ashaUser = {
-                    mobile: mobile,
-                    role: 'asha',
-                    name: 'Demo ASHA Worker',
-                    uid: `asha_test_${Date.now()}`,
-                    employeeId: 'ASHA-2024-8821',
-                    village: 'Village Rampur',
-                    registrationDate: '2024-03-12',
-                    assignedPatients: 14,
-                    createdAt: new Date().toISOString()
-                };
-                setUser(ashaUser);
-                setIsAuthenticated(true);
-                localStorage.setItem('matricare_user', JSON.stringify(ashaUser));
-                setLoading(false);
-                return { success: true, user: ashaUser };
-            }
-
-            // 3. TRY FIREBASE (SLOWER, BUT COMPREHENSIVE)
+            // TRY FIREBASE (Primary source of truth)
             const { collection, query, where, getDocs } = await import('firebase/firestore');
             const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));
             const querySnapshot = await getDocs(q);
@@ -241,7 +185,7 @@ export const AuthProvider = ({ children }) => {
         } catch (e) {
             console.error("Login Error:", e);
             setLoading(false);
-            return { success: false, error: 'Login failed. Try password "123456" for demo mode.' };
+            return { success: false, error: 'Login failed. Please check your connection and try again.' };
         }
     };
 

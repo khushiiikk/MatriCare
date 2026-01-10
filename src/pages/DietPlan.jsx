@@ -1,83 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { dietContent } from '../data/dietContent';
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import './DietPlan.css';
 
 const DietPlan = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('chart');
+    const { language } = useLanguage();
+    const [dynamicContent, setDynamicContent] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const sevenDayPlan = [
-        {
-            day: 1,
-            early: "Dry fruits (8-12 pcs)",
-            breakfast: "Moong dal chilla with chutney",
-            midMorning: "Blueberry shake",
-            lunch: "Mutton biryani with Raita",
-            evening: "Sweet potato salad & Tea",
-            dinner: "Wheat dosa with Bitter gourd sabji"
-        },
-        {
-            day: 2,
-            early: "Fresh fruit juice",
-            breakfast: "Wheat dosa with Tomato sabji",
-            midMorning: "Vegetable broccoli soup",
-            lunch: "Rice with Chicken & Broccoli",
-            evening: "Mixed fruit salad",
-            dinner: "Moong dal chilla with chutney"
-        },
-        {
-            day: 3,
-            early: "Banana milkshake",
-            breakfast: "Veggie upma + 2 Parathas",
-            midMorning: "Pumpkin soup",
-            lunch: "Mutton biryani with Raita",
-            evening: "Dry fruits (10-14 pcs)",
-            dinner: "Multigrain toast with 2 Eggs"
-        },
-        {
-            day: 4,
-            early: "Carrot juice",
-            breakfast: "Oatmeal + 2 Boiled eggs",
-            midMorning: "Banana milkshake",
-            lunch: "Rice, Mutton, and Masoor dal",
-            evening: "Mixed fruit salad",
-            dinner: "Veggie poha & Moong dal chillas"
-        },
-        {
-            day: 5,
-            early: "Plain glass of milk",
-            breakfast: "Veggie poha & Moong dal chillas",
-            midMorning: "Tomato soup",
-            lunch: "Chicken biryani with Raita",
-            evening: "Vegetable salad",
-            dinner: "Multigrain toast with 2 Eggs"
-        },
-        {
-            day: 6,
-            early: "Banana milkshake",
-            breakfast: "Oatmeal + 2 Boiled eggs",
-            midMorning: "Pumpkin soup",
-            lunch: "Rice, Mutton, and Masoor dal",
-            evening: "Dry fruits (10-14 pcs)",
-            dinner: "Wheat dosa with Tomato sabji"
-        },
-        {
-            day: 7,
-            early: "Plain glass of milk",
-            breakfast: "Veggie upma + 2 Parathas",
-            midMorning: "Peach milkshake",
-            lunch: "Veg khichdi, Chicken, and Dahi",
-            evening: "Avocado with Peanut butter",
-            dinner: "Veggie poha & Moong dal chillas"
-        }
-    ];
+    useEffect(() => {
+        const fetchDietContent = async () => {
+            try {
+                const docRef = doc(db, "content", "diet");
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setDynamicContent(docSnap.data());
+                }
+            } catch (error) {
+                console.error("Error fetching diet content:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchDietContent();
+    }, []);
 
-    const recommendedFoods = [
-        { icon: "🥛", title: "Dairy", desc: "Calcium for bone development" },
-        { icon: "🫘", title: "Legumes", desc: "Folate, iron, and fiber" },
-        { icon: "🥚", title: "Eggs", desc: "High-quality protein & choline" },
-        { icon: "🥦", title: "Leafy Greens", desc: "Vitamins A, C, and antioxidants" }
-    ];
+    const content = (dynamicContent?.[language] || dietContent[language] || dietContent.en);
 
     return (
         <div className="diet-page-wrapper">
@@ -89,9 +42,9 @@ const DietPlan = () => {
 
             <div className="diet-container">
                 <header className="diet-header-premium">
-                    <button className="back-pill" onClick={() => navigate(-1)}>← Dashboard</button>
-                    <h1>Nurture <span className="highlight">Daily</span></h1>
-                    <p className="subtitle">Indian Pregnancy Diet Plan by Experts</p>
+                    <button className="back-pill" onClick={() => navigate(-1)}>← {content.backBtn}</button>
+                    <h1>{content.pageTitle} <span className="highlight">{content.pageTitleHighlight}</span></h1>
+                    <p className="subtitle">{content.pageSubtitle}</p>
                 </header>
 
                 <div className="diet-tabs-modern">
@@ -99,13 +52,13 @@ const DietPlan = () => {
                         className={activeTab === 'chart' ? 'active' : ''}
                         onClick={() => setActiveTab('chart')}
                     >
-                        7-Day Chart
+                        {content.tab1}
                     </button>
                     <button
                         className={activeTab === 'guidelines' ? 'active' : ''}
                         onClick={() => setActiveTab('guidelines')}
                     >
-                        Guidelines
+                        {content.tab2}
                     </button>
                 </div>
 
@@ -113,26 +66,26 @@ const DietPlan = () => {
                     {activeTab === 'chart' && (
                         <div className="chart-section animate-slide-up">
                             <div className="chart-grid">
-                                {sevenDayPlan.map((d) => (
+                                {content.sevenDayPlan.map((d) => (
                                     <div key={d.day} className="day-card">
                                         <div className="day-header">
-                                            <span className="day-num">Day 0{d.day}</span>
+                                            <span className="day-num">{content.dayLabel} 0{d.day}</span>
                                         </div>
                                         <div className="meal-segments">
                                             <div className="segment">
-                                                <label>Pre-Breakfast</label>
+                                                <label>{content.preBfast}</label>
                                                 <p>{d.early}</p>
                                             </div>
                                             <div className="segment">
-                                                <label>Breakfast</label>
+                                                <label>{content.breakfast}</label>
                                                 <p>{d.breakfast}</p>
                                             </div>
                                             <div className="segment">
-                                                <label>Lunch</label>
+                                                <label>{content.lunch}</label>
                                                 <p>{d.lunch}</p>
                                             </div>
                                             <div className="segment">
-                                                <label>Dinner</label>
+                                                <label>{content.dinner}</label>
                                                 <p>{d.dinner}</p>
                                             </div>
                                         </div>
@@ -146,9 +99,9 @@ const DietPlan = () => {
                         <div className="guidelines-section animate-fade-in">
                             <div className="guidelines-grid">
                                 <div className="guide-card recommendations">
-                                    <h3>Foods to Embrace</h3>
+                                    <h3>{content.foodsToEmbrace}</h3>
                                     <div className="icon-list">
-                                        {recommendedFoods.map((f, i) => (
+                                        {content.recommendedFoods.map((f, i) => (
                                             <div key={i} className="icon-item">
                                                 <span className="i-box">{f.icon}</span>
                                                 <div className="i-text">
@@ -161,18 +114,17 @@ const DietPlan = () => {
                                 </div>
 
                                 <div className="guide-card avoided">
-                                    <h3>Foods to Avoid</h3>
+                                    <h3>{content.foodsToAvoid}</h3>
                                     <ul className="danger-list">
-                                        <li>High-Mercury Fish (Raw)</li>
-                                        <li>Unpasteurized Milk/Cheese</li>
-                                        <li>Raw or Undercooked Eggs</li>
-                                        <li>Excessive Caffeine</li>
+                                        {content.avoidList.map((item, idx) => (
+                                            <li key={idx}>{item}</li>
+                                        ))}
                                     </ul>
                                     <div className="hydration-badge">
-                                        💧 Drink 8-11 glasses of water daily
+                                        {content.hydrationBadge}
                                     </div>
                                     <div className="caution-box">
-                                        ⚠️ Consult your doctor for specific allergies.
+                                        {content.cautionBox}
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +133,7 @@ const DietPlan = () => {
                 </div>
 
                 <footer className="diet-footer">
-                    <p>Source from: <a href="https://www.maxhealthcare.in/blogs/indian-diet-plan-pregnancy" target="_blank" rel="noopener noreferrer">Max Healthcare Blog</a></p>
+                    <p>{content.sourceText} <a href="https://www.maxhealthcare.in/blogs/indian-diet-plan-pregnancy" target="_blank" rel="noopener noreferrer">{content.sourceLink}</a></p>
                 </footer>
             </div>
         </div>

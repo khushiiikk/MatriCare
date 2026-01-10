@@ -1,0 +1,169 @@
+{
+    "home": {
+        "welcome": "तुमचे आरोग्य, आमची जबाबदारी",
+        "welcomeMain": "तुमचे आरोग्य,",
+        "welcomeAccent": "आमची जबाबदारी",
+        "subtitle": "तुमच्या भाषेत ट्रॅकर, योग आणि एआय सपोर्ट.",
+        "description": "मातृCare: सुरक्षित गर्भधारणेसाठी तुमचा डिजिटल साथीदार.",
+        "featuresTitle": "आमची वैशिष्ट्ये",
+        "features": {
+            "yoga": {
+                "title": "सुरक्षित योग",
+                "desc": "प्रत्येक तिमाहीसाठी योजना."
+            },
+            "tracker": {
+                "title": "आरोग्य ट्रॅकर",
+                "desc": "दैनंदिन विटल्स मॉनिटरिंग."
+            },
+            "care": {
+                "title": "काळजी शोधा",
+                "desc": "नजीकची केंद्रे आणि रुग्णालये."
+            },
+            "support": {
+                "title": "एआय सहाय्यक",
+                "desc": "तात्काळ सपोर्ट 24/7."
+            }
+        },
+        "quotes": [
+            "प्रत्येक माता काळजी, करुणा आणि आधारासाठी पात्र आहे.",
+            "तुमचे आरोग्य ही आमची प्राथमिकता आहे, प्रत्येक पावलावर.",
+            "एकत्रितपणे, आम्ही सुरक्षित गर्भधारणा आणि निरोगी बाळांची खात्री करतो.",
+            "ज्ञान आणि काळजीसह मातांना सक्षम करणे.",
+            "निरोगी माता म्हणजे निरोगी बाळ."
+        ]
+    },
+    "about": {
+        "mission": {
+            "title": "आमचे ध्येय",
+            "desc": "प्रत्येक मातेसाठी उच्च दर्जाचे आरोग्य समर्थन."
+        },
+        "vision": {
+            "title": "आमची दृष्टी",
+            "desc": "नवनिर्मितीद्वारे सुरक्षित आणि साजरी केलेली गर्भधारणा."
+        }
+    },
+    "login": {
+        "welcomeTo": "मध्ये आपले स्वागत आहे",
+        "appName": "मातृCare",
+        "tagline": "आरोग्य ट्रॅक करा, आनंदी रहा.",
+        "featureTags": [
+            "ट्रॅकर",
+            "एआय सहाय्यक",
+            "योग"
+        ],
+        "joinTitle": "मातृCare मध्ये सामील व्हा",
+        "welcomeBack": "पुन्हा स्वागत आहे!",
+        "createAccount": "मोफत खाते तयार करा",
+        "rolePatient": "रुग्ण (माता)",
+        "roleAsha": "आशा कार्यकर्ता",
+        "otpLogin": "ओटीपी लॉगिन",
+        "passwordLogin": "पासवर्ड लॉगिन",
+        "mobileLabel": "मोबाईल नंबर",
+        "mobilePlaceholder": "10-अंकी मोबाईल नंबर प्रविष्ट करा",
+        "passwordLabel": "पासवर्ड",
+        "passwordPlaceholder": "पासवर्ड प्रविष्ट करा",
+        "otpLabel": "ओटीपी प्रविष्ट करा",
+        "otpPlaceholder": "6-अंकी कोड",
+        "sendOtp": "ओटीपी पाठवा",
+        "verifyOtp": "ओटीपी सत्यापित करा",
+        "loginBtn": "लॉगिन",
+        "signupBtn": "साइन अप",
+        "switchToSignup": "खाते नाही? साइन अप करा",
+        "switchToLogin": "आधीच खाते आहे? लॉगिन करा",
+        "fullNameLabel": "पूर्ण नाव",
+        "fullNamePlaceholder": "तुमचे नाव प्रविष्ट करा",
+        "employeeIdLabel": "कर्मचारी आयडी",
+        "employeeIdPlaceholder": "आशा आयडी प्रविष्ट करा",
+        "dobLabel": "जन्म तारीख",
+        "weightLabel": "वजन (किलो)",
+        "weightPlaceholder": "वजन प्रविष्ट करा",
+        "stateLabel": "राज्य",
+        "statePlaceholder": "राज्य निवडा",
+        "districtLabel": "जिल्हा",
+        "districtPlaceholder": "जिल्हा निवडा",
+        "villageLabel": "गाव/शहर",
+        "villagePlaceholder": "गाव प्रविष्ट करा",
+        "lmpLabel": "शेवटची मासिक पाळी (LMP)",
+        "lmpPlaceholder": "LMP तारीख निवडा"
+    },
+    "findCare": {
+        "pageTitle": "काळजी शोधा",
+        "pageSubtitle": "नजीकच्या आरोग्य सेवा सुविधा शोधा",
+        "categories": {
+            "asha": "आशा केंद्र",
+            "hospital": "शासकीय रुग्णालय",
+            "ambulance": "रुग्णवाहिका",
+            "pharmacy": "फार्मसी"
+        },
+        "mapLoading": "नकाशा लोड होत आहे...",
+        "locationError": "तुमचे स्थान मिळवता आले नाही"
+    },
+    "settings": {
+        "pageTitle": "सेटिंग्ज",
+        "profileSection": "प्रोफाइल माहिती",
+        "nameLabel": "नाव",
+        "emailLabel": "ईमेल",
+        "phoneLabel": "फोन",
+        "languageSection": "भाषा प्राधान्ये",
+        "selectLanguage": "भाषा निवडा",
+        "notificationsSection": "सूचना",
+        "enableNotifications": "सूचना सक्षम करा",
+        "emailNotifications": "ईमेल सूचना",
+        "smsNotifications": "एसएमएस सूचना",
+        "privacySection": "गोपनीयता आणि सुरक्षा",
+        "changePassword": "पासवर्ड बदला",
+        "dataPrivacy": "डेटा गोपनीयता सेटिंग्ज",
+        "saveBtn": "बदल जतन करा",
+        "cancelBtn": "रद्द करा"
+    },
+    "reportHistory": {
+        "pageTitle": "अहवाल इतिहास",
+        "pageSubtitle": "तुमचे वैद्यकीय अहवाल पहा",
+        "noReports": "अहवाल उपलब्ध नाहीत",
+        "uploadNew": "नवीन अहवाल अपलोड करा",
+        "dateLabel": "तारीख",
+        "typeLabel": "प्रकार",
+        "statusLabel": "स्थिती",
+        "viewBtn": "पहा",
+        "downloadBtn": "डाउनलोड करा"
+    },
+    "chatbot": {
+        "title": "मातृ एआय सहाय्यक",
+        "onlineStatus": "ऑनलाइन",
+        "headerTitle": "मातृ एआय",
+        "welcomeTitle": "नमस्कार, मी मातृ आहे",
+        "welcomeSubtitle": "तुमचा वैयक्तिक गर्भधारणा सोबती. आज मी तुम्हाला कशी मदत करू शकतो?",
+        "welcomeMessage": "नमस्कार! मी मातृ एआय आहे. तुमच्या गर्भधारणेच्या प्रवासात मी तुम्हाला कशी मदत करू शकतो?",
+        "placeholder": "मला काहीही विचारा...",
+        "devResponse": "मी मातृ आहे, तुमचा एआय सहाय्यक. तुम्ही मला योग, वैद्यकीय अहवाल, काळजी शोधणे किंवा गर्भधारणेच्या जोखमींबद्दल विचारू शकता!",
+        "quickHelp": {
+            "yoga": "योग मार्गदर्शक",
+            "health": "आरोग्य विश्लेषण",
+            "findCare": "काळजी शोधा",
+            "risks": "गर्भधारणा जोखीम"
+        },
+        "orText": "किंवा खाली मला प्रश्न विचारा",
+        "suggestions": [
+            "मी काय खावे?",
+            "पाठदुखी सामान्य आहे का?",
+            "तिमाही 2 साठी योग",
+            "प्रसूतीची चिन्हे"
+        ]
+    },
+    "asha": {
+        "hello": "नमस्कार",
+        "mapTitle": "रुग्णांची ठिकाणे",
+        "selectPatient": "मार्गासाठी रुग्ण निवडा",
+        "distance": "अंतर",
+        "estTime": "अंदाजे वेळ",
+        "getDirections": "दिशानिर्देश मिळवा",
+        "medicalHistory": "वैद्यकीय इतिहास",
+        "visitHistory": "भेटीचा इतिहास",
+        "recentReports": "अलीकडील अहवाल",
+        "nearestPatients": "जवळपासचे रुग्ण",
+        "risk": "जोखीम",
+        "back": "डॅशबोर्डवर परत",
+        "view": "पहा",
+        "map": "नकाशा"
+    }
+}

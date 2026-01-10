@@ -1,0 +1,43 @@
+{
+    "navbar": {
+        "home": "Home",
+        "health": "Health",
+        "yoga": "Yoga",
+        "findCare": "Find Care",
+        "analytics": "Analytics",
+        "about": "About",
+        "settings": "Settings",
+        "login": "Log in",
+        "signUp": "Sign Up"
+    },
+    "footer": {
+        "copyright": "© 2024 MatriCare. All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "contact": "Contact Us"
+    },
+    "buttons": {
+        "save": "Save Changes",
+        "cancel": "Cancel",
+        "continue": "Continue",
+        "back": "Back",
+        "upload": "Upload",
+        "download": "Download",
+        "view": "View",
+        "analyze": "Analyze",
+        "send": "Send"
+    },
+    "status": {
+        "notTested": "Not tested",
+        "low": "Low",
+        "monitor": "Monitor",
+        "normal": "Normal",
+        "high": "High",
+        "verified": "Verified"
+    },
+    "helplines": {
+        "police": "Police (100)",
+        "ambulance": "Ambulance (102)",
+        "women": "Women Helpline (181)"
+    }
+}

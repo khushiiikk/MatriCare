@@ -1,28 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { db } from '../firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { useAuth } from '../context/AuthContext';
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
+} from 'recharts';
 import './ReportHistory.css';
 
 const ReportHistory = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [reports, setReports] = useState([]);
     const [chartData, setChartData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const savedReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-        setReports(savedReports.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        const fetchReports = async () => {
+            if (!user?.uid) return;
 
-        // Prepare chart data (chronological)
-        const sortedForChart = [...savedReports].sort((a, b) => new Date(a.date) - new Date(b.date));
-        const formattedData = sortedForChart.map(report => ({
-            date: new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
-            hemoglobin: parseFloat(report.vitals.hemoglobin),
-            bloodSugar: parseFloat(report.vitals.bloodGlucose),
-            hba1c: parseFloat(report.vitals.hba1c),
-            riskScore: report.risk.level === 'High Risk' ? 3 : report.risk.level === 'Moderate Risk' ? 2 : 1
-        }));
-        setChartData(formattedData);
-    }, []);
+            try {
+                const q = query(
+                    collection(db, "health_reports"),
+                    where("userId", "==", user.uid),
+                    orderBy("createdAt", "desc")
+                );
+
+                const querySnapshot = await getDocs(q);
+                const fetchedReports = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                setReports(fetchedReports);
+
+                // Prepare chart data (chronological)
+                const sortedForChart = [...fetchedReports].sort((a, b) => new Date(a.date) - new Date(b.date));
+                const formattedData = sortedForChart.map(report => ({
+                    date: new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+                    hemoglobin: parseFloat(report.vitals.hemoglobin),
+                    bloodSugar: parseFloat(report.vitals.bloodGlucose),
+                    hba1c: parseFloat(report.vitals.hba1c),
+                    riskScore: report.risk.level === 'High Risk' ? 3 : report.risk.level === 'Moderate Risk' ? 2 : 1
+                }));
+                setChartData(formattedData);
+            } catch (error) {
+                console.error("Error fetching reports from Firestore:", error);
+                // Fallback to local storage for demo/compatibility
+                const savedReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
+                setReports(savedReports.sort((a, b) => new Date(b.date) - new Date(a.date)));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReports();
+    }, [user]);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-IN', {

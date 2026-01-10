@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
-import { translations } from '../translations/translations';
 import Particles from '../components/Particles';
 import './Home.css';
 import './AshaVisuals.css';
 
 const Home = () => {
+    const { t } = useTranslation(['pages', 'common']);
     const navigate = useNavigate();
-    const { language } = useLanguage();
-    const langT = translations[language] || translations.en;
-    const t = langT.home || {};
-    const aboutT = langT.about || {};
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
     const [isSosOpen, setIsSosOpen] = useState(false);
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
     // Quote rotation every 3 seconds
+    const quotes = t('pages:home.quotes', { returnObjects: true }) || [];
     useEffect(() => {
-        if (!t.quotes || t.quotes.length === 0) return;
+        if (!quotes || quotes.length === 0) return;
         const interval = setInterval(() => {
-            setCurrentQuoteIndex((prev) => (prev + 1) % t.quotes.length);
+            setCurrentQuoteIndex((prev) => (prev + 1) % quotes.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, [t.quotes?.length]);
+    }, [quotes.length]);
 
     const { isAuthenticated, user } = useAuth();
 
@@ -50,17 +47,17 @@ const Home = () => {
                 <div className="container hero-content-v2">
                     <div className="hero-text-side">
                         <h1 className="hero-main-title">
-                            <span className="title-top">{t.welcomeMain}</span>
+                            <span className="title-top">{t('pages:home.welcomeMain')}</span>
                             <br />
-                            <span className="title-bottom">{t.welcomeAccent}</span>
+                            <span className="title-bottom">{t('pages:home.welcomeAccent')}</span>
                         </h1>
-                        <p className="hero-description">{t.subtitle}</p>
+                        <p className="hero-description">{t('pages:home.subtitle')}</p>
 
                         {/* Rotating Quote Banner */}
-                        {t.quotes && t.quotes.length > 0 && (
+                        {quotes && quotes.length > 0 && (
                             <div className="home-quote-banner">
                                 <div className="quote-content">
-                                    <p className="quote-text">{t.quotes[currentQuoteIndex]}</p>
+                                    <p className="quote-text">{quotes[currentQuoteIndex]}</p>
                                 </div>
                             </div>
                         )}
@@ -96,38 +93,38 @@ const Home = () => {
             {/* Section 2: What We Offer */}
             <section className="features-section">
                 <div className="container">
-                    <h2 className="section-title-centered">{t.featuresTitle}</h2>
+                    <h2 className="section-title-centered">{t('pages:home.featuresTitle')}</h2>
                     <div className="features-grid">
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
                                 <img src="/yoga-home-icon-new.jpg" alt="Yoga" className="feature-image" />
                             </div>
-                            <h3>{t.features?.yoga?.title || 'Yoga'}</h3>
-                            <button className="read-more-btn" onClick={() => navigate('/yoga')}>Open</button>
+                            <h3>{t('pages:home.features.yoga.title') || 'Yoga'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/yoga')}>{t('common:buttons.view')}</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
                                 <img src="/health-icon-new.jpg" alt="Tracker" className="feature-image" />
                             </div>
-                            <h3>{t.features?.tracker?.title || 'Tracker'}</h3>
-                            <button className="read-more-btn" onClick={() => navigate('/health')}>Open</button>
+                            <h3>{t('pages:home.features.tracker.title') || 'Tracker'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/health')}>{t('common:buttons.view')}</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
                                 <img src="/care-icon-new.jpg" alt="Care" className="feature-image" />
                             </div>
-                            <h3>{t.features?.care?.title || 'Care'}</h3>
-                            <button className="read-more-btn" onClick={() => navigate('/find-care')}>Open</button>
+                            <h3>{t('pages:home.features.care.title') || 'Care'}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/find-care')}>{t('common:buttons.view')}</button>
                         </div>
 
                         <div className="feature-card-leaf">
                             <div className="feature-icon-wrapper circular-fill">
                                 <img src="/chatbot-new.jpg" alt="AI Support" className="feature-image" />
                             </div>
-                            <h3>AI Assistant</h3>
-                            <button className="read-more-btn" onClick={() => navigate('/chatbot')}>Open</button>
+                            <h3>{t('pages:chatbot.headerTitle')}</h3>
+                            <button className="read-more-btn" onClick={() => navigate('/chatbot')}>{t('common:buttons.view')}</button>
                         </div>
                     </div>
                 </div>

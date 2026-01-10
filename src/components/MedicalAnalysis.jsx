@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
+import { medicalAnalysisContent } from '../data/medicalAnalysisContent';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useAuth } from '../context/AuthContext';
 import './MedicalAnalysis.css';
 
 const MedicalAnalysis = () => {
+    const { user } = useAuth();
+    const { language } = useLanguage();
+    const content = medicalAnalysisContent[language] || medicalAnalysisContent.en;
+
     const [step, setStep] = useState(1); // 1: Personal Info, 2: Pregnancy History, 3: Analysis
     const [analyzing, setAnalyzing] = useState(false);
     const [showResults, setShowResults] = useState(false);
@@ -55,25 +64,25 @@ const MedicalAnalysis = () => {
     const getMetricLevel = (id) => {
         const val = parseFloat(formData[id]);
         const range = ranges[id];
-        if (isNaN(val)) return { pct: 0, color: 'gray', text: 'No Data' };
+        if (isNaN(val)) return { pct: 0, color: 'gray', text: content.noData };
 
         if (id === 'hemoglobin') {
-            if (val < 10) return { pct: 90, color: 'red', text: 'Severe Anemia' };
-            if (val < 11) return { pct: 70, color: 'orange', text: 'Mild Anemia' };
-            if (val > 16) return { pct: 85, color: 'red', text: 'High' };
-            return { pct: 50, color: 'green', text: 'Normal' };
+            if (val < 10) return { pct: 90, color: 'red', text: content.severeAnemia };
+            if (val < 11) return { pct: 70, color: 'orange', text: content.mildAnemia };
+            if (val > 16) return { pct: 85, color: 'red', text: content.high };
+            return { pct: 50, color: 'green', text: content.normal };
         }
 
         if (id === 'bloodGlucose') {
-            if (val > 200) return { pct: 95, color: 'red', text: 'Very High' };
-            if (val > 140) return { pct: 80, color: 'red', text: 'High' };
-            if (val < 70) return { pct: 85, color: 'red', text: 'Low' };
-            return { pct: 50, color: 'green', text: 'Normal' };
+            if (val > 200) return { pct: 95, color: 'red', text: content.veryHigh };
+            if (val > 140) return { pct: 80, color: 'red', text: content.high };
+            if (val < 70) return { pct: 85, color: 'red', text: content.low };
+            return { pct: 50, color: 'green', text: content.normal };
         }
 
-        if (val < range.min) return { pct: 30, color: 'red', text: 'Low' };
-        if (val > range.max) return { pct: 90, color: 'red', text: 'High' };
-        return { pct: 50, color: 'green', text: 'Normal' };
+        if (val < range.min) return { pct: 30, color: 'red', text: content.low };
+        if (val > range.max) return { pct: 90, color: 'red', text: content.high };
+        return { pct: 50, color: 'green', text: content.normal };
     };
 
     const calculateOverallRisk = () => {
@@ -81,33 +90,33 @@ const MedicalAnalysis = () => {
         let factors = [];
 
         // Vitals Analysis
-        if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push("High Blood Sugar"); }
-        if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push("Anemia Detection"); }
-        if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push("HbA1c Elevation"); }
-        if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push("High Heart Rate"); }
-        if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push("Fever"); }
+        if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push(content.highBloodSugar); }
+        if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push(content.anemiaDetection); }
+        if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push(content.hba1cElevation); }
+        if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push(content.highHeartRate); }
+        if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push(content.fever); }
 
         // History Analysis
-        if (parseInt(formData.abortions) >= 2) { score += 4; factors.push("History of Miscarriages"); }
-        if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push("High Obstetric Risk"); }
-        if (parseInt(formData.gravida) > 5) { score += 3; factors.push("Grand Multiparity"); }
+        if (parseInt(formData.abortions) >= 2) { score += 4; factors.push(content.historyMiscarriages); }
+        if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push(content.highObstetricRisk); }
+        if (parseInt(formData.gravida) > 5) { score += 3; factors.push(content.grandMultiparity); }
 
-        let risk = { level: 'Low Risk', color: 'green', confidence: 85, advice: 'Continue regular prenatal checkups and maintain a healthy diet.', factors };
+        let risk = { level: content.lowRisk, color: 'green', confidence: 85, advice: content.lowRiskAdvice, factors };
 
         if (score >= 7) {
             risk = {
-                level: 'High Risk',
+                level: content.highRisk,
                 color: 'red',
                 confidence: Math.min(95, 60 + score * 3),
-                advice: 'Immediate medical attention recommended. High probability of complications detected. Please consult your obstetrician urgently.',
+                advice: content.highRiskAdvice,
                 factors
             };
         } else if (score >= 3) {
             risk = {
-                level: 'Moderate Risk',
+                level: content.moderateRisk,
                 color: 'orange',
                 confidence: Math.min(88, 50 + score * 5),
-                advice: 'Closer monitoring required. Schedule a follow-up appointment soon to discuss these metrics with your healthcare provider.',
+                advice: content.moderateRiskAdvice,
                 factors
             };
         }
@@ -117,19 +126,29 @@ const MedicalAnalysis = () => {
 
     const runAnalysis = () => {
         setAnalyzing(true);
-        setTimeout(() => {
+        setTimeout(async () => {
             const riskAssessment = calculateOverallRisk();
-            const newReport = {
-                id: Date.now(),
-                date: new Date().toISOString(),
+            const reportData = {
                 vitals: { ...formData },
-                risk: riskAssessment
+                risk: riskAssessment,
+                date: new Date().toISOString(),
+                createdAt: serverTimestamp(),
+                userId: user?.uid || 'anonymous'
             };
 
-            // Save to health_reports
-            const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-            const updatedReports = [...existingReports, newReport];
-            localStorage.setItem('health_reports', JSON.stringify(updatedReports));
+            try {
+                // Save to Firestore (Real-world)
+                await addDoc(collection(db, "health_reports"), reportData);
+
+                // Keep local copy for immediate UI update if needed, but Firestore is primary
+                const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
+                localStorage.setItem('health_reports', JSON.stringify([...existingReports, { ...reportData, id: Date.now() }]));
+            } catch (error) {
+                console.error("Error saving health report to Firestore:", error);
+                // Fallback to local storage if offline
+                const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
+                localStorage.setItem('health_reports', JSON.stringify([...existingReports, { ...reportData, id: Date.now() }]));
+            }
 
             setAnalyzing(false);
             setShowResults(true);
@@ -140,8 +159,8 @@ const MedicalAnalysis = () => {
     const renderStep1 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={() => { }}>←</button>
-                <h2>Personal Information</h2>
+                <button className="back-circle-btn" onClick={() => { }}>{content.backBtn}</button>
+                <h2>{content.step1Title}</h2>
             </div>
 
             <div className="progress-bar-stepper">
@@ -150,40 +169,36 @@ const MedicalAnalysis = () => {
             </div>
 
             <div className="vitals-grid-scroll">
-                {[
-                    { id: 'bloodGlucose', label: 'Random Blood Sugar (RBS)', range: '70-140 mg/dL' },
-                    { id: 'bodyTemp', label: 'Body Temperature', range: '97-99°F' },
-                    { id: 'heartRate', label: 'Heart Rate (HR)', range: '60-100 BPM' },
-                    { id: 'hemoglobin', label: 'Hemoglobin Level (Hb)', range: '11-16 g/dL' },
-                    { id: 'hba1c', label: 'HBA1C Level', range: '4-6%' },
-                    { id: 'respirationRate', label: 'Respiration Rate (RR)', range: '12-20 per minute' }
-                ].map((item) => (
-                    <div key={item.id} className={`input-group-modern ${getValidationClass(item.id)}`}>
-                        <label>{item.label}</label>
-                        <div className="input-field-wrapper">
-                            <input
-                                type="number"
-                                value={formData[item.id]}
-                                onChange={(e) => handleInputChange(item.id, e.target.value)}
-                            />
-                            <div className="validation-indicator">
-                                {getValidationClass(item.id) === 'input-normal' ? '✓' : '!'}
+                {Object.keys(content.vitals).map((key) => {
+                    const item = content.vitals[key];
+                    return (
+                        <div key={key} className={`input-group-modern ${getValidationClass(key)}`}>
+                            <label>{item.label}</label>
+                            <div className="input-field-wrapper">
+                                <input
+                                    type="number"
+                                    value={formData[key]}
+                                    onChange={(e) => handleInputChange(key, e.target.value)}
+                                />
+                                <div className="validation-indicator">
+                                    {getValidationClass(key) === 'input-normal' ? '✓' : '!'}
+                                </div>
                             </div>
+                            <p className="range-text-hint">{content.normalRange}: {item.range}</p>
                         </div>
-                        <p className="range-text-hint">Range: {item.range}</p>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
-            <button className="action-button-primary" onClick={nextStep}>Continue</button>
+            <button className="action-button-primary" onClick={nextStep}>{content.continueBtn}</button>
         </div>
     );
 
     const renderStep2 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={prevStep}>←</button>
-                <h2>Pregnancy History</h2>
+                <button className="back-circle-btn" onClick={prevStep}>{content.backBtn}</button>
+                <h2>{content.step2Title}</h2>
             </div>
 
             <div className="progress-bar-stepper">
@@ -192,36 +207,33 @@ const MedicalAnalysis = () => {
             </div>
 
             <div className="vitals-grid-scroll">
-                {[
-                    { id: 'gravida', label: 'Gravida (G)', range: '0-10' },
-                    { id: 'para', label: 'Para (P)', range: '0-10' },
-                    { id: 'liveBirths', label: 'Live Births (L)', range: '0-10' },
-                    { id: 'abortions', label: 'Abortions (A)', range: '0-5' },
-                    { id: 'childDeaths', label: 'Child Deaths (D)', range: '0-5' }
-                ].map((item) => (
-                    <div key={item.id} className={`input-group-modern ${getValidationClass(item.id)}`}>
-                        <label>{item.label}</label>
-                        <div className="input-field-wrapper">
-                            <input
-                                type="number"
-                                value={formData[item.id]}
-                                onChange={(e) => handleInputChange(item.id, e.target.value)}
-                            />
-                            <div className="validation-indicator">
-                                {getValidationClass(item.id) === 'input-normal' ? '✓' : '!'}
+                {Object.keys(content.history).map((key) => {
+                    const item = content.history[key];
+                    return (
+                        <div key={key} className={`input-group-modern ${getValidationClass(key)}`}>
+                            <label>{item.label}</label>
+                            <div className="input-field-wrapper">
+                                <input
+                                    type="number"
+                                    value={formData[key]}
+                                    onChange={(e) => handleInputChange(key, e.target.value)}
+                                />
+                                <div className="validation-indicator">
+                                    {getValidationClass(key) === 'input-normal' ? '✓' : '!'}
+                                </div>
                             </div>
+                            <p className="range-text-hint">{content.normalRange}: {item.range}</p>
                         </div>
-                        <p className="range-text-hint">Range: {item.range}</p>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             <button className="action-button-primary" onClick={runAnalysis} disabled={analyzing}>
                 {analyzing ? (
                     <div className="loader-inline">
-                        <span></span>Analyzing Metrics...
+                        <span></span>{content.analyzingText}
                     </div>
-                ) : 'Continue to Risk Analysis'}
+                ) : content.analyzeBtn}
             </button>
         </div>
     );
@@ -232,18 +244,18 @@ const MedicalAnalysis = () => {
         return (
             <div className="results-view-container fade-in">
                 <div className="form-header-standard">
-                    <button className="back-circle-btn" onClick={() => setStep(2)}>←</button>
-                    <h2>AI Risk Analysis</h2>
+                    <button className="back-circle-btn" onClick={() => setStep(2)}>{content.backBtn}</button>
+                    <h2>{content.step3Title}</h2>
                 </div>
 
                 <div className="results-content-scroll">
-                    <h3 className="section-label">Detailed Analysis</h3>
+                    <h3 className="section-label">{content.detailedAnalysis}</h3>
 
                     {[
-                        { id: 'respirationRate', label: 'Respiration Rate', unit: '/min' },
-                        { id: 'hemoglobin', label: 'Hemoglobin Level', unit: 'g/dL' },
-                        { id: 'bloodGlucose', label: 'Random Blood Sugar (RBS)', unit: 'mg/dL' },
-                        { id: 'hba1c', label: 'HbA1c Level', unit: '%' }
+                        { id: 'respirationRate', label: content.vitals.respirationRate.label, unit: '/min' },
+                        { id: 'hemoglobin', label: content.vitals.hemoglobin.label, unit: 'g/dL' },
+                        { id: 'bloodGlucose', label: content.vitals.bloodGlucose.label, unit: 'mg/dL' },
+                        { id: 'hba1c', label: content.vitals.hba1c.label, unit: '%' }
                     ].map(metric => {
                         const level = getMetricLevel(metric.id);
                         return (
@@ -271,18 +283,18 @@ const MedicalAnalysis = () => {
                                         <span className="pct-pill">{level.pct}%</span>
                                     </div>
                                 </div>
-                                <p className="normal-range-footer">Normal Range: {ranges[metric.id].min}-{ranges[metric.id].max} {metric.unit}</p>
+                                <p className="normal-range-footer">{content.normalRange}: {ranges[metric.id].min}-{ranges[metric.id].max} {metric.unit}</p>
                             </div>
                         );
                     })}
 
-                    <h3 className="section-label">AI Risk Assessment</h3>
+                    <h3 className="section-label">{content.aiRiskAssessment}</h3>
 
                     <div className={`risk-summary-card-glass ${riskAssessment.color}`}>
-                        <div className="risk-chip-badge">AI Intelligence</div>
-                        <div className="risk-alert-icon">{riskAssessment.level === 'High Risk' ? '!' : riskAssessment.level === 'Moderate Risk' ? '⚠' : '✓'}</div>
+                        <div className="risk-chip-badge">{content.aiIntelligence}</div>
+                        <div className="risk-alert-icon">{riskAssessment.level === content.highRisk ? '!' : riskAssessment.level === content.moderateRisk ? '⚠' : '✓'}</div>
                         <h2 className="risk-status-heading">{riskAssessment.level}</h2>
-                        <p className="risk-confidence-sub">Confidence: {riskAssessment.confidence}%</p>
+                        <p className="risk-confidence-sub">{content.confidence}: {riskAssessment.confidence}%</p>
 
                         {riskAssessment.factors && riskAssessment.factors.length > 0 && (
                             <div className="risk-factors-list">
@@ -299,7 +311,7 @@ const MedicalAnalysis = () => {
 
                     <div className="auto-save-banner">
                         <span className="cloud-icon">☁️</span>
-                        Report automatically saved to your encrypted records
+                        {content.autoSave}
                     </div>
                 </div>
             </div>
@@ -311,21 +323,21 @@ const MedicalAnalysis = () => {
             <div className="web-layout-wrapper">
                 {step < 3 && (
                     <div className="form-sidebar-info">
-                        <h3>Medical Analysis</h3>
-                        <p>Track your vitals and pregnancy history for AI-driven risk assessment.</p>
+                        <h3>{content.sidebarTitle}</h3>
+                        <p>{content.sidebarDesc}</p>
                         <div className="sidebar-stats">
                             <div className="stat-row">
                                 <span className="stat-dot"></span>
                                 <div>
-                                    <small>Current Progress</small>
-                                    <p>Step {step} of 2</p>
+                                    <small>{content.currentProgress}</small>
+                                    <p>{content.stepOf} {step} of 2</p>
                                 </div>
                             </div>
                             <div className="stat-row">
                                 <span className="stat-dot green"></span>
                                 <div>
-                                    <small>Encryption</small>
-                                    <p>End-to-End Secure</p>
+                                    <small>{content.encryption}</small>
+                                    <p>{content.endToEnd}</p>
                                 </div>
                             </div>
                         </div>

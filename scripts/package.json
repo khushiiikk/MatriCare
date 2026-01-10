@@ -1,0 +1,7 @@
+{
+    "type": "module",
+    "scripts": {
+        "translate": "node scripts/translate.js",
+        "validate:translations": "node scripts/validate-translations.js"
+    }
+}

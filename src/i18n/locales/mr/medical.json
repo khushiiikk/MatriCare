@@ -1,0 +1,104 @@
+{
+    "steps": {
+        "step1Title": "वैयक्तिक माहिती",
+        "step2Title": "गर्भधारणेचा इतिहास",
+        "step3Title": "एआय जोखीम विश्लेषण"
+    },
+    "buttons": {
+        "continue": "सुरू ठेवा",
+        "analyze": "जोखीम विश्लेषणासाठी पुढे जा",
+        "analyzing": "मेट्रिक्सचे विश्लेषण होत आहे...",
+        "back": "←"
+    },
+    "vitals": {
+        "bloodGlucose": {
+            "label": "रँडम ब्लड शुगर (RBS)",
+            "range": "70-140 mg/dL"
+        },
+        "bodyTemp": {
+            "label": "शरीराचे तापमान",
+            "range": "97-99°F"
+        },
+        "heartRate": {
+            "label": "हृदय गती (HR)",
+            "range": "60-100 BPM"
+        },
+        "hemoglobin": {
+            "label": "हीमोग्लोबिन पातळी (Hb)",
+            "range": "11-16 g/dL"
+        },
+        "hba1c": {
+            "label": "HBA1C पातळी",
+            "range": "4-6%"
+        },
+        "respirationRate": {
+            "label": "श्वसन दर (RR)",
+            "range": "12-20 प्रति मिनिट"
+        }
+    },
+    "history": {
+        "gravida": {
+            "label": "ग्रॅविडा (G)",
+            "range": "0-10"
+        },
+        "para": {
+            "label": "पॅरा (P)",
+            "range": "0-10"
+        },
+        "liveBirths": {
+            "label": "जीवंत जन्म (L)",
+            "range": "0-10"
+        },
+        "abortions": {
+            "label": "गर्भपातः (A)",
+            "range": "0-5"
+        },
+        "childDeaths": {
+            "label": "बालमृत्यू (D)",
+            "range": "0-5"
+        }
+    },
+    "results": {
+        "detailedAnalysis": "तपशीलवार विश्लेषण",
+        "aiRiskAssessment": "एआय जोखीम मूल्यांकन",
+        "normalRange": "सामान्य श्रेणी",
+        "confidence": "विश्वास",
+        "aiIntelligence": "एआय इंटेलिजन्स",
+        "autoSave": "अहवाल आपोआप तुमच्या कूटबद्ध रेकॉर्डमध्ये जतन केला गेला"
+    },
+    "sidebar": {
+        "title": "वैद्यकीय विश्लेषण",
+        "description": "एआय-संचालित जोखीम मूल्यांकनासाठी तुमचे वाइटल्स आणि गर्भधारणेचा इतिहास ट्रॅक करा.",
+        "currentProgress": "सध्याची प्रगती",
+        "stepOf": "चरण",
+        "encryption": "एनक्रिप्शन",
+        "endToEnd": "एंड-टू-एंड सुरक्षित"
+    },
+    "riskLevels": {
+        "severeAnemia": "गंभीर अशक्तपणा",
+        "mildAnemia": "सौम्य अशक्तपणा",
+        "high": "उच्च",
+        "veryHigh": "खूप उच्च",
+        "low": "कमी",
+        "normal": "सामान्य",
+        "noData": "डेटा उपलब्ध नाही",
+        "lowRisk": "कमी जोखीम",
+        "moderateRisk": "मध्यम जोखीम",
+        "highRisk": "उच्च जोखीम"
+    },
+    "riskFactors": {
+        "highBloodSugar": "उच्च रक्त शर्करा",
+        "anemiaDetection": "अशक्तपणा शोधणे",
+        "hba1cElevation": "HbA1c वाढ",
+        "highHeartRate": "उच्च हृदय गती",
+        "fever": "ताप",
+        "historyMiscarriages": "गर्भपाताचा इतिहास",
+        "highObstetricRisk": "उच्च प्रसूती जोखीम",
+        "grandMultiparity": "ग्रँड मल्टिपॅरिटी"
+    },
+    "advice": {
+        "lowRisk": "नियमित प्रसूतीपूर्व तपासणी सुरू ठेवा आणि आरोग्यदायी आहार घ्या.",
+        "moderateRisk": "बारीक देखरेखीची गरज आहे. तुमच्या आरोग्य सेवा प्रदात्याशी या मेट्रिक्सवर चर्चा करण्यासाठी लवकरच फॉलो-अप अपॉइंटमेंट शेड्यूल करा.",
+        "highRisk": "त्वरीत वैद्यकीय लक्ष देण्याची शिफारस केली जाते. गुंतागुंतीची दाट शक्यता आढळली. कृपया तुमच्या प्रसूतीतज्ज्ञांचा तातडीने सल्ला घ्या."
+    }
+}
