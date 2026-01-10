@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { db } from '../firebase';
-import { collection, query, where, getDocs, addDoc, orderBy, serverTimestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, setDoc, doc, orderBy, serverTimestamp } from 'firebase/firestore';
 import { translations } from '../translations/translations';
 import './Adash.css';
 
@@ -40,34 +40,46 @@ const Adash = () => {
         { id: 4, name: 'Kavita Singh', age: 31, currentWeek: 28, hemoglobin: 12.2, weight: 65, riskLevel: 'Low', dueDate: '2026-04-05', address: 'House 23, School Road, Village Rampur', location: { lat: 28.6160, lng: 77.2110 }, phone: '+919876543213' }
     ];
 
-    // Get real-time geolocation of the ASHA worker
+    // Get real-time geolocation of the ASHA worker and sync to Firestore
     useEffect(() => {
         if ("geolocation" in navigator) {
             const watchId = navigator.geolocation.watchPosition(
-                (position) => {
-                    setWorkerLocation({
+                async (position) => {
+                    const newLoc = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
-                    });
+                    };
+                    setWorkerLocation(newLoc);
+
+                    // Sync ASHA location to Firestore every time it changes
+                    if (user?.uid) {
+                        try {
+                            const userRef = doc(db, "users", user.uid);
+                            await setDoc(userRef, { location: newLoc }, { merge: true });
+                        } catch (err) {
+                            console.error("Error syncing ASHA location:", err);
+                        }
+                    }
                 },
                 (error) => {
                     console.error("Geolocation error:", error);
                 },
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
             return () => navigator.geolocation.clearWatch(watchId);
         }
-    }, []);
+    }, [user?.uid]);
 
     useEffect(() => {
         const fetchPatients = async () => {
             if (!user?.uid) return;
 
             try {
+                // Fetch patients in the same district as the ASHA worker
                 const q = query(
                     collection(db, "users"),
                     where("role", "==", "patient"),
-                    where("ashaId", "==", user.uid)
+                    where("district", "==", user?.district || "")
                 );
 
                 const querySnapshot = await getDocs(q);
@@ -130,9 +142,12 @@ const Adash = () => {
                             <p className="asha-header-meta">
                                 <span>📞 {user?.mobile || '9876543210'}</span>
                                 <span className="meta-sep">•</span>
-                                <span>📍 {user?.village || 'Village Rampur'}</span>
+                                <span>📍 {user?.village || 'Village Rampur'}{user?.district ? `, ${user.district}` : ''}</span>
                                 <span className="meta-sep">•</span>
-                                <span className="live-location-tag">Live Tracking Active</span>
+                                <span className="live-location-tag">
+                                    <span className="pulse-dot"></span>
+                                    Live Tracking Active ({workerLocation.lat.toFixed(4)}, {workerLocation.lng.toFixed(4)})
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -197,8 +212,8 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                     height="300"
                     style={{ border: 0, borderRadius: '12px' }}
                     loading="lazy"
-                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${selectedPatient.location?.lat || 28.6139},${selectedPatient.location?.lng || 77.2090}&zoom=15`}
-                    title="ASHA Worker Location Map"
+                    src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&origin=${ashaLocation.lat},${ashaLocation.lng}&destination=${selectedPatient.location?.lat || 28.6139},${selectedPatient.location?.lng || 77.2090}&mode=walking`}
+                    title="ASHA to Patient Live Route"
                 ></iframe>
             </div>
             <div className="patient-selection">
