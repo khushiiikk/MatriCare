@@ -3,8 +3,45 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, addDoc, setDoc, doc, orderBy, serverTimestamp } from 'firebase/firestore';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import { translations } from '../translations/translations';
 import './Adash.css';
+
+// Fix Leaflet marker icon issue
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+// Create custom icon for ASHA worker (green)
+const ashaIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
+// Helper to update map view
+const RecenterMap = ({ center }) => {
+    const map = useMap();
+    useEffect(() => {
+        if (center) {
+            map.setView([center.lat, center.lng], 14);
+        }
+    }, [center, map]);
+    return null;
+};
 
 // Haversine formula to calculate distance between two lat/lng points in km
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -30,7 +67,8 @@ const Adash = () => {
     const [loading, setLoading] = useState(true);
     const [selectedPatientForDetail, setSelectedPatientForDetail] = useState(null);
     const [selectedMapPatientId, setSelectedMapPatientId] = useState(null);
-    const [workerLocation, setWorkerLocation] = useState({ lat: 28.6129, lng: 77.2085 }); // Default to Demo Center
+    const [workerLocation, setWorkerLocation] = useState(null); // Initialize as null to wait for GPS
+    const [locationError, setLocationError] = useState(null);
 
     // Demo patients fallback with simulated coordinates
     const demoPatients = [
@@ -63,8 +101,13 @@ const Adash = () => {
                 },
                 (error) => {
                     console.error("Geolocation error:", error);
+                    setLocationError("Please enable location for distance tracking");
+                    // Fallback to demo location after error
+                    if (!workerLocation) {
+                        setWorkerLocation({ lat: 28.6129, lng: 77.2085 });
+                    }
                 },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
             );
             return () => navigator.geolocation.clearWatch(watchId);
         }
@@ -144,10 +187,7 @@ const Adash = () => {
                                 <span className="meta-sep">•</span>
                                 <span>📍 {user?.village || 'Village Rampur'}{user?.district ? `, ${user.district}` : ''}</span>
                                 <span className="meta-sep">•</span>
-                                <span className="live-location-tag">
-                                    <span className="pulse-dot"></span>
-                                    Live Tracking Active ({workerLocation.lat.toFixed(4)}, {workerLocation.lng.toFixed(4)})
-                                </span>
+                                {workerLocation ? 'Live Tracking Active' : 'Initializing GPS...'}
                             </p>
                         </div>
                     </div>
@@ -204,17 +244,48 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
         <div className="asha-map-container">
             <div className="map-header">
                 <h3>{t.mapTitle}</h3>
-                <span className="your-location">Nearest: {selectedPatient.name}</span>
+                <span className="your-location">
+                    <span className="village-badge">Village Context</span>
+                    Nearest: {selectedPatient.name}
+                </span>
             </div>
             <div className="map-preview">
-                <iframe
-                    width="100%"
-                    height="300"
-                    style={{ border: 0, borderRadius: '12px' }}
-                    loading="lazy"
-                    src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&origin=${ashaLocation.lat},${ashaLocation.lng}&destination=${selectedPatient.location?.lat || 28.6139},${selectedPatient.location?.lng || 77.2090}&mode=walking`}
-                    title="ASHA to Patient Live Route"
-                ></iframe>
+                {ashaLocation && (
+                    <MapContainer
+                        center={[ashaLocation.lat, ashaLocation.lng]}
+                        zoom={14}
+                        style={{ height: '300px', width: '100%', borderRadius: '12px' }}
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        />
+
+                        {/* ASHA Worker Marker */}
+                        <Marker position={[ashaLocation.lat, ashaLocation.lng]} icon={ashaIcon}>
+                            <Popup>{t.hello}, <b>ASHA Worker</b><br />Your current location</Popup>
+                        </Marker>
+
+                        {/* Patient Markers */}
+                        {allPatients.map(p => (
+                            <Marker
+                                key={p.id}
+                                position={[p.location?.lat || 28.6139, p.location?.lng || 77.2090]}
+                                eventHandlers={{
+                                    click: () => onSelectPatient(p.id),
+                                }}
+                            >
+                                <Popup>
+                                    <b>{p.name}</b><br />
+                                    {p.village || 'Local Village'}<br />
+                                    {p.distance} km away
+                                </Popup>
+                            </Marker>
+                        ))}
+
+                        <RecenterMap center={selectedPatient.location || ashaLocation} />
+                    </MapContainer>
+                )}
             </div>
             <div className="patient-selection">
                 <h4>{t.selectPatient}</h4>
@@ -476,7 +547,12 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
                         <div className="patient-card-header">
                             <div className="patient-basic-info">
                                 <h4>{patient.name}</h4>
-                                <span className="patient-distance-tag">{patient.distance} km away</span>
+                                <div className="patient-meta-row">
+                                    <span className="village-badge">{patient.village || 'Local Village'}</span>
+                                    <span className="patient-distance-tag">
+                                        <span className="distance-highlight">{patient.distance}</span> km away
+                                    </span>
+                                </div>
                             </div>
                             <span className="risk-badge" style={{ backgroundColor: getRiskColor(patient.riskLevel) }}>
                                 {patient.riskLevel} Risk

@@ -20,48 +20,107 @@ const ReportHistory = () => {
     const { user } = useAuth();
     const [reports, setReports] = useState([]);
     const [chartData, setChartData] = useState([]);
+    const [expandedId, setExpandedId] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const featureLabels = {
+        age: "Age",
+        gravida: "Total Pregnancies (G)",
+        para: "Births > 20 Weeks (P)",
+        liveBirths: "Live Births (L)",
+        abortions: "Abortions (A)",
+        childDeaths: "Child Deaths (D)",
+        systolicBP: "Systolic BP",
+        diastolicBP: "Diastolic BP",
+        bloodGlucose: "Blood Sugar (RBS)",
+        bodyTemp: "Body Temp",
+        heartRate: "Heart Rate",
+        hemoglobin: "Hemoglobin",
+        hba1c: "HbA1c",
+        respirationRate: "Respiration Rate"
+    };
+
     useEffect(() => {
-        const fetchReports = async () => {
-            if (!user?.uid) return;
+        const fetchReports = async (showLoader = true) => {
+            if (showLoader) setLoading(true);
+            console.log("🔄 History: Sync started...");
 
             try {
+                // 1. Load Local Storage (Instant)
+                const localData = JSON.parse(localStorage.getItem('health_reports') || '[]');
+
+                // Show local data immediately if cloud is slow
+                const simpleMap = new Map();
+                localData.forEach(r => simpleMap.set(r.date || r.id, r));
+                const sortedLocal = Array.from(simpleMap.values()).sort((a, b) => new Date(b.date) - new Date(a.date));
+                setReports(sortedLocal);
+
+                // 2. Fetch from Cloud (Background)
+                let cloudReports = [];
+                const searchIds = user?.uid ? [user.uid, 'anonymous'] : ['anonymous'];
+
                 const q = query(
                     collection(db, "health_reports"),
-                    where("userId", "==", user.uid),
-                    orderBy("createdAt", "desc")
+                    where("userId", "in", searchIds)
                 );
 
                 const querySnapshot = await getDocs(q);
-                const fetchedReports = querySnapshot.docs.map(doc => ({
+                cloudReports = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
                 }));
 
-                setReports(fetchedReports);
+                // 3. Merge Cloud + Local
+                const finalMap = new Map();
 
-                // Prepare chart data (chronological)
-                const sortedForChart = [...fetchedReports].sort((a, b) => new Date(a.date) - new Date(b.date));
-                const formattedData = sortedForChart.map(report => ({
-                    date: new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
-                    hemoglobin: parseFloat(report.vitals.hemoglobin),
-                    bloodSugar: parseFloat(report.vitals.bloodGlucose),
-                    hba1c: parseFloat(report.vitals.hba1c),
-                    riskScore: report.risk.level === 'High Risk' ? 3 : report.risk.level === 'Moderate Risk' ? 2 : 1
-                }));
-                setChartData(formattedData);
-            } catch (error) {
-                console.error("Error fetching reports from Firestore:", error);
-                // Fallback to local storage for demo/compatibility
-                const savedReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-                setReports(savedReports.sort((a, b) => new Date(b.date) - new Date(a.date)));
+                // Add Local
+                localData.forEach(r => {
+                    const key = r.date || r.id;
+                    if (key) finalMap.set(key, r);
+                });
+
+                // Overwrite with Cloud (source of truth)
+                cloudReports.forEach(r => {
+                    const key = r.date || r.id;
+                    if (key) finalMap.set(key, r);
+                });
+
+                let merged = Array.from(finalMap.values());
+                merged.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                console.log(`✅ History: Merged ${merged.length} total reports.`);
+                setReports(merged);
+
+                // 4. Update Chart Data
+                const chartDataRaw = [...merged].reverse().map(report => {
+                    const dateObj = new Date(report.date || Date.now());
+                    const v = report.vitals || {};
+                    return {
+                        name: dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+                        fullDate: `${dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} ${dateObj.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`,
+                        hemoglobin: parseFloat(v.hemoglobin || 0),
+                        bloodSugar: parseFloat(v.bloodGlucose || 0),
+                        hba1c: parseFloat(v.hba1c || 0),
+                        systolicBP: parseFloat(v.systolicBP || 0),
+                        diastolicBP: parseFloat(v.diastolicBP || 0),
+                        heartRate: parseFloat(v.heartRate || 0),
+                    };
+                });
+                setChartData(chartDataRaw);
+
+            } catch (err) {
+                console.error("❌ History Error:", err);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchReports();
+
+        // Listen for storage changes in other tabs
+        const handleStorage = () => fetchReports(false);
+        window.addEventListener('storage', handleStorage);
+        return () => window.removeEventListener('storage', handleStorage);
     }, [user]);
 
     const formatDate = (dateString) => {
@@ -78,8 +137,16 @@ const ReportHistory = () => {
         <div className="report-history-container fade-in">
             <header className="history-header">
                 <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
-                <h1>Medical Report History</h1>
-                <p>Track your health journey and AI insights</p>
+                <div className="header-title-group">
+                    <h1>Analysis History</h1>
+                    <button
+                        className="sync-btn"
+                        onClick={() => window.location.reload()}
+                        title="Force sync data"
+                    >
+                        Sync Now
+                    </button>
+                </div>
             </header>
 
             {reports.length === 0 ? (
@@ -87,80 +154,100 @@ const ReportHistory = () => {
                     <img src="/empty-reports.png" alt="No reports" />
                     <h3>No analysis records found</h3>
                     <p>Start your first medical analysis to see your health trends here.</p>
-                    <button className="analyze-now-btn" onClick={() => navigate('/health')}>
-                        Analyze Now
-                    </button>
                 </div>
             ) : (
                 <div className="history-content">
                     {/* Comparison Chart */}
-                    <div className="history-chart-card">
-                        <h3>Vitals Comparison Trend</h3>
-                        <div className="chart-wrapper">
-                            <ResponsiveContainer width="100%" height={300}>
-                                <LineChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                                    <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                                    <YAxis tick={{ fontSize: 12 }} />
-                                    <Tooltip
-                                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
-                                    />
-                                    <Legend />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="hemoglobin"
-                                        stroke="#FF8C94"
-                                        strokeWidth={3}
-                                        dot={{ r: 6 }}
-                                        activeDot={{ r: 8 }}
-                                        name="Hemoglobin (g/dL)"
-                                    />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="bloodSugar"
-                                        stroke="#81C784"
-                                        strokeWidth={3}
-                                        dot={{ r: 6 }}
-                                        activeDot={{ r: 8 }}
-                                        name="Blood Sugar (mg/dL)"
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
+                    {/* Multi-Chart Grid */}
+                    <div className="metrics-charts-grid">
+                        <MetricChart
+                            title="Blood Sugar Trend"
+                            data={chartData}
+                            dataKey="bloodSugar"
+                            color="#81C784"
+                            unit="mg/dL"
+                        />
+                        <MetricChart
+                            title="Blood Pressure (Systolic)"
+                            data={chartData}
+                            dataKey="systolicBP"
+                            color="#64B5F6"
+                            unit="mmHg"
+                        />
+                        <MetricChart
+                            title="Heart Rate"
+                            data={chartData}
+                            dataKey="heartRate"
+                            color="#FFB74D"
+                            unit="bpm"
+                        />
+                        <MetricChart
+                            title="Hemoglobin Level"
+                            data={chartData}
+                            dataKey="hemoglobin"
+                            color="#FF8C94"
+                            unit="g/dL"
+                        />
                     </div>
 
                     {/* History List */}
                     <div className="reports-list">
                         <h3>Recent Analyses</h3>
                         {reports.map((report) => (
-                            <div key={report.id} className="report-item-card">
+                            <div className={`report-item-card ${expandedId === report.id ? 'expanded' : ''}`}
+                                onClick={() => setExpandedId(expandedId === report.id ? null : report.id)}>
                                 <div className="report-item-header">
-                                    <span className="report-date">{formatDate(report.date)}</span>
-                                    <span className={`risk-badge-mini ${report.risk.color}`}>
-                                        {report.risk.level}
+                                    <div className="date-group">
+                                        <span className="report-date">{formatDate(report.date)}</span>
+                                        <span className="expand-indicator">{expandedId === report.id ? '−' : '+'}</span>
+                                    </div>
+                                    <span className={`risk-badge-mini ${report.risk?.color || 'orange'}`}>
+                                        {report.risk?.level || 'Assessing...'}
                                     </span>
                                 </div>
+
                                 <div className="report-metrics-summary">
                                     <div className="mini-metric">
-                                        <label>Hb</label>
-                                        <span>{report.vitals.hemoglobin}</span>
+                                        <label>Blood Sugar</label>
+                                        <span>{report.vitals?.bloodGlucose || report.vitals?.RBS || '-'}</span>
                                     </div>
                                     <div className="mini-metric">
-                                        <label>RBS</label>
-                                        <span>{report.vitals.bloodGlucose}</span>
+                                        <label>BP (S/D)</label>
+                                        <span>{report.vitals?.systolicBP || '-'}/{report.vitals?.diastolicBP || '-'}</span>
                                     </div>
                                     <div className="mini-metric">
-                                        <label>HbA1c</label>
-                                        <span>{report.vitals.hba1c}%</span>
+                                        <label>Heart Rate</label>
+                                        <span>{report.vitals?.heartRate || '-'}</span>
                                     </div>
                                     <div className="mini-metric">
-                                        <label>G/P/L</label>
-                                        <span>{report.vitals.gravida}/{report.vitals.para}/{report.vitals.liveBirths}</span>
+                                        <label>Hemoglobin</label>
+                                        <span>{report.vitals?.hemoglobin || report.vitals?.HB || '-'}</span>
                                     </div>
                                 </div>
-                                <div className="report-advice-preview">
-                                    <p>{report.risk.advice}</p>
-                                </div>
+
+                                {expandedId === report.id && (
+                                    <div className="report-expanded-details animate-fade-in">
+                                        <h4>Full Analysis Parameters</h4>
+                                        <div className="details-grid">
+                                            {Object.entries(featureLabels).map(([key, label]) => (
+                                                <div key={key} className="detail-item">
+                                                    <span className="detail-label">{label}</span>
+                                                    <span className="detail-value">{report.vitals?.[key] || '-'}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="report-advice-footer">
+                                            <strong>Doctor's Advice:</strong>
+                                            <p>{report.risk?.advice || 'No advice recorded.'}</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {expandedId !== report.id && (
+                                    <div className="report-advice-preview">
+                                        <p>{report.risk?.advice || 'No advice recorded.'}</p>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -169,5 +256,44 @@ const ReportHistory = () => {
         </div>
     );
 };
+
+// Helper Component for Individual Metric Charts
+const MetricChart = ({ title, data, dataKey, color, unit }) => (
+    <div className="history-chart-card mini">
+        <div className="chart-header-mini">
+            <h4>{title}</h4>
+            <span className="unit-label">{unit}</span>
+        </div>
+        <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={180}>
+                <LineChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                    <XAxis dataKey="name" hide />
+                    <YAxis tick={{ fontSize: 9, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                    <Tooltip
+                        labelFormatter={(value, payload) => payload?.[0]?.payload?.fullDate || value}
+                        contentStyle={{
+                            borderRadius: '12px',
+                            border: 'none',
+                            boxShadow: '0 5px 15px rgba(0,0,0,0.08)',
+                            fontSize: '11px',
+                            padding: '10px'
+                        }}
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey={dataKey}
+                        name={title}
+                        stroke={color}
+                        strokeWidth={3}
+                        dot={{ r: 4, fill: color, strokeWidth: 1, stroke: '#fff' }}
+                        activeDot={{ r: 6, stroke: color, strokeWidth: 1, fill: '#fff' }}
+                        connectNulls
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    </div>
+);
 
 export default ReportHistory;

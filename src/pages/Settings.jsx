@@ -101,7 +101,7 @@ const Settings = () => {
                             <div className="profile-header">
                                 <div className="profile-pic-container">
                                     <img
-                                        src={currentUser?.profilePicture || "/default-avatar.png"}
+                                        src={currentUser?.profilePicture || "/matricare-logo.png"}
                                         alt="Profile"
                                         className="profile-pic"
                                     />

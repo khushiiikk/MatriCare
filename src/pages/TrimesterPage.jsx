@@ -66,8 +66,8 @@ const TrimesterPage = () => {
     const trimesterTips = activeContent.tips[`tri${id}`] || [];
     const trimesterYoga = (activeContent.exercises[`tri${id}`] || []).map((ex, idx) => {
         const images = {
-            '1': ["/yoga_constructive_rest.png", "/yoga_childs_pose.png", "/yoga_downward_dog.png", "/yoga_side_angle_pose.png", "/yoga_goddess_pose.png"],
-            '2': ["/yoga_tree.png", "/yoga_side_plank.png", "/yoga_supported_fish.png", "/butterfly-pose.png", "/yoga_warrior.png"],
+            '1': ["/tri1_constructive_rest.png", "/tri1_childs_pose.png", "/tri1_downward_dog.png", "/tri1_side_angle.png", "/tri1_goddess_pose.png"],
+            '2': ["/tri2_tree_pose.png", "/yoga_side_plank.png", "/yoga_supported_fish.png", "/butterfly-pose.png", "/yoga_warrior.png"],
             '3': ["/yoga_kegels.png", "/yoga_home-icon-new.jpg", "/yoga_malasana.png", "/yoga_cat_cow.png", "/yoga_childs_pose.png"]
         };
         return {

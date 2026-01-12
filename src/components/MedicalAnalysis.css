@@ -340,18 +340,20 @@
 }
 
 .analysis-card-premium {
-    background: #fff;
-    border-radius: 16px;
-    padding: 16px 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    margin-bottom: 0;
-    border: 1px solid #f2f2f7;
-    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .analysis-card-premium:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(233, 30, 99, 0.08);
+    background: #fff;
+    border-color: #fce4ec;
 }
 
 .card-inner-top {
@@ -755,4 +757,166 @@
 
 .step-bar.active {
     background: #1d1d1f;
+}
+
+/* Animations */
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 59, 48, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+    }
+}
+
+@keyframes pulse-orange {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 149, 0, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 149, 0, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 149, 0, 0);
+    }
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(52, 199, 89, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+    }
+}
+
+.risk-summary-card-glass {
+    grid-column: 1 / -1;
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 35px;
+    text-align: center;
+    margin: 20px 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.risk-summary-card-glass::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.risk-summary-card-glass.red .risk-alert-icon {
+    animation: pulse-red 2s infinite;
+}
+
+.risk-summary-card-glass.orange .risk-alert-icon {
+    animation: pulse-orange 2s infinite;
+}
+
+.risk-summary-card-glass.green .risk-alert-icon {
+    animation: pulse-green 2s infinite;
+}
+
+.ml-prediction-badge {
+    margin: 25px auto;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    width: fit-content;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ml-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #880e4f;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.insight-card {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 15px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.insight-icon {
+    font-size: 1.2rem;
+}
+
+.ml-result.low {
+    background: #c8e6c9;
+    color: #1b5e20;
+}
+
+.ml-result.high {
+    background: #ffcdd2;
+    color: #b71c1c;
+}
+
+.view-history-link-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 28px;
+    background: #ffffff;
+    color: #e91e63;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(233, 30, 99, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.view-history-link-btn:hover {
+    background: #e91e63;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.25);
+    border-color: #e91e63;
 }

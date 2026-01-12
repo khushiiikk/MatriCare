@@ -11,6 +11,9 @@ export const medicalAnalysisContent = {
 
         // Vitals
         vitals: {
+            age: { label: "Age", range: "18-45 years" },
+            systolicBP: { label: "Systolic BP", range: "90-120 mmHg" },
+            diastolicBP: { label: "Diastolic BP", range: "60-80 mmHg" },
             bloodGlucose: { label: "Random Blood Sugar (RBS)", range: "70-140 mg/dL" },
             bodyTemp: { label: "Body Temperature", range: "97-99°F" },
             heartRate: { label: "Heart Rate (HR)", range: "60-100 BPM" },
@@ -35,6 +38,7 @@ export const medicalAnalysisContent = {
         confidence: "Confidence",
         aiIntelligence: "AI Intelligence",
         autoSave: "Report automatically saved to your encrypted records",
+        viewHistory: "View Previous Records",
 
         // Sidebar
         sidebarTitle: "Medical Analysis",
@@ -84,6 +88,9 @@ export const medicalAnalysisContent = {
 
         // Vitals
         vitals: {
+            age: { label: "आयु", range: "18-45 वर्ष" },
+            systolicBP: { label: "सिस्टोलिक बीपी", range: "90-120 mmHg" },
+            diastolicBP: { label: "डायस्टोलिक बीपी", range: "60-80 mmHg" },
             bloodGlucose: { label: "रैंडम ब्लड शुगर (आरबीएस)", range: "70-140 mg/dL" },
             bodyTemp: { label: "शरीर का तापमान", range: "97-99°F" },
             heartRate: { label: "हृदय गति (एचआर)", range: "60-100 BPM" },
@@ -108,6 +115,7 @@ export const medicalAnalysisContent = {
         confidence: "विश्वास",
         aiIntelligence: "एआई इंटेलिजेंस",
         autoSave: "रिपोर्ट स्वचालित रूप से आपके एन्क्रिप्टेड रिकॉर्ड में सहेजी गई",
+        viewHistory: "पिछले रिकॉर्ड देखें",
 
         // Sidebar
         sidebarTitle: "मेडिकल विश्लेषण",

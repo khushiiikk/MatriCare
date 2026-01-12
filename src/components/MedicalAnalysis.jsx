@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { medicalAnalysisContent } from '../data/medicalAnalysisContent';
 import { db } from '../firebase';
@@ -17,6 +18,9 @@ const MedicalAnalysis = () => {
 
     // Ranges for validation
     const ranges = {
+        age: { min: 18, max: 45, unit: 'years' },
+        systolicBP: { min: 90, max: 120, unit: 'mmHg' },
+        diastolicBP: { min: 60, max: 80, unit: 'mmHg' },
         bloodGlucose: { min: 70, max: 140, unit: 'mg/dL' },
         bodyTemp: { min: 97, max: 99, unit: '°F' },
         heartRate: { min: 60, max: 100, unit: 'BPM' },
@@ -32,6 +36,9 @@ const MedicalAnalysis = () => {
 
     // Form Stats
     const [formData, setFormData] = useState({
+        age: '25',
+        systolicBP: '110',
+        diastolicBP: '70',
         bloodGlucose: '200',
         bodyTemp: '100',
         heartRate: '150',
@@ -44,6 +51,8 @@ const MedicalAnalysis = () => {
         abortions: '0',
         childDeaths: '0'
     });
+
+    const [mlPrediction, setMlPrediction] = useState(null);
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -124,36 +133,96 @@ const MedicalAnalysis = () => {
         return risk;
     };
 
-    const runAnalysis = () => {
+    const runAnalysis = async () => {
         setAnalyzing(true);
-        setTimeout(async () => {
+        try {
+            // 1. Rule-based Analysis (Existing)
             const riskAssessment = calculateOverallRisk();
+
+            // 2. ML Model Prediction (New)
+            // Preparing features in specific order: 
+            // [Age, BloodGlucose, BodyTemp, HeartRate, Hemoglobin, HbA1c, RespirationRate, Gravida, Para, LiveBirths, Abortions, ChildDeaths]
+            // 1. Age, 2. G, 3. P, 4. L, 5. A, 6. D, 7. SystolicBP, 8. DiastolicBP, 9. RBS, 10. BodyTemp, 11. HeartRate, 12. HB, 13. HBA1C, 14. RR
+            const featureArray = [
+                parseFloat(formData.age),
+                parseInt(formData.gravida),
+                parseInt(formData.para),
+                parseInt(formData.liveBirths),
+                parseInt(formData.abortions),
+                parseInt(formData.childDeaths),
+                parseFloat(formData.systolicBP),
+                parseFloat(formData.diastolicBP),
+                parseFloat(formData.bloodGlucose),
+                parseFloat(formData.bodyTemp),
+                parseFloat(formData.heartRate),
+                parseFloat(formData.hemoglobin),
+                parseFloat(formData.hba1c),
+                parseFloat(formData.respirationRate)
+            ];
+
+            let mlData = null;
+            try {
+                console.log("Attempting ML prediction with features:", featureArray);
+                const response = await fetch("http://127.0.0.1:5000/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ features: featureArray })
+                });
+
+                if (response.ok) {
+                    mlData = await response.json();
+                    console.log("ML Prediction received:", mlData);
+                    setMlPrediction(mlData);
+                } else {
+                    console.error("ML Backend responded with error:", response.status);
+                }
+            } catch (err) {
+                console.error("Failed to connect to ML backend:", err);
+            }
+
             const reportData = {
                 vitals: { ...formData },
-                risk: riskAssessment,
+                mlPrediction: mlData,
+                risk: mlData ? {
+                    level: mlData.prediction === 0 ? content.lowRisk : content.highRisk,
+                    color: mlData.prediction === 0 ? 'green' : 'red',
+                    advice: mlData.prediction === 0 ? content.lowRiskAdvice : content.highRiskAdvice
+                } : riskAssessment,
                 date: new Date().toISOString(),
                 createdAt: serverTimestamp(),
                 userId: user?.uid || 'anonymous'
             };
 
+            // 1. Save to Local Storage IMMEDIATELY (Safety Net)
+            const localReport = {
+                ...reportData,
+                id: `local-${Date.now()}`,
+                createdAt: { seconds: Math.floor(Date.now() / 1000) }
+            };
             try {
-                // Save to Firestore (Real-world)
-                await addDoc(collection(db, "health_reports"), reportData);
-
-                // Keep local copy for immediate UI update if needed, but Firestore is primary
                 const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-                localStorage.setItem('health_reports', JSON.stringify([...existingReports, { ...reportData, id: Date.now() }]));
-            } catch (error) {
-                console.error("Error saving health report to Firestore:", error);
-                // Fallback to local storage if offline
-                const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-                localStorage.setItem('health_reports', JSON.stringify([...existingReports, { ...reportData, id: Date.now() }]));
+                localStorage.setItem('health_reports', JSON.stringify([localReport, ...existingReports]));
+                console.log("✅ Saved to local storage successfully");
+            } catch (e) {
+                console.error("Local storage save failed:", e);
             }
 
+            // 2. Save to Firestore (Cloud)
+            try {
+                await addDoc(collection(db, "health_reports"), reportData);
+                console.log("✅ Saved to Firestore successfully");
+            } catch (dbError) {
+                console.error("⚠️ Firestore save failed (offline?):", dbError);
+                // We don't throw here, so the user still sees the result/history from local
+            }
+
+        } catch (error) {
+            console.error("Analysis error:", error);
+        } finally {
             setAnalyzing(false);
             setShowResults(true);
             setStep(3);
-        }, 2000);
+        }
     };
 
     const renderStep1 = () => (
@@ -239,8 +308,6 @@ const MedicalAnalysis = () => {
     );
 
     const renderResults = () => {
-        const riskAssessment = calculateOverallRisk();
-
         return (
             <div className="results-view-container fade-in">
                 <div className="form-header-standard">
@@ -290,31 +357,32 @@ const MedicalAnalysis = () => {
 
                     <h3 className="section-label">{content.aiRiskAssessment}</h3>
 
-                    <div className={`risk-summary-card-glass ${riskAssessment.color}`}>
-                        <div className="risk-chip-badge">{content.aiIntelligence}</div>
-                        <div className="risk-alert-icon">{riskAssessment.level === content.highRisk ? '!' : riskAssessment.level === content.moderateRisk ? '⚠' : '✓'}</div>
-                        <h2 className="risk-status-heading">{riskAssessment.level}</h2>
-                        <p className="risk-confidence-sub">{content.confidence}: {riskAssessment.confidence}%</p>
-
-                        {riskAssessment.factors && riskAssessment.factors.length > 0 && (
-                            <div className="risk-factors-list">
-                                {riskAssessment.factors.map((f, i) => (
-                                    <span key={i} className="risk-factor-tag">{f}</span>
-                                ))}
+                    {mlPrediction ? (
+                        <div className={`risk-summary-card-glass ${mlPrediction.prediction === 0 ? 'green' : 'red'}`}>
+                            <div className="risk-alert-icon">
+                                {mlPrediction.prediction === 0 ? '✓' : '!'}
                             </div>
-                        )}
-
-                        <p className="risk-advice-text">
-                            {riskAssessment.advice}
-                        </p>
-                    </div>
+                            <h2 className="risk-status-heading" style={{ fontSize: '2.5rem', marginBottom: '0' }}>
+                                {mlPrediction.prediction === 0 ? content.lowRisk : content.highRisk}
+                            </h2>
+                        </div>
+                    ) : (
+                        <div className="risk-summary-card-glass orange">
+                            <div className="risk-alert-icon">!</div>
+                            <h2 className="risk-status-heading">Awaiting Model</h2>
+                            <p className="risk-advice-text">Please ensure the ML Backend is running to see predictions.</p>
+                        </div>
+                    )}
 
                     <div className="auto-save-banner">
-                        <span className="cloud-icon">☁️</span>
                         {content.autoSave}
                     </div>
+
+                    <Link to="/report-history" className="view-history-link-btn">
+                        {content.viewHistory} →
+                    </Link>
                 </div>
-            </div>
+            </div >
         );
     };
 
