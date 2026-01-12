@@ -1,5 +1,7 @@
-flask
-flask-cors
+fastapi
+uvicorn
+python-multipart
+pydantic
 numpy
 scikit-learn
 pandas

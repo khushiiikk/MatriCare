@@ -163,7 +163,7 @@ const MedicalAnalysis = () => {
             let mlData = null;
             try {
                 console.log("Attempting ML prediction with features:", featureArray);
-                const response = await fetch("http://127.0.0.1:5000/predict", {
+                const response = await fetch("https://matricare-backend-y4lk.onrender.com/predict", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ features: featureArray })

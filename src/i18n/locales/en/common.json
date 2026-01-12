@@ -25,7 +25,8 @@
         "download": "Download",
         "view": "View",
         "analyze": "Analyze",
-        "send": "Send"
+        "send": "Send",
+        "logout": "Logout"
     },
     "status": {
         "notTested": "Not tested",
