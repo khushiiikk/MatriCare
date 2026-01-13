@@ -27,9 +27,16 @@ export const AuthProvider = ({ children }) => {
                 let profileData = {};
 
                 try {
-                    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                    // Try patients collection first
+                    let userDoc = await getDoc(doc(db, "patients", currentUser.uid));
                     if (userDoc.exists()) {
-                        profileData = userDoc.data();
+                        profileData = { ...userDoc.data(), role: "patient" };
+                    } else {
+                        // Try asha_workers collection
+                        userDoc = await getDoc(doc(db, "asha_workers", currentUser.uid));
+                        if (userDoc.exists()) {
+                            profileData = { ...userDoc.data(), role: "asha" };
+                        }
                     }
                 } catch (error) {
                     console.error("Error fetching user profile:", error);
@@ -106,19 +113,24 @@ export const AuthProvider = ({ children }) => {
             const result = await confirmationResult.confirm(otp);
             const user = result.user;
 
-            // Fetch profile from Firestore
-            const userDoc = await getDoc(doc(db, "users", user.uid));
+            // Fetch profile from Firestore (check both collections)
+            let userDoc = await getDoc(doc(db, "patients", user.uid));
             let userData = {};
             if (userDoc.exists()) {
-                userData = userDoc.data();
+                userData = { ...userDoc.data(), role: "patient" };
             } else {
-                // New user via OTP, create barebones doc
-                userData = {
-                    uid: user.uid,
-                    mobile: user.phoneNumber,
-                    createdAt: new Date().toISOString()
+                userDoc = await getDoc(doc(db, "asha_workers", user.uid));
+                if (userDoc.exists()) {
+                    userData = { ...userDoc.data(), role: "asha" };
+                } else {
+                    // New user via OTP - needs to complete signup
+                    userData = {
+                        uid: user.uid,
+                        mobile: user.phoneNumber,
+                        createdAt: new Date().toISOString()
+                    }
+                    // Don't create doc yet - wait for signup with role
                 }
-                await setDoc(doc(db, "users", user.uid), userData, { merge: true });
             }
 
             setUser({ ...user, ...userData });
@@ -147,7 +159,9 @@ export const AuthProvider = ({ children }) => {
             };
 
             // Save to Firebase FIRST to ensure data persistence
-            await setDoc(doc(db, "users", uid), newUser);
+            // Determine collection based on role
+            const collectionName = userData.role === "asha" ? "asha_workers" : "patients";
+            await setDoc(doc(db, collectionName, uid), newUser);
 
             setUser(newUser);
             setIsAuthenticated(true);
@@ -206,8 +220,9 @@ export const AuthProvider = ({ children }) => {
 
         try {
             const updatedUser = { ...user, ...updates };
-            // Update Firestore
-            await setDoc(doc(db, "users", user.uid), updates, { merge: true });
+            // Update Firestore in correct collection
+            const collectionName = user.role === "asha" ? "asha_workers" : "patients";
+            await setDoc(doc(db, collectionName, user.uid), updates, { merge: true });
 
             // Update State
             const finalUser = { ...user, ...updates };

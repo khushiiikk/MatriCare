@@ -60,6 +60,38 @@ const Dashboard = () => {
         }
     }, [user]);
 
+    const [ashaWorker, setAshaWorker] = useState(null);
+    const [loadingAsha, setLoadingAsha] = useState(false);
+
+    useEffect(() => {
+        if (user?.role === 'patient' && user?.district && user?.village) {
+            findNearestAsha();
+        }
+    }, [user?.district, user?.village]);
+
+    const findNearestAsha = async () => {
+        setLoadingAsha(true);
+        try {
+            // "Real-time" based on location match
+            const q = query(
+                collection(db, "asha_workers"),
+                where("district", "==", user.district),
+                where("village", "==", user.village),
+                limit(1)
+            );
+            const snapshot = await getDocs(q);
+            if (!snapshot.empty) {
+                setAshaWorker(snapshot.docs[0].data());
+            } else {
+                setAshaWorker(null);
+            }
+        } catch (error) {
+            console.error("Error finding ASHA:", error);
+        } finally {
+            setLoadingAsha(false);
+        }
+    };
+
     const calculatePregnancy = (lmpDate) => {
         const lmp = new Date(lmpDate);
         const today = new Date();
@@ -109,17 +141,18 @@ const Dashboard = () => {
 
             if (!querySnapshot.empty) {
                 const latest = querySnapshot.docs[0].data();
+                console.log("📊 Latest Report Found:", latest);
                 setHealthData({
-                    hemoglobin: latest.vitals.hemoglobin || user?.hemoglobin || null,
+                    hemoglobin: latest.vitals?.hemoglobin || user?.hemoglobin || null,
                     bloodGroup: user?.bloodGroup || null,
-                    weight: latest.vitals.weight || user?.weight || null,
+                    weight: latest.vitals?.weight || user?.weight || null,
                     lastReport: latest.date || null
                 });
             } else {
                 // Check local storage for backward compatibility during migration
                 const reports = JSON.parse(localStorage.getItem('health_reports') || '[]');
                 if (reports.length > 0) {
-                    const latest = reports[reports.length - 1];
+                    const latest = reports[0]; // local storage reports are usually unshifted
                     setHealthData({
                         hemoglobin: latest.hemoglobin || latest.vitals?.hemoglobin || user?.hemoglobin || null,
                         bloodGroup: user?.bloodGroup || null,
@@ -127,6 +160,7 @@ const Dashboard = () => {
                         lastReport: latest.date || null
                     });
                 } else {
+                    console.log("ℹ️ No reports found. Using profile data:", { weight: user?.weight, hb: user?.hemoglobin });
                     setHealthData({
                         hemoglobin: user?.hemoglobin || null,
                         bloodGroup: user?.bloodGroup || null,
@@ -174,8 +208,10 @@ const Dashboard = () => {
         }
 
         if (type === 'weight') {
-            if (value < 45) return { status: t.status.low, color: '#FF6B6B', icon: '' };
-            if (value > 80) return { status: t.status.high, color: '#FFB74D', icon: '' };
+            const w = parseFloat(value);
+            if (isNaN(w) || w <= 0) return { status: t.status.notTested, color: '#E0E0E0', icon: '' };
+            if (w < 45) return { status: t.status.low, color: '#FF6B6B', icon: '' };
+            if (w > 90) return { status: t.status.high, color: '#FFB74D', icon: '' };
             return { status: t.status.normal, color: '#E91E63', icon: '' };
         }
 
@@ -188,7 +224,6 @@ const Dashboard = () => {
                 {/* Refined Header */}
                 <div className="dash-premium-header">
                     <div className="profile-pill">
-                        <div className="profile-icon">👤</div>
                         <div className="welcome-text">
                             <h3>{t.hello}, {user?.name || user?.fullName || 'User'}!</h3>
                             <p>{t.week} {pregnancyData.currentWeek} • {getTrimesterName()}</p>
@@ -365,13 +400,32 @@ const Dashboard = () => {
                     <div className="asha-worker-card-premium">
                         <div className="asha-header">
                             <h3>{t.asha.title}</h3>
-                            <a href="tel:+919876543210" className="asha-call-btn">{t.asha.call}</a>
+                            {ashaWorker?.phoneNumber ? (
+                                <a href={`tel:${ashaWorker.phoneNumber}`} className="asha-call-btn">{t.asha.call}</a>
+                            ) : ashaWorker ? (
+                                <span className="asha-call-btn disabled">No Phone</span>
+                            ) : null}
                         </div>
                         <div className="asha-body">
-                            <div className="asha-pfp">RD</div>
+                            <div className="asha-pfp">
+                                {ashaWorker?.profilePicture ? (
+                                    <img src={ashaWorker.profilePicture} alt="ASHA" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                                ) : "👩‍⚕️"}
+                            </div>
                             <div>
-                                <h4>Smt. Radha Devi</h4>
-                                <p>{t.asha.village} Rampur • 2.3 km {t.asha.away}</p>
+                                {loadingAsha ? (
+                                    <h4>Finding your ASHA...</h4>
+                                ) : ashaWorker ? (
+                                    <>
+                                        <h4>{ashaWorker.name || ashaWorker.fullName || "ASHA User"}</h4>
+                                        <p>{ashaWorker.village || user?.village}, {ashaWorker.district || user?.district}</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <h4>No ASHA Assigned</h4>
+                                        <p>No worker found for {user?.village || 'your area'} yet.</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

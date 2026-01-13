@@ -27,6 +27,7 @@ const MedicalAnalysis = () => {
         hemoglobin: { min: 11, max: 16, unit: 'g/dL' },
         hba1c: { min: 4, max: 6, unit: '%' },
         respirationRate: { min: 12, max: 20, unit: '/min' },
+        weight: { min: 40, max: 150, unit: 'kg' },
         gravida: { min: 0, max: 10 },
         para: { min: 0, max: 10 },
         liveBirths: { min: 0, max: 10 },
@@ -36,15 +37,16 @@ const MedicalAnalysis = () => {
 
     // Form Stats
     const [formData, setFormData] = useState({
-        age: '25',
-        systolicBP: '110',
-        diastolicBP: '70',
-        bloodGlucose: '200',
-        bodyTemp: '100',
-        heartRate: '150',
-        hemoglobin: '15',
-        hba1c: '9',
-        respirationRate: '15',
+        age: '0',
+        systolicBP: '0',
+        diastolicBP: '0',
+        bloodGlucose: '0',
+        bodyTemp: '0',
+        heartRate: '0',
+        hemoglobin: '0',
+        hba1c: '0',
+        respirationRate: '0',
+        weight: user?.weight || '0',
         gravida: '0',
         para: '0',
         liveBirths: '0',
@@ -209,6 +211,11 @@ const MedicalAnalysis = () => {
 
             // 2. Save to Firestore (Cloud)
             try {
+                // Update profile with latest weight too
+                if (formData.weight !== '0') {
+                    await updateProfile({ weight: formData.weight });
+                }
+
                 await addDoc(collection(db, "health_reports"), reportData);
                 console.log("✅ Saved to Firestore successfully");
             } catch (dbError) {

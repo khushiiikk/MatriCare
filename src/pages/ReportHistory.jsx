@@ -95,15 +95,22 @@ const ReportHistory = () => {
                 const chartDataRaw = [...merged].reverse().map(report => {
                     const dateObj = new Date(report.date || Date.now());
                     const v = report.vitals || {};
+
+                    // Helper to get number from various keys
+                    const getNum = (val) => {
+                        const parsed = parseFloat(val);
+                        return isNaN(parsed) ? null : parsed;
+                    };
+
                     return {
                         name: dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
                         fullDate: `${dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} ${dateObj.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`,
-                        hemoglobin: parseFloat(v.hemoglobin || 0),
-                        bloodSugar: parseFloat(v.bloodGlucose || 0),
-                        hba1c: parseFloat(v.hba1c || 0),
-                        systolicBP: parseFloat(v.systolicBP || 0),
-                        diastolicBP: parseFloat(v.diastolicBP || 0),
-                        heartRate: parseFloat(v.heartRate || 0),
+                        hemoglobin: getNum(v.hemoglobin || v.HB),
+                        bloodSugar: getNum(v.bloodGlucose || v.RBS),
+                        hba1c: getNum(v.hba1c),
+                        systolicBP: getNum(v.systolicBP),
+                        diastolicBP: getNum(v.diastolicBP),
+                        heartRate: getNum(v.heartRate),
                     };
                 });
                 setChartData(chartDataRaw);
@@ -266,10 +273,16 @@ const MetricChart = ({ title, data, dataKey, color, unit }) => (
         </div>
         <div className="chart-wrapper">
             <ResponsiveContainer width="100%" height={180}>
-                <LineChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+                <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                     <XAxis dataKey="name" hide />
-                    <YAxis tick={{ fontSize: 9, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                    <YAxis
+                        tick={{ fontSize: 9, fontWeight: 600 }}
+                        axisLine={false}
+                        tickLine={false}
+                        domain={['auto', 'auto']}
+                        padding={{ top: 10, bottom: 10 }}
+                    />
                     <Tooltip
                         labelFormatter={(value, payload) => payload?.[0]?.payload?.fullDate || value}
                         contentStyle={{

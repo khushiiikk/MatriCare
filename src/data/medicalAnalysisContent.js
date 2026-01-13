@@ -19,7 +19,8 @@ export const medicalAnalysisContent = {
             heartRate: { label: "Heart Rate (HR)", range: "60-100 BPM" },
             hemoglobin: { label: "Hemoglobin Level (Hb)", range: "11-16 g/dL" },
             hba1c: { label: "HBA1C Level", range: "4-6%" },
-            respirationRate: { label: "Respiration Rate (RR)", range: "12-20 per minute" }
+            respirationRate: { label: "Respiration Rate (RR)", range: "12-20 per minute" },
+            weight: { label: "Current Weight", range: "40-150 kg" }
         },
 
         // Pregnancy History
@@ -96,7 +97,8 @@ export const medicalAnalysisContent = {
             heartRate: { label: "हृदय गति (एचआर)", range: "60-100 BPM" },
             hemoglobin: { label: "हीमोग्लोबिन स्तर (एचबी)", range: "11-16 g/dL" },
             hba1c: { label: "एचबीए1सी स्तर", range: "4-6%" },
-            respirationRate: { label: "श्वसन दर (आरआर)", range: "12-20 प्रति मिनट" }
+            respirationRate: { label: "श्वसन दर (आरआर)", range: "12-20 प्रति मिनट" },
+            weight: { label: "वर्तमान वजन", range: "40-150 किलोग्राम" }
         },
 
         // Pregnancy History

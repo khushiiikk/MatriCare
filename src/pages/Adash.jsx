@@ -69,14 +69,16 @@ const Adash = () => {
     const [selectedMapPatientId, setSelectedMapPatientId] = useState(null);
     const [workerLocation, setWorkerLocation] = useState(null); // Initialize as null to wait for GPS
     const [locationError, setLocationError] = useState(null);
+    const [debugInfo, setDebugInfo] = useState({
+        patientsCount: 0,
+        usersCount: 0,
+        filteredCount: 0,
+        workerVillage: '',
+        workerDistrict: '',
+        allPotentialPatients: []
+    });
 
-    // Demo patients fallback with simulated coordinates
-    const demoPatients = [
-        { id: 1, name: 'Priya Sharma', age: 26, currentWeek: 24, hemoglobin: 10.5, weight: 58, riskLevel: 'High', dueDate: '2026-04-15', address: 'House 42, Sector 12, Village Rampur', location: { lat: 28.6139, lng: 77.2090 }, phone: '+919876543210' },
-        { id: 2, name: 'Anjali Verma', age: 29, currentWeek: 32, hemoglobin: 11.8, weight: 62, riskLevel: 'Low', dueDate: '2026-03-20', address: 'House 15, Main Road, Village Rampur', location: { lat: 28.6150, lng: 77.2100 }, phone: '+919876543211' },
-        { id: 3, name: 'Sunita Devi', age: 23, currentWeek: 16, hemoglobin: 9.8, weight: 52, riskLevel: 'High', dueDate: '2026-06-10', address: 'House 8, Near Temple, Village Rampur', location: { lat: 28.6120, lng: 77.2080 }, phone: '+919876543212' },
-        { id: 4, name: 'Kavita Singh', age: 31, currentWeek: 28, hemoglobin: 12.2, weight: 65, riskLevel: 'Low', dueDate: '2026-04-05', address: 'House 23, School Road, Village Rampur', location: { lat: 28.6160, lng: 77.2110 }, phone: '+919876543213' }
-    ];
+
 
     // Get real-time geolocation of the ASHA worker and sync to Firestore
     useEffect(() => {
@@ -115,25 +117,136 @@ const Adash = () => {
 
     useEffect(() => {
         const fetchPatients = async () => {
-            if (!user?.uid) return;
+            if (!user?.uid || !workerLocation) {
+                console.log("⏳ Waiting for GPS location...");
+                return;
+            }
 
             try {
-                // Fetch patients in the same district as the ASHA worker
-                const q = query(
-                    collection(db, "users"),
-                    where("role", "==", "patient"),
-                    where("district", "==", user?.district || "")
-                );
+                // Debug: Log ASHA worker's location info
+                console.log("🔍 ASHA Worker Location Info:", {
+                    village: user?.village,
+                    district: user?.district,
+                    uid: user?.uid,
+                    gpsLat: workerLocation.lat,
+                    gpsLng: workerLocation.lng
+                });
 
-                const querySnapshot = await getDocs(q);
-                let fetchedPatients = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
+                // DIAGNOSTIC: First, let's see ALL patients in the database
+                const allPatientsQ = query(collection(db, "patients"));
+                const allPatientsSnapshot = await getDocs(allPatientsQ);
+                console.log("🔬 DIAGNOSTIC - All Patients in Database:", {
+                    total: allPatientsSnapshot.docs.length,
+                    patients: allPatientsSnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        name: doc.data().name || doc.data().fullName,
+                        village: doc.data().village,
+                        district: doc.data().district
+                    }))
+                });
 
-                if (fetchedPatients.length === 0) {
-                    fetchedPatients = demoPatients;
+                // FETCH STRATEGY - BROAD SEARCH
+                // We fetch everything from both potential collections to be 100% sure we don't miss anything
+                // due to case-sensitivity or collection naming mismatches.
+                const patientsRef = collection(db, "patients");
+                const usersRef = collection(db, "users");
+
+                let patientsDocs = [];
+                let usersDocs = [];
+
+                try {
+                    const patientsSnap = await getDocs(query(patientsRef));
+                    patientsDocs = patientsSnap.docs;
+                } catch (e) {
+                    console.error("Error fetching 'patients' collection:", e);
                 }
+
+                try {
+                    // Try to fetch users with role 'patient', fallback to all users if it fails
+                    const usersSnap = await getDocs(query(usersRef, where("role", "==", "patient")));
+                    usersDocs = usersSnap.docs;
+                } catch (e) {
+                    console.error("Error fetching 'users' collection with role filter:", e);
+                    try {
+                        const usersSnap = await getDocs(query(usersRef));
+                        usersDocs = usersSnap.docs.filter(doc => doc.data().role === 'patient');
+                    } catch (e2) {
+                        console.error("Fallback users fetch also failed:", e2);
+                    }
+                }
+
+                console.log("🔬 DIAGNOSTIC - Raw Data Fetched:", {
+                    patientsCount: patientsDocs.length,
+                    usersAsPatientsCount: usersDocs.length
+                });
+
+                // Merge unique patients by UID
+                const allFetchedDocs = [...patientsDocs, ...usersDocs];
+                const uniquePatientsMap = new Map();
+
+                allFetchedDocs.forEach(doc => {
+                    uniquePatientsMap.set(doc.id, { id: doc.id, ...doc.data() });
+                });
+
+                let allPatients = Array.from(uniquePatientsMap.values());
+
+                // CASE-INSENSITIVE FILTERING
+                const rawVillage = user?.village || "";
+                const rawDistrict = user?.district || "";
+                const workerVillage = rawVillage.toLowerCase().trim();
+                const workerDistrict = rawDistrict.toLowerCase().trim();
+
+                console.log("🔍 ASHA Worker Context:", {
+                    id: user?.uid,
+                    village: rawVillage,
+                    district: rawDistrict
+                });
+
+                let fetchedPatients = allPatients.filter(p => {
+                    const pVillage = (p.village || "").toLowerCase().trim();
+                    const pDistrict = (p.district || "").toLowerCase().trim();
+
+                    const match = pVillage === workerVillage && pDistrict === workerDistrict;
+                    if (!match) {
+                        console.log(`❌ No Match: Worker(${workerVillage}, ${workerDistrict}) vs Patient(${pVillage}, ${pDistrict})`);
+                    }
+                    return match;
+                });
+
+                setDebugInfo({
+                    patientsCount: patientsDocs.length,
+                    usersCount: usersDocs.length,
+                    filteredCount: fetchedPatients.length,
+                    workerVillage: `${rawVillage} (${workerVillage})`,
+                    workerDistrict: `${rawDistrict} (${workerDistrict})`,
+                    allPotentialPatients: allPatients.map(p => ({
+                        id: p.id,
+                        name: p.name || p.fullName,
+                        village: p.village,
+                        district: p.district,
+                        role: p.role || 'no-role'
+                    }))
+                });
+
+                // FALLBACK 1: If no patients match the village, show all patients in the district
+                if (fetchedPatients.length === 0) {
+                    console.log("⚠️ No village matches. Falling back to district-wide search...");
+                    fetchedPatients = allPatients.filter(p => {
+                        const pDistrict = (p.district || "").toLowerCase().trim();
+                        return pDistrict === workerDistrict;
+                    }).map(p => ({ ...p, isDistrictWide: true }));
+                }
+
+                // FALLBACK 2 (EMERGENCY): If STILL no patients, just show everything as a diagnostic
+                if (fetchedPatients.length === 0 && allPatients.length > 0) {
+                    console.log("🚨 EMERGENCY: Showing all database patients due to 0 filtered matches.");
+                    fetchedPatients = allPatients.map(p => ({ ...p, isEmergencyMatch: true }));
+                }
+
+                console.log("📊 Final Display List:", {
+                    total: fetchedPatients.length,
+                    names: fetchedPatients.map(p => p.name || p.fullName)
+                });
 
                 // Calculate distance for all patients based on current worker location
                 const patientsWithDistance = fetchedPatients.map(p => {
@@ -157,13 +270,65 @@ const Adash = () => {
                     setSelectedMapPatientId(patientsWithDistance[0].id);
                 }
             } catch (error) {
-                console.error("Error fetching patients from Firestore:", error);
-                const withDist = demoPatients.map(p => ({
-                    ...p,
-                    distance: calculateDistance(workerLocation.lat, workerLocation.lng, p.location.lat, p.location.lng)
-                })).sort((a, b) => a.distance - b.distance);
-                setPatients(withDist);
-                setSelectedMapPatientId(withDist[0].id);
+                console.error("❌ Error fetching patients from Firestore:", error);
+                console.error("Error details:", {
+                    code: error.code,
+                    message: error.message
+                });
+
+                // If the error is about missing index, try a simpler query
+                if (error.message?.includes('index')) {
+                    console.log("🔧 Trying fallback query (district only)...");
+                    try {
+                        const fallbackQ = query(
+                            collection(db, "patients"),
+                            where("district", "==", user?.district || "")
+                        );
+                        const fallbackSnapshot = await getDocs(fallbackQ);
+                        console.log("📊 Fallback Query Result:", {
+                            totalPatients: fallbackSnapshot.docs.length,
+                            patients: fallbackSnapshot.docs.map(doc => ({
+                                id: doc.id,
+                                name: doc.data().name,
+                                village: doc.data().village,
+                                district: doc.data().district
+                            }))
+                        });
+
+                        let fallbackPatients = fallbackSnapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+
+                        // Filter by village in JavaScript (not Firestore)
+                        fallbackPatients = fallbackPatients.filter(p =>
+                            p.village === user?.village
+                        );
+
+                        const patientsWithDistance = fallbackPatients.map(p => {
+                            const patientLat = p.location?.lat || 28.6130;
+                            const patientLng = p.location?.lng || 77.2090;
+                            const dist = calculateDistance(
+                                workerLocation.lat,
+                                workerLocation.lng,
+                                patientLat,
+                                patientLng
+                            );
+                            return { ...p, distance: dist };
+                        });
+
+                        patientsWithDistance.sort((a, b) => a.distance - b.distance);
+                        setPatients(patientsWithDistance);
+                        if (patientsWithDistance.length > 0) {
+                            setSelectedMapPatientId(patientsWithDistance[0].id);
+                        }
+                    } catch (fallbackError) {
+                        console.error("Fallback query also failed:", fallbackError);
+                        setPatients([]);
+                    }
+                } else {
+                    setPatients([]);
+                }
             } finally {
                 setLoading(false);
             }
@@ -224,6 +389,42 @@ const Adash = () => {
                         </>
                     )}
                 </div>
+
+                {/* DEBUG PANEL - Hidden if patients found, but useful for troubleshooting */}
+                {patients.length === 0 && (
+                    <div style={{
+                        background: '#fff3cd',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        marginTop: '20px',
+                        border: '1px solid #ffeeba',
+                        fontSize: '0.9rem',
+                        color: '#856404'
+                    }}>
+                        <h4>🔍 Diagnostic Info (No patients found)</h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '10px' }}>
+                            <div>
+                                <p><strong>ASHA Location:</strong> {debugInfo.workerVillage}, {debugInfo.workerDistrict}</p>
+                                <p><strong>Collections:</strong> patients({debugInfo.patientsCount}), users({debugInfo.usersCount})</p>
+                            </div>
+                            <div>
+                                <p><strong>All Patients in DB:</strong></p>
+                                <ul style={{ paddingLeft: '20px' }}>
+                                    {debugInfo.allPotentialPatients.length > 0 ? (
+                                        debugInfo.allPotentialPatients.slice(0, 5).map((p, i) => (
+                                            <li key={i}>{p.name} ({p.village}, {p.district})</li>
+                                        ))
+                                    ) : (
+                                        <li>No patients found in DB at all</li>
+                                    )}
+                                </ul>
+                            </div>
+                        </div>
+                        <p style={{ marginTop: '10px', fontSize: '0.8rem' }}>
+                            Ensure patients are registered in <strong>{debugInfo.workerDistrict}</strong> district to see them.
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -246,7 +447,9 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                 <h3>{t.mapTitle}</h3>
                 <span className="your-location">
                     <span className="village-badge">Village Context</span>
-                    Nearest: {selectedPatient.name}
+                    {allPatients.length > 0 && (
+                        <>Closest Patient: <strong>{allPatients[0].name}</strong> ({allPatients[0].distance} km)</>
+                    )}
                 </span>
             </div>
             <div className="map-preview">
@@ -340,9 +543,10 @@ const PatientDetailView = ({ patient, onBack, t }) => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
+                // Fetch analysis reports from health_reports collection
                 const q = query(
-                    collection(db, "visits"),
-                    where("patientId", "==", patient.id),
+                    collection(db, "health_reports"),
+                    where("userId", "==", patient.id),
                     orderBy("createdAt", "desc")
                 );
                 const querySnapshot = await getDocs(q);
@@ -352,7 +556,7 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                 }));
                 setHistory(fetchedHistory);
             } catch (error) {
-                console.error("Error fetching visit history:", error);
+                console.error("Error fetching health reports:", error);
             } finally {
                 setLoadingHistory(false);
             }
@@ -471,21 +675,44 @@ const PatientDetailView = ({ patient, onBack, t }) => {
 
                         <div className="history-timeline">
                             {loadingHistory ? (
-                                <div className="mini-loader">Fetching history...</div>
+                                <div className="mini-loader">Fetching analysis history...</div>
                             ) : history.length > 0 ? (
-                                history.map((visit, idx) => (
-                                    <div key={visit.id || idx} className="history-item">
-                                        <div className="visit-date">{new Date(visit.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                        <div className="visit-metrics">
-                                            <span>Weight: {visit.weight}kg</span>
-                                            <span>Hb: {visit.hemoglobin}g/dL</span>
-                                            <span>BP: {visit.bp}</span>
+                                history.map((report, idx) => (
+                                    <div key={report.id || idx} className="history-item">
+                                        <div className="visit-date">
+                                            {report.createdAt?.seconds
+                                                ? new Date(report.createdAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                                                : new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                                            }
                                         </div>
-                                        <p className="visit-notes">{visit.notes}</p>
+                                        <div className="visit-metrics">
+                                            <span style={{
+                                                color: report.risk?.color === 'red' ? '#FF5252' : '#4CAF50',
+                                                fontWeight: '700'
+                                            }}>
+                                                Risk Level: {report.risk?.level || 'N/A'}
+                                            </span>
+                                            {report.vitals && (
+                                                <>
+                                                    <span>Hb: {report.vitals.hemoglobin} g/dL</span>
+                                                    <span>BP: {report.vitals.systolicBP}/{report.vitals.diastolicBP}</span>
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="visit-notes">
+                                            {report.risk?.factors && report.risk.factors.length > 0 && (
+                                                <div className="risk-factors-mini">
+                                                    {report.risk.factors.map((f, i) => (
+                                                        <span key={i} className="mini-factor-tag">{f}</span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {report.notes && <p>{report.notes}</p>}
+                                        </div>
                                     </div>
                                 ))
                             ) : (
-                                <p className="no-history">No visits recorded yet.</p>
+                                <p className="no-history">No medical analysis reports found for this patient.</p>
                             )}
                         </div>
                     </section>
@@ -534,11 +761,11 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
     return (
         <div className="asha-patients-container">
             <div className="asha-patients-header">
-                <h3>{t.nearestPatients}</h3>
+                <h3>{t.nearestPatients} ({patients.length})</h3>
                 <select className="sort-select" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                    <option value="distance">Nearest First</option>
-                    <option value="dueDate">Due Date</option>
-                    <option value="risk">Risk Level</option>
+                    <option value="distance">🎯 Nearest First</option>
+                    <option value="dueDate">📅 Due Date</option>
+                    <option value="risk">⚠️ Risk Level</option>
                 </select>
             </div>
             <div className="patients-list">
@@ -548,7 +775,10 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
                             <div className="patient-basic-info">
                                 <h4>{patient.name}</h4>
                                 <div className="patient-meta-row">
-                                    <span className="village-badge">{patient.village || 'Local Village'}</span>
+                                    <span className="village-badge">
+                                        {patient.isDistrictWide && ' (District)'}
+                                        {patient.isEmergencyMatch && ' (🚨 EMERGENCY - NO MATCH)'}
+                                    </span>
                                     <span className="patient-distance-tag">
                                         <span className="distance-highlight">{patient.distance}</span> km away
                                     </span>
