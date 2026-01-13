@@ -94,8 +94,11 @@ const Adash = () => {
                     // Sync ASHA location to Firestore every time it changes
                     if (user?.uid) {
                         try {
-                            const userRef = doc(db, "users", user.uid);
-                            await setDoc(userRef, { location: newLoc }, { merge: true });
+                            const userRef = doc(db, "asha_workers", user.uid);
+                            await setDoc(userRef, {
+                                location: newLoc,
+                                lastActive: serverTimestamp()
+                            }, { merge: true });
                         } catch (err) {
                             console.error("Error syncing ASHA location:", err);
                         }
@@ -146,8 +149,7 @@ const Adash = () => {
                 });
 
                 // FETCH STRATEGY - BROAD SEARCH
-                // We fetch everything from both potential collections to be 100% sure we don't miss anything
-                // due to case-sensitivity or collection naming mismatches.
+                // We fetch everything from both collections to be 100% sure.
                 const patientsRef = collection(db, "patients");
                 const usersRef = collection(db, "users");
 
@@ -162,29 +164,21 @@ const Adash = () => {
                 }
 
                 try {
-                    // Try to fetch users with role 'patient', fallback to all users if it fails
                     const usersSnap = await getDocs(query(usersRef, where("role", "==", "patient")));
                     usersDocs = usersSnap.docs;
                 } catch (e) {
-                    console.error("Error fetching 'users' collection with role filter:", e);
-                    try {
-                        const usersSnap = await getDocs(query(usersRef));
-                        usersDocs = usersSnap.docs.filter(doc => doc.data().role === 'patient');
-                    } catch (e2) {
-                        console.error("Fallback users fetch also failed:", e2);
-                    }
+                    console.error("Error fetching 'users' collection:", e);
                 }
 
                 console.log("🔬 DIAGNOSTIC - Raw Data Fetched:", {
                     patientsCount: patientsDocs.length,
-                    usersAsPatientsCount: usersDocs.length
+                    usersCount: usersDocs.length
                 });
 
-                // Merge unique patients by UID
-                const allFetchedDocs = [...patientsDocs, ...usersDocs];
+                // Unique patients by UID
                 const uniquePatientsMap = new Map();
 
-                allFetchedDocs.forEach(doc => {
+                [...patientsDocs, ...usersDocs].forEach(doc => {
                     uniquePatientsMap.set(doc.id, { id: doc.id, ...doc.data() });
                 });
 
@@ -543,18 +537,42 @@ const PatientDetailView = ({ patient, onBack, t }) => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                // Fetch analysis reports from health_reports collection
-                const q = query(
+                // Fetch using BOTH userId and appUserId to be 100% sure
+                const qApp = query(
                     collection(db, "health_reports"),
-                    where("userId", "==", patient.id),
-                    orderBy("createdAt", "desc")
+                    where("appUserId", "==", patient.id)
                 );
-                const querySnapshot = await getDocs(q);
-                const fetchedHistory = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setHistory(fetchedHistory);
+                const qSys = query(
+                    collection(db, "health_reports"),
+                    where("userId", "==", patient.id)
+                );
+
+                const [snapApp, snapSys] = await Promise.all([
+                    getDocs(qApp).catch(() => ({ docs: [] })),
+                    getDocs(qSys).catch(() => ({ docs: [] }))
+                ]);
+
+                const fetchedHistory = [
+                    ...snapApp.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+                    ...snapSys.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                ];
+
+                // Remove duplicates
+                const seen = new Set();
+                const uniqueHistory = fetchedHistory.filter(h => {
+                    if (seen.has(h.id)) return false;
+                    seen.add(h.id);
+                    return true;
+                });
+
+                // Memory sort to avoid needing custom indexes
+                uniqueHistory.sort((a, b) => {
+                    const timeA = a.createdAt?.seconds || new Date(a.date || 0).getTime() / 1000;
+                    const timeB = b.createdAt?.seconds || new Date(b.date || 0).getTime() / 1000;
+                    return timeB - timeA;
+                });
+
+                setHistory(uniqueHistory);
             } catch (error) {
                 console.error("Error fetching health reports:", error);
             } finally {
@@ -569,14 +587,28 @@ const PatientDetailView = ({ patient, onBack, t }) => {
         setSaving(true);
         try {
             const newVisit = {
-                patientId: patient.id,
+                appUserId: patient.id, // Primary identification
+                userId: auth.currentUser?.uid || 'anon', // Security session ID
+                userMobile: patient.mobile || patient.phone || null,
+                userName: patient.name || patient.fullName || 'Patient',
                 date: new Date().toISOString(),
                 createdAt: serverTimestamp(),
-                ...visitData,
-                weight: parseFloat(visitData.weight),
-                hemoglobin: parseFloat(visitData.hemoglobin)
+                notes: visitData.notes,
+                vitals: {
+                    weight: parseFloat(visitData.weight),
+                    hemoglobin: parseFloat(visitData.hemoglobin),
+                    bloodPressure: visitData.bp,
+                    // Map common fields for history dashboard
+                    systolicBP: visitData.bp.split('/')[0] || null,
+                    diastolicBP: visitData.bp.split('/')[1] || null
+                },
+                risk: {
+                    level: 'Manual Log',
+                    color: 'blue',
+                    advice: visitData.notes || 'Routine checkup logged by ASHA worker.'
+                }
             };
-            const docRef = await addDoc(collection(db, "visits"), newVisit);
+            const docRef = await addDoc(collection(db, "health_reports"), newVisit);
             setHistory([{ id: docRef.id, ...newVisit, createdAt: new Date() }, ...history]);
             setShowVisitForm(false);
             setVisitData({ weight: '', hemoglobin: '', bp: '', notes: '' });

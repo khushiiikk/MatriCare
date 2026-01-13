@@ -38,7 +38,8 @@ const Login = () => {
         e.preventDefault();
         setError('');
         setLoading(true);
-        const result = await sendOTP(mobile);
+        // Pass true as second argument to check if user exists before sending OTP
+        const result = await sendOTP(mobile, true);
         setLoading(false);
         if (result.success) {
             setStep(2);

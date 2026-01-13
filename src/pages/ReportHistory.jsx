@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -46,53 +46,68 @@ const ReportHistory = () => {
             console.log("🔄 History: Sync started...");
 
             try {
-                // 1. Load Local Storage (Instant)
-                const localData = JSON.parse(localStorage.getItem('health_reports') || '[]');
+                if (!user?.uid) {
+                    setReports([]);
+                    setLoading(false);
+                    return;
+                }
 
-                // Show local data immediately if cloud is slow
-                const simpleMap = new Map();
-                localData.forEach(r => simpleMap.set(r.date || r.id, r));
-                const sortedLocal = Array.from(simpleMap.values()).sort((a, b) => new Date(b.date) - new Date(a.date));
-                setReports(sortedLocal);
+                const mobileStr = user.mobile ? String(user.mobile) : null;
+                const mobileNum = user.mobile ? Number(user.mobile) : null;
+                const normalized = user.mobile ? String(user.mobile).replace(/\D/g, '').slice(-10) : null;
+                const appId = String(user.uid);
 
-                // 2. Fetch from Cloud (Background)
-                let cloudReports = [];
-                const searchIds = user?.uid ? [user.uid, 'anonymous'] : ['anonymous'];
+                console.log("🔍 BROAD SYNC START:", { appId, mobileStr, normalized });
 
-                const q = query(
-                    collection(db, "health_reports"),
-                    where("userId", "in", searchIds)
+                // Define queries WITHOUT orderBy to avoid index requirements
+                const refs = collection(db, "health_reports");
+                const queryList = [
+                    query(refs, where("appUserId", "==", appId)),
+                    query(refs, where("userId", "==", appId)),
+                    mobileStr ? query(refs, where("userMobile", "==", mobileStr)) : null,
+                    normalized ? query(refs, where("userMobile", "==", normalized)) : null,
+                    (mobileNum && !isNaN(mobileNum)) ? query(refs, where("userMobile", "==", mobileNum)) : null,
+                    (auth.currentUser?.uid) ? query(refs, where("userId", "==", auth.currentUser.uid)) : null
+                ].filter(Boolean);
+
+                const snapshots = await Promise.all(
+                    queryList.map(q => getDocs(q).catch(err => {
+                        console.warn("⚠️ Sub-query failed (likely permissions):", err.message);
+                        return { docs: [] };
+                    }))
                 );
 
-                const querySnapshot = await getDocs(q);
-                cloudReports = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-
-                // 3. Merge Cloud + Local
-                const finalMap = new Map();
-
-                // Add Local
-                localData.forEach(r => {
-                    const key = r.date || r.id;
-                    if (key) finalMap.set(key, r);
+                let allReports = [];
+                snapshots.forEach(snap => {
+                    snap.docs.forEach(doc => {
+                        allReports.push({ id: doc.id, ...doc.data() });
+                    });
                 });
 
-                // Overwrite with Cloud (source of truth)
-                cloudReports.forEach(r => {
-                    const key = r.date || r.id;
-                    if (key) finalMap.set(key, r);
+                // Deduplicate by Doc ID
+                const seen = new Set();
+                allReports = allReports.filter(r => {
+                    if (seen.has(r.id)) return false;
+                    seen.add(r.id);
+                    return true;
                 });
 
-                let merged = Array.from(finalMap.values());
-                merged.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                // Sort in memory by date (stable even without indexes)
+                allReports.sort((a, b) => {
+                    const timeA = a.createdAt?.seconds || new Date(a.date || 0).getTime() / 1000;
+                    const timeB = b.createdAt?.seconds || new Date(b.date || 0).getTime() / 1000;
+                    return timeB - timeA;
+                });
 
-                console.log(`✅ History: Merged ${merged.length} total reports.`);
-                setReports(merged);
+                console.log(`✅ SYNC COMPLETE: Found ${allReports.length} unique reports`);
+                if (allReports.length > 0) {
+                    console.log("📄 Latest Doc IDs:", allReports.slice(0, 3).map(r => r.id));
+                }
 
-                // 4. Update Chart Data
-                const chartDataRaw = [...merged].reverse().map(report => {
+                setReports(allReports);
+
+                // 2. Update Chart Data
+                const chartDataRaw = [...allReports].reverse().map(report => {
                     const dateObj = new Date(report.date || Date.now());
                     const v = report.vitals || {};
 
@@ -122,13 +137,14 @@ const ReportHistory = () => {
             }
         };
 
+        window.manualHistoryFetch = fetchReports; // Expose for force sync
         fetchReports();
 
         // Listen for storage changes in other tabs
         const handleStorage = () => fetchReports(false);
         window.addEventListener('storage', handleStorage);
         return () => window.removeEventListener('storage', handleStorage);
-    }, [user]);
+    }, [user?.uid]);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-IN', {
@@ -157,10 +173,65 @@ const ReportHistory = () => {
             </header>
 
             {reports.length === 0 ? (
-                <div className="no-reports">
-                    <img src="/empty-reports.png" alt="No reports" />
+                <div className="no-reports animate-fade-in">
+                    <img src="/empty-reports.png" alt="No reports" onError={(e) => e.target.style.display = 'none'} />
                     <h3>No analysis records found</h3>
                     <p>Start your first medical analysis to see your health trends here.</p>
+
+                    <div className="diagnostic-box" style={{
+                        marginTop: '2rem',
+                        padding: '1.2rem',
+                        fontSize: '0.85rem',
+                        color: '#666',
+                        border: '1px dashed #ff4d8d33',
+                        background: '#fff9fb',
+                        borderRadius: '16px',
+                        maxWidth: '420px',
+                        margin: '2rem auto',
+                        textAlign: 'left',
+                        boxShadow: '0 4px 12px rgba(255, 77, 141, 0.05)'
+                    }}>
+                        <p style={{ fontWeight: 'bold', color: '#ff4d8d', marginBottom: '8px' }}>🔍 Sync Troubleshooting</p>
+                        <div style={{ display: 'grid', gap: '4px' }}>
+                            <p><strong>App ID:</strong> {user?.uid ? `${user.uid.substring(0, 8)}...` : 'NONE'}</p>
+                            <p><strong>Security ID:</strong> {auth.currentUser?.uid ? `${auth.currentUser.uid.substring(0, 8)}...` : 'NONE'}</p>
+                            <p><strong>Linked Mobile:</strong> {user?.mobile || 'No Phone Link'}</p>
+                            <p><strong>Normalized:</strong> {user?.mobile ? user.mobile.replace(/\D/g, '').slice(-10) : 'N/A'}</p>
+                            <p><strong>Database:</strong> {loading ? 'Checking...' : `${reports.length} records found`}</p>
+                        </div>
+                        <button
+                            onClick={async () => {
+                                try {
+                                    if (!auth.currentUser) {
+                                        setLoading(true);
+                                        await signInAnonymously(auth);
+                                    }
+                                    if (window.manualHistoryFetch) {
+                                        setLoading(true);
+                                        window.manualHistoryFetch();
+                                    }
+                                } catch (e) {
+                                    alert("Security Fix Failed: " + e.message);
+                                    setLoading(false);
+                                }
+                            }}
+                            style={{
+                                width: '100%',
+                                background: '#ff4d8d',
+                                border: 'none',
+                                color: 'white',
+                                borderRadius: '12px',
+                                padding: '12px',
+                                cursor: 'pointer',
+                                marginTop: '12px',
+                                fontWeight: '600',
+                                fontSize: '0.9rem',
+                                boxShadow: '0 4px 12px rgba(255, 77, 141, 0.2)'
+                            }}
+                        >
+                            🔄 Fix Security & Sync Data
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <div className="history-content">

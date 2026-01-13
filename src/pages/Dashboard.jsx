@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -130,47 +130,68 @@ const Dashboard = () => {
         if (!user?.uid) return;
 
         try {
-            const q = query(
+            const mobileStr = user.mobile ? String(user.mobile) : null;
+            const mobileNum = user.mobile ? Number(user.mobile) : null;
+            const normalized = user.mobile ? String(user.mobile).replace(/\D/g, '').slice(-10) : null;
+            const appId = String(user.uid);
+
+            // 1. Fetch by App ID (Primary Identity)
+            const qApp = query(
                 collection(db, "health_reports"),
-                where("userId", "==", user.uid),
-                orderBy("createdAt", "desc"),
-                limit(1)
+                where("appUserId", "==", appId)
             );
 
-            const querySnapshot = await getDocs(q);
+            // 2. Fetch by Security ID (Current session)
+            const qSecurity = (auth.currentUser?.uid) ? query(
+                collection(db, "health_reports"),
+                where("userId", "==", auth.currentUser.uid)
+            ) : null;
 
-            if (!querySnapshot.empty) {
-                const latest = querySnapshot.docs[0].data();
-                console.log("📊 Latest Report Found:", latest);
+            // 3. Fetch by Mobile variants
+            const qMobileS = mobileStr ? query(collection(db, "health_reports"), where("userMobile", "==", mobileStr)) : null;
+            const qMobileN = normalized ? query(collection(db, "health_reports"), where("userMobile", "==", normalized)) : null;
+
+            const [snapApp, snapSec, snapMS, snapMN] = await Promise.all([
+                getDocs(qApp).catch(() => ({ docs: [] })),
+                qSecurity ? getDocs(qSecurity).catch(() => ({ docs: [] })) : { docs: [] },
+                qMobileS ? getDocs(qMobileS).catch(() => ({ docs: [] })) : { docs: [] },
+                qMobileN ? getDocs(qMobileN).catch(() => ({ docs: [] })) : { docs: [] }
+            ]);
+
+            const allResults = [
+                ...snapApp.docs.map(d => ({ ...d.data(), id: d.id })),
+                ...snapSec.docs.map(d => ({ ...d.data(), id: d.id })),
+                ...snapMS.docs.map(d => ({ ...d.data(), id: d.id })),
+                ...snapMN.docs.map(d => ({ ...d.data(), id: d.id }))
+            ];
+
+            // Sort by createdAt desc manually to avoid needing composite indexes
+            allResults.sort((a, b) => {
+                const timeA = a.createdAt?.seconds || new Date(a.date || 0).getTime() / 1000;
+                const timeB = b.createdAt?.seconds || new Date(b.date || 0).getTime() / 1000;
+                return timeB - timeA;
+            });
+            const latest = allResults[0];
+
+            if (latest) {
+                console.log("📊 Latest Health Report Unified Sync:", latest);
                 setHealthData({
-                    hemoglobin: latest.vitals?.hemoglobin || user?.hemoglobin || null,
+                    hemoglobin: latest.vitals?.hemoglobin || latest.vitals?.HB || user?.hemoglobin || null,
                     bloodGroup: user?.bloodGroup || null,
                     weight: latest.vitals?.weight || user?.weight || null,
                     lastReport: latest.date || null
                 });
             } else {
-                // Check local storage for backward compatibility during migration
-                const reports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-                if (reports.length > 0) {
-                    const latest = reports[0]; // local storage reports are usually unshifted
-                    setHealthData({
-                        hemoglobin: latest.hemoglobin || latest.vitals?.hemoglobin || user?.hemoglobin || null,
-                        bloodGroup: user?.bloodGroup || null,
-                        weight: latest.weight || latest.vitals?.weight || user?.weight || null,
-                        lastReport: latest.date || null
-                    });
-                } else {
-                    console.log("ℹ️ No reports found. Using profile data:", { weight: user?.weight, hb: user?.hemoglobin });
-                    setHealthData({
-                        hemoglobin: user?.hemoglobin || null,
-                        bloodGroup: user?.bloodGroup || null,
-                        weight: user?.weight || null,
-                        lastReport: null
-                    });
-                }
+                console.log("ℹ️ No health reports found. Using basic profile data.");
+                setHealthData({
+                    hemoglobin: user?.hemoglobin || null,
+                    bloodGroup: user?.bloodGroup || null,
+                    weight: user?.weight || null,
+                    lastReport: null
+                });
             }
         } catch (error) {
-            console.error("Error loading health data from Firestore:", error);
+            console.error("Error loading unified health data:", error);
         }
     };
 

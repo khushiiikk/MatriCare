@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { medicalAnalysisContent } from '../data/medicalAnalysisContent';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
+import { signInAnonymously } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import './MedicalAnalysis.css';
 
 const MedicalAnalysis = () => {
-    const { user } = useAuth();
+    const { user, updateProfile } = useAuth();
     const { language } = useLanguage();
     const content = medicalAnalysisContent[language] || medicalAnalysisContent.en;
 
     const [step, setStep] = useState(1); // 1: Personal Info, 2: Pregnancy History, 3: Analysis
     const [analyzing, setAnalyzing] = useState(false);
     const [showResults, setShowResults] = useState(false);
+    const [lastError, setLastError] = useState(null); // Diagnostic
+
 
     // Ranges for validation
     const ranges = {
@@ -182,8 +185,32 @@ const MedicalAnalysis = () => {
                 console.error("Failed to connect to ML backend:", err);
             }
 
+            // Clean vitals data (no undefined/NaN)
+            const cleanedVitals = {};
+            Object.entries(formData).forEach(([k, v]) => {
+                const num = parseFloat(v);
+                cleanedVitals[k] = isNaN(num) ? (v || '0') : num.toString();
+            });
+
+            // 1. MANDATORY SECURITY CHECK: We MUST have a Firebase session for cloud storage rules
+            let currentUid = auth.currentUser?.uid;
+
+            if (!currentUid) {
+                console.log("🔐 Security ID Missing. Performing emergency auto-bootstrap...");
+                try {
+                    const anonUser = await signInAnonymously(auth);
+                    currentUid = anonUser.user.uid;
+                    console.log("✅ Bootstrap Success! Security ID:", currentUid);
+                } catch (bootstrapErr) {
+                    console.error("❌ Critical: Could not bootstrap cloud security session:", bootstrapErr);
+                    alert("⚠️ Cloud Security Error\n\nYour analysis can't be saved to the cloud because the security session failed to start.\n\nPlease check your internet and try again.");
+                    setAnalyzing(false);
+                    return;
+                }
+            }
+
             const reportData = {
-                vitals: { ...formData },
+                vitals: cleanedVitals,
                 mlPrediction: mlData,
                 risk: mlData ? {
                     level: mlData.prediction === 0 ? content.lowRisk : content.highRisk,
@@ -192,35 +219,111 @@ const MedicalAnalysis = () => {
                 } : riskAssessment,
                 date: new Date().toISOString(),
                 createdAt: serverTimestamp(),
-                userId: user?.uid || 'anonymous'
+                // SECURITY: Must use the real Firebase session UID for rules to pass
+                userId: currentUid,
+                // IDENTITY: Keep custom and mobile links for data matching
+                appUserId: user?.uid || null,
+                userMobile: user?.mobile || null,
+                userName: user?.name || 'Patient'
             };
 
-            // 1. Save to Local Storage IMMEDIATELY (Safety Net)
-            const localReport = {
-                ...reportData,
-                id: `local-${Date.now()}`,
-                createdAt: { seconds: Math.floor(Date.now() / 1000) }
-            };
+            // Save to Firestore (Cloud)
             try {
-                const existingReports = JSON.parse(localStorage.getItem('health_reports') || '[]');
-                localStorage.setItem('health_reports', JSON.stringify([localReport, ...existingReports]));
-                console.log("✅ Saved to local storage successfully");
-            } catch (e) {
-                console.error("Local storage save failed:", e);
-            }
+                setLastError(null);
+                console.log("💾 CLOUD SAVE START");
+                console.log("-> Security ID (userId):", reportData.userId);
+                console.log("-> App ID (appUserId):", reportData.appUserId);
+                console.log("-> Mobile Link (userMobile):", reportData.userMobile);
 
-            // 2. Save to Firestore (Cloud)
-            try {
-                // Update profile with latest weight too
-                if (formData.weight !== '0') {
-                    await updateProfile({ weight: formData.weight });
+                // Update profile with latest weight too (Non-blocking)
+                try {
+                    if (formData.weight !== '0') {
+                        updateProfile({ weight: formData.weight }).catch(e => console.warn("Profile sync skipped:", e));
+                    }
+                } catch (pErr) {
+                    console.warn("Profile update failed, continuing with report save...");
                 }
 
-                await addDoc(collection(db, "health_reports"), reportData);
-                console.log("✅ Saved to Firestore successfully");
+                // ID FALLBACKS: If user object is glitchy, try to extract from local storage
+                // ID FALLBACKS: If user object is glitchy, try to extract from local storage
+                let finalAppId = user?.uid || reportData.appUserId;
+                let finalMobile = user?.mobile || reportData.userMobile;
+
+                if (!finalAppId || !finalMobile) {
+                    const stored = localStorage.getItem('matricare_user');
+                    if (stored) {
+                        try {
+                            const parsed = JSON.parse(stored);
+                            finalAppId = finalAppId || parsed.uid;
+                            finalMobile = finalMobile || parsed.mobile;
+                        } catch (e) {
+                            console.error("Local storage parse fail:", e);
+                        }
+                    }
+                }
+
+                reportData.appUserId = finalAppId;
+                // FORCE CLEAN MOBILE (10 Digits)
+                reportData.userMobile = finalMobile ? String(finalMobile).replace(/\D/g, '').slice(-10) : null;
+
+                // Robust deepClean that handles arrays and Firestore objects
+                const deepClean = (obj) => {
+                    if (obj === null || obj === undefined) return obj;
+
+                    // Handle Firestore objects (timestamps/fieldvalues)
+                    if (obj.constructor?.name?.includes('FieldValue') || (obj._methodName && obj._methodName.includes('serverTimestamp'))) {
+                        return obj;
+                    }
+
+                    // Handle Arrays properly
+                    if (Array.isArray(obj)) {
+                        return obj.map(item => deepClean(item)).filter(item => item !== undefined);
+                    }
+
+                    // Handle Objects
+                    if (typeof obj === 'object') {
+                        const cleaned = {};
+                        Object.keys(obj).forEach(key => {
+                            const val = obj[key];
+                            const cleanedVal = deepClean(val);
+                            if (cleanedVal !== undefined) {
+                                cleaned[key] = cleanedVal;
+                            }
+                        });
+                        return cleaned;
+                    }
+
+                    return obj;
+                };
+
+                const finalData = deepClean(reportData);
+                console.log("🚀 CLOUD SAVE START - Payload:", finalData);
+
+                // Final warning if Identity is missing
+                if (!finalData.userMobile && !finalData.appUserId) {
+                    console.error("⚠️ CRITICAL: Saving report with ZERO identity keys!");
+                }
+                alert("Attempting Cloud Save...");
+
+                const docRef = await addDoc(collection(db, "health_reports"), finalData);
+                console.log("✅ CLOUD SAVE SUCCESS! Document ID:", docRef.id);
+
+                // Show a very clear success message with IDs for troubleshooting
+                const successMsg = `✅ Analysis Saved to Cloud!\n\n` +
+                    `Document ID: ${docRef.id}\n` +
+                    `Owner ID: ${reportData.appUserId}\n` +
+                    `Mobile Link: ${reportData.userMobile}\n\n` +
+                    `You can now see this in your 'Report History' page.`;
+                alert(successMsg);
+
+                setShowResults(true);
+                setStep(3); // Result step
             } catch (dbError) {
-                console.error("⚠️ Firestore save failed (offline?):", dbError);
-                // We don't throw here, so the user still sees the result/history from local
+                console.error("❌ Firestore Save Error:", dbError);
+                setLastError(dbError.message || "Unknown Database Error");
+                const currentSecurityId = auth.currentUser?.uid || 'NONE';
+                const currentAppId = user?.uid || 'NONE';
+                alert(`⚠️ Cloud Save Failed!\n\nReason: ${dbError.message}\n\nSecurity ID: ${currentSecurityId}\nApp ID: ${currentAppId}\nMobile: ${user?.mobile}\n\nHint: If you see 'Missing Permissions', please try one more time.`);
             }
 
         } catch (error) {

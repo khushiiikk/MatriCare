@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -15,17 +15,117 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const [confirmationResult, setConfirmationResult] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    // Helper: Find user by mobile in any collection
+    const findUserByMobile = async (mobileNumber) => {
+        if (!mobileNumber) return null;
+        console.log("🔍 [DEBUG] Starting search for mobile:", mobileNumber);
+
+        // Normalize: remove everything but digits and take last 10
+        const digitsOnly = mobileNumber.replace(/\D/g, '');
+        const normalized = digitsOnly.slice(-10);
+
+        const stringVariants = [
+            mobileNumber,
+            digitsOnly,
+            normalized,
+            `+91${normalized}`,
+            `91${normalized}`,
+            `0${normalized}`
+        ];
+
+        // Add numeric variants (Firestore distinguishes between string and number)
+        const numericVariants = stringVariants
+            .map(v => parseInt(v, 10))
+            .filter(n => !isNaN(n));
+
+        // Final unique set of search terms
+        const allVariants = Array.from(new Set([...stringVariants, ...numericVariants]));
+        const fields = ["mobile", "phone", "phoneNumber", "userMobile"];
+        const collections = ["patients", "asha_workers", "users"];
+
+        try {
+            // SECURITY BRIDGE: Ensure we have a session before querying
+            if (!auth.currentUser) {
+                console.log("🔐 [DEBUG] No session. Bootstrapping security bridge...");
+                try {
+                    await signInAnonymously(auth);
+                } catch (anonErr) {
+                    if (anonErr.code === 'auth/admin-restricted-operation') {
+                        console.error("🚨 [CRITICAL] Firebase Anonymous Auth is DISABLED.");
+                        throw new Error("ACCESS_DENIED_ANON_DISABLED");
+                    }
+                    throw anonErr;
+                }
+            }
+
+            for (const collName of collections) {
+                console.log(`🔍 [DEBUG] Checking collection: ${collName}`);
+                for (const field of fields) {
+                    try {
+                        // Batch variants into chunks of 10 for Firestore 'in' query
+                        const variantsToSearch = allVariants.slice(0, 10);
+                        const q = query(collection(db, collName), where(field, "in", variantsToSearch));
+                        const snap = await getDocs(q);
+                        if (!snap.empty) {
+                            const foundDoc = snap.docs[0];
+                            const data = foundDoc.data();
+                            console.log(`✅ [DEBUG] User Found in ${collName} via ${field}!`, { id: foundDoc.id });
+
+                            // Determine role properly
+                            let userRole = 'patient';
+                            if (collName === 'asha_workers' || data.role === 'asha') userRole = 'asha';
+
+                            return { ...data, uid: foundDoc.id, role: userRole };
+                        }
+                    } catch (innerErr) {
+                        // Silently continue if field searching fails (e.g. index missing)
+                        console.warn(`⚠️ [DEBUG] Search in ${collName}.${field} failed:`, innerErr.message);
+                    }
+                }
+            }
+            console.log("❌ [DEBUG] No user found with any variant in any collection.");
+            return null;
+        } catch (e) {
+            if (e.message === "ACCESS_DENIED_ANON_DISABLED") return { error: 'ANON_DISABLED' };
+            console.error("❌ [DEBUG] Critical error searching user by mobile:", e);
+            return null;
+        }
+    };
 
     // Monitor Firebase Auth State
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                // User is signed in via Firebase (OTP)
-                let profileData = {};
+            console.log("🔥 Auth State Change:", currentUser ? `User: ${currentUser.uid} (Anon: ${currentUser.isAnonymous})` : "No Session");
 
+            if (currentUser) {
+                setAuthError(null);
+                // BRIDGE CHECK: Prevent anonymous sessions from overwriting real user profiles
+                if (currentUser.isAnonymous) {
+                    const storedUserString = localStorage.getItem('matricare_user');
+                    if (storedUserString) {
+                        try {
+                            const storedUser = JSON.parse(storedUserString);
+                            // If we have a stable mobile number or a non-anon UID, keep it!
+                            if (storedUser.mobile || (storedUser.uid && !storedUser.uid.startsWith('anon_'))) {
+                                console.log("🕯️ Security Bridge Active - Preserving existing profile");
+                                setUser(storedUser);
+                                setIsAuthenticated(true);
+                                setLoading(false);
+                                return;
+                            }
+                        } catch (e) {
+                            console.error("Local user restore failed:", e);
+                        }
+                    }
+                    console.log("👤 New Anonymous Guest Session");
+                }
+
+                // OTP User Login Flow
+                let profileData = {};
                 try {
                     // Try patients collection first
                     let userDoc = await getDoc(doc(db, "patients", currentUser.uid));
@@ -42,7 +142,14 @@ export const AuthProvider = ({ children }) => {
                     console.error("Error fetching user profile:", error);
                 }
 
-                const userData = { ...currentUser, ...profileData, uid: currentUser.uid, mobile: currentUser.phoneNumber || profileData.mobile };
+                const userData = {
+                    uid: currentUser.uid,
+                    email: currentUser.email,
+                    displayName: currentUser.displayName,
+                    phoneNumber: currentUser.phoneNumber,
+                    ...profileData,
+                    mobile: currentUser.phoneNumber || profileData.mobile
+                };
                 setUser(userData);
                 localStorage.setItem('matricare_user', JSON.stringify(userData));
                 setIsAuthenticated(true);
@@ -53,6 +160,18 @@ export const AuthProvider = ({ children }) => {
                     const userData = JSON.parse(storedUser);
                     setUser(userData);
                     setIsAuthenticated(true);
+
+                    // Bridge: Explicitly trigger and await the session bridge
+                    console.log("🕯️ Initializing Security Bridge for persistent session...");
+                    try {
+                        setAuthError(null);
+                        await signInAnonymously(auth);
+                        // The listener will fire again with the user, so we return here
+                        return;
+                    } catch (e) {
+                        console.error("Critical: Security Bridge Failed:", e);
+                        setAuthError(e.message);
+                    }
                 } else {
                     setUser(null);
                     setIsAuthenticated(false);
@@ -78,8 +197,22 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Send OTP (Real Firebase)
-    const sendOTP = async (mobileNumber) => {
+    const sendOTP = async (mobileNumber, isLogin = false) => {
         try {
+            // SECURITY CHECK: If logging in, user must already exist
+            if (isLogin) {
+                const existing = await findUserByMobile(mobileNumber);
+                if (existing?.error === 'ANON_DISABLED') {
+                    return {
+                        success: false,
+                        error: '⚠️ Firebase Action Required: Please enable "Anonymous Authentication" in your Firebase Console (Build > Authentication > Sign-in method) to allow login verification.'
+                    };
+                }
+                if (!existing) {
+                    return { success: false, error: 'Mobile number not registered. Please sign up first.' };
+                }
+            }
+
             // Ensure format is +91XXXXXXXXXX
             const formattedNumber = mobileNumber.startsWith('+') ? mobileNumber : `+91${mobileNumber}`;
 
@@ -133,19 +266,38 @@ export const AuthProvider = ({ children }) => {
                 }
             }
 
-            setUser({ ...user, ...userData });
-            localStorage.setItem('matricare_user', JSON.stringify({ ...user, ...userData }));
-            return { success: true, user: user };
+            const userDataFinal = {
+                uid: user.uid,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                ...userData
+            };
+            setUser(userDataFinal);
+            localStorage.setItem('matricare_user', JSON.stringify(userDataFinal));
+            setIsAuthenticated(true);
+            return { success: true, user: userDataFinal };
         } catch (error) {
             console.error("Error verifying OTP:", error);
             return { success: false, error: 'Invalid OTP. Please try again.' };
         }
     };
 
-    // Sign up new user - Production Ready
     const signup = async (userData) => {
         try {
-            const uid = userData.uid || `user_${userData.mobile}_${Date.now()}`;
+            // SECURITY BRIDGE FIRST
+            if (!auth.currentUser) {
+                console.log("🔐 [DEBUG] Signup: Bootstrapping security bridge...");
+                await signInAnonymously(auth);
+            }
+
+            // UNIQUENESS CHECK
+            const existing = await findUserByMobile(userData.mobile);
+            if (existing && !existing.error) {
+                return { success: false, error: 'This number is already registered. Please login instead.' };
+            }
+
+            // Use Firebase Auth UID if available to satisfy strict Firestore rules
+            const uid = auth.currentUser?.uid || userData.uid || `user_${userData.mobile}_${Date.now()}`;
 
             const newUser = {
                 ...userData,
@@ -158,8 +310,7 @@ export const AuthProvider = ({ children }) => {
                 }
             };
 
-            // Save to Firebase FIRST to ensure data persistence
-            // Determine collection based on role
+            // Save to Firebase
             const collectionName = userData.role === "asha" ? "asha_workers" : "patients";
             await setDoc(doc(db, collectionName, uid), newUser);
 
@@ -170,7 +321,10 @@ export const AuthProvider = ({ children }) => {
             return { success: true, user: newUser };
         } catch (error) {
             console.error("Signup Error:", error);
-            return { success: false, error: 'Failed to create account: ' + error.message };
+            if (error.message === "ACCESS_DENIED_ANON_DISABLED") {
+                return { success: false, error: 'Firebase Action Required: Please enable "Anonymous Authentication" in your Firebase Console.' };
+            }
+            return { success: false, error: 'Failed to create account: ' + (error.code === 'permission-denied' ? 'Permission denied. Please check your Firebase rules.' : error.message) };
         }
     };
 
@@ -178,14 +332,30 @@ export const AuthProvider = ({ children }) => {
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
-            // TRY FIREBASE (Primary source of truth)
-            const { collection, query, where, getDocs } = await import('firebase/firestore');
-            const q = query(collection(db, "users"), where("mobile", "==", mobile), where("password", "==", password));
-            const querySnapshot = await getDocs(q);
+            // SECURITY BRIDGE FIRST
+            if (!auth.currentUser) {
+                console.log("🔐 [DEBUG] Password Login: Bootstrapping security bridge...");
+                await signInAnonymously(auth);
+            }
 
-            if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[0];
-                const userData = { ...userDoc.data(), uid: userDoc.id };
+            // Check patients
+            let q = query(collection(db, "patients"), where("mobile", "==", mobile), where("password", "==", password));
+            let snap = await getDocs(q);
+
+            if (!snap.empty) {
+                const userData = { ...snap.docs[0].data(), uid: snap.docs[0].id, role: 'patient' };
+                setUser(userData);
+                setIsAuthenticated(true);
+                localStorage.setItem('matricare_user', JSON.stringify(userData));
+                setLoading(false);
+                return { success: true, user: userData };
+            }
+
+            // Check asha_workers
+            q = query(collection(db, "asha_workers"), where("mobile", "==", mobile), where("password", "==", password));
+            snap = await getDocs(q);
+            if (!snap.empty) {
+                const userData = { ...snap.docs[0].data(), uid: snap.docs[0].id, role: 'asha' };
                 setUser(userData);
                 setIsAuthenticated(true);
                 localStorage.setItem('matricare_user', JSON.stringify(userData));
@@ -195,7 +365,6 @@ export const AuthProvider = ({ children }) => {
 
             setLoading(false);
             return { success: false, error: 'Invalid mobile number or password.' };
-
         } catch (e) {
             console.error("Login Error:", e);
             setLoading(false);
@@ -251,6 +420,7 @@ export const AuthProvider = ({ children }) => {
         updateProfile,
         updateProfilePicture,
         sendOTP,
+        findUserByMobile
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
