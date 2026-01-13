@@ -38,23 +38,36 @@ const MedicalAnalysis = () => {
         childDeaths: { min: 0, max: 5 }
     };
 
+    // Helper: Calculate Age from DOB
+    const calculateAge = (dob) => {
+        if (!dob) return '';
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age.toString();
+    };
+
     // Form Stats
     const [formData, setFormData] = useState({
-        age: '0',
-        systolicBP: '0',
-        diastolicBP: '0',
-        bloodGlucose: '0',
-        bodyTemp: '0',
-        heartRate: '0',
-        hemoglobin: '0',
-        hba1c: '0',
-        respirationRate: '0',
-        weight: user?.weight || '0',
-        gravida: '0',
-        para: '0',
-        liveBirths: '0',
-        abortions: '0',
-        childDeaths: '0'
+        age: user?.dob ? calculateAge(user.dob) : (user?.age || ''),
+        systolicBP: '',
+        diastolicBP: '',
+        bloodGlucose: '',
+        bodyTemp: '',
+        heartRate: '',
+        hemoglobin: '',
+        hba1c: '',
+        respirationRate: '',
+        weight: user?.weight || '',
+        gravida: '',
+        para: '',
+        liveBirths: '',
+        abortions: '',
+        childDeaths: ''
     });
 
     const [mlPrediction, setMlPrediction] = useState(null);

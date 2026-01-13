@@ -98,7 +98,7 @@ const Navbar = () => {
                                     title="Profile & Settings"
                                 >
                                     <img
-                                        src={user?.profilePicture || '/matricare-logo.png'}
+                                        src={user?.profilePicture || '/default-avatar.jpg'}
                                         alt="Profile"
                                         className="nav-user-pfp"
                                     />

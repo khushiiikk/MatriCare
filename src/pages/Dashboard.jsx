@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from '../firebase';
-import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { collection, query, where, orderBy, limit, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
@@ -197,9 +197,40 @@ const Dashboard = () => {
 
     const saveHealthData = async (field, value) => {
         setEditingField(null);
+
+        // 1. Update Profile (Backup)
         const updates = {};
         updates[field] = value;
         await updateProfile(updates);
+
+        // 2. Create "Manual Log" Entry in Health Reports (Primary Source of Truth)
+        try {
+            const numValue = parseFloat(value);
+            if (isNaN(numValue)) return;
+
+            const newReport = {
+                appUserId: user.uid,
+                userId: user.uid, // Redundant for querying safety
+                userMobile: user.mobile ? String(user.mobile) : null,
+                userName: user.name || user.fullName || 'User',
+                date: new Date().toISOString(),
+                createdAt: serverTimestamp(),
+                type: 'Manual Log',
+                vitals: {
+                    [field]: numValue
+                },
+                notes: `Manual update of ${field} from Dashboard`
+            };
+
+            await addDoc(collection(db, "health_reports"), newReport);
+            console.log(`✅ Saved manual ${field} log.`);
+
+            // Force reload to reflect changes
+            loadHealthData();
+
+        } catch (e) {
+            console.error("Error saving manual log:", e);
+        }
     };
 
 
@@ -431,7 +462,9 @@ const Dashboard = () => {
                             <div className="asha-pfp">
                                 {ashaWorker?.profilePicture ? (
                                     <img src={ashaWorker.profilePicture} alt="ASHA" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-                                ) : "👩‍⚕️"}
+                                ) : (
+                                    <img src="/default-avatar.jpg" alt="ASHA" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                                )}
                             </div>
                             <div>
                                 {loadingAsha ? (
