@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [confirmationResult, setConfirmationResult] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authError, setAuthError] = useState(null);
 
     // Helper: Find user by mobile in any collection
     const findUserByMobile = async (mobileNumber) => {
@@ -140,6 +141,7 @@ export const AuthProvider = ({ children }) => {
                     }
                 } catch (error) {
                     console.error("Error fetching user profile:", error);
+                    setAuthError(error.message);
                 }
 
                 const userData = {
@@ -420,7 +422,8 @@ export const AuthProvider = ({ children }) => {
         updateProfile,
         updateProfilePicture,
         sendOTP,
-        findUserByMobile
+        findUserByMobile,
+        authError
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
