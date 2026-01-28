@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
-import { db } from '../firebase';
-import { collection, query, where, getDocs, addDoc, setDoc, doc, orderBy, serverTimestamp } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next'; // UPDATED
+import { db, auth } from '../firebase';
+import { collection, query, where, getDocs, addDoc, setDoc, doc, orderBy, serverTimestamp, limit } from 'firebase/firestore'; // Added limit
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { translations } from '../translations/translations';
 import './Adash.css';
 
-// Fix Leaflet marker icon issue
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+// Fix Leaflet marker issue
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Create custom icon for ASHA worker (green)
-const ashaIcon = L.icon({
+const ashaIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
 });
 
-L.Marker.prototype.options.icon = DefaultIcon;
-
-// Helper to update map view
 const RecenterMap = ({ center }) => {
     const map = useMap();
     useEffect(() => {
         if (center) {
-            map.setView([center.lat, center.lng], 14);
+            map.setView([center.lat, center.lng]);
         }
     }, [center, map]);
     return null;
 };
 
-// Haversine formula to calculate distance between two lat/lng points in km
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
     const dLat = deg2rad(lat2 - lat1);
@@ -51,18 +42,19 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c; // Distance in km
-    return parseFloat(d.toFixed(1));
+    return d.toFixed(1);
 };
+
 
 const deg2rad = (deg) => deg * (Math.PI / 180);
 
 const Adash = () => {
     const { user } = useAuth();
-    const { language } = useLanguage();
-    const t = translations[language]?.asha || translations['en'].asha;
+    const { t } = useTranslation('pages'); // UPDATED: Load 'pages' namespace
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPatientForDetail, setSelectedPatientForDetail] = useState(null);
@@ -126,203 +118,80 @@ const Adash = () => {
             }
 
             try {
-                // Debug: Log ASHA worker's location info
-                console.log("🔍 ASHA Worker Location Info:", {
-                    village: user?.village,
-                    district: user?.district,
-                    uid: user?.uid,
-                    gpsLat: workerLocation.lat,
-                    gpsLng: workerLocation.lng
-                });
-
-                // DIAGNOSTIC: First, let's see ALL patients in the database
-                const allPatientsQ = query(collection(db, "patients"));
-                const allPatientsSnapshot = await getDocs(allPatientsQ);
-                console.log("🔬 DIAGNOSTIC - All Patients in Database:", {
-                    total: allPatientsSnapshot.docs.length,
-                    patients: allPatientsSnapshot.docs.map(doc => ({
-                        id: doc.id,
-                        name: doc.data().name || doc.data().fullName,
-                        village: doc.data().village,
-                        district: doc.data().district
-                    }))
-                });
-
                 // FETCH STRATEGY - BROAD SEARCH
-                // We fetch everything from both collections to be 100% sure.
                 const patientsRef = collection(db, "patients");
-                const usersRef = collection(db, "users");
-
-                let patientsDocs = [];
-                let usersDocs = [];
-
-                try {
-                    const patientsSnap = await getDocs(query(patientsRef));
-                    patientsDocs = patientsSnap.docs;
-                } catch (e) {
-                    console.error("Error fetching 'patients' collection:", e);
-                }
-
-                try {
-                    const usersSnap = await getDocs(query(usersRef, where("role", "==", "patient")));
-                    usersDocs = usersSnap.docs;
-                } catch (e) {
-                    console.error("Error fetching 'users' collection:", e);
-                }
-
-                console.log("🔬 DIAGNOSTIC - Raw Data Fetched:", {
-                    patientsCount: patientsDocs.length,
-                    usersCount: usersDocs.length
-                });
-
-                // Unique patients by UID
-                const uniquePatientsMap = new Map();
-
-                [...patientsDocs, ...usersDocs].forEach(doc => {
-                    uniquePatientsMap.set(doc.id, { id: doc.id, ...doc.data() });
-                });
-
-                let allPatients = Array.from(uniquePatientsMap.values());
+                const patientsSnap = await getDocs(query(patientsRef));
+                let allPatients = patientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
                 // CASE-INSENSITIVE FILTERING
-                const rawVillage = user?.village || "";
-                const rawDistrict = user?.district || "";
-                const workerVillage = rawVillage.toLowerCase().trim();
-                const workerDistrict = rawDistrict.toLowerCase().trim();
-
-                console.log("🔍 ASHA Worker Context:", {
-                    id: user?.uid,
-                    village: rawVillage,
-                    district: rawDistrict
-                });
+                const workerVillage = (user?.village || "").toLowerCase().trim();
+                const workerDistrict = (user?.district || "").toLowerCase().trim();
 
                 let fetchedPatients = allPatients.filter(p => {
                     const pVillage = (p.village || "").toLowerCase().trim();
                     const pDistrict = (p.district || "").toLowerCase().trim();
-
-                    const match = pVillage === workerVillage && pDistrict === workerDistrict;
-                    if (!match) {
-                        console.log(`❌ No Match: Worker(${workerVillage}, ${workerDistrict}) vs Patient(${pVillage}, ${pDistrict})`);
-                    }
-                    return match;
+                    return pVillage === workerVillage && pDistrict === workerDistrict;
                 });
 
-                setDebugInfo({
-                    patientsCount: patientsDocs.length,
-                    usersCount: usersDocs.length,
-                    filteredCount: fetchedPatients.length,
-                    workerVillage: `${rawVillage} (${workerVillage})`,
-                    workerDistrict: `${rawDistrict} (${workerDistrict})`,
-                    allPotentialPatients: allPatients.map(p => ({
-                        id: p.id,
-                        name: p.name || p.fullName,
-                        village: p.village,
-                        district: p.district,
-                        role: p.role || 'no-role'
-                    }))
-                });
-
-                // FALLBACK 1: If no patients match the village, show all patients in the district
+                // FALLBACK: District wide if village is empty
                 if (fetchedPatients.length === 0) {
-                    console.log("⚠️ No village matches. Falling back to district-wide search...");
-                    fetchedPatients = allPatients.filter(p => {
-                        const pDistrict = (p.district || "").toLowerCase().trim();
-                        return pDistrict === workerDistrict;
-                    }).map(p => ({ ...p, isDistrictWide: true }));
-                }
-
-                // FALLBACK 2 (EMERGENCY): If STILL no patients, just show everything as a diagnostic
-                if (fetchedPatients.length === 0 && allPatients.length > 0) {
-                    console.log("🚨 EMERGENCY: Showing all database patients due to 0 filtered matches.");
-                    fetchedPatients = allPatients.map(p => ({ ...p, isEmergencyMatch: true }));
-                }
-
-                console.log("📊 Final Display List:", {
-                    total: fetchedPatients.length,
-                    names: fetchedPatients.map(p => p.name || p.fullName)
-                });
-
-                // Calculate distance for all patients based on current worker location
-                const patientsWithDistance = fetchedPatients.map(p => {
-                    // Use stored location or fallback to demo coordinates if missing
-                    const patientLat = p.location?.lat || 28.6130;
-                    const patientLng = p.location?.lng || 77.2090;
-                    const dist = calculateDistance(
-                        workerLocation.lat,
-                        workerLocation.lng,
-                        patientLat,
-                        patientLng
+                    fetchedPatients = allPatients.filter(p =>
+                        (p.district || "").toLowerCase().trim() === workerDistrict
                     );
-                    return { ...p, distance: dist };
-                });
+                }
 
-                // Sort by distance (nearest first)
-                patientsWithDistance.sort((a, b) => a.distance - b.distance);
+                // FETCH LATEST REPORTS FOR EACH PATIENT
+                const patientsWithReports = await Promise.all(fetchedPatients.map(async (p) => {
+                    try {
+                        // Query for latest report
+                        const q = query(
+                            collection(db, "health_reports"),
+                            where("appUserId", "==", p.id),
+                            orderBy("createdAt", "desc"),
+                            limit(1)
+                        );
+                        const reportSnap = await getDocs(q);
 
-                setPatients(patientsWithDistance);
-                if (patientsWithDistance.length > 0) {
-                    setSelectedMapPatientId(patientsWithDistance[0].id);
+                        let latestReport = null;
+                        if (!reportSnap.empty) {
+                            latestReport = reportSnap.docs[0].data();
+                        }
+
+                        // Use stored location or fallback
+                        const patientLat = p.location?.lat || 28.6130;
+                        const patientLng = p.location?.lng || 77.2090;
+                        const dist = calculateDistance(
+                            workerLocation.lat,
+                            workerLocation.lng,
+                            patientLat,
+                            patientLng
+                        );
+
+                        return {
+                            ...p,
+                            distance: dist,
+                            latestReport: latestReport,
+                            // Derived fields for easy display
+                            riskLevel: latestReport?.risk?.level || 'Unknown',
+                            hemoglobin: latestReport?.vitals?.hemoglobin || p.hemoglobin || '--',
+                            weight: latestReport?.vitals?.weight || p.weight || '--'
+                        };
+                    } catch (err) {
+                        console.error(`Error fetching report for ${p.id}:`, err);
+                        return { ...p, distance: 0, riskLevel: 'Unknown' };
+                    }
+                }));
+
+                // Sort by distance
+                patientsWithReports.sort((a, b) => a.distance - b.distance);
+
+                setPatients(patientsWithReports);
+                if (patientsWithReports.length > 0) {
+                    setSelectedMapPatientId(patientsWithReports[0].id);
                 }
             } catch (error) {
-                console.error("❌ Error fetching patients from Firestore:", error);
-                console.error("Error details:", {
-                    code: error.code,
-                    message: error.message
-                });
-
-                // If the error is about missing index, try a simpler query
-                if (error.message?.includes('index')) {
-                    console.log("🔧 Trying fallback query (district only)...");
-                    try {
-                        const fallbackQ = query(
-                            collection(db, "patients"),
-                            where("district", "==", user?.district || "")
-                        );
-                        const fallbackSnapshot = await getDocs(fallbackQ);
-                        console.log("📊 Fallback Query Result:", {
-                            totalPatients: fallbackSnapshot.docs.length,
-                            patients: fallbackSnapshot.docs.map(doc => ({
-                                id: doc.id,
-                                name: doc.data().name,
-                                village: doc.data().village,
-                                district: doc.data().district
-                            }))
-                        });
-
-                        let fallbackPatients = fallbackSnapshot.docs.map(doc => ({
-                            id: doc.id,
-                            ...doc.data()
-                        }));
-
-                        // Filter by village in JavaScript (not Firestore)
-                        fallbackPatients = fallbackPatients.filter(p =>
-                            p.village === user?.village
-                        );
-
-                        const patientsWithDistance = fallbackPatients.map(p => {
-                            const patientLat = p.location?.lat || 28.6130;
-                            const patientLng = p.location?.lng || 77.2090;
-                            const dist = calculateDistance(
-                                workerLocation.lat,
-                                workerLocation.lng,
-                                patientLat,
-                                patientLng
-                            );
-                            return { ...p, distance: dist };
-                        });
-
-                        patientsWithDistance.sort((a, b) => a.distance - b.distance);
-                        setPatients(patientsWithDistance);
-                        if (patientsWithDistance.length > 0) {
-                            setSelectedMapPatientId(patientsWithDistance[0].id);
-                        }
-                    } catch (fallbackError) {
-                        console.error("Fallback query also failed:", fallbackError);
-                        setPatients([]);
-                    }
-                } else {
-                    setPatients([]);
-                }
+                console.error("❌ Error fetching patients:", error);
+                setPatients([]);
             } finally {
                 setLoading(false);
             }
@@ -340,14 +209,21 @@ const Adash = () => {
                     <div className="profile-pill">
                         <div className="profile-icon">👩‍⚕️</div>
                         <div className="welcome-text">
-                            <h3>{t.hello}, {user?.name || 'ASHA Worker'}!</h3>
-                            <p className="asha-header-meta">
+                            <h3>{t('asha.hello')}, {user?.name || 'ASHA Worker'}!</h3>
+                            <div className="asha-header-meta">
                                 <span>📞 {user?.mobile || '9876543210'}</span>
                                 <span className="meta-sep">•</span>
                                 <span>📍 {user?.village || 'Village Rampur'}{user?.district ? `, ${user.district}` : ''}</span>
                                 <span className="meta-sep">•</span>
-                                {workerLocation ? 'Live Tracking Active' : 'Initializing GPS...'}
-                            </p>
+                                {workerLocation ? (
+                                    <div className="live-location-tag">
+                                        <div className="pulse-dot"></div>
+                                        Live Tracking Active
+                                    </div>
+                                ) : (
+                                    <span style={{ color: '#888' }}>Initializing GPS...</span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -383,6 +259,7 @@ const Adash = () => {
                         </>
                     )}
                 </div>
+
 
                 {/* DEBUG PANEL - Hidden if patients found, but useful for troubleshooting */}
                 {patients.length === 0 && (
@@ -438,7 +315,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
     return (
         <div className="asha-map-container">
             <div className="map-header">
-                <h3>{t.mapTitle}</h3>
+                <h3>{t('asha.mapTitle')}</h3>
                 <span className="your-location">
                     <span className="village-badge">Village Context</span>
                     {allPatients.length > 0 && (
@@ -460,7 +337,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
 
                         {/* ASHA Worker Marker */}
                         <Marker position={[ashaLocation.lat, ashaLocation.lng]} icon={ashaIcon}>
-                            <Popup>{t.hello}, <b>ASHA Worker</b><br />Your current location</Popup>
+                            <Popup>{t('asha.hello')}, <b>ASHA Worker</b><br />Your current location</Popup>
                         </Marker>
 
                         {/* Patient Markers */}
@@ -485,7 +362,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                 )}
             </div>
             <div className="patient-selection">
-                <h4>{t.selectPatient}</h4>
+                <h4>{t('asha.selectPatient')}</h4>
                 <div className="patient-chips">
                     {allPatients.map((patient) => (
                         <button
@@ -502,19 +379,19 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                 <div className="route-details">
                     <div className="route-stat">
                         <div>
-                            <span className="stat-label">{t.distance}</span>
+                            <span className="stat-label">{t('asha.distance')}</span>
                             <span className="stat-value">{selectedPatient.distance} km</span>
                         </div>
                     </div>
                     <div className="route-stat">
                         <div>
-                            <span className="stat-label">{t.estTime}</span>
+                            <span className="stat-label">{t('asha.estTime')}</span>
                             <span className="stat-value">{getEstimatedTime(selectedPatient.distance)} min</span>
                         </div>
                     </div>
                 </div>
                 <button className="get-directions-btn" onClick={() => openDirections(selectedPatient)}>
-                    {t.getDirections} →
+                    {t('asha.getDirections')} →
                 </button>
             </div>
         </div>
@@ -628,8 +505,8 @@ const PatientDetailView = ({ patient, onBack, t }) => {
     return (
         <div className="patient-detail-view-container">
             <div className="detail-header">
-                <button className="back-btn" onClick={onBack}>← {t.back}</button>
-                <h2>{patient.name}'s {t.medicalHistory}</h2>
+                <button className="back-btn" onClick={onBack}>← {t('asha.back')}</button>
+                <h2>{patient.name}'s {t('asha.medicalHistory')}</h2>
             </div>
 
             <div className="detail-grid">
@@ -651,13 +528,54 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                             <span className="summary-label">Contact</span>
                             <span className="summary-value">{patient.phone}</span>
                         </div>
+
+                        <div className="location-update-box" style={{ marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #eee' }}>
+                            <p style={{ fontSize: '0.85rem', marginBottom: '8px', color: '#666' }}>
+                                Location: {patient.location ? '✅ Set' : '⚠️ Not Set'}
+                            </p>
+                            <button
+                                className="action-btn-secondary"
+                                style={{ width: '100%', fontSize: '0.85rem', padding: '8px' }}
+                                onClick={async () => {
+                                    if (!navigator.geolocation) {
+                                        alert("Geolocation is not supported by this browser.");
+                                        return;
+                                    }
+                                    const confirmUpdate = window.confirm("Update this patient's location to your CURRENT location?");
+                                    if (!confirmUpdate) return;
+
+                                    navigator.geolocation.getCurrentPosition(async (position) => {
+                                        const newLoc = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude
+                                        };
+                                        try {
+                                            // Update patient document
+                                            const patientRef = doc(db, "patients", patient.id);
+                                            await setDoc(patientRef, { location: newLoc }, { merge: true });
+                                            alert("✅ Patient location updated successfully!");
+                                            // Optional: trigger refresh
+                                            window.location.reload();
+                                        } catch (err) {
+                                            console.error("Error updating location:", err);
+                                            alert("Failed to update location.");
+                                        }
+                                    }, (err) => {
+                                        console.error("GPS Error:", err);
+                                        alert("Could not get your current location. Please enable GPS.");
+                                    });
+                                }}
+                            >
+                                📍 Pin Location Here
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div className="detail-main">
                     <section className="history-section">
                         <div className="section-header-row">
-                            <h3>{t.visitHistory}</h3>
+                            <h3>{t('asha.visitHistory')}</h3>
                             <button className="log-visit-toggle" onClick={() => setShowVisitForm(!showVisitForm)}>
                                 {showVisitForm ? 'Cancel' : '+ Log Visit'}
                             </button>
@@ -750,7 +668,7 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                     </section>
 
                     <section className="reports-section">
-                        <h3>{t.recentReports}</h3>
+                        <h3>{t('asha.recentReports')}</h3>
                         <div className="reports-list">
                             {mockReports.map(report => (
                                 <div key={report.id} className="report-item">
@@ -793,7 +711,7 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
     return (
         <div className="asha-patients-container">
             <div className="asha-patients-header">
-                <h3>{t.nearestPatients} ({patients.length})</h3>
+                <h3>{t('asha.nearestPatients')} ({patients.length})</h3>
                 <select className="sort-select" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
                     <option value="distance">🎯 Nearest First</option>
                     <option value="dueDate">📅 Due Date</option>
@@ -820,6 +738,11 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
                                 {patient.riskLevel} Risk
                             </span>
                         </div>
+                        {patient.latestReport && (
+                            <div className="patient-last-update">
+                                🕒 {t('before') || 'Last Update'}: {new Date(patient.latestReport.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                            </div>
+                        )}
                         <div className="patient-health-metrics">
                             <div className="metric-item">
                                 <span className="metric-label">Hemoglobin</span>
@@ -838,8 +761,8 @@ const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, pati
                             </div>
                         </div>
                         <div className="patient-actions" onClick={(e) => e.stopPropagation()}>
-                            <a href={`tel:${patient.phone}`} className="action-btn call-btn">{t.call}</a>
-                            <button className="action-btn map-btn" onClick={() => onSelectMapPatient(patient.id)}>{t.map}</button>
+                            <a href={`tel:${patient.phone}`} className="action-btn call-btn">{t('asha.call')}</a>
+                            <button className="action-btn map-btn" onClick={() => onSelectMapPatient(patient.id)}>{t('asha.map')}</button>
                         </div>
                     </div>
                 ))}

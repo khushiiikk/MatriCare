@@ -100,5 +100,78 @@
         "lowRisk": "नियमित प्रसूतीपूर्व तपासणी सुरू ठेवा आणि आरोग्यदायी आहार घ्या.",
         "moderateRisk": "बारीक देखरेखीची गरज आहे. तुमच्या आरोग्य सेवा प्रदात्याशी या मेट्रिक्सवर चर्चा करण्यासाठी लवकरच फॉलो-अप अपॉइंटमेंट शेड्यूल करा.",
         "highRisk": "त्वरीत वैद्यकीय लक्ष देण्याची शिफारस केली जाते. गुंतागुंतीची दाट शक्यता आढळली. कृपया तुमच्या प्रसूतीतज्ज्ञांचा तातडीने सल्ला घ्या."
+    },
+    "pregnancyRisks": {
+        "qualifiesList": [
+            {},
+            {},
+            {}
+        ],
+        "preexistingConditions": [
+            "Autoimmune diseases",
+            "Diabetes",
+            "High blood pressure",
+            "Fibroids",
+            "HIV/AIDS",
+            "Kidney disease",
+            "Obesity",
+            "Depression (Mental Health)",
+            "PCOS",
+            "Thyroid disease",
+            "Blood clotting disorders"
+        ],
+        "pregnancyConditions": [
+            "Gestational diabetes",
+            "Low birth weight",
+            "Twins or Triplets",
+            "Preeclampsia",
+            "Placenta previa",
+            "Amniotic fluid issues"
+        ],
+        "emergencySigns": [
+            "Persistent abdominal/pelvic pain",
+            "Vaginal bleeding or spotting",
+            "Severe, non-stop headache",
+            "Blurred vision or spots",
+            "Sudden swelling (face/hands)",
+            "Reduced fetal movement",
+            "Leaking amniotic fluid",
+            "Fever > 100.4°F (38°C)",
+            "Trouble breathing",
+            "Severe nausea/vomiting"
+        ],
+        "managementList": [
+            "More frequent prenatal visits & ultrasounds",
+            "Regular blood pressure & blood sugar monitoring",
+            "Consultation with specialists (Maternal-Fetal Medicine)"
+        ]
+    },
+    "pregnancySymptoms": {
+        "emergencySymptoms": [
+            "Abdominal pain that doesn't go away",
+            "Chest pain",
+            "Dizziness or fainting",
+            "Extreme fatigue",
+            "Fetus's movement stopping or slowing",
+            "Heart palpitations",
+            "Severe nausea and vomiting",
+            "Severe headache",
+            "Swelling, redness or pain in face/limbs",
+            "Thoughts about harming yourself",
+            "Trouble breathing",
+            "Vaginal bleeding or increased discharge"
+        ],
+        "complications": [
+            "Preeclampsia-spectrum disorders",
+            "Preterm delivery",
+            "Cesarean delivery",
+            "Postpartum hemorrhage",
+            "Low birth weight",
+            "Birth defects",
+            "NICU admission",
+            "ICU admission",
+            "Miscarriage",
+            "Stillbirth"
+        ]
     }
 }

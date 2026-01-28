@@ -28,10 +28,18 @@
     },
     "page": {
         "title": "Health Dashboard",
+        "subtitle": "Comprehensive tools and guide for your pregnancy journey.",
         "vitalsSection": "Vital Signs",
         "uploadReport": "Upload Medical Report",
+        "uploadReportDesc": "Instant AI report analysis.",
         "analyzeBtn": "Analyze Report",
+        "pregnancyRisks": "Pregnancy Risks",
+        "pregnancyRisksDesc": "Stay safe & avoid risks.",
         "viewRisks": "View Pregnancy Risks",
-        "viewSymptoms": "View Symptoms Guide"
+        "riskSymptoms": "Risk Symptoms",
+        "riskSymptomsDesc": "Critical signs to watch.",
+        "viewSymptoms": "View Symptoms Guide",
+        "backToMenu": "Back to Health Menu",
+        "medicalAnalytics": "Medical Analytics"
     }
 }

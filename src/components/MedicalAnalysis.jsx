@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import { medicalAnalysisContent } from '../data/medicalAnalysisContent';
+import { useTranslation } from 'react-i18next'; // UPDATED: Use standard hook
 import { db, auth } from '../firebase';
 import { signInAnonymously } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
@@ -10,14 +9,13 @@ import './MedicalAnalysis.css';
 
 const MedicalAnalysis = () => {
     const { user, updateProfile } = useAuth();
-    const { language } = useLanguage();
-    const content = medicalAnalysisContent[language] || medicalAnalysisContent.en;
+    // UPDATED: Use i18next standard translation
+    const { t } = useTranslation('medical');
 
     const [step, setStep] = useState(1); // 1: Personal Info, 2: Pregnancy History, 3: Analysis
     const [analyzing, setAnalyzing] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [lastError, setLastError] = useState(null); // Diagnostic
-
 
     // Ranges for validation
     const ranges = {
@@ -91,25 +89,25 @@ const MedicalAnalysis = () => {
     const getMetricLevel = (id) => {
         const val = parseFloat(formData[id]);
         const range = ranges[id];
-        if (isNaN(val)) return { pct: 0, color: 'gray', text: content.noData };
+        if (isNaN(val)) return { pct: 0, color: 'gray', text: t('riskLevels.noData') };
 
         if (id === 'hemoglobin') {
-            if (val < 10) return { pct: 90, color: 'red', text: content.severeAnemia };
-            if (val < 11) return { pct: 70, color: 'orange', text: content.mildAnemia };
-            if (val > 16) return { pct: 85, color: 'red', text: content.high };
-            return { pct: 50, color: 'green', text: content.normal };
+            if (val < 10) return { pct: 90, color: 'red', text: t('riskLevels.severeAnemia') };
+            if (val < 11) return { pct: 70, color: 'orange', text: t('riskLevels.mildAnemia') };
+            if (val > 16) return { pct: 85, color: 'red', text: t('riskLevels.high') };
+            return { pct: 50, color: 'green', text: t('riskLevels.normal') };
         }
 
         if (id === 'bloodGlucose') {
-            if (val > 200) return { pct: 95, color: 'red', text: content.veryHigh };
-            if (val > 140) return { pct: 80, color: 'red', text: content.high };
-            if (val < 70) return { pct: 85, color: 'red', text: content.low };
-            return { pct: 50, color: 'green', text: content.normal };
+            if (val > 200) return { pct: 95, color: 'red', text: t('riskLevels.veryHigh') };
+            if (val > 140) return { pct: 80, color: 'red', text: t('riskLevels.high') };
+            if (val < 70) return { pct: 85, color: 'red', text: t('riskLevels.low') };
+            return { pct: 50, color: 'green', text: t('riskLevels.normal') };
         }
 
-        if (val < range.min) return { pct: 30, color: 'red', text: content.low };
-        if (val > range.max) return { pct: 90, color: 'red', text: content.high };
-        return { pct: 50, color: 'green', text: content.normal };
+        if (val < range.min) return { pct: 30, color: 'red', text: t('riskLevels.low') };
+        if (val > range.max) return { pct: 90, color: 'red', text: t('riskLevels.high') };
+        return { pct: 50, color: 'green', text: t('riskLevels.normal') };
     };
 
     const calculateOverallRisk = () => {
@@ -117,33 +115,33 @@ const MedicalAnalysis = () => {
         let factors = [];
 
         // Vitals Analysis
-        if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push(content.highBloodSugar); }
-        if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push(content.anemiaDetection); }
-        if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push(content.hba1cElevation); }
-        if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push(content.highHeartRate); }
-        if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push(content.fever); }
+        if (parseFloat(formData.bloodGlucose) > 140) { score += 3; factors.push(t('riskFactors.highBloodSugar')); }
+        if (parseFloat(formData.hemoglobin) < 11) { score += 3; factors.push(t('riskFactors.anemiaDetection')); }
+        if (parseFloat(formData.hba1c) >= 5.7) { score += 3; factors.push(t('riskFactors.hba1cElevation')); }
+        if (parseFloat(formData.heartRate) > 100) { score += 2; factors.push(t('riskFactors.highHeartRate')); }
+        if (parseFloat(formData.bodyTemp) > 100) { score += 2; factors.push(t('riskFactors.fever')); }
 
         // History Analysis
-        if (parseInt(formData.abortions) >= 2) { score += 4; factors.push(content.historyMiscarriages); }
-        if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push(content.highObstetricRisk); }
-        if (parseInt(formData.gravida) > 5) { score += 3; factors.push(content.grandMultiparity); }
+        if (parseInt(formData.abortions) >= 2) { score += 4; factors.push(t('riskFactors.historyMiscarriages')); }
+        if (parseInt(formData.childDeaths) > 0) { score += 5; factors.push(t('riskFactors.highObstetricRisk')); }
+        if (parseInt(formData.gravida) > 5) { score += 3; factors.push(t('riskFactors.grandMultiparity')); }
 
-        let risk = { level: content.lowRisk, color: 'green', confidence: 85, advice: content.lowRiskAdvice, factors };
+        let risk = { level: t('riskLevels.lowRisk'), color: 'green', confidence: 85, advice: t('advice.lowRisk'), factors };
 
         if (score >= 7) {
             risk = {
-                level: content.highRisk,
+                level: t('riskLevels.highRisk'),
                 color: 'red',
                 confidence: Math.min(95, 60 + score * 3),
-                advice: content.highRiskAdvice,
+                advice: t('advice.highRisk'),
                 factors
             };
         } else if (score >= 3) {
             risk = {
-                level: content.moderateRisk,
+                level: t('riskLevels.moderateRisk'),
                 color: 'orange',
                 confidence: Math.min(88, 50 + score * 5),
-                advice: content.moderateRiskAdvice,
+                advice: t('advice.moderateRisk'),
                 factors
             };
         }
@@ -181,7 +179,9 @@ const MedicalAnalysis = () => {
             let mlData = null;
             try {
                 console.log("Attempting ML prediction with features:", featureArray);
-                const response = await fetch("https://matricare-backend-y4lk.onrender.com/predict", {
+                // Use environment variable for API URL, fallback to production if not set
+                const API_URL = import.meta.env.VITE_API_URL || "https://matricare-backend-y4lk.onrender.com";
+                const response = await fetch(`${API_URL}/predict`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ features: featureArray })
@@ -226,9 +226,9 @@ const MedicalAnalysis = () => {
                 vitals: cleanedVitals,
                 mlPrediction: mlData,
                 risk: mlData ? {
-                    level: mlData.prediction === 0 ? content.lowRisk : content.highRisk,
+                    level: mlData.prediction === 0 ? t('riskLevels.lowRisk') : t('riskLevels.highRisk'),
                     color: mlData.prediction === 0 ? 'green' : 'red',
-                    advice: mlData.prediction === 0 ? content.lowRiskAdvice : content.highRiskAdvice
+                    advice: mlData.prediction === 0 ? t('advice.lowRisk') : t('advice.highRisk')
                 } : riskAssessment,
                 date: new Date().toISOString(),
                 createdAt: serverTimestamp(),
@@ -351,8 +351,8 @@ const MedicalAnalysis = () => {
     const renderStep1 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={() => { }}>{content.backBtn}</button>
-                <h2>{content.step1Title}</h2>
+                <button className="back-circle-btn" onClick={() => { }}>{t('buttons.back')}</button>
+                <h2>{t('steps.step1Title')}</h2>
             </div>
 
             <div className="progress-bar-stepper">
@@ -361,11 +361,16 @@ const MedicalAnalysis = () => {
             </div>
 
             <div className="vitals-grid-scroll">
-                {Object.keys(content.vitals).map((key) => {
-                    const item = content.vitals[key];
+                {['age', 'systolicBP', 'diastolicBP', 'bloodGlucose', 'bodyTemp', 'heartRate', 'hemoglobin', 'hba1c', 'respirationRate', 'weight'].map((key) => {
                     return (
                         <div key={key} className={`input-group-modern ${getValidationClass(key)}`}>
-                            <label>{item.label}</label>
+                            <div className="label-info-wrapper">
+                                <label>{t(`vitals.${key}.label`)}</label>
+                                <div className="info-icon">
+                                    i
+                                    <span className="tooltip-text">{t(`vitals.${key}.desc`)}</span>
+                                </div>
+                            </div>
                             <div className="input-field-wrapper">
                                 <input
                                     type="number"
@@ -376,21 +381,21 @@ const MedicalAnalysis = () => {
                                     {getValidationClass(key) === 'input-normal' ? '✓' : '!'}
                                 </div>
                             </div>
-                            <p className="range-text-hint">{content.normalRange}: {item.range}</p>
+                            <p className="range-text-hint">{t('results.normalRange')}: {t(`vitals.${key}.range`)}</p>
                         </div>
                     );
                 })}
             </div>
 
-            <button className="action-button-primary" onClick={nextStep}>{content.continueBtn}</button>
+            <button className="action-button-primary" onClick={nextStep}>{t('buttons.continue')}</button>
         </div>
     );
 
     const renderStep2 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={prevStep}>{content.backBtn}</button>
-                <h2>{content.step2Title}</h2>
+                <button className="back-circle-btn" onClick={prevStep}>{t('buttons.back')}</button>
+                <h2>{t('steps.step2Title')}</h2>
             </div>
 
             <div className="progress-bar-stepper">
@@ -399,11 +404,16 @@ const MedicalAnalysis = () => {
             </div>
 
             <div className="vitals-grid-scroll">
-                {Object.keys(content.history).map((key) => {
-                    const item = content.history[key];
+                {['gravida', 'para', 'liveBirths', 'abortions', 'childDeaths'].map((key) => {
                     return (
                         <div key={key} className={`input-group-modern ${getValidationClass(key)}`}>
-                            <label>{item.label}</label>
+                            <div className="label-info-wrapper">
+                                <label>{t(`history.${key}.label`)}</label>
+                                <div className="info-icon">
+                                    i
+                                    <span className="tooltip-text">{t(`history.${key}.desc`)}</span>
+                                </div>
+                            </div>
                             <div className="input-field-wrapper">
                                 <input
                                     type="number"
@@ -414,7 +424,7 @@ const MedicalAnalysis = () => {
                                     {getValidationClass(key) === 'input-normal' ? '✓' : '!'}
                                 </div>
                             </div>
-                            <p className="range-text-hint">{content.normalRange}: {item.range}</p>
+                            <p className="range-text-hint">{t('results.normalRange')}: {t(`history.${key}.range`)}</p>
                         </div>
                     );
                 })}
@@ -423,9 +433,9 @@ const MedicalAnalysis = () => {
             <button className="action-button-primary" onClick={runAnalysis} disabled={analyzing}>
                 {analyzing ? (
                     <div className="loader-inline">
-                        <span></span>{content.analyzingText}
+                        <span></span>{t('buttons.analyzing')}
                     </div>
-                ) : content.analyzeBtn}
+                ) : t('buttons.analyze')}
             </button>
         </div>
     );
@@ -434,18 +444,18 @@ const MedicalAnalysis = () => {
         return (
             <div className="results-view-container fade-in">
                 <div className="form-header-standard">
-                    <button className="back-circle-btn" onClick={() => setStep(2)}>{content.backBtn}</button>
-                    <h2>{content.step3Title}</h2>
+                    <button className="back-circle-btn" onClick={() => setStep(2)}>{t('buttons.back')}</button>
+                    <h2>{t('steps.step3Title')}</h2>
                 </div>
 
                 <div className="results-content-scroll">
-                    <h3 className="section-label">{content.detailedAnalysis}</h3>
+                    <h3 className="section-label">{t('results.detailedAnalysis')}</h3>
 
                     {[
-                        { id: 'respirationRate', label: content.vitals.respirationRate.label, unit: '/min' },
-                        { id: 'hemoglobin', label: content.vitals.hemoglobin.label, unit: 'g/dL' },
-                        { id: 'bloodGlucose', label: content.vitals.bloodGlucose.label, unit: 'mg/dL' },
-                        { id: 'hba1c', label: content.vitals.hba1c.label, unit: '%' }
+                        { id: 'respirationRate', label: t('vitals.respirationRate.label'), unit: '/min' },
+                        { id: 'hemoglobin', label: t('vitals.hemoglobin.label'), unit: 'g/dL' },
+                        { id: 'bloodGlucose', label: t('vitals.bloodGlucose.label'), unit: 'mg/dL' },
+                        { id: 'hba1c', label: t('vitals.hba1c.label'), unit: '%' }
                     ].map(metric => {
                         const level = getMetricLevel(metric.id);
                         return (
@@ -473,12 +483,12 @@ const MedicalAnalysis = () => {
                                         <span className="pct-pill">{level.pct}%</span>
                                     </div>
                                 </div>
-                                <p className="normal-range-footer">{content.normalRange}: {ranges[metric.id].min}-{ranges[metric.id].max} {metric.unit}</p>
+                                <p className="normal-range-footer">{t('results.normalRange')}: {ranges[metric.id].min}-{ranges[metric.id].max} {metric.unit}</p>
                             </div>
                         );
                     })}
 
-                    <h3 className="section-label">{content.aiRiskAssessment}</h3>
+                    <h3 className="section-label">{t('results.aiRiskAssessment')}</h3>
 
                     {mlPrediction ? (
                         <div className={`risk-summary-card-glass ${mlPrediction.prediction === 0 ? 'green' : 'red'}`}>
@@ -486,7 +496,7 @@ const MedicalAnalysis = () => {
                                 {mlPrediction.prediction === 0 ? '✓' : '!'}
                             </div>
                             <h2 className="risk-status-heading" style={{ fontSize: '2.5rem', marginBottom: '0' }}>
-                                {mlPrediction.prediction === 0 ? content.lowRisk : content.highRisk}
+                                {mlPrediction.prediction === 0 ? t('riskLevels.lowRisk') : t('riskLevels.highRisk')}
                             </h2>
                         </div>
                     ) : (
@@ -498,11 +508,11 @@ const MedicalAnalysis = () => {
                     )}
 
                     <div className="auto-save-banner">
-                        {content.autoSave}
+                        {t('results.autoSave')}
                     </div>
 
                     <Link to="/report-history" className="view-history-link-btn">
-                        {content.viewHistory} →
+                        {t('results.viewHistory')} →
                     </Link>
                 </div>
             </div >
@@ -514,24 +524,9 @@ const MedicalAnalysis = () => {
             <div className="web-layout-wrapper">
                 {step < 3 && (
                     <div className="form-sidebar-info">
-                        <h3>{content.sidebarTitle}</h3>
-                        <p>{content.sidebarDesc}</p>
-                        <div className="sidebar-stats">
-                            <div className="stat-row">
-                                <span className="stat-dot"></span>
-                                <div>
-                                    <small>{content.currentProgress}</small>
-                                    <p>{content.stepOf} {step} of 2</p>
-                                </div>
-                            </div>
-                            <div className="stat-row">
-                                <span className="stat-dot green"></span>
-                                <div>
-                                    <small>{content.encryption}</small>
-                                    <p>{content.endToEnd}</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h3>{t('sidebar.title')}</h3>
+                        <p>{t('sidebar.description')}</p>
+
                     </div>
                 )}
                 <div className="form-main-content">

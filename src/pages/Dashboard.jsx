@@ -26,6 +26,17 @@ const Dashboard = () => {
         dueDate: null,
         progressPercent: 0
     });
+
+    const getTimeTheme = () => {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 9) return 'theme-sunrise';
+        if (hour >= 9 && hour < 17) return 'theme-day';
+        if (hour >= 17 && hour < 20) return 'theme-sunset';
+        return 'theme-night';
+    };
+
+    const themeClass = getTimeTheme();
+
     const [healthData, setHealthData] = useState({
         hemoglobin: null,
         bloodGroup: null,
@@ -45,6 +56,18 @@ const Dashboard = () => {
         { title: "Soaked Almonds", icon: "🥜", content: "Soak 5-7 almonds overnight for brain development power." },
         { title: "Morning Walk", icon: "🚶‍♀️", content: "A gentle 20-min walk in fresh air helps circulation and mood." }
     ];
+
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371; // Radius of the earth in km
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in km
+    };
 
     useEffect(() => {
         const randomTip = indianTips[Math.floor(Math.random() * indianTips.length)];
@@ -70,20 +93,89 @@ const Dashboard = () => {
     }, [user?.district, user?.village]);
 
     const findNearestAsha = async () => {
+        if (!user?.district) return;
         setLoadingAsha(true);
         try {
-            // "Real-time" based on location match
-            const q = query(
+            const patientDistrict = (user?.district || "").toLowerCase().trim();
+            const patientVillage = (user?.village || "").toLowerCase().trim();
+
+            console.log("🔍 Discovery - Searching for nearest ASHA in:", { patientDistrict, patientVillage });
+
+            // 1. Try modern search fields first (Fast & Case-Insensitive)
+            let qVillage = query(
                 collection(db, "asha_workers"),
-                where("district", "==", user.district),
-                where("village", "==", user.village),
-                limit(1)
+                where("districtSearch", "==", patientDistrict),
+                where("villageSearch", "==", patientVillage),
+                limit(10)
             );
-            const snapshot = await getDocs(q);
+
+            let snapshot = await getDocs(qVillage);
+
+            // 2. FALLBACK 1: Try legacy fields without 'Search' suffix (Original Case)
+            if (snapshot.empty) {
+                console.log("⚠️ No match via Search fields. Trying legacy village match...");
+                const originalDistrict = (user?.district || "").trim();
+                const originalVillage = (user?.village || "").trim();
+
+                const qLegacy = query(
+                    collection(db, "asha_workers"),
+                    where("district", "==", originalDistrict),
+                    where("village", "==", originalVillage),
+                    limit(10)
+                );
+                snapshot = await getDocs(qLegacy);
+            }
+
+            // 3. FALLBACK 2: Try mixed fields or district-wide Search fallback
+            if (snapshot.empty) {
+                console.log("⚠️ No match in village. Trying district-wide modern fallback...");
+                const qDistrict = query(
+                    collection(db, "asha_workers"),
+                    where("districtSearch", "==", patientDistrict),
+                    limit(10)
+                );
+                snapshot = await getDocs(qDistrict);
+            }
+
+            // 4. FALLBACK 3: Final District Legacy Match
+            if (snapshot.empty) {
+                console.log("⚠️ Still nothing. Trying final legacy district-wide match...");
+                const originalDistrict = (user?.district || "").trim();
+                const qDistLegacy = query(
+                    collection(db, "asha_workers"),
+                    where("district", "==", originalDistrict),
+                    limit(10)
+                );
+                snapshot = await getDocs(qDistLegacy);
+            }
+
             if (!snapshot.empty) {
-                setAshaWorker(snapshot.docs[0].data());
+                const candidates = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+                // If patient and candidates have locations, find the true nearest
+                if (user?.location?.lat && user?.location?.lng) {
+                    candidates.forEach(asha => {
+                        if (asha.location?.lat && asha.location?.lng) {
+                            asha.computedDistance = calculateDistance(
+                                user.location.lat,
+                                user.location.lng,
+                                asha.location.lat,
+                                asha.location.lng
+                            );
+                        } else {
+                            asha.computedDistance = 99999; // Far away if no location
+                        }
+                    });
+
+                    candidates.sort((a, b) => a.computedDistance - b.computedDistance);
+                }
+
+                const bestAsha = candidates[0];
+                setAshaWorker(bestAsha);
+                console.log("✅ Success - Found ASHA:", bestAsha.name);
             } else {
                 setAshaWorker(null);
+                console.log("❌ No matches found for area:", patientDistrict);
             }
         } catch (error) {
             console.error("Error finding ASHA:", error);
@@ -271,21 +363,28 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="pregnancy-dashboard">
+        <div className={`pregnancy-dashboard ${themeClass}`}>
+            <div className="aura-container">
+                <div className="aura-blob aura-1"></div>
+                <div className="aura-blob aura-2"></div>
+                <div className="aura-blob aura-3"></div>
+            </div>
+
             <div className="dashboard-content">
                 {/* Refined Header */}
                 <div className="dash-premium-header">
-                    <div className="profile-pill">
-                        <div className="welcome-text">
-                            <h3>{t.hello}, {user?.name || user?.fullName || 'User'}!</h3>
-                            <p>{t.week} {pregnancyData.currentWeek} • {getTrimesterName()}</p>
-                        </div>
+                    <div className="centered-welcome">
+                        <h3>{language === 'hi' ? 'नमस्ते माता!' : 'Hello Mother'}</h3>
                     </div>
                 </div>
 
+
+
+
                 <div className="dashboard-main-columns">
                     {/* Left Column: Pregnancy Progress */}
-                    <div className="dash-left-col">
+                    <div className="dash-left-col stagger-1">
+
                         <div className="main-pregnancy-card">
                             <div className="pregnancy-circle-section">
                                 <svg viewBox="0 0 36 36" className="circular-chart">
@@ -313,6 +412,9 @@ const Dashboard = () => {
 
                             <div className="trimester-progress">
                                 <p className="trimester-label">{getTrimesterName()}</p>
+                                <div className="baby-size-simple">
+                                    👶 {t.tip.growing || 'Your baby is growing!'}
+                                </div>
                             </div>
 
                             <div className="due-date-section">
@@ -322,11 +424,15 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
 
                     {/* Right Column: Health Vitals & Quick Actions */}
-                    <div className="dash-right-col">
+                    <div className="dash-right-col stagger-2">
                         <div className="health-cards-grid">
+
                             {/* Weight Card */}
                             <div className="health-card-modern weight" onClick={() => setEditingField('weight')}>
                                 <span className="h-label">{t.weight}</span>
@@ -449,7 +555,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="bottom-dashboard-grid">
-                    <div className="asha-worker-card-premium">
+                    <div className="asha-worker-card-premium stagger-3">
                         <div className="asha-header">
                             <h3>{t.asha.title}</h3>
                             {ashaWorker?.phoneNumber ? (
@@ -472,20 +578,26 @@ const Dashboard = () => {
                                 ) : ashaWorker ? (
                                     <>
                                         <h4>{ashaWorker.name || ashaWorker.fullName || "ASHA User"}</h4>
-                                        <p>{ashaWorker.village || user?.village}, {ashaWorker.district || user?.district}</p>
+                                        <p>
+                                            {ashaWorker.village || user?.village}, {ashaWorker.district || user?.district}
+                                            {ashaWorker.computedDistance < 9999 ? ` • ${ashaWorker.computedDistance.toFixed(1)} km ${t.asha.away || 'away'}` : ''}
+                                        </p>
                                     </>
                                 ) : (
-                                    <>
+                                    <div className="no-asha-found">
                                         <h4>No ASHA Assigned</h4>
-                                        <p>No worker found for {user?.village || 'your area'} yet.</p>
-                                    </>
+                                        <p>Searching in {user?.village || 'your area'}...</p>
+                                        <button className="asha-retry-btn" onClick={() => findNearestAsha(true)}>
+                                            🔄 Retry Discovery
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         </div>
                     </div>
 
                     {/* Interactive Tip of The Day */}
-                    <div className="tip-of-day-interactive" onClick={() => navigate('/maternal-guide')}>
+                    <div className="tip-of-day-interactive stagger-4" onClick={() => navigate('/maternal-guide')}>
                         <div className="tip-card-inner">
                             <div className="tip-front">
                                 <div className="tip-badge">{t.tip.badge}</div>
@@ -501,14 +613,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Emergency Section */}
-                <div className="emergency-minimal-bar">
-                    <p>{t.emergency.prompt}</p>
-                    <div className="em-links">
-                        <a href="tel:102">{t.emergency.ambulance} 102</a>
-                        <a href="tel:108">{t.emergency.ambulance} 108</a>
-                    </div>
-                </div>
+
             </div>
         </div>
     );

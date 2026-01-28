@@ -307,6 +307,9 @@ export const AuthProvider = ({ children }) => {
                 name: userData.fullName,
                 createdAt: new Date().toISOString(),
                 profilePicture: null,
+                // Normalized search fields for reliable lookup
+                villageSearch: (userData.village || "").toLowerCase().trim(),
+                districtSearch: (userData.district || "").toLowerCase().trim(),
                 settings: {
                     notifications: true
                 }
@@ -391,6 +394,13 @@ export const AuthProvider = ({ children }) => {
 
         try {
             const updatedUser = { ...user, ...updates };
+
+            // If location is updated, update search fields too
+            if (updates.village || updates.district) {
+                updates.villageSearch = (updates.village || user.village || "").toLowerCase().trim();
+                updates.districtSearch = (updates.district || user.district || "").toLowerCase().trim();
+            }
+
             // Update Firestore in correct collection
             const collectionName = user.role === "asha" ? "asha_workers" : "patients";
             await setDoc(doc(db, collectionName, user.uid), updates, { merge: true });

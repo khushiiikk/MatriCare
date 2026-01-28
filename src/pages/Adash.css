@@ -1,12 +1,12 @@
 /* Adash.css - ASHA Dashboard Styles */
 .asha-dashboard-premium {
-    padding: 100px 20px 20px;
-    background: #fffafa;
+    padding: 100px 20px 40px;
+    background: linear-gradient(135deg, #fffafa 0%, #fce4ec 100%);
     min-height: 100vh;
 }
 
 .dash-premium-header {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     display: flex;
     justify-content: flex-start;
 }
@@ -14,43 +14,49 @@
 .profile-pill {
     display: flex;
     align-items: center;
-    gap: 15px;
-    background: white;
-    padding: 12px 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    gap: 18px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    padding: 15px 25px;
+    border-radius: 60px;
+    box-shadow: 0 8px 32px rgba(173, 20, 87, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     width: fit-content;
 }
 
 .profile-icon {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .welcome-text h3 {
     margin: 0;
     color: #880e4f;
     font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
 }
 
 .asha-header-meta {
-    margin: 5px 0 0;
-    font-size: 0.85rem;
-    color: #666;
+    margin: 6px 0 0;
+    font-size: 0.88rem;
+    color: #6d6d6d;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .meta-sep {
-    opacity: 0.3;
+    opacity: 0.4;
 }
 
 .dashboard-main-columns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 20px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 25px;
+    margin-top: 25px;
 }
+
 
 .dash-full-col {
     grid-column: 1 / -1;
@@ -101,17 +107,18 @@
 }
 
 .patient-summary-card {
-    background: #fffafa;
-    padding: 20px;
-    border-radius: 10px;
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
     border: 1px solid #fce4ec;
+    box-shadow: 0 4px 12px rgba(173, 20, 87, 0.03);
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed #fce4ec;
+    padding: 14px 0;
+    border-bottom: 1px solid #fce4ec;
 }
 
 .summary-row:last-child {
@@ -120,24 +127,26 @@
 
 .summary-label {
     color: #888;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .summary-value {
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #444;
 }
 
 .detail-main {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 45px;
 }
 
 .detail-main h3 {
     font-family: 'Playfair Display', serif;
     color: #880e4f;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 1.3rem;
 }
 
 .history-timeline {
@@ -215,15 +224,16 @@
 }
 
 .report-status-badge {
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .report-status-badge[data-status="warning"] {
     background: #fff3e0;
-    color: #f57c00;
+    color: #ef6c00;
 }
 
 .report-status-badge[data-status="normal"] {
@@ -232,46 +242,63 @@
 }
 
 .view-report-btn {
-    padding: 5px 12px;
+    padding: 6px 14px;
     background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #fce4ec;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    color: #ad1457;
+    transition: all 0.2s;
+}
+
+.view-report-btn:hover {
+    background: #ad1457;
+    color: white;
+    border-color: #ad1457;
 }
 
 .patient-card.clickable {
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .patient-card.clickable:hover {
     border-color: #f06292;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(240, 98, 146, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(173, 20, 87, 0.1);
 }
 
 .patient-card-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    padding: 20px 20px 10px;
 }
 
 .risk-badge {
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 4px 12px;
+    border-radius: 50px;
     color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    height: fit-content;
 }
+
 
 .patient-health-metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 12px;
     background: #fffafa;
-    padding: 8px;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 10px 20px 20px;
+    border: 1px solid #fce4ec;
 }
 
 .metric-item span {
@@ -279,65 +306,80 @@
 }
 
 .metric-label {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     color: #999;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
 }
 
 .metric-value {
-    font-weight: 600;
-    font-size: 0.8rem;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #333;
 }
 
 .patient-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
+    padding: 0 20px 20px;
 }
 
 .action-btn {
-    padding: 8px;
-    border-radius: 6px;
+    padding: 10px;
+    border-radius: 10px;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-decoration: none;
     border: 1px solid #ddd;
+    font-weight: 700;
+    transition: all 0.2s;
 }
 
 .call-btn {
-    background: #fff;
+    background: #fce4ec;
     color: #ad1457;
-    border-color: #fce4ec;
+    border: 1px solid rgba(173, 20, 87, 0.1);
+}
+
+.call-btn:hover {
+    background: #f8bbd0;
 }
 
 .map-btn {
-    background: #fff;
+    background: #e3f2fd;
     color: #1565c0;
-    border-color: #e3f2fd;
+    border: 1px solid rgba(21, 101, 192, 0.1);
 }
 
-/* Visit Logging Styles */
-.section-header-row {
+.map-btn:hover {
+    background: #bbdefb;
+}
+
+.asha-map-container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #fce4ec;
+    height: 100%;
+}
+
+.map-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.log-visit-toggle {
-    background: #ad1457;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+.map-header h3 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: #880e4f;
 }
 
-.log-visit-toggle:hover {
-    background: #880e4f;
-    transform: scale(1.05);
-}
 
 .log-visit-form {
     background: #fff0f5;

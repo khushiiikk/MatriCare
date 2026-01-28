@@ -117,33 +117,42 @@
 
 .sos-sub-button {
     text-decoration: none;
-    padding: 10px 18px;
-    border-radius: 25px;
+    padding: 12px 24px;
+    border-radius: 40px;
     color: white;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s;
-    background: rgba(255, 255, 255, 0.9);
+    justify-content: flex-end;
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-width: 180px;
+    white-space: nowrap;
+}
+
+.sos-icon {
+    font-size: 1.2rem;
 }
 
 .sos-sub-button.ambulance {
-    background: #ef5350;
+    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
 }
 
 .sos-sub-button.police {
-    background: #1e88e5;
+    background: linear-gradient(135deg, #448aff 0%, #1565c0 100%);
 }
 
 .sos-sub-button:hover {
-    transform: translateX(-10px);
+    transform: translateX(-15px);
     filter: brightness(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Pulse animation for SOS */
 @keyframes pulse-red {

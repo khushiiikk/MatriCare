@@ -165,5 +165,75 @@
         "back": "Back to Dashboard",
         "view": "View",
         "map": "Map"
+    },
+    "indianTips": {
+        "pageTitle": "Traditional Wellness",
+        "subtitle": "Authentic Indian wisdom for your pregnancy journey",
+        "back": "Back",
+        "focus": "Focus:",
+        "disclaimer": "Note: These traditional insights are for general well-being. Always consult your obstetrician before starting any new dietary ritual.",
+        "sections": [
+            {
+                "title": "Traditional Dietary Wisdom",
+                "category": "Nourishment",
+                "icon": "🥛",
+                "tips": [
+                    {
+                        "title": "Kesar Milk (Saffron)",
+                        "content": "A timeless tradition for vitality. Add 2 strands of pure saffron to warm milk at night for better sleep and digestion.",
+                        "benefit": "Relaxation & Digestion"
+                    },
+                    {
+                        "title": "Tender Coconut Water",
+                        "content": "Nature's electrolyte. Perfect for staying cool and hydrated throughout the day while providing essential minerals.",
+                        "benefit": "PH Balance"
+                    },
+                    {
+                        "title": "Ahladaka (Soaked Almonds)",
+                        "content": "Pre-soaked almonds are easier to digest and provide concentrated DHA for the baby's cognitive growth.",
+                        "benefit": "Brain Power"
+                    }
+                ]
+            },
+            {
+                "title": "Mind & Spirit",
+                "category": "Wellness",
+                "icon": "✨",
+                "tips": [
+                    {
+                        "title": "Garbh Sanskar",
+                        "content": "The art of educating the baby in the womb. Engage in positive reading, calming chants, and soft music daily.",
+                        "benefit": "Deep Bonding"
+                    },
+                    {
+                        "title": "Suryadarshan (Sun Gazing)",
+                        "content": "Spend time in the gentle morning sun (7 AM - 8 AM) to absorb natural Vitamin D and regulate your circadian rhythm.",
+                        "benefit": "Bone Health"
+                    },
+                    {
+                        "title": "A2 Ghee Wisdom",
+                        "content": "A spoonful of pure Desi Ghee helps maintain joint flexibility and supports the nervous system during development.",
+                        "benefit": "Strength"
+                    }
+                ]
+            },
+            {
+                "title": "Prakritik Upchar (Home Remedies)",
+                "category": "Home Care",
+                "icon": "🌿",
+                "tips": [
+                    {
+                        "title": "Adrak-Nimbu Paani",
+                        "content": "Fresh ginger juice with a dash of honey and lemon is the most effective natural cure for morning nausea.",
+                        "benefit": "Nausea Relief"
+                    },
+                    {
+                        "title": "Saunf (Fennel Seeds)",
+                        "content": "Chewing roasted fennel seeds after main meals helps in better nutrient absorption and prevents bloating.",
+                        "benefit": "Metabolism"
+                    }
+                ]
+            }
+        ]
     }
 }

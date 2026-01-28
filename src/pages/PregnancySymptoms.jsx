@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import { medicalContent } from '../data/medicalContent';
+import { useTranslation } from 'react-i18next'; // UPDATED
 import './PregnancySymptoms.css';
 
 const PregnancySymptoms = ({ onBack }) => {
-    const { language } = useLanguage();
-    const content = medicalContent[language]?.pregnancySymptoms || medicalContent.en.pregnancySymptoms;
+    const { t } = useTranslation('medical'); // UPDATED: Use medical namespace
 
     return (
         <div className="pregnancy-symptoms-page-container">
@@ -15,29 +13,29 @@ const PregnancySymptoms = ({ onBack }) => {
                     onClick={onBack}
                     className="back-btn-absolute"
                 >
-                    ← {content.back}
+                    ← {t('pregnancySymptoms.back')}
                 </button>
             ) : (
                 <Link to="/health" className="back-btn-absolute">
-                    ← {content.back}
+                    ← {t('pregnancySymptoms.back')}
                 </Link>
             )}
 
             <div className="page-header-standard">
-                <h1>{content.pageTitle}</h1>
-                <p>{content.pageSubtitle}</p>
+                <h1>{t('pregnancySymptoms.pageTitle')}</h1>
+                <p>{t('pregnancySymptoms.pageSubtitle')}</p>
             </div>
 
             <div className="symptoms-main-content">
                 <div className="emergency-alert-card">
                     <h3 className="alert-title">
-                        <span>⚠️</span> {content.emergencyTitle}
+                        <span>⚠️</span> {t('pregnancySymptoms.emergencyTitle')}
                     </h3>
                     <p className="alert-text">
-                        <strong>{content.emergencyText}</strong>
+                        <strong>{t('pregnancySymptoms.emergencyText')}</strong>
                     </p>
                     <div className="alert-list-grid">
-                        {content.emergencySymptoms.map((symptom, index) => (
+                        {t('pregnancySymptoms.emergencySymptoms', { returnObjects: true }).map((symptom, index) => (
                             <div
                                 key={index}
                                 className="alert-item link-hover"
@@ -49,24 +47,24 @@ const PregnancySymptoms = ({ onBack }) => {
                 </div>
 
                 <div className="risk-content-card">
-                    <h2 className="section-title-clean">{content.ageRiskTitle}</h2>
+                    <h2 className="section-title-clean">{t('pregnancySymptoms.ageRiskTitle')}</h2>
                     <p className="section-text-clean">
-                        {content.ageRiskQuestion}
+                        {t('pregnancySymptoms.ageRiskQuestion')}
                     </p>
                     <div className="info-box-highlight">
                         <p>
-                            <strong>{content.ageRiskAnswer}</strong>
+                            <strong>{t('pregnancySymptoms.ageRiskAnswer')}</strong>
                         </p>
                     </div>
                 </div>
 
                 <div className="risk-content-card">
-                    <h2 className="section-title-clean">{content.complicationsTitle}</h2>
+                    <h2 className="section-title-clean">{t('pregnancySymptoms.complicationsTitle')}</h2>
                     <p className="section-text-clean">
-                        {content.complicationsText}
+                        {t('pregnancySymptoms.complicationsText')}
                     </p>
                     <div className="risk-link-grid">
-                        {content.complications.map((comp, index) => (
+                        {t('pregnancySymptoms.complications', { returnObjects: true }).map((comp, index) => (
                             <div
                                 key={index}
                                 className="risk-link-item"
@@ -78,12 +76,12 @@ const PregnancySymptoms = ({ onBack }) => {
 
                     <div className="management-note">
                         <p>
-                            {content.managementNote}
+                            {t('pregnancySymptoms.managementNote')}
                         </p>
                     </div>
 
                     <p className="source-citation">
-                        {content.sourceText} <a href="https://my.clevelandclinic.org/health/diseases/22190-high-risk-pregnancy" target="_blank" rel="noopener noreferrer">{content.sourceLink}</a>
+                        {t('pregnancySymptoms.sourceText')} <a href="https://my.clevelandclinic.org/health/diseases/22190-high-risk-pregnancy" target="_blank" rel="noopener noreferrer">{t('pregnancySymptoms.sourceLink')}</a>
                     </p>
                 </div>
             </div>

@@ -171,8 +171,78 @@
     display: block;
     font-size: 0.9rem;
     color: #4db6ac;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     font-weight: 600;
+}
+
+.label-info-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: #e0f2f1;
+    color: #00897b;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: help;
+    position: relative;
+    transition: all 0.2s;
+    border: 1px solid #b2dfdb;
+}
+
+.info-icon:hover {
+    background: #e91e63;
+    color: #fff;
+    border-color: #e91e63;
+    transform: scale(1.1);
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #1d1d1f;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 10px 14px;
+    position: absolute;
+    z-index: 100;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.5;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1d1d1f transparent transparent transparent;
+}
+
+.info-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    bottom: 180%;
 }
 
 .input-field-wrapper {

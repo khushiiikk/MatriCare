@@ -82,6 +82,7 @@ const Login = () => {
             state: stateName,
             district,
             village,
+            location: window.tempLocation || null, // Include lat/lng if captured
             ...(role === 'patient' ? { lmpDate } : { employeeId })
         };
         const result = await signup(signupData);
@@ -187,11 +188,39 @@ const Login = () => {
                                     </div>
                                     <div className="input-group-v2">
                                         <label>{t('login.villageLabel')}</label>
-                                        <select value={village} onChange={(e) => setVillage(e.target.value)} required>
-                                            <option value="">{t('login.villagePlaceholder')}</option>
-                                            <option value="v1">Village 1</option>
-                                            <option value="v2">Village 2</option>
-                                        </select>
+                                        <input
+                                            type="text"
+                                            placeholder={t('login.villagePlaceholder') || "Enter your village"}
+                                            value={village}
+                                            onChange={(e) => setVillage(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="input-group-v2">
+                                        <label>Location (GPS)</label>
+                                        <button
+                                            type="button"
+                                            className="action-btn-secondary"
+                                            style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '8px 12px', fontSize: '0.9rem' }}
+                                            onClick={() => {
+                                                if (!navigator.geolocation) {
+                                                    alert("Geolocation not supported");
+                                                    return;
+                                                }
+                                                navigator.geolocation.getCurrentPosition((pos) => {
+                                                    const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                                                    // Store temporarily in state (need to add location state)
+                                                    window.tempLocation = loc;
+                                                    alert(`✅ Located: ${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)}`);
+                                                }, (err) => {
+                                                    console.error(err);
+                                                    alert("Could not get location. Please enable GPS.");
+                                                });
+                                            }}
+                                        >
+                                            📍 Use Current Location
+                                        </button>
                                     </div>
 
                                     {role === 'patient' && (

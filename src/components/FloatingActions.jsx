@@ -14,16 +14,17 @@ const FloatingActions = () => {
         <div className="floating-actions-container">
             {/* SOS Actions */}
             <div className={`sos-options ${showSOSOptions ? 'active' : ''}`}>
-                <a href="tel:102" className="sos-sub-button ambulance">
-                    A-102
-                </a>
+
                 <a href="tel:108" className="sos-sub-button ambulance">
-                    A-108
+                    <span className="sos-icon">🚑</span>
+                    <span className="sos-lbl">Ambulance (108)</span>
                 </a>
                 <a href="tel:100" className="sos-sub-button police">
-                    P-100
+                    <span className="sos-icon">👮</span>
+                    <span className="sos-lbl">Police (100)</span>
                 </a>
             </div>
+
 
             <div className="main-floating-buttons">
                 {/* SOS Main Button */}

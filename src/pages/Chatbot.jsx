@@ -22,66 +22,7 @@ const Chatbot = () => {
         scrollToBottom();
     }, [messages]);
 
-    const findIntent = (text) => {
-        const lowerText = text.toLowerCase();
-
-        if (lowerText.includes('yoga') || lowerText.includes('exercise') || lowerText.includes('trimester') || lowerText.includes('योग')) {
-            return {
-                text: language === 'hi' ? 'मैं आपको योग अभ्यासों के बारे में दिखा सकती हूं। क्या आप वहां जाना चाहती हैं?' :
-                    language === 'mr' ? 'मी तुम्हाला योगासनांबद्दल माहिती देऊ शकते. तुम्हाला तिथे जायचे आहे का?' :
-                        language === 'ta' ? 'யோகா பயிற்சிகளை நான் உங்களுக்குக் காட்ட முடியும். நீங்கள் அங்கு செல்ல விரும்புகிறீர்களா?' :
-                            "I can help you with yoga exercises. Would you like to go to the Yoga section?",
-                action: () => navigate('/yoga'),
-                btnText: language === 'hi' ? 'योग पर जाएं' : language === 'mr' ? 'योग वर जा' : language === 'ta' ? 'யோகாவுக்குச் செல்லுங்கள்' : "Go to Yoga"
-            };
-        }
-
-        if (lowerText.includes('report') || lowerText.includes('analysis') || lowerText.includes('upload') || lowerText.includes('blood') || lowerText.includes('hemoglobin') || lowerText.includes('रिपोर्ट')) {
-            return {
-                text: language === 'hi' ? 'आप अपनी मेडिकल रिपोर्ट यहां अपलोड कर सकती हैं।' :
-                    language === 'mr' ? 'तुम्ही तुमचे मेडिकल रिपोर्ट येथे अपलोड करू शकता.' :
-                        language === 'ta' ? 'உங்கள் மருத்துவ அறிக்கைகளை இங்கே பதிவேற்றலாம்.' :
-                            "You can upload and analyze your medical reports right here.",
-                action: () => navigate('/health'),
-                btnText: language === 'hi' ? 'एनालिटिक्स पर जाएं' : language === 'mr' ? 'एनालिटिक्सवर जा' : language === 'ta' ? 'பகுப்பாய்விற்குச் செல்லுங்கள்' : "Go to Analytics"
-            };
-        }
-
-        if (lowerText.includes('hospital') || lowerText.includes('care') || lowerText.includes('find') || lowerText.includes('asha') || lowerText.includes('doctor') || lowerText.includes('अस्पताल') || lowerText.includes('देखभाल')) {
-            return {
-                text: language === 'hi' ? 'मैं आपको नजदीकी अस्पताल या स्वास्थ्य केंद्र खोजने में मदद कर सकती हूं।' :
-                    language === 'mr' ? 'मी तुम्हाला जवळचे रुग्णालय किंवा आरोग्य केंद्र शोधण्यात मदत करू शकते.' :
-                        language === 'ta' ? 'அருகிலுள்ள மருத்துவமனை அல்லது சுகாதார மையத்தைக் கண்டறிய நான் உங்களுக்கு உதவ முடியும்.' :
-                            "I can help you find nearby hospitals, ASHA centers, or pharmacies.",
-                action: () => navigate('/find-care'),
-                btnText: language === 'hi' ? 'केयर खोजें' : language === 'mr' ? 'केअर शोधा' : language === 'ta' ? 'பராமரிப்பைக் கண்டறியவும்' : "Find Care"
-            };
-        }
-
-        if (lowerText.includes('risk') || lowerText.includes('danger') || lowerText.includes('symptom') || lowerText.includes('pain') || lowerText.includes('जोखिम') || lowerText.includes('लक्षण')) {
-            return {
-                text: language === 'hi' ? 'गर्भावस्था के जोखिमों और लक्षणों के बारे में अधिक जानें।' :
-                    language === 'mr' ? 'गर्भधारणेचे धोके आणि लक्षणांबद्दल अधिक जाणून घ्या.' :
-                        language === 'ta' ? 'கர்ப்பகால அபாயங்கள் மற்றும் அறிகுறிகளைப் பற்றி மேலும் அறிக.' :
-                            "Learn more about pregnancy risks and critical symptoms to watch out for.",
-                action: () => navigate('/pregnancy-risks'),
-                btnText: language === 'hi' ? 'जोखिम देखें' : language === 'mr' ? 'धोके पहा' : language === 'ta' ? 'அபாயங்களைக் காண்க' : "View Risks"
-            };
-        }
-
-        if (lowerText.includes('diet') || lowerText.includes('food') || lowerText.includes('eat') || lowerText.includes('खाना') || lowerText.includes('आहार')) {
-            return {
-                text: language === 'hi' ? 'मैं आपको गर्भावस्था आहार योजना दिखा सकती हूं।' :
-                    "I can show you the pregnancy diet plan.",
-                action: () => navigate('/diet-plan'),
-                btnText: language === 'hi' ? 'आहार योजना देखें' : "View Diet Plan"
-            };
-        }
-
-        return null;
-    };
-
-    const sendMessage = (text) => {
+    const sendMessage = async (text) => {
         if (!text.trim()) return;
 
         const userMsg = { id: Date.now(), text: text, sender: 'user' };
@@ -89,25 +30,43 @@ const Chatbot = () => {
         setInputText('');
         setIsLoading(true);
 
-        setTimeout(() => {
-            const intent = findIntent(text);
-            let responseText = language === 'hi' ? "मैं आपकी मदद के लिए यहां हूं!" : "I'm here to help you!";
-            let actionBtn = null;
+        try {
+            // Use environment variable for API URL
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-            if (intent) {
-                responseText = intent.text;
-                actionBtn = { label: intent.btnText, onClick: intent.action };
-            }
+            const response = await fetch(`${API_URL}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    language: language
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.detail || 'Failed to get response');
 
             const aiMsg = {
                 id: Date.now() + 1,
-                text: responseText,
-                sender: 'ai',
-                action: actionBtn
+                text: data.response, // Response from Gemini
+                sender: 'ai'
             };
             setMessages(prev => [...prev, aiMsg]);
+
+        } catch (error) {
+            console.error("Chat Error:", error);
+            const errorMsg = {
+                id: Date.now() + 1,
+                text: language === 'hi' ? "क्षमा करें, मैं अभी कनेक्ट नहीं कर पा रही हूँ। कृपया बैकएंड की जाँच करें।" :
+                    "I'm having trouble connecting to my brain right now. Please check if the backend is running.",
+                sender: 'ai',
+                isError: true
+            };
+            setMessages(prev => [...prev, errorMsg]);
+        } finally {
             setIsLoading(false);
-        }, 1200);
+        }
     };
 
     const handleSendMessage = (e) => {

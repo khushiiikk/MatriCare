@@ -6,6 +6,18 @@ import numpy as np
 import os
 import uvicorn
 from typing import List, Optional
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load environment variables from the root .env file
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+
+# Configure Gemini API
+GENAI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GENAI_API_KEY:
+    genai.configure(api_key=GENAI_API_KEY)
+else:
+    print("WARNING: GEMINI_API_KEY not found in .env file. Chatbot will not work.")
 
 # Initialize FastAPI app
 app = FastAPI(title="MatriCare ML Backend", version="1.0")
@@ -23,6 +35,14 @@ app.add_middleware(
 class PredictionRequest(BaseModel):
     features: List[float]
 
+class ChatRequest(BaseModel):
+    message: str
+    language: str = "en"
+
+class TranslationRequest(BaseModel):
+    text: str
+    target_lang: str
+
 # Path to the model
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "random_forest_model.pkl")
 
@@ -32,29 +52,79 @@ if os.path.exists(MODEL_PATH):
     try:
         # Try joblib first
         model = joblib.load(MODEL_PATH)
-        print("✅ Model loaded successfully using joblib.")
+        print("Model loaded successfully using joblib.")
     except Exception as e:
-        print(f"⚠️ Error loading model with joblib: {e}")
+        print(f"Error loading model with joblib: {e}")
         print("Attempting fallback to pickle...")
         try:
             import pickle
             with open(MODEL_PATH, "rb") as f:
                 model = pickle.load(f)
-            print("✅ Model loaded successfully using pickle.")
+            print("Model loaded successfully using pickle.")
         except Exception as e2:
-            print(f"❌ Pickle fallback also failed: {e2}")
+            print(f" Pickle fallback also failed: {e2}")
             print("The model file might be corrupted or incompatible.")
 else:
-    print(f"❌ Model file not found at {MODEL_PATH}")
+    print(f" Model file not found at {MODEL_PATH}")
 
 @app.get("/")
 def home():
     """Health check endpoint."""
     return {
         "message": "MatriCare ML Backend is Running (FastAPI)", 
-        "endpoints": ["/predict"],
+        "endpoints": ["/predict", "/chat", "/translate"],
         "status": "active"
     }
+
+@app.post("/translate")
+async def translate_text(request: TranslationRequest):
+    """
+    Translate text using Google Gemini.
+    """
+    if not GENAI_API_KEY:
+        raise HTTPException(status_code=500, detail="Server Error: API Key not configured")
+
+    try:
+        model = genai.GenerativeModel('gemini-pro')
+        prompt = f"Translate the following text to {request.target_lang}. Return ONLY the translated text, no explanation: {request.text}"
+        response = model.generate_content(prompt)
+        return {"translated_text": response.text}
+    except Exception as e:
+        print(f"Translation Error: {e}")
+        raise HTTPException(status_code=500, detail="Translation failed")
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    """
+    Chat endpoint using Google Gemini.
+    Expects: { "message": "hello", "language": "en" }
+    """
+    if not GENAI_API_KEY:
+        raise HTTPException(status_code=500, detail="Server Error: API Key not configured")
+
+    try:
+        model = genai.GenerativeModel('gemini-pro')
+        
+        # System prompt to set context
+        system_prompt = f"""
+        You are Matri, a compassionate and knowledgeable maternal health assistant for rural India.
+        You provide safe, approved medical advice for pregnant women.
+        
+        Guidelines:
+        1. Answer in the requested language ({request.language}).
+        2. Keep answers concise (max 3-4 sentences).
+        3. Be encouraging and supportive.
+        4. If it's a medical emergency, tell them to visit a doctor immediately.
+        
+        User Query: {request.message}
+        """
+
+        response = model.generate_content(system_prompt)
+        return {"response": response.text}
+
+    except Exception as e:
+        print(f"Gemini API Error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get AI response")
 
 @app.post("/predict")
 def predict(request: PredictionRequest):

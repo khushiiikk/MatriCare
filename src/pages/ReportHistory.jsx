@@ -120,12 +120,20 @@ const ReportHistory = () => {
                     return {
                         name: dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
                         fullDate: `${dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} ${dateObj.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`,
-                        hemoglobin: getNum(v.hemoglobin || v.HB),
-                        bloodSugar: getNum(v.bloodGlucose || v.RBS),
-                        hba1c: getNum(v.hba1c),
+                        respirationRate: getNum(v.respirationRate || v.RR),
+                        bodyTemp: getNum(v.bodyTemp || v.TEMP),
+                        weight: getNum(v.weight),
                         systolicBP: getNum(v.systolicBP),
                         diastolicBP: getNum(v.diastolicBP),
                         heartRate: getNum(v.heartRate),
+                        hba1c: getNum(v.hba1c),
+                        hemoglobin: getNum(v.hemoglobin || v.HB),
+                        bloodSugar: getNum(v.bloodGlucose || v.RBS),
+                        gravida: getNum(v.gravida),
+                        para: getNum(v.para),
+                        liveBirths: getNum(v.liveBirths),
+                        abortions: getNum(v.abortions),
+                        childDeaths: getNum(v.childDeaths)
                     };
                 });
                 setChartData(chartDataRaw);
@@ -235,38 +243,9 @@ const ReportHistory = () => {
                 </div>
             ) : (
                 <div className="history-content">
-                    {/* Comparison Chart */}
-                    {/* Multi-Chart Grid */}
-                    <div className="metrics-charts-grid">
-                        <MetricChart
-                            title="Blood Sugar Trend"
-                            data={chartData}
-                            dataKey="bloodSugar"
-                            color="#81C784"
-                            unit="mg/dL"
-                        />
-                        <MetricChart
-                            title="Blood Pressure (Systolic)"
-                            data={chartData}
-                            dataKey="systolicBP"
-                            color="#64B5F6"
-                            unit="mmHg"
-                        />
-                        <MetricChart
-                            title="Heart Rate"
-                            data={chartData}
-                            dataKey="heartRate"
-                            color="#FFB74D"
-                            unit="bpm"
-                        />
-                        <MetricChart
-                            title="Hemoglobin Level"
-                            data={chartData}
-                            dataKey="hemoglobin"
-                            color="#FF8C94"
-                            unit="g/dL"
-                        />
-                    </div>
+                    {/* Unified Comparison Chart */}
+                    <UnifiedHealthChart data={chartData} />
+
 
                     {/* History List */}
                     <div className="reports-list">
@@ -335,49 +314,168 @@ const ReportHistory = () => {
     );
 };
 
-// Helper Component for Individual Metric Charts
-const MetricChart = ({ title, data, dataKey, color, unit }) => (
-    <div className="history-chart-card mini">
-        <div className="chart-header-mini">
-            <h4>{title}</h4>
-            <span className="unit-label">{unit}</span>
+// --- Unified Chart Components ---
+
+const UnifiedHealthChart = ({ data }) => {
+    const metricsSet = [
+        { key: 'bloodSugar', title: 'Blood Sugar', color: '#4CAF50', unit: 'mg/dL' },
+        { key: 'systolicBP', title: 'Systolic BP', color: '#2196F3', unit: 'mmHg' },
+        { key: 'diastolicBP', title: 'Diastolic BP', color: '#1976D2', unit: 'mmHg' },
+        { key: 'heartRate', title: 'Heart Rate', color: '#FF9800', unit: 'bpm' },
+        { key: 'hemoglobin', title: 'Hemoglobin', color: '#E91E63', unit: 'g/dL' },
+        { key: 'bodyTemp', title: 'Body Temp', color: '#00BCD4', unit: '°F' },
+        { key: 'respirationRate', title: 'Resp. Rate', color: '#9575CD', unit: 'bpm' },
+        { key: 'hba1c', title: 'HbA1c', color: '#A1887F', unit: '%' },
+        { key: 'weight', title: 'Weight', color: '#78909C', unit: 'kg' },
+        { key: 'gravida', title: 'Gravida (G)', color: '#F06292', unit: '' },
+        { key: 'para', title: 'Para (P)', color: '#BA68C8', unit: '' },
+        { key: 'abortions', title: 'Abortions (A)', color: '#FF7043', unit: '' }
+    ];
+
+    const [activeMetrics, setActiveMetrics] = useState(['bloodSugar', 'systolicBP', 'diastolicBP', 'heartRate', 'hemoglobin']);
+
+    const toggleMetric = (key) => {
+        setActiveMetrics(prev =>
+            prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+        );
+    };
+
+    // Medical Risk Logic for Dots
+    const getDotColor = (value, key) => {
+        if (value === null || value === undefined) return '#ccc';
+
+        const ranges = {
+            bloodSugar: { min: 70, max: 140 },
+            systolicBP: { min: 90, max: 120 },
+            diastolicBP: { min: 60, max: 80 },
+            heartRate: { min: 60, max: 100 },
+            hemoglobin: { min: 11, max: 16 },
+            bodyTemp: { min: 97, max: 99 },
+            hba1c: { min: 4, max: 6 },
+            respirationRate: { min: 12, max: 20 },
+            weight: { min: 40, max: 150 },
+            gravida: { max: 5 },
+            abortions: { max: 1 }
+        };
+
+        const range = ranges[key];
+        if (!range) return '#4CAF50'; // Default normal for others
+
+        // High or Low check
+        if (range.min !== undefined && value < range.min) return '#FF5252'; // Red for Alert
+        if (range.max !== undefined && value > range.max) return '#FF5252'; // Red for Alert
+
+        return '#4CAF50'; // Green for Normal
+    };
+
+    const CustomDot = (props) => {
+        const { cx, cy, value, dataKey } = props;
+        const dotColor = getDotColor(value, dataKey);
+        return (
+            <circle
+                cx={cx}
+                cy={cy}
+                r={5}
+                fill={dotColor}
+                stroke="#fff"
+                strokeWidth={2}
+                style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
+            />
+        );
+    };
+
+    return (
+        <div className="unified-chart-card animate-fade-in">
+            <div className="chart-header-premium">
+                <div className="title-area">
+                    <h3>Health Analytics Overview</h3>
+                    <p>Select metrics below. Points turn <span style={{ color: '#FF5252', fontWeight: 700 }}>Red</span> for risks and <span style={{ color: '#4CAF50', fontWeight: 700 }}>Green</span> for normal ranges.</p>
+                </div>
+            </div>
+
+            <div className="chart-controls-wrapper">
+                {metricsSet.map(m => (
+                    <button
+                        key={m.key}
+                        className={`metric-toggle-chip ${activeMetrics.includes(m.key) ? 'active' : ''}`}
+                        onClick={() => toggleMetric(m.key)}
+                        style={{ '--chip-color': m.color }}
+                    >
+                        <span className="chip-dot"></span>
+                        {m.title}
+                    </button>
+                ))}
+            </div>
+
+            <div className="main-chart-container">
+                <ResponsiveContainer width="100%" height={450}>
+                    <LineChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 10 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                        <XAxis
+                            dataKey="name"
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fill: '#666', fontWeight: 600 }}
+                            dy={10}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 11, fill: '#999', fontWeight: 600 }}
+                        />
+                        <Tooltip content={<CustomHealthTooltip />} />
+                        {metricsSet.map(m => activeMetrics.includes(m.key) && (
+                            <Line
+                                key={m.key}
+                                type="monotone"
+                                dataKey={m.key}
+                                name={m.title}
+                                stroke={m.color}
+                                strokeWidth={3}
+                                unit={m.unit}
+                                dot={<CustomDot />}
+                                activeDot={{ r: 8, strokeWidth: 0 }}
+                                animationDuration={1000}
+                                connectNulls
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </div>
-        <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={180}>
-                <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                    <XAxis dataKey="name" hide />
-                    <YAxis
-                        tick={{ fontSize: 9, fontWeight: 600 }}
-                        axisLine={false}
-                        tickLine={false}
-                        domain={['auto', 'auto']}
-                        padding={{ top: 10, bottom: 10 }}
-                    />
-                    <Tooltip
-                        labelFormatter={(value, payload) => payload?.[0]?.payload?.fullDate || value}
-                        contentStyle={{
-                            borderRadius: '12px',
-                            border: 'none',
-                            boxShadow: '0 5px 15px rgba(0,0,0,0.08)',
-                            fontSize: '11px',
-                            padding: '10px'
-                        }}
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey={dataKey}
-                        name={title}
-                        stroke={color}
-                        strokeWidth={3}
-                        dot={{ r: 4, fill: color, strokeWidth: 1, stroke: '#fff' }}
-                        activeDot={{ r: 6, stroke: color, strokeWidth: 1, fill: '#fff' }}
-                        connectNulls
-                    />
-                </LineChart>
-            </ResponsiveContainer>
-        </div>
-    </div>
-);
+    );
+};
+
+
+const CustomHealthTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-health-tooltip">
+                <div className="tooltip-header">
+                    <h4>{payload[0].payload.fullDate}</h4>
+                    <p>Report Readings</p>
+                </div>
+                <div className="tooltip-metrics-list">
+                    {payload.map((entry, index) => (
+                        <div key={index} className="tooltip-entry">
+                            <div className="entry-label">
+                                <span className="entry-dot" style={{ backgroundColor: entry.color }}></span>
+                                <strong>{entry.name}</strong>
+                            </div>
+                            <div className="entry-value">
+                                {entry.value} <small>{entry.unit}</small>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="tooltip-footer">
+                    * Click any metric in the legend above to show/hide it.
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
 
 export default ReportHistory;
+
