@@ -247,10 +247,11 @@
     .login-split-container {
         flex-direction: column;
         border-radius: 20px;
+        min-height: auto;
     }
 
     .login-info-side {
-        padding: 40px;
+        padding: 40px 20px;
     }
 
     .login-form-side {

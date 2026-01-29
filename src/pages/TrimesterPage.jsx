@@ -5,6 +5,7 @@ import { translations } from '../translations/translations';
 import { trimesterContent } from '../data/yogaContent';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import BackButton from '../components/BackButton';
 import './TrimesterPage.css';
 
 const TrimesterPage = () => {
@@ -89,9 +90,7 @@ const TrimesterPage = () => {
     return (
         <div className="trimester-page-container">
             <div className="container">
-                <button className="back-btn" onClick={() => navigate('/yoga')}>
-                    ← {common.backBtn}
-                </button>
+                <BackButton label={common.backBtn} customPath="/yoga" />
 
                 <div className="trimester-page-header">
                     <h1>{trimesterTitles[id] || 'Trimester'}</h1>

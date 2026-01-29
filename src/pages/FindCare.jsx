@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useLanguage } from '../context/LanguageContext';
 import { pagesContent } from '../data/pagesContent';
+import BackButton from '../components/BackButton';
 import './FindCare.css';
 
 // Fix Leaflet marker icon issue
@@ -95,6 +96,7 @@ const FindCare = () => {
     return (
         <div className="find-care-container">
             <div className="container">
+                <BackButton label="To Dashboard" customPath="/dashboard" />
                 <div className="find-care-header">
                     <h1>{content.pageTitle}</h1>
                     <p>{content.pageSubtitle}</p>

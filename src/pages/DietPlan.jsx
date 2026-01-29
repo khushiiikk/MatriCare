@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { dietContent } from '../data/dietContent';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import BackButton from '../components/BackButton';
 import './DietPlan.css';
 
 const DietPlan = () => {
@@ -42,7 +43,7 @@ const DietPlan = () => {
 
             <div className="diet-container">
                 <header className="diet-header-premium">
-                    <button className="back-pill" onClick={() => navigate(-1)}>← {content.backBtn}</button>
+                    <BackButton label={content.backBtn} customPath="/dashboard" />
                     <h1>{content.pageTitle} <span className="highlight">{content.pageTitleHighlight}</span></h1>
                     <p className="subtitle">{content.pageSubtitle}</p>
                 </header>

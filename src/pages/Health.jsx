@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'; // UPDATED
 import MedicalAnalysis from '../components/MedicalAnalysis';
 import PregnancyRisks from './PregnancyRisks';
 import PregnancySymptoms from './PregnancySymptoms';
+import BackButton from '../components/BackButton';
 import './Health.css';
 
 const Health = () => {
@@ -63,7 +64,7 @@ const Health = () => {
     return (
         <div className="health-container">
             <div className="container">
-                {/* Header (Only show in Menu view or as smaller header in sub-views) */}
+                {activeView === 'menu' && <BackButton label="To Dashboard" customPath="/dashboard" />}
                 {activeView === 'menu' && (
                     <div className="page-header-standard fade-in-up">
                         <h1>{t('page.title')}</h1>

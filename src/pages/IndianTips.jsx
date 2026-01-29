@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // UPDATED
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import BackButton from '../components/BackButton';
 import './IndianTips.css';
 
 const IndianTips = () => {
@@ -39,39 +40,41 @@ const IndianTips = () => {
         <div className="indian-tips-container fade-in">
             <div className="mandala-bg-pattern"></div>
 
-            <button className="back-btn" onClick={() => navigate(-1)}>← {t('indianTips.back')}</button>
+            <div className="container">
+                <BackButton label={t('indianTips.back')} customPath="/dashboard" />
 
-            <header className="tips-header">
-                <h1>{t('indianTips.pageTitle')}</h1>
-                <p>{t('indianTips.subtitle')}</p>
-            </header>
+                <header className="tips-header">
+                    <h1>{t('indianTips.pageTitle')}</h1>
+                    <p>{t('indianTips.subtitle')}</p>
+                </header>
 
-            <div className="tips-content">
-                {safeSections.map((section, sIdx) => (
-                    <section key={sIdx} className="tips-section">
-                        <div className="section-title">
-                            <span className="section-icon">{section.icon}</span>
-                            <h2>{section.title}</h2>
-                        </div>
-                        <div className="tips-grid">
-                            {section.tips && section.tips.map((tip, tIdx) => (
-                                <div key={tIdx} className="tip-premium-card">
-                                    <div className="tip-category">{section.category}</div>
-                                    <h3>{tip.title}</h3>
-                                    <p>{tip.content}</p>
-                                    <div className="tip-benefit-tag">
-                                        <span>{t('indianTips.focus')}</span> {tip.benefit}
+                <div className="tips-content">
+                    {safeSections.map((section, sIdx) => (
+                        <section key={sIdx} className="tips-section">
+                            <div className="section-title">
+                                <span className="section-icon">{section.icon}</span>
+                                <h2>{section.title}</h2>
+                            </div>
+                            <div className="tips-grid">
+                                {section.tips && section.tips.map((tip, tIdx) => (
+                                    <div key={tIdx} className="tip-premium-card">
+                                        <div className="tip-category">{section.category}</div>
+                                        <h3>{tip.title}</h3>
+                                        <p>{tip.content}</p>
+                                        <div className="tip-benefit-tag">
+                                            <span>{t('indianTips.focus')}</span> {tip.benefit}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                ))}
-            </div>
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                </div>
 
-            <footer className="tips-disclaimer">
-                <p>{t('indianTips.disclaimer')}</p>
-            </footer>
+                <footer className="tips-disclaimer">
+                    <p>{t('indianTips.disclaimer')}</p>
+                </footer>
+            </div>
         </div>
     );
 };

@@ -13,6 +13,7 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
+import BackButton from '../components/BackButton';
 import './ReportHistory.css';
 
 const ReportHistory = () => {
@@ -167,7 +168,7 @@ const ReportHistory = () => {
     return (
         <div className="report-history-container fade-in">
             <header className="history-header">
-                <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
+                <BackButton label="To Dashboard" customPath="/dashboard" />
                 <div className="header-title-group">
                     <h1>Analysis History</h1>
                     <button

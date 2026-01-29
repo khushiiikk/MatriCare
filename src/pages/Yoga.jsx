@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
+import BackButton from '../components/BackButton';
 import './Yoga.css';
 
 const Yoga = () => {
@@ -37,6 +38,7 @@ const Yoga = () => {
     return (
         <div className="yoga-container">
             <div className="container">
+                <BackButton label="To Dashboard" customPath="/dashboard" />
                 <div className="page-header-standard">
                     <h1>{t.pageTitle}</h1>
                     <p>{t.pageSubtitle}</p>
