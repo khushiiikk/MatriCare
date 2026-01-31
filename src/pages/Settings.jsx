@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations/translations';
 import { useAuth } from '../context/AuthContext';
 import { calculatePregnancyWeek, calculateDueDate, calculateAge } from '../utils/dateUtils';
-import BackButton from '../components/BackButton';
+import Navbar from '../components/Navbar';
 import './Settings.css';
 
 const Settings = () => {
@@ -12,8 +12,6 @@ const Settings = () => {
     const langT = translations[language] || translations.en;
     const pt = langT.profile || {};
     const st = langT.security || {};
-
-    const [activeTab, setActiveTab] = useState('profile');
 
     const [userData, setUserData] = useState({
         name: currentUser?.displayName || currentUser?.fullName || currentUser?.name || '',
@@ -38,7 +36,6 @@ const Settings = () => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Size check (max 1MB for Firestore storage)
         if (file.size > 1024 * 1024) {
             alert('Image too large. Please select an image under 1MB.');
             return;
@@ -60,10 +57,6 @@ const Settings = () => {
     const pregnancyWeek = calculatePregnancyWeek(userData.lmpDate);
     const edd = calculateDueDate(userData.lmpDate);
 
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-    };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserData(prev => ({ ...prev, [name]: value }));
@@ -78,38 +71,32 @@ const Settings = () => {
         }
     };
 
-    return (
-        <div className="settings-container">
-            <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <BackButton label="To Dashboard" customPath="/dashboard" />
-                <div className="settings-card">
-                    <div className="settings-tabs">
-                        <button
-                            className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
-                            onClick={() => handleTabChange('profile')}
-                        >
-                            {pt.title}
-                        </button>
-                        <button
-                            className={`tab-btn ${activeTab === 'security' ? 'active' : ''}`}
-                            onClick={() => handleTabChange('security')}
-                        >
-                            {pt.security}
-                        </button>
-                    </div>
+    // Default ASHA worker avatar (professional icon)
+    const getDefaultAvatar = () => {
+        if (currentUser?.role === 'asha') {
+            return '/default-avatar.jpg'; // Professional avatar for ASHA workers
+        }
+        return '/matricare-logo.png';
+    };
 
-                    <div className="tab-content">
-                        {activeTab === 'profile' ? (
-                            <div className="profile-section">
-                                <div className="profile-header">
-                                    <div className="profile-pic-container">
+    return (
+        <>
+            <Navbar />
+            <div className="settings-container-landscape">
+                <div className="settings-wrapper">
+                    <div className="settings-landscape-grid">
+                        {/* Left Panel - Profile Card */}
+                        <div className="settings-profile-panel">
+                            <div className="profile-card-compact">
+                                <div className="profile-avatar-section">
+                                    <div className="avatar-wrapper">
                                         <img
-                                            src={currentUser?.profilePicture || "/matricare-logo.png"}
+                                            src={currentUser?.profilePicture || getDefaultAvatar()}
                                             alt="Profile"
-                                            className="profile-pic"
+                                            className="avatar-image"
                                         />
-                                        <label htmlFor="pfp-upload" className={`change-pic-btn ${uploading ? 'uploading' : ''}`}>
-                                            {uploading ? '...' : 'Edit'}
+                                        <label htmlFor="pfp-upload" className={`avatar-edit-btn ${uploading ? 'uploading' : ''}`}>
+                                            {uploading ? '⏳' : '📷'}
                                         </label>
                                         <input
                                             type="file"
@@ -120,116 +107,142 @@ const Settings = () => {
                                             disabled={uploading}
                                         />
                                     </div>
-                                    <div className="profile-info-summary">
-                                        <h2>{userData.name}</h2>
-                                        <p>{userData.village}, {userData.district}, {userData.state}</p>
+                                </div>
+                                <div className="profile-identity">
+                                    <h2>{userData.name}</h2>
+                                    <p className="role-badge">
+                                        {currentUser?.role === 'asha' ? '👩‍⚕️ ASHA WORKER' : '🤰 EXPECTANT MOTHER'}
+                                    </p>
+                                </div>
+
+                                {currentUser?.role === 'asha' && (
+                                    <div className="asha-stats-compact">
+                                        <div className="stat-item">
+                                            <span className="stat-label">Employee ID</span>
+                                            <span className="stat-value">{currentUser?.employeeId || 'N/A'}</span>
+                                        </div>
+                                        <div className="stat-item">
+                                            <span className="stat-label">Village</span>
+                                            <span className="stat-value">{userData.village || 'N/A'}</span>
+                                        </div>
+                                        <div className="stat-item">
+                                            <span className="stat-label">Patients Managed</span>
+                                            <span className="stat-value highlight">{currentUser?.assignedPatients || '0'}</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Right Panel - Settings Form */}
+                        <div className="settings-form-panel">
+                            <div className="settings-sections">
+                                {/* Profile Information Section */}
+                                <div className="settings-section">
+                                    <h3 className="section-heading">📋 Profile Information</h3>
+                                    <div className="form-grid-landscape">
+                                        <div className="form-field">
+                                            <label>Full Name</label>
+                                            <input type="text" name="name" value={userData.name} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Village</label>
+                                            <input type="text" name="village" value={userData.village} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>District</label>
+                                            <input type="text" name="district" value={userData.district} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>State</label>
+                                            <input type="text" name="state" value={userData.state} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="form-field full-width">
+                                            <label>Address</label>
+                                            <textarea name="address" value={userData.address} onChange={handleInputChange} rows="2" />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <form className="settings-form">
-                                    {currentUser?.role === 'asha' && (
-                                        <div className="form-group">
-                                            <label>Employee ID</label>
-                                            <div className="static-value">{currentUser?.employeeId || 'N/A'}</div>
+                                {/* Security Section */}
+                                <div className="settings-section">
+                                    <h3 className="section-heading">🔒 Security & Contact</h3>
+                                    <div className="form-grid-landscape">
+                                        <div className="form-field">
+                                            <label>Phone Number</label>
+                                            <input type="tel" name="phone" value={userData.phone} onChange={handleInputChange} />
                                         </div>
-                                    )}
-                                    <div className="form-group">
-                                        <label>{pt.village}</label>
-                                        <input type="text" name="village" value={userData.village} onChange={handleInputChange} />
+                                        <div className="form-field">
+                                            <label>Current Password</label>
+                                            <input type="password" placeholder="Enter to change password" />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>New Password</label>
+                                            <input type="password" placeholder="Leave blank to keep current" />
+                                        </div>
+                                        <div className="form-field">
+                                            <label>Confirm Password</label>
+                                            <input type="password" placeholder="Confirm new password" />
+                                        </div>
                                     </div>
-                                    <div className="form-group">
-                                        <label>{pt.state}</label>
-                                        <input type="text" name="state" value={userData.state} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>District</label>
-                                        <input type="text" name="district" value={userData.district} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{pt.address}</label>
-                                        <textarea name="address" value={userData.address} onChange={handleInputChange} />
-                                    </div>
+                                </div>
 
-                                    {currentUser?.role !== 'asha' && (
-                                        <>
-                                            <div className="form-group">
-                                                <label>{pt.age}</label>
+                                {/* Pregnancy Info (Only for non-ASHA users) */}
+                                {currentUser?.role !== 'asha' && (
+                                    <div className="settings-section">
+                                        <h3 className="section-heading">🤰 Pregnancy Information</h3>
+                                        <div className="form-grid-landscape">
+                                            <div className="form-field">
+                                                <label>Age</label>
                                                 <input type="number" name="age" value={userData.age} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-group">
-                                                <label>{pt.weight} (kg)</label>
+                                            <div className="form-field">
+                                                <label>Weight (kg)</label>
                                                 <input type="number" name="weight" value={userData.weight} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-group">
+                                            <div className="form-field">
                                                 <label>Height (cm)</label>
                                                 <input type="number" name="height" value={userData.height} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-group">
+                                            <div className="form-field">
                                                 <label>Blood Group</label>
                                                 <input type="text" name="bloodGroup" value={userData.bloodGroup} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-group">
-                                                <label>Chronic Conditions</label>
-                                                <input type="text" name="conditions" value={userData.conditions} onChange={handleInputChange} />
+                                            <div className="form-field">
+                                                <label>Gravida (Pregnancies)</label>
+                                                <input type="number" name="gravida" value={userData.gravida} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-grid-inner">
-                                                <div className="form-group">
-                                                    <label>Gravida (Pregnancies)</label>
-                                                    <input type="number" name="gravida" value={userData.gravida} onChange={handleInputChange} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Para (Live Births)</label>
-                                                    <input type="number" name="para" value={userData.para} onChange={handleInputChange} />
-                                                </div>
+                                            <div className="form-field">
+                                                <label>Para (Live Births)</label>
+                                                <input type="number" name="para" value={userData.para} onChange={handleInputChange} />
                                             </div>
-                                            <div className="form-group">
-                                                <label>{pt.edd}</label>
-                                                <div className="static-value">{edd}</div>
+                                            <div className="form-field">
+                                                <label>Expected Due Date</label>
+                                                <div className="static-display">{edd}</div>
                                             </div>
-                                            <div className="form-group">
-                                                <label>{pt.currentWeek}</label>
-                                                <div className="static-value">{pregnancyWeek} Weeks</div>
+                                            <div className="form-field">
+                                                <label>Current Week</label>
+                                                <div className="static-display">{pregnancyWeek} Weeks</div>
                                             </div>
-                                        </>
-                                    )}
-                                    <button type="button" className="save-btn" onClick={handleSave}>{pt.save}</button>
-                                </form>
-                            </div>
-                        ) : (
-                            <div className="security-section">
-                                <h3>{st.changePhone}</h3>
-                                <form className="settings-form">
-                                    <div className="form-group">
-                                        <label>{st.newPhone}</label>
-                                        <input type="tel" name="phone" placeholder={userData.phone} />
+                                        </div>
                                     </div>
-                                    <button type="button" className="save-btn" onClick={handleSave}>{pt.save}</button>
-                                </form>
+                                )}
 
-                                <hr className="divider" />
-
-                                <h3>{st.updatePassword}</h3>
-                                <form className="settings-form">
-                                    <div className="form-group">
-                                        <label>{st.currentPassword}</label>
-                                        <input type="password" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{st.newPassword}</label>
-                                        <input type="password" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{st.confirmPassword}</label>
-                                        <input type="password" />
-                                    </div>
-                                    <button type="button" className="save-btn">{st.updatePassword}</button>
-                                </form>
+                                {/* Action Buttons */}
+                                <div className="settings-actions">
+                                    <button type="button" className="btn-save-primary" onClick={handleSave}>
+                                        💾 Save All Changes
+                                    </button>
+                                    <button type="button" className="btn-cancel" onClick={() => window.history.back()}>
+                                        ← Back to Dashboard
+                                    </button>
+                                </div>
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

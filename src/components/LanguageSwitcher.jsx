@@ -21,6 +21,7 @@ const LanguageSwitcher = () => {
                 <option value="hi">हिंदी</option>
                 <option value="mr">मराठी</option>
                 <option value="ta">தமிழ்</option>
+                <option value="bn">বাংলা</option>
             </select>
         </div>
     );

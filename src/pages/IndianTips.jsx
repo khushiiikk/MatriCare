@@ -12,7 +12,7 @@ const IndianTips = () => {
     const [dynamicContent, setDynamicContent] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Removed hardcoded localContent - now using i18n JSONs
+   
 
     useEffect(() => {
         const fetchTips = async () => {

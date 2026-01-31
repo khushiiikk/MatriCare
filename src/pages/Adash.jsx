@@ -6,6 +6,7 @@ import { collection, query, where, getDocs, addDoc, setDoc, doc, orderBy, server
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import Navbar from '../components/Navbar';
 import './Adash.css';
 
 // Fix Leaflet marker issue
@@ -133,12 +134,17 @@ const Adash = () => {
                     return pVillage === workerVillage && pDistrict === workerDistrict;
                 });
 
-                // FALLBACK: District wide if village is empty
                 if (fetchedPatients.length === 0) {
                     fetchedPatients = allPatients.filter(p =>
                         (p.district || "").toLowerCase().trim() === workerDistrict
                     );
                 }
+
+                // Check for SOS status
+                fetchedPatients = fetchedPatients.map(p => ({
+                    ...p,
+                    isUrgent: p.status === 'SOS' || p.status === 'emergency'
+                }));
 
                 // FETCH LATEST REPORTS FOR EACH PATIENT
                 const patientsWithReports = await Promise.all(fetchedPatients.map(async (p) => {
@@ -203,101 +209,79 @@ const Adash = () => {
     const selectedMapPatient = patients.find(p => p.id === selectedMapPatientId) || patients[0];
 
     return (
-        <div className="asha-dashboard-premium">
-            <div className="dashboard-content">
-                <div className="dash-premium-header">
-                    <div className="profile-pill">
-                        <div className="profile-icon">👩‍⚕️</div>
-                        <div className="welcome-text">
-                            <h3>{t('asha.hello')}, {user?.name || 'ASHA Worker'}!</h3>
-                            <div className="asha-header-meta">
-                                <span>📞 {user?.mobile || '9876543210'}</span>
-                                <span className="meta-sep">•</span>
-                                <span>📍 {user?.village || 'Village Rampur'}{user?.district ? `, ${user.district}` : ''}</span>
-                                <span className="meta-sep">•</span>
-                                {workerLocation ? (
-                                    <div className="live-location-tag">
-                                        <div className="pulse-dot"></div>
-                                        Live Tracking Active
-                                    </div>
-                                ) : (
-                                    <span style={{ color: '#888' }}>Initializing GPS...</span>
-                                )}
-                            </div>
+        <>
+            <Navbar />
+            <div className="asha-dashboard-premium">
+                <div className="dashboard-content">
+                    <div className="clinical-dashboard-greeting">
+                        <h2>{t('asha.hello')}, {user?.name || 'ASHA Worker'}!</h2>
+                        <div className="asha-header-meta">
+                            <span>{user?.village || 'Village'}{user?.district ? `, ${user.district}` : ''}</span>
+                            <span className="meta-sep">•</span>
+                            {workerLocation ? (
+                                <div className="live-location-tag">
+                                    <div className="pulse-dot"></div>
+                                    Live Tracking Active
+                                </div>
+                            ) : (
+                                <span style={{ color: '#888' }}>Initializing GPS...</span>
+                            )}
                         </div>
                     </div>
-                </div>
 
-                <div className="dashboard-main-columns">
-                    {selectedPatientForDetail ? (
-                        <div className="dash-full-col">
-                            <PatientDetailView
-                                patient={selectedPatientForDetail}
-                                onBack={() => setSelectedPatientForDetail(null)}
-                                t={t}
-                            />
-                        </div>
-                    ) : (
-                        <>
-                            <div className="dash-left-col">
-                                <AshaInteractiveMap
-                                    selectedPatient={selectedMapPatient}
-                                    ashaLocation={workerLocation}
-                                    onSelectPatient={setSelectedMapPatientId}
-                                    allPatients={patients}
+                    <div className="dashboard-main-columns">
+                        {selectedPatientForDetail ? (
+                            <div className="dash-full-col">
+                                <PatientDetailView
+                                    patient={selectedPatientForDetail}
+                                    onBack={() => setSelectedPatientForDetail(null)}
                                     t={t}
                                 />
                             </div>
-                            <div className="dash-right-col">
-                                <AshaWorkerPatientList
-                                    onSelectPatientDetail={setSelectedPatientForDetail}
-                                    onSelectMapPatient={setSelectedMapPatientId}
-                                    patients={patients}
-                                    t={t}
-                                />
-                            </div>
-                        </>
-                    )}
-                </div>
+                        ) : (
+                            <>
+                                <div className="dash-left-col">
+                                    <AshaInteractiveMap
+                                        selectedPatient={selectedMapPatient}
+                                        ashaLocation={workerLocation}
+                                        onSelectPatient={setSelectedMapPatientId}
+                                        allPatients={patients}
+                                        t={t}
+                                    />
+                                </div>
+                                <div className="dash-right-col">
+                                    <AshaWorkerPatientList
+                                        onSelectPatientDetail={setSelectedPatientForDetail}
+                                        onSelectMapPatient={setSelectedMapPatientId}
+                                        patients={patients}
+                                        selectedId={selectedMapPatientId}
+                                        t={t}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
 
 
-                {/* DEBUG PANEL - Hidden if patients found, but useful for troubleshooting */}
-                {patients.length === 0 && (
-                    <div style={{
-                        background: '#fff3cd',
-                        padding: '20px',
-                        borderRadius: '12px',
-                        marginTop: '20px',
-                        border: '1px solid #ffeeba',
-                        fontSize: '0.9rem',
-                        color: '#856404'
-                    }}>
-                        <h4>🔍 Diagnostic Info (No patients found)</h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '10px' }}>
-                            <div>
-                                <p><strong>ASHA Location:</strong> {debugInfo.workerVillage}, {debugInfo.workerDistrict}</p>
-                                <p><strong>Collections:</strong> patients({debugInfo.patientsCount}), users({debugInfo.usersCount})</p>
-                            </div>
-                            <div>
-                                <p><strong>All Patients in DB:</strong></p>
-                                <ul style={{ paddingLeft: '20px' }}>
-                                    {debugInfo.allPotentialPatients.length > 0 ? (
-                                        debugInfo.allPotentialPatients.slice(0, 5).map((p, i) => (
-                                            <li key={i}>{p.name} ({p.village}, {p.district})</li>
-                                        ))
-                                    ) : (
-                                        <li>No patients found in DB at all</li>
-                                    )}
+                    {/* EMPTY STATE */}
+                    {patients.length === 0 && !loading && (
+                        <div className="asha-empty-state fade-in">
+                            <div className="empty-state-icon">No Patients</div>
+                            <h3>No Patients Assigned Yet</h3>
+                            <p>When mothers in <b>{user?.village || 'your village'} ({user?.district})</b> register on MatriCare, they will automatically appear here.</p>
+                            <div className="diagnostic-help">
+                                <h4>Troubleshooting</h4>
+                                <ul>
+                                    <li>Ensure GPS is enabled and permissions are granted</li>
+                                    <li>Check if your Village & District match the patient's profile</li>
+                                    <li>Patients must have completed their initial profile setup</li>
                                 </ul>
                             </div>
                         </div>
-                        <p style={{ marginTop: '10px', fontSize: '0.8rem' }}>
-                            Ensure patients are registered in <strong>{debugInfo.workerDistrict}</strong> district to see them.
-                        </p>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -316,12 +300,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
         <div className="asha-map-container">
             <div className="map-header">
                 <h3>{t('asha.mapTitle')}</h3>
-                <span className="your-location">
-                    <span className="village-badge">Village Context</span>
-                    {allPatients.length > 0 && (
-                        <>Closest Patient: <strong>{allPatients[0].name}</strong> ({allPatients[0].distance} km)</>
-                    )}
-                </span>
+
             </div>
             <div className="map-preview">
                 {ashaLocation && (
@@ -352,7 +331,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                                 <Popup>
                                     <b>{p.name}</b><br />
                                     {p.village || 'Local Village'}<br />
-                                    {p.distance} km away
+
                                 </Popup>
                             </Marker>
                         ))}
@@ -370,26 +349,12 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
                             className={`patient-chip ${selectedPatient.id === patient.id ? 'selected' : ''}`}
                             onClick={() => onSelectPatient(patient.id)}
                         >
-                            {patient.name} ({patient.distance}km)
+                            {patient.name}
                         </button>
                     ))}
                 </div>
             </div>
             <div className="route-info">
-                <div className="route-details">
-                    <div className="route-stat">
-                        <div>
-                            <span className="stat-label">{t('asha.distance')}</span>
-                            <span className="stat-value">{selectedPatient.distance} km</span>
-                        </div>
-                    </div>
-                    <div className="route-stat">
-                        <div>
-                            <span className="stat-label">{t('asha.estTime')}</span>
-                            <span className="stat-value">{getEstimatedTime(selectedPatient.distance)} min</span>
-                        </div>
-                    </div>
-                </div>
                 <button className="get-directions-btn" onClick={() => openDirections(selectedPatient)}>
                     {t('asha.getDirections')} →
                 </button>
@@ -400,6 +365,7 @@ const AshaInteractiveMap = ({ selectedPatient, ashaLocation, onSelectPatient, al
 
 // Patient Detail View Component
 const PatientDetailView = ({ patient, onBack, t }) => {
+    const { t: tMedical } = useTranslation('medical'); // Add medical translations for field definitions
     const [history, setHistory] = useState([]);
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [showVisitForm, setShowVisitForm] = useState(false);
@@ -496,11 +462,8 @@ const PatientDetailView = ({ patient, onBack, t }) => {
         }
     };
 
-    const mockReports = [
-        { id: 101, title: 'Anatomy Scan', date: '2025-11-20', type: 'PDF', status: 'Normal' },
-        { id: 102, title: 'Blood Panel', date: '2025-11-05', type: 'Lab', status: 'Attention: Low Iron' },
-        { id: 103, title: 'Urine Analysis', date: '2025-10-12', type: 'Lab', status: 'Clear' }
-    ];
+    // Unified reports history (merging visit history and reports)
+    const combinedHistory = [...history]; // In a real app, this might merge different collections
 
     return (
         <div className="patient-detail-view-container">
@@ -531,7 +494,7 @@ const PatientDetailView = ({ patient, onBack, t }) => {
 
                         <div className="location-update-box" style={{ marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #eee' }}>
                             <p style={{ fontSize: '0.85rem', marginBottom: '8px', color: '#666' }}>
-                                Location: {patient.location ? '✅ Set' : '⚠️ Not Set'}
+                                Location: {patient.location ? 'Set' : 'Not Set'}
                             </p>
                             <button
                                 className="action-btn-secondary"
@@ -566,7 +529,7 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                                     });
                                 }}
                             >
-                                📍 Pin Location Here
+                                Pin Location Here
                             </button>
                         </div>
                     </div>
@@ -629,7 +592,17 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                             ) : history.length > 0 ? (
                                 history.map((report, idx) => (
                                     <div key={report.id || idx} className="history-item">
-                                        <div className="visit-date">
+                                        <div
+                                            className="visit-date clickable-date"
+                                            onClick={() => {
+                                                const element = document.getElementById(`report-${report.id || idx}`);
+                                                if (element) {
+                                                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                    element.classList.add('highlight-report');
+                                                    setTimeout(() => element.classList.remove('highlight-report'), 2000);
+                                                }
+                                            }}
+                                        >
                                             {report.createdAt?.seconds
                                                 ? new Date(report.createdAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
                                                 : new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -667,22 +640,166 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                         </div>
                     </section>
 
-                    <section className="reports-section">
-                        <h3>{t('asha.recentReports')}</h3>
-                        <div className="reports-list">
-                            {mockReports.map(report => (
-                                <div key={report.id} className="report-item">
-                                    <div className="report-info">
-                                        <span className="report-title">{report.title}</span>
-                                        <span className="report-meta">{report.date} • {report.type}</span>
+                    <section className="comprehensive-reports-section">
+                        <h3>Complete Medical Analysis</h3>
+
+                        {history.length > 0 ? (
+                            history.map((report, idx) => (
+                                <div
+                                    key={report.id || idx}
+                                    id={`report-${report.id || idx}`}
+                                    className="comprehensive-report-card"
+                                >
+                                    <div className="report-header-row">
+                                        <div className="report-date-badge">
+                                            {report.createdAt?.seconds
+                                                ? new Date(report.createdAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                                                : new Date(report.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </div>
+                                        <div className={`risk-level-badge risk-${report.risk?.color || 'gray'}`}>
+                                            {report.risk?.level || 'Unknown Risk'}
+                                        </div>
                                     </div>
-                                    <div className="report-status-badge" data-status={report.status.toLowerCase().includes('attention') ? 'warning' : 'normal'}>
-                                        {report.status}
+
+                                    {/* Vitals Section */}
+                                    <div className="medical-section">
+                                        <h4 className="section-title">Vital Signs</h4>
+                                        <div className="medical-fields-grid">
+                                            {report.vitals && (
+                                                <>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Age</span>
+                                                        <span className="field-value">{report.vitals.age || 'N/A'} years</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.age.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Weight</span>
+                                                        <span className="field-value">{report.vitals.weight || 'N/A'} kg</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.weight.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Hemoglobin</span>
+                                                        <span className="field-value">{report.vitals.hemoglobin || 'N/A'} g/dL</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.hemoglobin.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Systolic BP</span>
+                                                        <span className="field-value">{report.vitals.systolicBP || 'N/A'} mmHg</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.systolicBP.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Diastolic BP</span>
+                                                        <span className="field-value">{report.vitals.diastolicBP || 'N/A'} mmHg</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.diastolicBP.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Blood Glucose</span>
+                                                        <span className="field-value">{report.vitals.bloodGlucose || 'N/A'} mg/dL</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.bloodGlucose.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Body Temp</span>
+                                                        <span className="field-value">{report.vitals.bodyTemp || 'N/A'} °F</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.bodyTemp.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Heart Rate</span>
+                                                        <span className="field-value">{report.vitals.heartRate || 'N/A'} BPM</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.heartRate.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">HbA1c</span>
+                                                        <span className="field-value">{report.vitals.hba1c || 'N/A'} %</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.hba1c.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Respiration Rate</span>
+                                                        <span className="field-value">{report.vitals.respirationRate || 'N/A'} /min</span>
+                                                        <div className="medical-tooltip">{tMedical('vitals.respirationRate.desc')}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
-                                    <button className="view-report-btn">View</button>
+
+                                    {/* Pregnancy History Section */}
+                                    <div className="medical-section">
+                                        <h4 className="section-title">Pregnancy History</h4>
+                                        <div className="medical-fields-grid">
+                                            {report.vitals && (
+                                                <>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Gravida (G)</span>
+                                                        <span className="field-value">{report.vitals.gravida || '0'}</span>
+                                                        <div className="medical-tooltip">{tMedical('history.gravida.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Para (P)</span>
+                                                        <span className="field-value">{report.vitals.para || '0'}</span>
+                                                        <div className="medical-tooltip">{tMedical('history.para.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Live Births</span>
+                                                        <span className="field-value">{report.vitals.liveBirths || '0'}</span>
+                                                        <div className="medical-tooltip">{tMedical('history.liveBirths.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Abortions</span>
+                                                        <span className="field-value">{report.vitals.abortions || '0'}</span>
+                                                        <div className="medical-tooltip">{tMedical('history.abortions.desc')}</div>
+                                                    </div>
+                                                    <div className="medical-field-with-tooltip">
+                                                        <span className="field-label">Child Deaths</span>
+                                                        <span className="field-value">{report.vitals.childDeaths || '0'}</span>
+                                                        <div className="medical-tooltip">{tMedical('history.childDeaths.desc')}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Risk Assessment Section */}
+                                    <div className="medical-section">
+                                        <h4 className="section-title">Risk Assessment</h4>
+                                        <div className="risk-assessment-content">
+                                            <div className="risk-factors-display">
+                                                {report.risk?.factors && report.risk.factors.length > 0 ? (
+                                                    report.risk.factors.map((factor, i) => (
+                                                        <span key={i} className="risk-factor-chip">{factor}</span>
+                                                    ))
+                                                ) : (
+                                                    <p className="no-risk-factors">No specific risk factors identified</p>
+                                                )}
+                                            </div>
+                                            {report.risk?.advice && (
+                                                <div className="advice-box">
+                                                    <strong>Medical Advice:</strong>
+                                                    <p>{report.risk.advice}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* ML Prediction if available */}
+                                    {report.mlPrediction && (
+                                        <div className="medical-section">
+                                            <h4 className="section-title">AI Prediction</h4>
+                                            <div className="ml-prediction-box">
+                                                <p><strong>Prediction:</strong> {report.mlPrediction.prediction === 0 ? 'Low Risk' : 'High Risk'}</p>
+                                                {report.mlPrediction.probabilities && (
+                                                    <p><strong>Confidence:</strong> {(Math.max(...report.mlPrediction.probabilities) * 100).toFixed(1)}%</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                            ))}
-                        </div>
+                            ))
+                        ) : (
+                            <div className="no-reports-state">
+                                <p>No medical analysis reports found for this patient.</p>
+                                <p className="hint-text">Reports will appear here once the patient completes a medical analysis.</p>
+                            </div>
+                        )}
                     </section>
                 </div>
             </div>
@@ -690,79 +807,50 @@ const PatientDetailView = ({ patient, onBack, t }) => {
     );
 };
 
-// ASHA Worker Patient List Component
-const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, patients, t }) => {
-    const [sortOption, setSortOption] = useState('distance'); // Default to distance now!
-
-    const getRiskColor = (risk) => risk === 'High' ? '#FF6B6B' : '#E91E63';
-    const getHemoglobinStatus = (hb) => {
-        if (hb < 11) return { status: 'Low', color: '#FF6B6B' };
-        if (hb < 12) return { status: 'Monitor', color: '#FFB74D' };
-        return { status: 'Normal', color: '#E91E63' };
-    };
-
-    const sortedPatients = [...patients].sort((a, b) => {
-        if (sortOption === 'distance') return a.distance - b.distance;
-        if (sortOption === 'dueDate') return new Date(a.dueDate) - new Date(b.dueDate);
-        if (sortOption === 'risk') return (a.riskLevel === 'High' ? 0 : 1) - (b.riskLevel === 'High' ? 0 : 1);
-        return 0;
-    });
-
+// ASHA Worker Patient List Component (Dense Clinical View)
+const AshaWorkerPatientList = ({ onSelectPatientDetail, onSelectMapPatient, patients, selectedId, t }) => {
     return (
         <div className="asha-patients-container">
             <div className="asha-patients-header">
-                <h3>{t('asha.nearestPatients')} ({patients.length})</h3>
-                <select className="sort-select" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                    <option value="distance">🎯 Nearest First</option>
-                    <option value="dueDate">📅 Due Date</option>
-                    <option value="risk">⚠️ Risk Level</option>
-                </select>
+                <h3>{t('asha.clinicalRecords') === 'asha.clinicalRecords' ? 'Clinical Records' : t('asha.clinicalRecords')}</h3>
+                <span className="patient-count-badge">{patients.length} Total</span>
             </div>
+
             <div className="patients-list">
-                {sortedPatients.map((patient) => (
-                    <div key={patient.id} className="patient-card clickable" onClick={() => onSelectPatientDetail(patient)}>
+                {patients.map((p) => (
+                    <div
+                        key={p.id}
+                        className={`patient-card ${selectedId === p.id ? 'active' : ''}`}
+                        onClick={() => onSelectPatientDetail(p)}
+                    >
                         <div className="patient-card-header">
                             <div className="patient-basic-info">
-                                <h4>{patient.name}</h4>
-                                <div className="patient-meta-row">
-                                    <span className="village-badge">
-                                        {patient.isDistrictWide && ' (District)'}
-                                        {patient.isEmergencyMatch && ' (🚨 EMERGENCY - NO MATCH)'}
-                                    </span>
-                                    <span className="patient-distance-tag">
-                                        <span className="distance-highlight">{patient.distance}</span> km away
-                                    </span>
-                                </div>
+                                <h4>{p.name}</h4>
+                                <span className="patient-age-week">{p.age}y • wk {p.currentWeek}</span>
                             </div>
-                            <span className="risk-badge" style={{ backgroundColor: getRiskColor(patient.riskLevel) }}>
-                                {patient.riskLevel} Risk
+                            <span
+                                className={`risk-badge risk-${p.riskLevel?.toLowerCase() || 'unknown'}`}
+                                onClick={(e) => { e.stopPropagation(); onSelectPatientDetail(p); }}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {p.riskLevel && p.riskLevel !== 'Unknown' ? p.riskLevel : 'View Reports'}
                             </span>
                         </div>
-                        {patient.latestReport && (
-                            <div className="patient-last-update">
-                                🕒 {t('before') || 'Last Update'}: {new Date(patient.latestReport.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                            </div>
-                        )}
-                        <div className="patient-health-metrics">
-                            <div className="metric-item">
-                                <span className="metric-label">Hemoglobin</span>
-                                <span className="metric-value">{patient.hemoglobin}</span>
-                                <span className="metric-status" style={{ color: getHemoglobinStatus(patient.hemoglobin).color }}>
-                                    {getHemoglobinStatus(patient.hemoglobin).status}
-                                </span>
-                            </div>
-                            <div className="metric-item">
-                                <span className="metric-label">Weight</span>
-                                <span className="metric-value">{patient.weight} kg</span>
-                            </div>
-                            <div className="metric-item">
-                                <span className="metric-label">Due Date</span>
-                                <span className="metric-value">{new Date(patient.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-                            </div>
-                        </div>
-                        <div className="patient-actions" onClick={(e) => e.stopPropagation()}>
-                            <a href={`tel:${patient.phone}`} className="action-btn call-btn">{t('asha.call')}</a>
-                            <button className="action-btn map-btn" onClick={() => onSelectMapPatient(patient.id)}>{t('asha.map')}</button>
+
+
+
+                        <div className="patient-actions" onClick={e => e.stopPropagation()}>
+                            <a href={`tel:${p.phone || p.mobile}`} className="action-btn call-btn" title="Call Patient">
+                                📞
+                            </a>
+                            <button
+                                className="action-btn map-btn"
+                                onClick={() => onSelectMapPatient(p.id)}
+                                title="Show on Map"
+                            >
+                                🗺️
+                            </button>
+
                         </div>
                     </div>
                 ))}

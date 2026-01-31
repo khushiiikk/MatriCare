@@ -34,6 +34,14 @@ import taYoga from './locales/ta/yoga.json';
 import taHealth from './locales/ta/health.json';
 import taPages from './locales/ta/pages.json';
 
+// Import Bengali translations
+import bnCommon from './locales/bn/common.json';
+import bnDashboard from './locales/bn/dashboard.json';
+import bnMedical from './locales/bn/medical.json';
+import bnYoga from './locales/bn/yoga.json';
+import bnHealth from './locales/bn/health.json';
+import bnPages from './locales/bn/pages.json';
+
 const resources = {
     en: {
         common: enCommon,
@@ -66,6 +74,14 @@ const resources = {
         yoga: taYoga,
         health: taHealth,
         pages: taPages
+    },
+    bn: {
+        common: bnCommon,
+        dashboard: bnDashboard,
+        medical: bnMedical,
+        yoga: bnYoga,
+        health: bnHealth,
+        pages: bnPages
     }
 };
 

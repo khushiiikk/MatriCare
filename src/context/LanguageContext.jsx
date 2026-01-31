@@ -38,14 +38,15 @@ export const LanguageProvider = ({ children }) => {
             'hi': 'hi-IN',
             'mr': 'mr-IN',
             'ta': 'ta-IN',
+            'bn': 'bn-BD',
             'en': 'en-US'
         };
         document.documentElement.lang = langMap[language] || 'en-US';
     }, [language, i18n]);
 
     const toggleLanguage = () => {
-        // Cycle through languages: en -> hi -> mr -> ta -> en
-        const langs = ['en', 'hi', 'mr', 'ta'];
+        // Cycle through languages: en -> hi -> mr -> ta -> bn -> en
+        const langs = ['en', 'hi', 'mr', 'ta', 'bn'];
         const currentIndex = langs.indexOf(language);
         const nextIndex = (currentIndex + 1) % langs.length;
         const nextLang = langs[nextIndex];
@@ -65,7 +66,8 @@ export const LanguageProvider = ({ children }) => {
         isHindi: language === 'hi',
         isEnglish: language === 'en',
         isMarathi: language === 'mr',
-        isTamil: language === 'ta'
+        isTamil: language === 'ta',
+        isBengali: language === 'bn'
     };
 
     return (

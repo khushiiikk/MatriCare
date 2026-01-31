@@ -37,17 +37,17 @@ const AHOME = () => {
                 <h2>Health Mission Tools</h2>
                 <div className="feature-grid">
                     <div className="feature-item">
-                        <div className="feat-icon">📍</div>
+                        <div className="feat-icon"></div>
                         <h3>Smart Mapping</h3>
                         <p>Optimized routes to reach your patients faster and more efficiently.</p>
                     </div>
                     <div className="feature-item">
-                        <div className="feat-icon">📊</div>
+                        <div className="feat-icon"></div>
                         <h3>Risk Analytics</h3>
                         <p>Real-time monitoring of hemoglobin and vitals to flag emergencies early.</p>
                     </div>
                     <div className="feature-item">
-                        <div className="feat-icon">🧘</div>
+                        <div className="feat-icon"></div>
                         <h3>Community Yoga</h3>
                         <p>Guides specifically curated for community health and prenatal wellness.</p>
                     </div>

@@ -68,9 +68,43 @@ const Login = () => {
         }
     };
 
+    const validatePassword = (pass) => {
+        const hasUpper = /[A-Z]/.test(pass);
+        const hasLower = /[a-z]/.test(pass);
+        const hasNumber = /[0-9]/.test(pass);
+        const hasSpecial = /[^A-Za-z0-9]/.test(pass);
+        const isLongEnough = pass.length >= 6;
+
+        return {
+            isValid: hasUpper && hasLower && hasNumber && hasSpecial && isLongEnough,
+            errors: {
+                upper: !hasUpper,
+                lower: !hasLower,
+                number: !hasNumber,
+                special: !hasSpecial,
+                length: !isLongEnough
+            }
+        };
+    };
+
     const handleSignup = async (e) => {
         e.preventDefault();
         setError('');
+
+        const validation = validatePassword(password);
+        if (!validation.isValid) {
+            let errorMsg = 'Password must contain: ';
+            const missing = [];
+            if (validation.errors.upper) missing.push('one uppercase letter');
+            if (validation.errors.lower) missing.push('one lowercase letter');
+            if (validation.errors.number) missing.push('one number');
+            if (validation.errors.special) missing.push('one special character');
+            if (validation.errors.length) missing.push('at least 6 characters');
+
+            setError(errorMsg + missing.join(', ') + '.');
+            return;
+        }
+
         setLoading(true);
         const signupData = {
             mobile,
@@ -267,6 +301,13 @@ const Login = () => {
                                 <div className="input-group-v2">
                                     <label>Create Password</label>
                                     <input type="password" placeholder="Create a strong password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                    <div className="password-requirements">
+                                        <p className={/[A-Z]/.test(password) ? 'valid' : ''}>• One uppercase letter</p>
+                                        <p className={/[a-z]/.test(password) ? 'valid' : ''}>• One lowercase letter</p>
+                                        <p className={/[0-9]/.test(password) ? 'valid' : ''}>• One number</p>
+                                        <p className={/[^A-Za-z0-9]/.test(password) ? 'valid' : ''}>• One special character</p>
+                                        <p className={password.length >= 6 ? 'valid' : ''}>• At least 6 characters</p>
+                                    </div>
                                 </div>
                             )}
 
