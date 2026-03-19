@@ -22,6 +22,7 @@ import PregnancySymptoms from './pages/PregnancySymptoms';
 import ReportHistory from './pages/ReportHistory';
 import DietPlan from './pages/DietPlan';
 import IndianTips from './pages/IndianTips';
+import AshaMedicalAnalysis from './pages/AshaMedicalAnalysis';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
 
@@ -152,6 +153,14 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <IndianTips />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/asha-analysis"
+                        element={
+                            <ProtectedRoute>
+                                <AshaMedicalAnalysis />
                             </ProtectedRoute>
                         }
                     />

@@ -169,10 +169,12 @@
 
 .input-group-modern label {
     display: block;
-    font-size: 0.9rem;
-    color: #4db6ac;
+    font-size: 0.85rem;
+    color: #800000;
     margin-bottom: 0;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .label-info-wrapper {
@@ -257,8 +259,8 @@
 }
 
 .input-field-wrapper:focus-within {
-    border-color: #e91e63;
-    box-shadow: 0 0 0 4px rgba(233, 30, 96, 0.1);
+    border-color: #800000;
+    box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.05);
 }
 
 .input-field-wrapper input {
@@ -316,17 +318,17 @@
 }
 
 .input-above .input-field-wrapper {
-    border-color: #d81b60;
-    background: #fafafa;
+    border-color: #800000;
+    background: #fffcfc;
 }
 
 .input-above .validation-indicator {
-    background: #d81b60;
+    background: #800000;
     color: #fff;
 }
 
 .input-above label {
-    color: #880e4f;
+    color: #800000;
 }
 
 .input-above .range-text-hint {
@@ -334,17 +336,17 @@
 }
 
 .input-below .input-field-wrapper {
-    border-color: #f44336;
-    background: #fff8f8;
+    border-color: #800000;
+    background: #fffcfc;
 }
 
 .input-below .validation-indicator {
-    background: #f44336;
+    background: #800000;
     color: #fff;
 }
 
 .input-below label {
-    color: #b71c1c;
+    color: #800000;
 }
 
 .input-below .range-text-hint {
@@ -361,7 +363,7 @@
 .action-button-primary {
     width: 100%;
     padding: 18px;
-    background: linear-gradient(135deg, #E91E63 0%, #880e4f 100%);
+    background: #800000;
     color: #fff;
     border: none;
     border-radius: 50px;
@@ -370,16 +372,17 @@
     cursor: pointer;
     margin-top: 24px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.2);
+    box-shadow: 0 8px 25px rgba(128, 0, 0, 0.15);
 }
 
 .action-button-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(233, 30, 99, 0.3);
+    background: #a00000;
+    box-shadow: 0 12px 30px rgba(128, 0, 0, 0.25);
 }
 
 .action-button-primary:disabled {
-    background: #f48fb1;
+    background: #ccc;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -421,9 +424,9 @@
 
 .analysis-card-premium:hover {
     transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(233, 30, 99, 0.08);
+    box-shadow: 0 15px 35px rgba(128, 0, 0, 0.08);
     background: #fff;
-    border-color: #fce4ec;
+    border-color: #800000;
 }
 
 .card-inner-top {
@@ -973,20 +976,20 @@
     margin-top: 25px;
     padding: 12px 28px;
     background: #ffffff;
-    color: #e91e63;
+    color: #800000;
     text-decoration: none;
     border-radius: 50px;
     font-weight: 700;
     font-size: 0.95rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(233, 30, 99, 0.2);
+    border: 1px solid rgba(128, 0, 0, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .view-history-link-btn:hover {
-    background: #e91e63;
+    background: #800000;
     color: #fff;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.25);
-    border-color: #e91e63;
+    box-shadow: 0 8px 25px rgba(128, 0, 0, 0.25);
+    border-color: #800000;
 }

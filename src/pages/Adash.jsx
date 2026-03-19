@@ -173,6 +173,31 @@ const Adash = () => {
                             patientLng
                         );
 
+                        // DERIVED PREGNANCY DATA
+                        let currentWeek = '--';
+                        let dueDateRaw = null;
+                        if (p.lmpDate) {
+                            const lmp = new Date(p.lmpDate);
+                            const diffDays = Math.floor((new Date() - lmp) / (1000 * 60 * 60 * 24));
+                            currentWeek = Math.max(0, Math.floor(diffDays / 7));
+
+                            const dd = new Date(lmp);
+                            dd.setDate(dd.getDate() + 280);
+                            dueDateRaw = dd.toISOString();
+                        }
+
+                        // DERIVED AGE
+                        let age = '--';
+                        if (p.dob) {
+                            const birth = new Date(p.dob);
+                            let calculatedAge = new Date().getFullYear() - birth.getFullYear();
+                            const m = new Date().getMonth() - birth.getMonth();
+                            if (m < 0 || (m === 0 && new Date().getDate() < birth.getDate())) {
+                                calculatedAge--;
+                            }
+                            age = Math.max(0, calculatedAge);
+                        }
+
                         return {
                             ...p,
                             distance: dist,
@@ -180,7 +205,11 @@ const Adash = () => {
                             // Derived fields for easy display
                             riskLevel: latestReport?.risk?.level || 'Unknown',
                             hemoglobin: latestReport?.vitals?.hemoglobin || p.hemoglobin || '--',
-                            weight: latestReport?.vitals?.weight || p.weight || '--'
+                            weight: latestReport?.vitals?.weight || p.weight || '--',
+                            age: p.age || age,
+                            currentWeek: p.currentWeek || currentWeek,
+                            dueDate: p.dueDate || dueDateRaw,
+                            phone: p.mobile || p.phone || '--'
                         };
                     } catch (err) {
                         console.error(`Error fetching report for ${p.id}:`, err);
@@ -370,9 +399,21 @@ const PatientDetailView = ({ patient, onBack, t }) => {
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [showVisitForm, setShowVisitForm] = useState(false);
     const [visitData, setVisitData] = useState({
+        age: patient.age || '',
         weight: '',
         hemoglobin: '',
-        bp: '',
+        systolicBP: '',
+        diastolicBP: '',
+        bloodGlucose: '',
+        bodyTemp: '',
+        heartRate: '',
+        hba1c: '',
+        respirationRate: '',
+        gravida: '',
+        para: '',
+        liveBirths: '',
+        abortions: '',
+        childDeaths: '',
         notes: ''
     });
     const [saving, setSaving] = useState(false);
@@ -438,12 +479,22 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                 createdAt: serverTimestamp(),
                 notes: visitData.notes,
                 vitals: {
-                    weight: parseFloat(visitData.weight),
-                    hemoglobin: parseFloat(visitData.hemoglobin),
-                    bloodPressure: visitData.bp,
-                    // Map common fields for history dashboard
-                    systolicBP: visitData.bp.split('/')[0] || null,
-                    diastolicBP: visitData.bp.split('/')[1] || null
+                    age: parseInt(visitData.age) || 0,
+                    weight: parseFloat(visitData.weight) || 0,
+                    hemoglobin: parseFloat(visitData.hemoglobin) || 0,
+                    systolicBP: parseFloat(visitData.systolicBP) || 0,
+                    diastolicBP: parseFloat(visitData.diastolicBP) || 0,
+                    bloodGlucose: parseFloat(visitData.bloodGlucose) || 0,
+                    bodyTemp: parseFloat(visitData.bodyTemp) || 0,
+                    heartRate: parseFloat(visitData.heartRate) || 0,
+                    hba1c: parseFloat(visitData.hba1c) || 0,
+                    respirationRate: parseFloat(visitData.respirationRate) || 0,
+                    gravida: parseInt(visitData.gravida) || 0,
+                    para: parseInt(visitData.para) || 0,
+                    liveBirths: parseInt(visitData.liveBirths) || 0,
+                    abortions: parseInt(visitData.abortions) || 0,
+                    childDeaths: parseInt(visitData.childDeaths) || 0,
+                    bloodPressure: `${visitData.systolicBP || '0'}/${visitData.diastolicBP || '0'}`
                 },
                 risk: {
                     level: 'Manual Log',
@@ -454,7 +505,13 @@ const PatientDetailView = ({ patient, onBack, t }) => {
             const docRef = await addDoc(collection(db, "health_reports"), newVisit);
             setHistory([{ id: docRef.id, ...newVisit, createdAt: new Date() }, ...history]);
             setShowVisitForm(false);
-            setVisitData({ weight: '', hemoglobin: '', bp: '', notes: '' });
+            setVisitData({
+                age: patient.age || '', weight: '', hemoglobin: '',
+                systolicBP: '', diastolicBP: '', bloodGlucose: '',
+                bodyTemp: '', heartRate: '', hba1c: '', respirationRate: '',
+                gravida: '', para: '', liveBirths: '', abortions: '',
+                childDeaths: '', notes: ''
+            });
         } catch (error) {
             console.error("Error logging visit:", error);
         } finally {
@@ -485,7 +542,11 @@ const PatientDetailView = ({ patient, onBack, t }) => {
                         </div>
                         <div className="summary-row">
                             <span className="summary-label">Due Date</span>
-                            <span className="summary-value">{new Date(patient.dueDate).toLocaleDateString()}</span>
+                            <span className="summary-value">
+                                {patient.dueDate && patient.dueDate !== '--'
+                                    ? new Date(patient.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                                    : 'Not Set'}
+                            </span>
                         </div>
                         <div className="summary-row">
                             <span className="summary-label">Contact</span>
@@ -546,33 +607,75 @@ const PatientDetailView = ({ patient, onBack, t }) => {
 
                         {showVisitForm && (
                             <form className="log-visit-form fade-in" onSubmit={handleLogVisit}>
+                                <div className="form-section-title">Vitals</div>
                                 <div className="form-grid">
                                     <div className="form-group">
+                                        <label>Age</label>
+                                        <input type="number" value={visitData.age} onChange={(e) => setVisitData({ ...visitData, age: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
                                         <label>Weight (kg)</label>
-                                        <input
-                                            type="number" step="0.1" required
-                                            value={visitData.weight}
-                                            onChange={(e) => setVisitData({ ...visitData, weight: e.target.value })}
-                                        />
+                                        <input type="number" step="0.1" value={visitData.weight} onChange={(e) => setVisitData({ ...visitData, weight: e.target.value })} />
                                     </div>
                                     <div className="form-group">
-                                        <label>Hemoglobin (g/dL)</label>
-                                        <input
-                                            type="number" step="0.1" required
-                                            value={visitData.hemoglobin}
-                                            onChange={(e) => setVisitData({ ...visitData, hemoglobin: e.target.value })}
-                                        />
+                                        <label>Hb (g/dL)</label>
+                                        <input type="number" step="0.1" value={visitData.hemoglobin} onChange={(e) => setVisitData({ ...visitData, hemoglobin: e.target.value })} />
                                     </div>
                                     <div className="form-group">
-                                        <label>Blood Pressure</label>
-                                        <input
-                                            type="text" placeholder="120/80" required
-                                            value={visitData.bp}
-                                            onChange={(e) => setVisitData({ ...visitData, bp: e.target.value })}
-                                        />
+                                        <label>Systolic BP</label>
+                                        <input type="number" value={visitData.systolicBP} onChange={(e) => setVisitData({ ...visitData, systolicBP: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Diastolic BP</label>
+                                        <input type="number" value={visitData.diastolicBP} onChange={(e) => setVisitData({ ...visitData, diastolicBP: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Glucose (mg/dL)</label>
+                                        <input type="number" value={visitData.bloodGlucose} onChange={(e) => setVisitData({ ...visitData, bloodGlucose: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Body Temp (°F)</label>
+                                        <input type="number" step="0.1" value={visitData.bodyTemp} onChange={(e) => setVisitData({ ...visitData, bodyTemp: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Heart Rate (BPM)</label>
+                                        <input type="number" value={visitData.heartRate} onChange={(e) => setVisitData({ ...visitData, heartRate: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>HbA1c (%)</label>
+                                        <input type="number" step="0.1" value={visitData.hba1c} onChange={(e) => setVisitData({ ...visitData, hba1c: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Resp Rate (/min)</label>
+                                        <input type="number" value={visitData.respirationRate} onChange={(e) => setVisitData({ ...visitData, respirationRate: e.target.value })} />
                                     </div>
                                 </div>
-                                <div className="form-group">
+
+                                <div className="form-section-title" style={{ marginTop: '15px' }}>Pregnancy History</div>
+                                <div className="form-grid">
+                                    <div className="form-group">
+                                        <label>Gravida</label>
+                                        <input type="number" value={visitData.gravida} onChange={(e) => setVisitData({ ...visitData, gravida: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Para</label>
+                                        <input type="number" value={visitData.para} onChange={(e) => setVisitData({ ...visitData, para: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Live Births</label>
+                                        <input type="number" value={visitData.liveBirths} onChange={(e) => setVisitData({ ...visitData, liveBirths: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Abortions</label>
+                                        <input type="number" value={visitData.abortions} onChange={(e) => setVisitData({ ...visitData, abortions: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Child Deaths</label>
+                                        <input type="number" value={visitData.childDeaths} onChange={(e) => setVisitData({ ...visitData, childDeaths: e.target.value })} />
+                                    </div>
+                                </div>
+
+                                <div className="form-group" style={{ marginTop: '15px' }}>
                                     <label>Visit Notes</label>
                                     <textarea
                                         rows="2" required

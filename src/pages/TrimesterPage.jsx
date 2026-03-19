@@ -69,7 +69,7 @@ const TrimesterPage = () => {
         const images = {
             '1': ["/tri1_constructive_rest.png", "/tri1_childs_pose.png", "/tri1_downward_dog.png", "/tri1_side_angle.png", "/tri1_goddess_pose.png"],
             '2': ["/tri2_tree_pose.png", "/tri2_side_plank.png", "/tri2_supported_fish.png", "/tri2_wide_straddle.png", "/tri2_warrior_pose.png"],
-            '3': ["/tri3_easy_pose.png", "/yoga_home-icon-new.jpg", "/yoga_malasana.png", "/yoga_cat_cow.png", "/yoga_childs_pose.png"]
+            '3': ["/tri3_easy_pose.png", "/tri3_wide_chair.png", "/tri3_dynamic_goddess.png", "/tri3_tabletop_rocks.png", "/tri3_upper_back_opener.png"]
         };
         return {
             ...ex,

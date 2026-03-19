@@ -40,6 +40,7 @@ const Navbar = () => {
 
     const navLinks = user?.role === 'asha' ? [
         { name: t('common:navbar.analytics') || 'Dashboard', path: '/Adash' },
+        { name: 'Clinical Analysis', path: '/asha-analysis' },
         { name: t('common:navbar.findCare'), path: '/find-care' },
     ] : [
         { name: t('common:navbar.home'), path: '/' },
