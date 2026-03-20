@@ -10,6 +10,9 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
+    /* For mobile keyboard push */
+    align-items: flex-start;
+    padding-top: 20px;
 }
 
 /* Dreamy Background */
@@ -238,6 +241,11 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
     border: 1px solid white;
     backdrop-filter: blur(10px);
+    /* Always above other elements */
+    position: relative;
+    z-index: 20;
+    pointer-events: auto !important;
+    flex-shrink: 0;
 }
 
 .cici-input-icon {
@@ -260,9 +268,13 @@
     border: none;
     background: transparent;
     outline: none;
-    font-size: 1rem;
+    font-size: 16px; /* Prevents iOS auto-zoom on focus */
     color: #333;
     padding: 8px 0;
+    pointer-events: auto !important;
+    -webkit-user-select: text;
+    user-select: text;
+    touch-action: auto;
 }
 
 .cici-input-bar input::placeholder {
@@ -409,9 +421,23 @@
 }
 
 @media (max-width: 600px) {
+    .chatbot-page-container {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
     .cici-glass-container {
-        height: calc(100vh - 100px);
+        height: calc(100dvh - 100px); /* dvh adjusts when keyboard opens */
         max-width: 100%;
-        border-radius: 30px;
+        border-radius: 24px;
+        margin-top: 10px;
+    }
+
+    .cici-input-bar {
+        margin: 10px 12px;
+    }
+
+    .cici-input-bar input {
+        font-size: 16px;
     }
 }

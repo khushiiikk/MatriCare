@@ -189,9 +189,14 @@ const Navbar = () => {
                                             logout();
                                             setIsMobileMenuOpen(false);
                                         }}
+                                        onTouchEnd={() => {
+                                            logout();
+                                            setIsMobileMenuOpen(false);
+                                        }}
                                     >
                                         Logout
                                     </button>
+
                                 </>
                             ) : (
                                 <Link to="/login" className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>

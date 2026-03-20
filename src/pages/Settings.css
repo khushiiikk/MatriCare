@@ -68,7 +68,10 @@
     font-size: 1.2rem;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    pointer-events: auto !important;
 }
+
 
 .avatar-edit-btn:hover {
     background: #880e4f;

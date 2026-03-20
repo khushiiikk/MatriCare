@@ -95,9 +95,16 @@ const Settings = () => {
                                             alt="Profile"
                                             className="avatar-image"
                                         />
-                                        <label htmlFor="pfp-upload" className={`avatar-edit-btn ${uploading ? 'uploading' : ''}`}>
+                                        <label 
+                                            htmlFor="pfp-upload" 
+                                            className={`avatar-edit-btn ${uploading ? 'uploading' : ''}`}
+                                            onTouchEnd={() => {
+                                                if (!uploading) document.getElementById('pfp-upload').click();
+                                            }}
+                                        >
                                             {uploading ? '⏳' : '📷'}
                                         </label>
+
                                         <input
                                             type="file"
                                             id="pfp-upload"
@@ -230,12 +237,23 @@ const Settings = () => {
 
                                 {/* Action Buttons */}
                                 <div className="settings-actions">
-                                    <button type="button" className="btn-save-primary" onClick={handleSave}>
+                                    <button 
+                                        type="button" 
+                                        className="btn-save-primary" 
+                                        onClick={handleSave}
+                                        onTouchEnd={handleSave}
+                                    >
                                         💾 Save All Changes
                                     </button>
-                                    <button type="button" className="btn-cancel" onClick={() => window.history.back()}>
+                                    <button 
+                                        type="button" 
+                                        className="btn-cancel" 
+                                        onClick={() => window.history.back()}
+                                        onTouchEnd={() => window.history.back()}
+                                    >
                                         ← Back to Dashboard
                                     </button>
+
                                 </div>
                             </div>
                         </div>
