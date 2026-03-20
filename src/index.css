@@ -55,6 +55,25 @@ body {
   font-size: 14px;
 }
 
+/* --- GLOBAL MOBILE INTERACTION FIXES --- */
+button, 
+a, 
+input[type="button"], 
+input[type="submit"], 
+.btn, 
+.btn-primary, 
+.btn-secondary,
+[role="button"],
+.h-save,
+.action-button-primary,
+.professional-card-btn,
+.asha-retry-btn {
+  touch-action: manipulation !important;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 h1,
 h2,
 h3,
