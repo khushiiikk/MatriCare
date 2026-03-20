@@ -321,7 +321,18 @@ const Login = () => {
 
                             {error && <p className="form-error">{error}</p>}
 
-                            <button type="submit" className="submit-btn-v2" disabled={loading}>
+                            <button 
+                                type="submit" 
+                                className="submit-btn-v2" 
+                                disabled={loading}
+                                onTouchEnd={(e) => {
+                                    if (!loading) {
+                                        e.preventDefault(); // bypass swallowed native submit events
+                                        const action = isLogin ? (method === 'otp' && step === 1 ? handleSendOTP : handleLogin) : handleSignup;
+                                        action(e);
+                                    }
+                                }}
+                            >
                                 {loading ? 'Processing...' : (isLogin ? (method === 'otp' && step === 1 ? t('login.sendOtp') : t('login.loginBtn')) : t('login.signupBtn'))}
                             </button>
                         </form>
