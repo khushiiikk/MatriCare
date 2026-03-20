@@ -351,7 +351,7 @@ const MedicalAnalysis = () => {
     const renderStep1 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button type="button" className="back-circle-btn" onClick={(e) => { e.preventDefault(); }}>{t('buttons.back')}</button>
+                <button type="button" className="back-circle-btn" onClick={() => {}}>{t('buttons.back')}</button>
                 <h2>{t('steps.step1Title')}</h2>
             </div>
 
@@ -387,14 +387,32 @@ const MedicalAnalysis = () => {
                 })}
             </div>
 
-            <button type="button" className="action-button-primary" onClick={(e) => { e.preventDefault(); nextStep(); }}>{t('buttons.continue')}</button>
+            <button 
+                type="button" 
+                className="action-button-primary" 
+                onClick={nextStep}
+                onTouchEnd={(e) => {
+                    // Fallback for Safari/Mobile bugs where onClick is dropped
+                    e.preventDefault(); // Prevent double firing if onClick does happen
+                    nextStep();
+                }}
+            >
+                {t('buttons.continue')}
+            </button>
         </div>
     );
 
     const renderStep2 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button type="button" className="back-circle-btn" onClick={(e) => { e.preventDefault(); prevStep(); }}>{t('buttons.back')}</button>
+                <button 
+                    type="button" 
+                    className="back-circle-btn" 
+                    onClick={prevStep}
+                    onTouchEnd={(e) => { e.preventDefault(); prevStep(); }}
+                >
+                    {t('buttons.back')}
+                </button>
                 <h2>{t('steps.step2Title')}</h2>
             </div>
 
@@ -430,7 +448,18 @@ const MedicalAnalysis = () => {
                 })}
             </div>
 
-            <button type="button" className="action-button-primary" onClick={(e) => { e.preventDefault(); runAnalysis(); }} disabled={analyzing}>
+            <button 
+                type="button" 
+                className="action-button-primary" 
+                onClick={runAnalysis}
+                onTouchEnd={(e) => { 
+                    if(!analyzing) {
+                        e.preventDefault(); 
+                        runAnalysis(); 
+                    }
+                }}
+                disabled={analyzing}
+            >
                 {analyzing ? (
                     <div className="loader-inline">
                         <span></span>{t('buttons.analyzing')}
