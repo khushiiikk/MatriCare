@@ -397,9 +397,8 @@ const MedicalAnalysis = () => {
                 type="button" 
                 className="action-button-primary" 
                 onClick={nextStep}
-                onTouchEnd={(e) => {
-                    // Fallback for Safari/Mobile bugs where onClick is dropped
-                    e.preventDefault(); // Prevent double firing if onClick does happen
+                onTouchEnd={() => {
+                    // Just fire it, browser will handle click eventually or this will force it
                     nextStep();
                 }}
             >
@@ -415,7 +414,7 @@ const MedicalAnalysis = () => {
                     type="button" 
                     className="back-circle-btn" 
                     onClick={prevStep}
-                    onTouchEnd={(e) => { e.preventDefault(); prevStep(); }}
+                    onTouchEnd={() => prevStep()}
                 >
                     {t('buttons.back')}
                 </button>
@@ -458,12 +457,7 @@ const MedicalAnalysis = () => {
                 type="button" 
                 className="action-button-primary" 
                 onClick={runAnalysis}
-                onTouchEnd={(e) => { 
-                    if(!analyzing) {
-                        e.preventDefault(); 
-                        runAnalysis(); 
-                    }
-                }}
+                onTouchEnd={() => { if(!analyzing) runAnalysis(); }}
                 disabled={analyzing}
             >
                 {analyzing ? (

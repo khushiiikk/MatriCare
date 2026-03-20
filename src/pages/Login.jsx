@@ -325,11 +325,11 @@ const Login = () => {
                                 type="submit" 
                                 className="submit-btn-v2" 
                                 disabled={loading}
-                                onTouchEnd={(e) => {
+                                onTouchEnd={() => {
                                     if (!loading) {
-                                        e.preventDefault(); // bypass swallowed native submit events
                                         const action = isLogin ? (method === 'otp' && step === 1 ? handleSendOTP : handleLogin) : handleSignup;
-                                        action(e);
+                                        // Creating a synthetic-like event for handlers that expect 'e'
+                                        action({ preventDefault: () => {} });
                                     }
                                 }}
                             >

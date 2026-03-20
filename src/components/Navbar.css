@@ -496,11 +496,13 @@
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    pointer-events: none; /* Block interactions when closed */
 }
 
 .mobile-menu.open {
     right: 0;
     opacity: 1;
+    pointer-events: auto; /* Enable when open */
 }
 
 .mobile-menu-list {

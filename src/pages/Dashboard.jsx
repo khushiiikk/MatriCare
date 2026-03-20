@@ -434,7 +434,13 @@ const Dashboard = () => {
                         <div className="health-cards-grid">
 
                             {/* Weight Card */}
-                            <div className="health-card-modern weight" onClick={() => setEditingField('weight')}>
+                            <div 
+                                className="health-card-modern weight" 
+                                onClick={() => setEditingField('weight')}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => e.key === 'Enter' && setEditingField('weight')}
+                            >
                                 <span className="h-label">{t.weight}</span>
                                 {editingField === 'weight' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
@@ -458,7 +464,13 @@ const Dashboard = () => {
                             </div>
 
                             {/* Hemoglobin Card */}
-                            <div className="health-card-modern hemoglobin" onClick={() => setEditingField('hemoglobin')}>
+                            <div 
+                                className="health-card-modern hemoglobin" 
+                                onClick={() => setEditingField('hemoglobin')}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => e.key === 'Enter' && setEditingField('hemoglobin')}
+                            >
                                 <span className="h-label">{t.hemoglobin}</span>
                                 {editingField === 'hemoglobin' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
@@ -483,7 +495,13 @@ const Dashboard = () => {
                             </div>
 
                             {/* Blood Group Card */}
-                            <div className="health-card-modern bgroup" onClick={() => setEditingField('bloodGroup')}>
+                            <div 
+                                className="health-card-modern bgroup" 
+                                onClick={() => setEditingField('bloodGroup')}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => e.key === 'Enter' && setEditingField('bloodGroup')}
+                            >
                                 <span className="h-label">{t.bloodGroup}</span>
                                 {editingField === 'bloodGroup' ? (
                                     <div className="h-edit-row" onClick={(e) => e.stopPropagation()}>
@@ -516,35 +534,35 @@ const Dashboard = () => {
 
                         {/* Quick Actions */}
                         <div className="action-row-grid">
-                            <div className="premium-compact-card guide" onClick={() => navigate('/maternal-guide')}>
+                            <div className="premium-compact-card guide" onClick={() => navigate('/maternal-guide')} role="button" tabIndex={0}>
                                 <div className="c-icon image-mode">
                                     <img src="/masi-logo.jpg" alt="Advice" className="masi-icon" />
                                 </div>
                                 <span>{t.cards.indianTips}</span>
                             </div>
-                            <div className="premium-compact-card report" onClick={() => navigate('/report-history')}>
+                            <div className="premium-compact-card report" onClick={() => navigate('/report-history')} role="button" tabIndex={0}>
                                 <div className="c-icon image-mode">
                                     <img src="/report-icon-new.jpg" alt="Report" className="masi-icon" />
                                 </div>
                                 <span>{t.cards.reportHistory}</span>
                             </div>
-                            <div className="premium-compact-card diet" onClick={() => navigate('/diet-plan')}>
+                            <div className="premium-compact-card diet" onClick={() => navigate('/diet-plan')} role="button" tabIndex={0}>
                                 <div className="c-icon image-mode">
                                     <img src="/diet-icon-new.jpg" alt="Diet" className="masi-icon" />
                                 </div>
                                 <span>{t.cards.dietPlan}</span>
                             </div>
-                            <div className="premium-compact-card yoga" onClick={() => navigate('/yoga')}>
+                            <div className="premium-compact-card yoga" onClick={() => navigate('/yoga')} role="button" tabIndex={0}>
                                 <div className="c-icon image-mode">
                                     <img src="/yoga-icon-new.jpg" alt="Yoga" className="masi-icon" />
                                 </div>
                                 <span>{t.cards.yoga}</span>
                             </div>
-                            <div className="premium-compact-card chat" onClick={() => navigate('/chatbot')}>
+                            <div className="premium-compact-card chat" onClick={() => navigate('/chatbot')} role="button" tabIndex={0}>
                                 <div className="c-icon">🤖</div>
                                 <span>{t.cards.aiAssistant}</span>
                             </div>
-                            <div className="premium-compact-card health" onClick={() => navigate('/health', { state: { view: 'analysis' } })}>
+                            <div className="premium-compact-card health" onClick={() => navigate('/health', { state: { view: 'analysis' } })} role="button" tabIndex={0}>
                                 <div className="c-icon image-mode">
                                     <img src="/analytics-icon-new.jpg" alt="Analytics" className="masi-icon" />
                                 </div>
@@ -597,7 +615,12 @@ const Dashboard = () => {
                     </div>
 
                     {/* Interactive Tip of The Day */}
-                    <div className="tip-of-day-interactive stagger-4" onClick={() => navigate('/maternal-guide')}>
+                    <div 
+                        className="tip-of-day-interactive stagger-4" 
+                        onClick={() => navigate('/maternal-guide')}
+                        role="button"
+                        tabIndex={0}
+                    >
                         <div className="tip-card-inner">
                             <div className="tip-front">
                                 <div className="tip-badge">{t.tip.badge}</div>

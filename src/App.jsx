@@ -29,7 +29,6 @@ import './index.css';
 const AppContent = () => {
     return (
         <div className="app-container">
-            <div className="noise-overlay"></div>
             <Navbar />
             <FloatingActions />
             <main className="main-content">

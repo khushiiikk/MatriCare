@@ -55,7 +55,6 @@ body {
   font-size: 14px;
 }
 
-/* --- GLOBAL MOBILE INTERACTION FIXES --- */
 button, 
 a, 
 input[type="button"], 
@@ -67,11 +66,14 @@ input[type="submit"],
 .h-save,
 .action-button-primary,
 .professional-card-btn,
-.asha-retry-btn {
-  touch-action: manipulation !important;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+.asha-retry-btn,
+.analytics-pill,
+.health-card-modern {
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  pointer-events: auto !important;
+  user-select: auto !important; /* Allow selection to avoid blocking taps */
+  touch-action: auto !important; /* Restore default touch handling */
 }
 
 h1,
