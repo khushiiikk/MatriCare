@@ -551,3 +551,19 @@
         display: block;
     }
 }
+
+@media (max-width: 480px) {
+    .navbar .container {
+        padding: 0 1rem;
+    }
+    
+    .mobile-menu {
+        width: 100%;
+        max-width: 100%;
+        padding: 80px 20px 30px;
+    }
+    
+    .mobile-menu-link {
+        font-size: 1.25rem;
+    }
+}

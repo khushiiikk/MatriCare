@@ -281,3 +281,32 @@
         font-size: 2.2rem;
     }
 }
+
+@media (max-width: 480px) {
+    .login-info-side {
+        padding: 30px 15px;
+    }
+    
+    .login-form-side {
+        padding: 30px 15px;
+    }
+
+    .login-avatar-wrapper {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .welcome-heading {
+        font-size: 1.8rem;
+    }
+
+    .join-title {
+        font-size: 1.8rem;
+    }
+    
+    .input-group-v2 input,
+    .input-group-v2 select {
+        padding: 10px 12px;
+    }
+}
