@@ -993,3 +993,82 @@
     box-shadow: 0 8px 25px rgba(128, 0, 0, 0.25);
     border-color: #800000;
 }
+
+/* --- MOBILE RESPONSIVENESS FIXES --- */
+
+@media (max-width: 768px) {
+    .web-layout-wrapper {
+        flex-direction: column;
+    }
+
+    .form-sidebar-info {
+        width: 100%;
+        padding: 24px;
+        border-right: none;
+        border-bottom: 1px solid #f0f0f5;
+    }
+
+    .form-main-content {
+        padding: 0 24px 24px;
+        margin-top: 24px;
+    }
+
+    .medical-analysis-premium-ui {
+        margin: 20px 15px;
+        border-radius: 20px;
+    }
+
+    .results-content-scroll {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .risk-summary-card-glass {
+        padding: 20px;
+    }
+
+    .analysis-card-premium {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-header-standard h2 {
+        font-size: 1.15rem;
+    }
+
+    .form-sidebar-info {
+        padding: 20px 15px;
+    }
+
+    .form-main-content {
+        padding: 0 15px 20px;
+    }
+
+    .input-field-wrapper {
+        padding: 10px 14px;
+    }
+
+    .input-field-wrapper input {
+        font-size: 1rem;
+    }
+
+    .action-button-primary {
+        padding: 14px;
+        font-size: 0.95rem;
+        margin-top: 16px;
+    }
+
+    .risk-status-heading {
+        font-size: 1.5rem !important;
+    }
+    
+    .ml-prediction-badge {
+        padding: 10px 20px;
+        margin: 15px auto;
+    }
+    
+    .insight-grid {
+        grid-template-columns: 1fr;
+    }
+}

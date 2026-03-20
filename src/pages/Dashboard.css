@@ -983,3 +983,67 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* --- MOBILE RESPONSIVENESS FIXES --- */
+
+@media (max-width: 480px) {
+    .dashboard-content {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .asha-worker-card-premium {
+        padding: 15px;
+    }
+
+    .asha-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .asha-body {
+        flex-wrap: wrap;
+    }
+
+    .no-asha-found p {
+        font-size: 0.7rem !important;
+        white-space: normal;
+    }
+
+    .asha-retry-btn {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .tip-front, .tip-back {
+        padding: 10px;
+    }
+
+    .tip-front h4 {
+        font-size: 0.75rem;
+    }
+
+    .tip-back p {
+        font-size: 0.75rem;
+    }
+
+    .main-pregnancy-card {
+        padding: 20px 15px;
+    }
+
+    .pregnancy-circle-section {
+        width: 140px;
+        height: 140px;
+    }
+
+    .week-number {
+        font-size: 2rem;
+    }
+    
+    .health-card-modern {
+        padding: 15px;
+    }
+}
