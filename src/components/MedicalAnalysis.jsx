@@ -83,8 +83,14 @@ const MedicalAnalysis = () => {
         return 'input-normal';
     };
 
-    const nextStep = () => setStep(step + 1);
-    const prevStep = () => setStep(step - 1);
+    const nextStep = () => {
+        setStep(prev => prev + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const prevStep = () => {
+        setStep(prev => prev - 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     const getMetricLevel = (id) => {
         const val = parseFloat(formData[id]);
