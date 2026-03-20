@@ -351,7 +351,7 @@ const MedicalAnalysis = () => {
     const renderStep1 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={() => { }}>{t('buttons.back')}</button>
+                <button type="button" className="back-circle-btn" onClick={(e) => { e.preventDefault(); }}>{t('buttons.back')}</button>
                 <h2>{t('steps.step1Title')}</h2>
             </div>
 
@@ -387,14 +387,14 @@ const MedicalAnalysis = () => {
                 })}
             </div>
 
-            <button className="action-button-primary" onClick={nextStep}>{t('buttons.continue')}</button>
+            <button type="button" className="action-button-primary" onClick={(e) => { e.preventDefault(); nextStep(); }}>{t('buttons.continue')}</button>
         </div>
     );
 
     const renderStep2 = () => (
         <div className="vitals-form-container fade-in">
             <div className="form-header-standard">
-                <button className="back-circle-btn" onClick={prevStep}>{t('buttons.back')}</button>
+                <button type="button" className="back-circle-btn" onClick={(e) => { e.preventDefault(); prevStep(); }}>{t('buttons.back')}</button>
                 <h2>{t('steps.step2Title')}</h2>
             </div>
 
@@ -430,7 +430,7 @@ const MedicalAnalysis = () => {
                 })}
             </div>
 
-            <button className="action-button-primary" onClick={runAnalysis} disabled={analyzing}>
+            <button type="button" className="action-button-primary" onClick={(e) => { e.preventDefault(); runAnalysis(); }} disabled={analyzing}>
                 {analyzing ? (
                     <div className="loader-inline">
                         <span></span>{t('buttons.analyzing')}
@@ -444,7 +444,7 @@ const MedicalAnalysis = () => {
         return (
             <div className="results-view-container fade-in">
                 <div className="form-header-standard">
-                    <button className="back-circle-btn" onClick={() => setStep(2)}>{t('buttons.back')}</button>
+                    <button type="button" className="back-circle-btn" onClick={(e) => { e.preventDefault(); setStep(2); }}>{t('buttons.back')}</button>
                     <h2>{t('steps.step3Title')}</h2>
                 </div>
 
