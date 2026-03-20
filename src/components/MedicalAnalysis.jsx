@@ -397,13 +397,10 @@ const MedicalAnalysis = () => {
                 type="button" 
                 className="action-button-primary" 
                 onClick={nextStep}
-                onTouchEnd={() => {
-                    // Just fire it, browser will handle click eventually or this will force it
-                    nextStep();
-                }}
             >
                 {t('buttons.continue')}
             </button>
+
         </div>
     );
 
@@ -414,10 +411,10 @@ const MedicalAnalysis = () => {
                     type="button" 
                     className="back-circle-btn" 
                     onClick={prevStep}
-                    onTouchEnd={() => prevStep()}
                 >
                     {t('buttons.back')}
                 </button>
+
                 <h2>{t('steps.step2Title')}</h2>
             </div>
 
@@ -457,7 +454,6 @@ const MedicalAnalysis = () => {
                 type="button" 
                 className="action-button-primary" 
                 onClick={runAnalysis}
-                onTouchEnd={() => { if(!analyzing) runAnalysis(); }}
                 disabled={analyzing}
             >
                 {analyzing ? (
@@ -466,6 +462,7 @@ const MedicalAnalysis = () => {
                     </div>
                 ) : t('buttons.analyze')}
             </button>
+
         </div>
     );
 
