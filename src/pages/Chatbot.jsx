@@ -9,7 +9,13 @@ const Chatbot = () => {
     const navigate = useNavigate();
     const content = pagesContent[language]?.chatbot || pagesContent.en.chatbot;
 
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+        {
+            id: 'welcome',
+            text: content.welcomeTitle + ". " + content.welcomeSubtitle,
+            sender: 'ai'
+        }
+    ]);
     const [inputText, setInputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
@@ -81,24 +87,38 @@ const Chatbot = () => {
             <div className="cici-glass-container">
                 {/* Header Actions */}
                 <div className="cici-header">
-                    <button className="icon-btn">✕</button>
+                    <button className="icon-btn" onClick={() => navigate(-1)}>✕</button>
                     <span className="header-title">{content.headerTitle}</span>
                     <button className="icon-btn">⋯</button>
                 </div>
 
                 {/* Chat Area */}
                 <div className="cici-chat-area">
-                    {messages.length === 0 ? (
-                        <div className="cici-welcome-view">
-                            <div className="cici-avatar-large-container">
-                                <div className="cici-avatar-halo"></div>
-                                <img src="/chatbot-new.jpg" alt="AI" className="cici-avatar-large floating" />
-                                <div className="cici-status-indicator"></div>
+                    <div className="cici-messages-list">
+                        {messages.map((msg) => (
+                            <div key={msg.id} className={`cici-message-row ${msg.sender}-row`}>
+                                {msg.sender === 'ai' && (
+                                    <div className="cici-avatar-tiny">
+                                        <img src="/chatbot-new.jpg" alt="AI" />
+                                    </div>
+                                )}
+                                <div className={`cici-bubble ${msg.sender}-bubble`}>
+                                    {msg.text}
+                                    {msg.action && (
+                                        <button
+                                            className="cici-action-btn"
+                                            onClick={msg.action.onClick}
+                                        >
+                                            {msg.action.label}
+                                        </button>
+                                    )}
+                                </div>
                             </div>
-                            <h1 className="cici-welcome-title">{content.welcomeTitle}</h1>
-                            <p className="cici-welcome-subtitle">{content.welcomeSubtitle}</p>
+                        ))}
 
-                            <div className="cici-quick-help-grid">
+                        {/* Show quick help options only after the welcome message */}
+                        {messages.length === 1 && messages[0].id === 'welcome' && !isLoading && (
+                            <div className="cici-quick-help-grid fade-in" style={{ marginTop: '10px' }}>
                                 <button className="quick-help-btn" onClick={() => navigate('/yoga')}>
                                     <span className="btn-label">{content.quickHelp.yoga}</span>
                                 </button>
@@ -112,44 +132,20 @@ const Chatbot = () => {
                                     <span className="btn-label">{content.quickHelp.risks}</span>
                                 </button>
                             </div>
+                        )}
 
-                            <p className="cici-or-text">{content.orText}</p>
-                        </div>
-                    ) : (
-                        <div className="cici-messages-list">
-                            {messages.map((msg) => (
-                                <div key={msg.id} className={`cici-message-row ${msg.sender}-row`}>
-                                    {msg.sender === 'ai' && (
-                                        <div className="cici-avatar-tiny">
-                                            <img src="/chatbot-new.jpg" alt="AI" />
-                                        </div>
-                                    )}
-                                    <div className={`cici-bubble ${msg.sender}-bubble`}>
-                                        {msg.text}
-                                        {msg.action && (
-                                            <button
-                                                className="cici-action-btn"
-                                                onClick={msg.action.onClick}
-                                            >
-                                                {msg.action.label}
-                                            </button>
-                                        )}
-                                    </div>
+                        {isLoading && (
+                            <div className="cici-message-row ai-row">
+                                <div className="cici-avatar-tiny">
+                                    <img src="/chatbot-new.jpg" alt="AI" />
                                 </div>
-                            ))}
-                            {isLoading && (
-                                <div className="cici-message-row ai-row">
-                                    <div className="cici-avatar-tiny">
-                                        <img src="/chatbot-new.jpg" alt="AI" />
-                                    </div>
-                                    <div className="cici-bubble ai-bubble typing-wave">
-                                        <span>•</span><span>•</span><span>•</span>
-                                    </div>
+                                <div className="cici-bubble ai-bubble typing-wave">
+                                    <span>•</span><span>•</span><span>•</span>
                                 </div>
-                            )}
-                            <div ref={messagesEndRef} />
-                        </div>
-                    )}
+                            </div>
+                        )}
+                        <div ref={messagesEndRef} />
+                    </div>
                 </div>
 
                 {/* Input Area */}

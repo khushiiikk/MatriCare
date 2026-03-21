@@ -98,8 +98,8 @@ export const pagesContent = {
         // Chatbot
         chatbot: {
             headerTitle: "Matri AI",
-            welcomeTitle: "Hi, I'm Matri",
-            welcomeSubtitle: "Your personal pregnancy companion. How can I help you today?",
+            welcomeTitle: "Hello, I am MatriCare",
+            welcomeSubtitle: "How can I help you today?",
             quickHelp: {
                 yoga: "Yoga Guide",
                 health: "Health Analysis",

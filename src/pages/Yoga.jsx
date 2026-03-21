@@ -9,7 +9,7 @@ const Yoga = () => {
     const navigate = useNavigate();
     const { language } = useLanguage();
     const t = translations[language]?.yoga || translations.en.yoga;
-    const exploreText = language === 'hi' ? 'देखें →' : 'Explore →';
+    const exploreText = language === 'hi' ? 'अधिक जानने के लिए चित्रों पर क्लिक करें' : 'Click on the pictures to learn more';
 
     const trimesters = [
         {
