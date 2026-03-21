@@ -49,18 +49,10 @@ export const AuthProvider = ({ children }) => {
         const collections = ["patients", "asha_workers", "users"];
 
         try {
-            // SECURITY BRIDGE: Ensure we have a session before querying
+            // REMOVED: Silent anonymous bridge. Searching requires either public Firestore rules or a real session.
             if (!auth.currentUser) {
-                console.log("🔐 [DEBUG] No session. Bootstrapping security bridge...");
-                try {
-                    await signInAnonymously(auth);
-                } catch (anonErr) {
-                    if (anonErr.code === 'auth/admin-restricted-operation') {
-                        console.error("🚨 [CRITICAL] Firebase Anonymous Auth is DISABLED.");
-                        throw new Error("ACCESS_DENIED_ANON_DISABLED");
-                    }
-                    throw anonErr;
-                }
+                console.log("🔒 [DEBUG] Search attempted without session. No action taken.");
+                return null;
             }
 
             for (const collName of collections) {
@@ -104,26 +96,7 @@ export const AuthProvider = ({ children }) => {
 
             if (currentUser) {
                 setAuthError(null);
-                // BRIDGE CHECK: Prevent anonymous sessions from overwriting real user profiles
-                if (currentUser.isAnonymous) {
-                    const storedUserString = localStorage.getItem('matricare_user');
-                    if (storedUserString) {
-                        try {
-                            const storedUser = JSON.parse(storedUserString);
-                            // If we have a stable mobile number or a non-anon UID, keep it!
-                            if (storedUser.mobile || (storedUser.uid && !storedUser.uid.startsWith('anon_'))) {
-                                console.log("🕯️ Security Bridge Active - Preserving existing profile");
-                                setUser(storedUser);
-                                setIsAuthenticated(true);
-                                setLoading(false);
-                                return;
-                            }
-                        } catch (e) {
-                            console.error("Local user restore failed:", e);
-                        }
-                    }
-                    console.log("👤 New Anonymous Guest Session");
-                }
+                // REMOVED: Anonymous guest logic. Users must be fully authenticated to see a profile.
 
                 // OTP User Login Flow
                 let profileData = {};
@@ -156,28 +129,10 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('matricare_user', JSON.stringify(userData));
                 setIsAuthenticated(true);
             } else {
-                // No Firebase user. Check local storage for password-login session
-                const storedUser = localStorage.getItem('matricare_user');
-                if (storedUser) {
-                    const userData = JSON.parse(storedUser);
-                    setUser(userData);
-                    setIsAuthenticated(true);
-
-                    // Bridge: Explicitly trigger and await the session bridge
-                    console.log("🕯️ Initializing Security Bridge for persistent session...");
-                    try {
-                        setAuthError(null);
-                        await signInAnonymously(auth);
-                        // The listener will fire again with the user, so we return here
-                        return;
-                    } catch (e) {
-                        console.error("Critical: Security Bridge Failed:", e);
-                        setAuthError(e.message);
-                    }
-                } else {
-                    setUser(null);
-                    setIsAuthenticated(false);
-                }
+                // No Firebase user. Strictly no session.
+                setUser(null);
+                setIsAuthenticated(false);
+                localStorage.removeItem('matricare_user');
             }
             setLoading(false);
         });
@@ -286,10 +241,9 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (userData) => {
         try {
-            // SECURITY BRIDGE FIRST
+            // REMOVED: Silent anonymous bridge for signup.
             if (!auth.currentUser) {
-                console.log("🔐 [DEBUG] Signup: Bootstrapping security bridge...");
-                await signInAnonymously(auth);
+                console.log("🔒 [DEBUG] Cannot signup: No active security session.");
             }
 
             // UNIQUENESS CHECK
@@ -337,10 +291,9 @@ export const AuthProvider = ({ children }) => {
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
-            // SECURITY BRIDGE FIRST
+            // REMOVED: Silent anonymous bridge for password login.
             if (!auth.currentUser) {
-                console.log("🔐 [DEBUG] Password Login: Bootstrapping security bridge...");
-                await signInAnonymously(auth);
+                console.log("🔒 [DEBUG] Password Login: Proceeding with existing session context...");
             }
 
             // Check patients
