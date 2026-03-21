@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -26,21 +26,27 @@ const Login = () => {
 
     const [step, setStep] = useState(1);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [formLoading, setFormLoading] = useState(false);
 
-    const { login, loginWithPassword, sendOTP, signup } = useAuth();
+    const { login, loginWithPassword, sendOTP, signup, isAuthenticated, user, loading } = useAuth();
     const { language } = useLanguage();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/dashboard";
 
+    // If already authenticated, redirect to dashboard
+    if (!loading && isAuthenticated && user) {
+        const redirectPath = user?.role === 'asha' ? '/Adash' : '/dashboard';
+        return <Navigate to={redirectPath} replace />;
+    }
+
     const handleSendOTP = async (e) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
+        setFormLoading(true);
         // Pass true as second argument to check if user exists before sending OTP
         const result = await sendOTP(mobile, true);
-        setLoading(false);
+        setFormLoading(false);
         if (result.success) {
             setStep(2);
         } else {
@@ -51,14 +57,14 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
+        setFormLoading(true);
         let result;
         if (method === 'otp') {
             result = await login(mobile, otp);
         } else {
             result = await loginWithPassword(mobile, password);
         }
-        setLoading(false);
+        setFormLoading(false);
         if (result.success) {
             const userRole = result.user?.role || role;
             const redirectPath = userRole === 'asha' ? '/Adash' : '/dashboard';
@@ -105,7 +111,7 @@ const Login = () => {
             return;
         }
 
-        setLoading(true);
+        setFormLoading(true);
         const signupData = {
             mobile,
             password,
@@ -120,7 +126,7 @@ const Login = () => {
             ...(role === 'patient' ? { lmpDate } : { employeeId })
         };
         const result = await signup(signupData);
-        setLoading(false);
+        setFormLoading(false);
         if (result.success) {
             const redirectPath = role === 'asha' ? '/Adash' : '/dashboard';
             navigate(redirectPath, { replace: true });
@@ -324,16 +330,16 @@ const Login = () => {
                             <button 
                                 type="submit" 
                                 className="submit-btn-v2" 
-                                disabled={loading}
+                                disabled={formLoading}
                                 onTouchEnd={() => {
-                                    if (!loading) {
+                                    if (!formLoading) {
                                         const action = isLogin ? (method === 'otp' && step === 1 ? handleSendOTP : handleLogin) : handleSignup;
                                         // Creating a synthetic-like event for handlers that expect 'e'
                                         action({ preventDefault: () => {} });
                                     }
                                 }}
                             >
-                                {loading ? 'Processing...' : (isLogin ? (method === 'otp' && step === 1 ? t('login.sendOtp') : t('login.loginBtn')) : t('login.signupBtn'))}
+                                {formLoading ? 'Processing...' : (isLogin ? (method === 'otp' && step === 1 ? t('login.sendOtp') : t('login.loginBtn')) : t('login.signupBtn'))}
                             </button>
                         </form>
 

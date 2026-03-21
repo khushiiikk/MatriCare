@@ -91,7 +91,7 @@ const Navbar = () => {
 
                     {/* Right: Actions */}
                     <div className="nav-actions">
-                        {isAuthenticated ? (
+                        {isAuthenticated && location.pathname !== '/login' ? (
                             <div className="profile-menu-container">
                                 <button
                                     className="nav-profile-btn"
@@ -175,7 +175,7 @@ const Navbar = () => {
                             </li>
                         ))}
                         <li className="mobile-actions">
-                            {isAuthenticated ? (
+                            {isAuthenticated && location.pathname !== '/login' ? (
                                 <>
                                     <Link to={user?.role === 'asha' ? '/Adash' : '/dashboard'} className="mobile-action-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                                         My Dashboard
