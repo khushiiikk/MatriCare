@@ -49,10 +49,19 @@ export const AuthProvider = ({ children }) => {
         const collections = ["patients", "asha_workers", "users"];
 
         try {
-            // REMOVED: Silent anonymous bridge. Searching requires either public Firestore rules or a real session.
+            // SECURITY BRIDGE: Ensure we have a session before querying. This is a "silent" bridge
+            // that doesn't manifest as a logged-in user in the UI.
             if (!auth.currentUser) {
-                console.log("🔒 [DEBUG] Search attempted without session. No action taken.");
-                return null;
+                console.log("🔐 [DEBUG] No session. Bootstrapping security bridge...");
+                try {
+                    await signInAnonymously(auth);
+                } catch (anonErr) {
+                    if (anonErr.code === 'auth/admin-restricted-operation') {
+                        console.error("🚨 [CRITICAL] Firebase Anonymous Auth is DISABLED.");
+                        throw new Error("ACCESS_DENIED_ANON_DISABLED");
+                    }
+                    throw anonErr;
+                }
             }
 
             for (const collName of collections) {
@@ -94,11 +103,10 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             console.log("🔥 Auth State Change:", currentUser ? `User: ${currentUser.uid} (Anon: ${currentUser.isAnonymous})` : "No Session");
 
-            if (currentUser) {
+            if (currentUser && !currentUser.isAnonymous) {
                 setAuthError(null);
-                // REMOVED: Anonymous guest logic. Users must be fully authenticated to see a profile.
-
-                // OTP User Login Flow
+                
+                // Real User Login Flow
                 let profileData = {};
                 try {
                     // Try patients collection first
@@ -129,10 +137,12 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('matricare_user', JSON.stringify(userData));
                 setIsAuthenticated(true);
             } else {
-                // No Firebase user. Strictly no session.
+                // Either no user or anonymous bridge session - treat as not authenticated
                 setUser(null);
                 setIsAuthenticated(false);
-                localStorage.removeItem('matricare_user');
+                if (!currentUser) {
+                    localStorage.removeItem('matricare_user');
+                }
             }
             setLoading(false);
         });
@@ -241,9 +251,10 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (userData) => {
         try {
-            // REMOVED: Silent anonymous bridge for signup.
+            // SECURITY BRIDGE FIRST
             if (!auth.currentUser) {
-                console.log("🔒 [DEBUG] Cannot signup: No active security session.");
+                console.log("🔐 [DEBUG] Signup: Bootstrapping security bridge...");
+                await signInAnonymously(auth);
             }
 
             // UNIQUENESS CHECK
@@ -291,9 +302,10 @@ export const AuthProvider = ({ children }) => {
     const loginWithPassword = async (mobile, password) => {
         setLoading(true);
         try {
-            // REMOVED: Silent anonymous bridge for password login.
+            // SECURITY BRIDGE FIRST
             if (!auth.currentUser) {
-                console.log("🔒 [DEBUG] Password Login: Proceeding with existing session context...");
+                console.log("🔐 [DEBUG] Password Login: Bootstrapping security bridge...");
+                await signInAnonymously(auth);
             }
 
             // Check patients
